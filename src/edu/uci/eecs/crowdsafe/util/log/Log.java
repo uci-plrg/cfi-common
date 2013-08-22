@@ -37,9 +37,42 @@ public class Log {
 	}
 
 	public static void log(String format, Object... args) {
+		if (outputs.isEmpty()) {
+			System.out
+					.println("Warning: attempt to log without any outputs configured.");
+		}
+
 		try {
 			for (PrintWriter output : outputs) {
-				output.println(String.format(format, args));
+				output.format(format, args);
+				output.println();
+				output.flush();
+			}
+		} catch (Throwable t) {
+			throw new OutputException(t);
+		}
+	}
+
+	public static void log(Throwable throwable) {
+		if (outputs.isEmpty()) {
+			System.out
+					.println("Warning: attempt to log without any outputs configured.");
+		}
+
+		try {
+			for (PrintWriter output : outputs) {
+				throwable.printStackTrace(output);
+				output.flush();
+			}
+		} catch (Throwable t) {
+			throw new OutputException(t);
+		}
+	}
+
+	public static void closeOutputs() {
+		try {
+			for (PrintWriter output : outputs) {
+				output.close();
 			}
 		} catch (Throwable t) {
 			throw new OutputException(t);
