@@ -25,6 +25,8 @@ public class LogFile {
 	public static File create(String filePath, CollisionMode collisionMode,
 			NoSuchPathMode noSuchPathMode) {
 		File logFile = new File(filePath);
+		if (logFile.getParentFile() == null)
+			logFile = new File(new File("."), filePath);
 
 		File directory = logFile.getParentFile();
 		if (!(directory.exists() && directory.isDirectory())) {

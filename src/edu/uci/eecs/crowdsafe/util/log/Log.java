@@ -33,13 +33,14 @@ public class Log {
 	}
 
 	public static void log(Object o) {
-		log(o.toString(), "");
+		log(o == null ? "null" : o.toString(), "");
 	}
 
 	public static void log(String format, Object... args) {
 		if (outputs.isEmpty()) {
 			System.out
 					.println("Warning: attempt to log without any outputs configured.");
+			return;
 		}
 
 		try {
@@ -57,6 +58,7 @@ public class Log {
 		if (outputs.isEmpty()) {
 			System.out
 					.println("Warning: attempt to log without any outputs configured.");
+			return;
 		}
 
 		try {
