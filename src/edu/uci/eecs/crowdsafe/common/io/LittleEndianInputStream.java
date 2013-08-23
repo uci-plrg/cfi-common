@@ -1,11 +1,11 @@
-package edu.uci.eecs.crowdsafe.util.io;
+package edu.uci.eecs.crowdsafe.common.io;
 
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import edu.uci.eecs.crowdsafe.util.log.Log;
+import edu.uci.eecs.crowdsafe.common.log.Log;
 
 public class LittleEndianInputStream {
 	private static final int BUFFER_SIZE = 1 << 14;

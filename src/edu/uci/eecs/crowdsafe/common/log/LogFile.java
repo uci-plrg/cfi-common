@@ -1,4 +1,4 @@
-package edu.uci.eecs.crowdsafe.util.log;
+package edu.uci.eecs.crowdsafe.common.log;
 
 import java.io.File;
 

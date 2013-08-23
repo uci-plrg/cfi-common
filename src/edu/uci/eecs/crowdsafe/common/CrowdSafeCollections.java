@@ -1,4 +1,4 @@
-package edu.uci.eecs.crowdsafe.util;
+package edu.uci.eecs.crowdsafe.common;
 
 import java.util.ArrayList;
 import java.util.Collection;
