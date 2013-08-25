@@ -212,9 +212,9 @@ public class ProcessGraphLoadSession {
 					ModuleGraphCluster toCluster = graph
 							.getModuleGraphCluster(toModule.unit);
 
-					Edge<ExecutionNode> e = new Edge<ExecutionNode>(fromNode,
-							toNode, edgeType, edgeOrdinal);
 					if (fromCluster == toCluster) {
+						Edge<ExecutionNode> e = new Edge<ExecutionNode>(
+								fromNode, toNode, edgeType, edgeOrdinal);
 						fromNode.addOutgoingEdge(e);
 						toNode.addIncomingEdge(e);
 					} else {
@@ -224,7 +224,7 @@ public class ProcessGraphLoadSession {
 						fromCluster.addNode(exitNode);
 						fromNode.setMetaNodeType(MetaNodeType.NORMAL);
 						Edge<ExecutionNode> clusterExitEdge = new Edge<ExecutionNode>(
-								fromNode, exitNode, EdgeType.CROSS_MODULE, 0);
+								fromNode, exitNode, edgeType, 0); // TODO: need CROSS_MODULE for anything?
 						fromNode.addOutgoingEdge(clusterExitEdge);
 						exitNode.addIncomingEdge(clusterExitEdge);
 
@@ -232,7 +232,7 @@ public class ProcessGraphLoadSession {
 								.addClusterEntryNode(signatureHash, toModule);
 						toNode.setMetaNodeType(MetaNodeType.NORMAL);
 						Edge<ExecutionNode> clusterEntryEdge = new Edge<ExecutionNode>(
-								entryNode, toNode, EdgeType.CROSS_MODULE, 0);
+								entryNode, toNode, EdgeType.MODULE_ENTRY, 0);
 						entryNode.addOutgoingEdge(clusterEntryEdge);
 						toNode.addIncomingEdge(clusterEntryEdge);
 					}
@@ -272,18 +272,18 @@ public class ProcessGraphLoadSession {
 				int edgeOrdinal = CrowdSafeTraceUtil
 						.getEdgeOrdinal(annotatedFromTag);
 
-				ExecutionNode node1 = hashLookupTable.get(ExecutionNode.Key
+				ExecutionNode fromNode = hashLookupTable.get(ExecutionNode.Key
 						.create(fromTag, fromVersion, fromModule));
-				ExecutionNode node2 = hashLookupTable.get(ExecutionNode.Key
+				ExecutionNode toNode = hashLookupTable.get(ExecutionNode.Key
 						.create(toTag, toVersion, toModule));
 
 				// Double check if tag1 and tag2 exist in the lookup file
-				if (node1 == null) {
+				if (fromNode == null) {
 					throw new TagNotFoundException("0x"
 							+ Long.toHexString(fromTag)
 							+ " is missed in graph lookup file!");
 				}
-				if (node2 == null) {
+				if (toNode == null) {
 					if (edgeType == EdgeType.CALL_CONTINUATION)
 						continue; // discard b/c we never reached the continuation point
 					else
@@ -300,18 +300,18 @@ public class ProcessGraphLoadSession {
 					throw new InvalidGraphException(
 							String.format(
 									"Error: a normal edge [%s - %s] crosses between module %s and %s",
-									node1,
-									node2,
+									fromNode,
+									toNode,
 									graph.getModuleGraphCluster(fromModule.unit).distribution.name,
 									graph.getModuleGraphCluster(toModule.unit).distribution.name));
 				}
 
-				Edge<ExecutionNode> existing = node1.getOutgoingEdge(node2);
-				Edge<ExecutionNode> e = new Edge<ExecutionNode>(node1, node2,
-						edgeType, edgeOrdinal);
+				Edge<ExecutionNode> existing = fromNode.getOutgoingEdge(toNode);
+				Edge<ExecutionNode> e = new Edge<ExecutionNode>(fromNode,
+						toNode, edgeType, edgeOrdinal);
 				if (existing == null) {
-					node1.addOutgoingEdge(e);
-					node2.addIncomingEdge(e);
+					fromNode.addOutgoingEdge(e);
+					toNode.addIncomingEdge(e);
 				} else {
 					if (!existing.equals(e)) {
 						// One wired case to deal with here:

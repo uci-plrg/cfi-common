@@ -46,13 +46,15 @@ public class ExecutionGraphData {
 		for (ExecutionNode node : nodesByKey.values()) {
 			switch (node.getType()) {
 				case PROCESS_ENTRY:
-					if (node.getIncomingEdges().size() != 0) {
+				case CLUSTER_ENTRY:
+					if (node.hasIncomingEdges()) {
 						throw new InvalidGraphException(
-								"Exit point has outgoing edges!");
+								"Entry point has incoming edges!");
 					}
 					break;
 				case PROCESS_EXIT:
-					if (node.getOutgoingEdges().size() != 0) {
+				case CLUSTER_EXIT:
+					if (node.hasOutgoingEdges()) {
 						Log.log("");
 						throw new InvalidGraphException(
 								"Exit point has outgoing edges!");

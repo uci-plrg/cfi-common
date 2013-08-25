@@ -12,6 +12,8 @@ import java.util.Set;
 
 import edu.uci.eecs.crowdsafe.common.data.dist.AutonomousSoftwareDistribution;
 import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareDistributionUnit;
+import edu.uci.eecs.crowdsafe.common.data.graph.Edge;
+import edu.uci.eecs.crowdsafe.common.data.graph.EdgeType;
 import edu.uci.eecs.crowdsafe.common.data.graph.MetaNodeType;
 
 public class ModuleGraphCluster {
@@ -112,15 +114,28 @@ public class ModuleGraphCluster {
 		 */
 
 		while (bfsQueue.size() > 0) {
-			ExecutionNode n = bfsQueue.remove();
-			accessibleNodes.add(n);
-			visitedNodes.add(n);
-			for (int i = 0; i < n.getOutgoingEdges().size(); i++) {
-				ExecutionNode neighbor = n.getOutgoingEdges().get(i)
-						.getToNode();
+			ExecutionNode node = bfsQueue.remove();
+			accessibleNodes.add(node);
+			visitedNodes.add(node);
+
+			for (Edge<ExecutionNode> edge : node.getOutgoingEdges()) {
+				// if ((edge.getEdgeType() != EdgeType.MODULE_ENTRY)
+				// && (node.getOutgoingEdges().size() > 1)
+				// && (node.getOutgoingOrdinalCount() == 1))
+				// System.out.println("stop!");
+				ExecutionNode neighbor = edge.getToNode();
 				if (!visitedNodes.contains(neighbor)) {
 					bfsQueue.add(neighbor);
 					visitedNodes.add(neighbor);
+				}
+			}
+
+			Edge<ExecutionNode> continuationEdge = node.getCallContinuation();
+			if (continuationEdge != null) {
+				ExecutionNode continuation = continuationEdge.getToNode();
+				if (!visitedNodes.contains(continuation)) {
+					bfsQueue.add(continuation);
+					visitedNodes.add(continuation);
 				}
 			}
 		}

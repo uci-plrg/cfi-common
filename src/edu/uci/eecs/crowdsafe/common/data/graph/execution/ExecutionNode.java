@@ -1,9 +1,7 @@
 package edu.uci.eecs.crowdsafe.common.data.graph.execution;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import edu.uci.eecs.crowdsafe.common.data.graph.Edge;
+import edu.uci.eecs.crowdsafe.common.data.graph.EdgeSet;
 import edu.uci.eecs.crowdsafe.common.data.graph.EdgeType;
 import edu.uci.eecs.crowdsafe.common.data.graph.MetaNodeType;
 import edu.uci.eecs.crowdsafe.common.data.graph.Node;
@@ -15,7 +13,7 @@ import edu.uci.eecs.crowdsafe.common.exception.InvalidGraphException;
  * @author peizhaoo
  * 
  */
-public class ExecutionNode extends Node {
+public class ExecutionNode extends Node<ExecutionNode> {
 
 	public static class Key implements Node.Key {
 		public static Key create(long tag, int tagVersion, ModuleInstance module) {
@@ -89,10 +87,6 @@ public class ExecutionNode extends Node {
 
 	private MetaNodeType metaNodeType;
 
-	private List<Edge<ExecutionNode>> outgoingEdges = new ArrayList<Edge<ExecutionNode>>();
-
-	private List<Edge<ExecutionNode>> incomingEdges = new ArrayList<Edge<ExecutionNode>>();
-
 	public ExecutionNode(ModuleInstance module, MetaNodeType metaNodeType,
 			long tag, int tagVersion, long hash) {
 		Key key;
@@ -147,40 +141,22 @@ public class ExecutionNode extends Node {
 	}
 
 	public void addIncomingEdge(Edge<ExecutionNode> e) {
-		incomingEdges.add(e);
-	}
-
-	public List<Edge<ExecutionNode>> getIncomingEdges() {
-		return incomingEdges;
-	}
-
-	/**
-	 * @return null for non-call node, edge for the first block of the calling procedure
-	 */
-	public Edge<ExecutionNode> getContinuationEdge() {
-		for (int i = 0; i < outgoingEdges.size(); i++) {
-			if (outgoingEdges.get(i).getEdgeType() == EdgeType.CALL_CONTINUATION) {
-				return outgoingEdges.get(i);
-			}
-		}
-		return null;
+		edges.addEdge(EdgeSet.Direction.INCOMING, e);
 	}
 
 	public void addOutgoingEdge(Edge<ExecutionNode> e) {
-		outgoingEdges.add(e);
-	}
-
-	public List<Edge<ExecutionNode>> getOutgoingEdges() {
-		return outgoingEdges;
-	}
-
-	public Edge<ExecutionNode> getOutgoingEdge(ExecutionNode toNode) {
-		for (Edge<ExecutionNode> edge : outgoingEdges) {
-			if (edge.getToNode().getKey().equals(toNode.getKey()))
-				return edge;
+		if (e.getEdgeType() == EdgeType.CALL_CONTINUATION) {
+			if (callContinuation != null) {
+				if (!callContinuation.equals(e)) {
+					throw new IllegalStateException(
+							"Cannot add multiple call continuation edges!");
+				}
+			} else {
+				callContinuation = e;
+			}
+		} else {
+			edges.addEdge(EdgeSet.Direction.OUTGOING, e);
 		}
-
-		return null;
 	}
 
 	public MetaNodeType getType() {
