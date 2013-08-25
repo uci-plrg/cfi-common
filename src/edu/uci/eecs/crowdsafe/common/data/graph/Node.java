@@ -12,8 +12,6 @@ public abstract class Node<NodeType extends Node> implements NodeList {
 
 	protected final EdgeSet<NodeType> edges = new EdgeSet<NodeType>();
 
-	protected Edge<NodeType> callContinuation;
-
 	public abstract Key getKey();
 
 	public abstract long getHash();
@@ -52,7 +50,7 @@ public abstract class Node<NodeType extends Node> implements NodeList {
 	 * @return null for non-call node, edge for the first block of the calling procedure
 	 */
 	public Edge<NodeType> getCallContinuation() {
-		return callContinuation;
+		return edges.getCallContinuation();
 	}
 
 	public Edge<NodeType> getOutgoingEdge(NodeType toNode) {

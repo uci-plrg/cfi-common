@@ -9,6 +9,8 @@ import edu.uci.eecs.crowdsafe.common.data.graph.execution.ExecutionNode;
 public class NodeHashMap {
 	private final Map<Long, NodeList> map = new HashMap<Long, NodeList>();
 
+	private int nodeCount = 0;
+
 	public void add(Node node) {
 		NodeList existing = map.get(node.getHash());
 		if (existing == null) {
@@ -23,6 +25,8 @@ public class NodeHashMap {
 				((NodeArrayList) existing).add(node);
 			}
 		}
+
+		nodeCount++;
 	}
 
 	public NodeList get(long hash) {
@@ -31,5 +35,13 @@ public class NodeHashMap {
 
 	public Set<Long> keySet() {
 		return map.keySet();
+	}
+
+	public int getHashCount() {
+		return map.size();
+	}
+
+	public int getNodeCount() {
+		return nodeCount;
 	}
 }

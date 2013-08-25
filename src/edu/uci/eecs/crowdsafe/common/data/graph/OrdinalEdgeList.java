@@ -21,26 +21,19 @@ class OrdinalEdgeList<NodeType extends Node> implements List<Edge<NodeType>> {
 
 		@Override
 		public boolean hasNext() {
-			return index < end;
+			return (index < end) || ((index == end) && includeCallContinuation);
 		}
 
 		@Override
 		public Edge<NodeType> next() {
 			if (modified)
 				throw new ConcurrentModificationException();
+
+			if (index == end) {
+				index++;
+				return data.callContinuation;
+			}
 			return data.edges.get(index++);
-		}
-
-		@Override
-		public void remove() {
-			throw new UnsupportedOperationException(String.format(
-					"Removing is not supported in %s", getClass().getName()));
-		}
-
-		@Override
-		public void add(Edge<NodeType> edge) {
-			throw new UnsupportedOperationException(
-					"EdgeSet lists are readonly!");
 		}
 
 		@Override
@@ -55,7 +48,11 @@ class OrdinalEdgeList<NodeType extends Node> implements List<Edge<NodeType>> {
 
 		@Override
 		public Edge<NodeType> previous() {
-			return data.edges.get(--index);
+			index--;
+			if (index == end)
+				return data.callContinuation;
+			else
+				return data.edges.get(index);
 		}
 
 		@Override
@@ -64,9 +61,21 @@ class OrdinalEdgeList<NodeType extends Node> implements List<Edge<NodeType>> {
 		}
 
 		@Override
+		public void add(Edge<NodeType> edge) {
+			throw new UnsupportedOperationException(
+					"EdgeSet lists are readonly!");
+		}
+
+		@Override
 		public void set(Edge<NodeType> edge) {
 			throw new UnsupportedOperationException(
 					"EdgeSet lists are readonly!");
+		}
+
+		@Override
+		public void remove() {
+			throw new UnsupportedOperationException(String.format(
+					"Removing is not supported in %s", getClass().getName()));
 		}
 	}
 
@@ -74,6 +83,7 @@ class OrdinalEdgeList<NodeType extends Node> implements List<Edge<NodeType>> {
 
 	int start;
 	int end;
+	boolean includeCallContinuation;
 	boolean modified;
 	OutgoingOrdinal group;
 
@@ -88,6 +98,8 @@ class OrdinalEdgeList<NodeType extends Node> implements List<Edge<NodeType>> {
 		if (o == null)
 			return false;
 		if (o instanceof Edge) {
+			if (includeCallContinuation && data.callContinuation.equals(o))
+				return true;
 			for (int i = start; i < end; i++) {
 				if (data.edges.get(i).equals(o))
 					return true;
@@ -107,6 +119,8 @@ class OrdinalEdgeList<NodeType extends Node> implements List<Edge<NodeType>> {
 
 	@Override
 	public Edge<NodeType> get(int index) {
+		if (includeCallContinuation && (index == (end - start)))
+			return data.callContinuation;
 		return data.edges.get(start + index);
 	}
 
@@ -114,21 +128,26 @@ class OrdinalEdgeList<NodeType extends Node> implements List<Edge<NodeType>> {
 	public int indexOf(Object o) {
 		for (int i = start; i < end; i++) {
 			if (data.edges.get(i).equals(o))
-				return i;
+				return i - start;
 		}
+		if (includeCallContinuation && data.callContinuation.equals(o))
+			return end - start;
+
 		return -1;
 	}
 
 	@Override
 	public boolean isEmpty() {
-		return (start >= end);
+		return (start > end) || ((start == end) && !includeCallContinuation);
 	}
 
 	@Override
 	public int lastIndexOf(Object o) {
+		if (includeCallContinuation && data.callContinuation.equals(o))
+			return end - start;
 		for (int i = end - 1; i >= start; i--) {
 			if (data.edges.get(i).equals(o))
-				return i;
+				return i - start;
 		}
 		return -1;
 	}
@@ -147,7 +166,7 @@ class OrdinalEdgeList<NodeType extends Node> implements List<Edge<NodeType>> {
 
 	@Override
 	public int size() {
-		return end - start;
+		return (end - start) + (includeCallContinuation ? 1 : 0);
 	}
 
 	@Override

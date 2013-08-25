@@ -145,18 +145,7 @@ public class ExecutionNode extends Node<ExecutionNode> {
 	}
 
 	public void addOutgoingEdge(Edge<ExecutionNode> e) {
-		if (e.getEdgeType() == EdgeType.CALL_CONTINUATION) {
-			if (callContinuation != null) {
-				if (!callContinuation.equals(e)) {
-					throw new IllegalStateException(
-							"Cannot add multiple call continuation edges!");
-				}
-			} else {
-				callContinuation = e;
-			}
-		} else {
-			edges.addEdge(EdgeSet.Direction.OUTGOING, e);
-		}
+		edges.addEdge(EdgeSet.Direction.OUTGOING, e);
 	}
 
 	public MetaNodeType getType() {

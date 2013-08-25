@@ -30,14 +30,24 @@ public class EdgeSet<NodeType extends Node> {
 	final List<OutgoingOrdinal> outgoingOrdinals = new ArrayList<OutgoingOrdinal>();
 	int directionDivider = 0;
 
+	Edge<NodeType> callContinuation;
+
 	private final OrdinalEdgeList<NodeType> listView = new OrdinalEdgeList<NodeType>(
 			this);
 
 	public void addEdge(Direction direction, Edge<NodeType> edge) {
 		if ((direction == Direction.OUTGOING)
-				&& (edge.getEdgeType() == EdgeType.CALL_CONTINUATION))
-			throw new IllegalArgumentException(
-					"Cannot add outgoing call continuations to an edge set!");
+				&& (edge.getEdgeType() == EdgeType.CALL_CONTINUATION)) {
+			if (callContinuation != null) {
+				if (!callContinuation.equals(edge)) {
+					throw new IllegalStateException(
+							"Cannot add multiple call continuation edges!");
+				}
+			} else {
+				callContinuation = edge;
+			}
+			return;
+		}
 
 		listView.modified = true;
 
@@ -88,6 +98,7 @@ public class EdgeSet<NodeType extends Node> {
 				listView.group = outgoingOrdinals.get(ordinal);
 				listView.start = listView.group.position;
 				listView.end = listView.group.position + listView.group.size;
+				listView.includeCallContinuation = false;
 				listView.modified = false;
 				break;
 		}
@@ -95,6 +106,8 @@ public class EdgeSet<NodeType extends Node> {
 	}
 
 	public List<Edge<NodeType>> getEdges(Direction direction) {
+		listView.includeCallContinuation = (callContinuation != null)
+				&& (direction == Direction.OUTGOING);
 		listView.modified = false;
 		if (edges.isEmpty()) {
 			listView.start = 0;
@@ -118,6 +131,10 @@ public class EdgeSet<NodeType extends Node> {
 				break;
 		}
 		return listView;
+	}
+
+	public Edge<NodeType> getCallContinuation() {
+		return callContinuation;
 	}
 
 	public int getOrdinalCount(Direction direction) {
