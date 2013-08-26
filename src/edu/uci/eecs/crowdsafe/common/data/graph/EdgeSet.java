@@ -49,6 +49,9 @@ public class EdgeSet<NodeType extends Node> {
 			return;
 		}
 
+		if (edges.contains(edge))
+			return;
+
 		listView.modified = true;
 
 		if (direction == Direction.INCOMING) {
@@ -90,16 +93,20 @@ public class EdgeSet<NodeType extends Node> {
 				throw new UnsupportedOperationException(
 						"Incoming edges are not grouped by ordinal.");
 			case OUTGOING:
-				if (ordinal >= outgoingOrdinals.size())
-					throw new IndexOutOfBoundsException(
-							String.format(
-									"No such ordinal %d, there are only %d outgoing ordinals",
-									ordinal, outgoingOrdinals.size()));
-				listView.group = outgoingOrdinals.get(ordinal);
-				listView.start = listView.group.position;
-				listView.end = listView.group.position + listView.group.size;
-				listView.includeCallContinuation = false;
-				listView.modified = false;
+				if (ordinal >= outgoingOrdinals.size()) {
+					listView.group = null;
+					listView.start = 0;
+					listView.end = 0;
+					listView.includeCallContinuation = false;
+					listView.modified = false;
+				} else {
+					listView.group = outgoingOrdinals.get(ordinal);
+					listView.start = listView.group.position;
+					listView.end = listView.group.position
+							+ listView.group.size;
+					listView.includeCallContinuation = false;
+					listView.modified = false;
+				}
 				break;
 		}
 		return listView;

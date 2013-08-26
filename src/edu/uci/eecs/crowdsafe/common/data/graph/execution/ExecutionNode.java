@@ -119,7 +119,9 @@ public class ExecutionNode extends Node<ExecutionNode> {
 			case CLUSTER_EXIT:
 				return String.format("ClusterExit(0x%x)", hash);
 			default:
-				return key.toString();
+				return String.format("%s(0x%x-v%d|0x%x)",
+						key.module.unit.filename, key.relativeTag, key.version,
+						hash);
 		}
 	}
 
@@ -186,6 +188,7 @@ public class ExecutionNode extends Node<ExecutionNode> {
 		return key.hashCode();
 	}
 
+	@Override
 	public String toString() {
 		return identify();
 	}

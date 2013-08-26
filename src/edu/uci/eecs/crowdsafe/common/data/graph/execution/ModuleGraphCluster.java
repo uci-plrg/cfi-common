@@ -26,6 +26,7 @@ public class ModuleGraphCluster {
 	protected final ExecutionGraphData graphData;
 
 	private final Map<SoftwareDistributionUnit, ModuleGraph> graphs = new HashMap<SoftwareDistributionUnit, ModuleGraph>();
+	private final Set<ExecutionNode> unreachableNodes = new HashSet<ExecutionNode>();
 
 	private long executableNodeCount = 0;
 
@@ -49,6 +50,10 @@ public class ModuleGraphCluster {
 
 	public Collection<ModuleGraph> getGraphs() {
 		return graphs.values();
+	}
+
+	public Set<ExecutionNode> getUnreachableNodes() {
+		return unreachableNodes;
 	}
 
 	public int getEntryNodeCount() {
@@ -97,32 +102,19 @@ public class ModuleGraphCluster {
 		return entryNode;
 	}
 
-	public Set<ExecutionNode> searchAccessibleNodes() {
-		Set<ExecutionNode> accessibleNodes = new HashSet<ExecutionNode>();
+	public void findUnreachableNodes() {
+		unreachableNodes.clear();
+		unreachableNodes.addAll(graphData.nodesByKey.values());
 		Set<ExecutionNode> visitedNodes = new HashSet<ExecutionNode>();
 		Queue<ExecutionNode> bfsQueue = new LinkedList<ExecutionNode>();
 		bfsQueue.addAll(entryNodesBySignatureHash.values());
-		// TODO: do this with all entry points
-		/**
-		 * <pre>
-		if (this instanceof ModuleGraph) {
-			ModuleGraph mGraph = (ModuleGraph) this;
-			if (mGraph.softwareUnit.name.startsWith("ntdll.dll-")) {
-				bfsQueue.add(graphData.nodes.get(0));
-			}
-		}
-		 */
 
 		while (bfsQueue.size() > 0) {
 			ExecutionNode node = bfsQueue.remove();
-			accessibleNodes.add(node);
+			unreachableNodes.remove(node);
 			visitedNodes.add(node);
 
 			for (Edge<ExecutionNode> edge : node.getOutgoingEdges()) {
-				// if ((edge.getEdgeType() != EdgeType.MODULE_ENTRY)
-				// && (node.getOutgoingEdges().size() > 1)
-				// && (node.getOutgoingOrdinalCount() == 1))
-				// System.out.println("stop!");
 				ExecutionNode neighbor = edge.getToNode();
 				if (!visitedNodes.contains(neighbor)) {
 					bfsQueue.add(neighbor);
@@ -139,7 +131,6 @@ public class ModuleGraphCluster {
 				}
 			}
 		}
-		return accessibleNodes;
 	}
 
 	public List<ExecutionNode> getDanglingNodes() {

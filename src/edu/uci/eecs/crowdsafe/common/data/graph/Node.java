@@ -25,11 +25,6 @@ public abstract class Node<NodeType extends Node> implements NodeList {
 	public List<Edge<NodeType>> getIncomingEdges() {
 		return edges.getEdges(EdgeSet.Direction.INCOMING);
 	}
-
-	public List<Edge<NodeType>> getIncomingEdges(int ordinal) {
-		return edges.getEdges(EdgeSet.Direction.INCOMING, ordinal);
-	}
-
 	public boolean hasOutgoingEdges() {
 		return edges.getEdgeCount(EdgeSet.Direction.OUTGOING) > 0;
 	}

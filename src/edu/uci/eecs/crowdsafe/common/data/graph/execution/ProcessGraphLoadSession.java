@@ -9,6 +9,7 @@ import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareDistributionUnit;
 import edu.uci.eecs.crowdsafe.common.data.graph.Edge;
 import edu.uci.eecs.crowdsafe.common.data.graph.EdgeType;
 import edu.uci.eecs.crowdsafe.common.data.graph.MetaNodeType;
+import edu.uci.eecs.crowdsafe.common.data.graph.Node;
 import edu.uci.eecs.crowdsafe.common.datasource.ProcessTraceDataSource;
 import edu.uci.eecs.crowdsafe.common.datasource.ProcessTraceStreamType;
 import edu.uci.eecs.crowdsafe.common.exception.InvalidGraphException;
@@ -20,16 +21,46 @@ import edu.uci.eecs.crowdsafe.common.log.Log;
 
 public class ProcessGraphLoadSession {
 
+	public enum LoadTarget {
+		NODE("node"),
+		EDGE("edge"),
+		CROSS_MODULE_EDGE("cross-module edge");
+
+		public final String displayName;
+
+		private LoadTarget(String displayName) {
+			this.displayName = displayName;
+		}
+	}
+
+	public interface LoadEventListener {
+		void nodeLoadReference(long tag, long hash, LoadTarget target);
+
+		void nodeLoadReference(Node node, LoadTarget target);
+
+		void nodeCreation(Node node);
+
+		void graphAddition(Node node, ModuleGraphCluster cluster);
+
+		void edgeCreation(Edge edge);
+	}
+
 	private final ProcessTraceDataSource dataSource;
 
 	private ProcessExecutionGraph graph;
-	private Map<ExecutionNode.Key, ExecutionNode> hashLookupTable;
+	private Map<ExecutionNode.Key, ExecutionNode> hashLookupTable = new HashMap<ExecutionNode.Key, ExecutionNode>();
 
 	// Count how many wrong intra-module edges there are
 	private int wrongIntraModuleEdgeCnt = 0;
 
+	private LoadEventListener listener = null;
+
 	public ProcessGraphLoadSession(ProcessTraceDataSource dataSource) {
 		this.dataSource = dataSource;
+	}
+
+	public void setListener(LoadEventListener listener) {
+		this.listener = listener;
 	}
 
 	public ProcessExecutionGraph loadGraph() throws IOException {
@@ -41,9 +72,7 @@ public class ProcessGraphLoadSession {
 		graph = new ProcessExecutionGraph(dataSource, modules);
 
 		try {
-			// Construct the tag--hash lookup table
-			hashLookupTable = loadGraphNodes();
-			// Then read both intra- and cross- module edges from files
+			loadGraphNodes();
 			readIntraModuleEdges();
 			readCrossModuleEdges();
 		} catch (InvalidTagException e) {
@@ -57,6 +86,7 @@ public class ProcessGraphLoadSession {
 		// Some other initialization and sanity checks
 		for (ModuleGraphCluster cluster : graph.getAutonomousClusters()) {
 			cluster.getGraphData().validate();
+			cluster.findUnreachableNodes();
 		}
 
 		// Produce some analysis result for the graph
@@ -81,65 +111,126 @@ public class ProcessGraphLoadSession {
 	 * @return
 	 * @throws InvalidTagException
 	 */
-	private Map<ExecutionNode.Key, ExecutionNode> loadGraphNodes()
-			throws IOException {
-		Map<ExecutionNode.Key, ExecutionNode> hashLookupTable = new HashMap<ExecutionNode.Key, ExecutionNode>();
+	private void loadGraphNodes() throws IOException {
+		NodeFactory factory = new NodeFactory();
+		try {
+			if (factory.input.ready()) {
+				factory.createNode();
+				factory.createEntryPoint();
+			}
 
+			while (factory.input.ready()) {
+				factory.createNode();
+			}
+		} finally {
+			factory.input.close();
+		}
+	}
+
+	public void readIntraModuleEdges() throws IOException {
 		LittleEndianInputStream input = new LittleEndianInputStream(
 				dataSource
-						.getDataInputStream(ProcessTraceStreamType.GRAPH_HASH));
+						.getDataInputStream(ProcessTraceStreamType.MODULE_GRAPH));
+
 		try {
-			long tag = 0, tagOriginal = 0, hash = 0;
-			long blockIndex = -1L;
-
+			long edgeIndex = -1;
 			while (input.ready()) {
-				tagOriginal = input.readLong();
-				hash = input.readLong();
-				blockIndex++;
+				long annotatedFromTag = input.readLong();
+				long annotatedToTag = input.readLong();
+				edgeIndex++;
 
-				tag = CrowdSafeTraceUtil.getTagEffectiveValue(tagOriginal);
-				int versionNumber = CrowdSafeTraceUtil
-						.getNodeVersionNumber(tagOriginal);
-				int metaNodeVal = CrowdSafeTraceUtil
-						.getNodeMetaVal(tagOriginal);
-				ModuleInstance module = graph.getModules()
-						.getModuleForLoadedBlock(tag, blockIndex);
+				long fromTag = CrowdSafeTraceUtil.getTag(annotatedFromTag);
+				long toTag = CrowdSafeTraceUtil.getTag(annotatedToTag);
+				int fromVersion = CrowdSafeTraceUtil
+						.getTagVersion(annotatedFromTag);
+				int toVersion = CrowdSafeTraceUtil
+						.getTagVersion(annotatedToTag);
 
-				MetaNodeType metaNodeType = MetaNodeType.values()[metaNodeVal];
-				ExecutionNode node = new ExecutionNode(module, metaNodeType,
-						tag, versionNumber, hash);
+				ModuleInstance fromModule = graph.getModules()
+						.getModuleForLoadedEdge(fromTag, edgeIndex);
+				ModuleInstance toModule = graph.getModules()
+						.getModuleForLoadedEdge(toTag, edgeIndex);
 
-				// Tags don't duplicate in lookup file
-				if (hashLookupTable.containsKey(node.getKey())) {
-					ExecutionNode existingNode = hashLookupTable.get(node
-							.getKey());
-					if ((existingNode.getHash() != hash)
-							&& (module.unit != SoftwareDistributionUnit.UNKNOWN)
-							&& (existingNode.getModule().unit != SoftwareDistributionUnit.UNKNOWN)) {
-						String msg = String.format(
-								"Duplicate tags: %s -> %s in datasource %s",
-								node.getKey(), existingNode,
-								dataSource.toString());
-						throw new InvalidTagException(msg);
+				EdgeType edgeType = CrowdSafeTraceUtil
+						.getTagEdgeType(annotatedFromTag);
+				int edgeOrdinal = CrowdSafeTraceUtil
+						.getEdgeOrdinal(annotatedFromTag);
+
+				ExecutionNode fromNode = hashLookupTable.get(ExecutionNode.Key
+						.create(fromTag, fromVersion, fromModule));
+				ExecutionNode toNode = hashLookupTable.get(ExecutionNode.Key
+						.create(toTag, toVersion, toModule));
+
+				if (listener != null) {
+					listener.nodeLoadReference(fromNode, LoadTarget.EDGE);
+					listener.nodeLoadReference(toNode, LoadTarget.EDGE);
+				}
+
+				// Double check if tag1 and tag2 exist in the lookup file
+				if (fromNode == null) {
+					throw new TagNotFoundException("0x"
+							+ Long.toHexString(fromTag)
+							+ " is missed in graph lookup file!");
+				}
+				if (toNode == null) {
+					if (edgeType == EdgeType.CALL_CONTINUATION)
+						continue; // discard b/c we never reached the continuation point
+					else
+						throw new TagNotFoundException("0x"
+								+ Long.toHexString(toTag)
+								+ " is missed in graph lookup file!");
+				}
+
+				if ((fromModule.unit != toModule.unit)
+						&& (fromModule.unit != SoftwareDistributionUnit.UNKNOWN)
+						&& (toModule.unit != SoftwareDistributionUnit.UNKNOWN)
+						&& (graph.getModuleGraphCluster(fromModule.unit) != graph
+								.getModuleGraphCluster(toModule.unit))) {
+					throw new InvalidGraphException(
+							String.format(
+									"Error: a normal edge [%s - %s] crosses between module %s and %s",
+									fromNode,
+									toNode,
+									graph.getModuleGraphCluster(fromModule.unit).distribution.name,
+									graph.getModuleGraphCluster(toModule.unit).distribution.name));
+				}
+
+				Edge<ExecutionNode> existing = fromNode.getOutgoingEdge(toNode);
+				Edge<ExecutionNode> e = new Edge<ExecutionNode>(fromNode,
+						toNode, edgeType, edgeOrdinal);
+				if (existing == null) {
+					fromNode.addOutgoingEdge(e);
+					toNode.addIncomingEdge(e);
+
+					if (listener != null)
+						listener.edgeCreation(e);
+				} else {
+					if (!existing.equals(e)) {
+						// One wired case to deal with here:
+						// A call edge (direct) and a continuation edge can
+						// point to the same block
+						if ((existing.getEdgeType() == EdgeType.DIRECT && e
+								.getEdgeType() == EdgeType.CALL_CONTINUATION)
+								|| (existing.getEdgeType() == EdgeType.CALL_CONTINUATION && e
+										.getEdgeType() == EdgeType.DIRECT)) {
+							existing.setEdgeType(EdgeType.DIRECT);
+						} else {
+							String msg = "Multiple edges:\n" + "Edge1: "
+									+ existing + "\n" + "Edge2: " + e;
+							throw new MultipleEdgeException(msg);
+						}
 					}
 				}
-
-				ModuleGraphCluster moduleCluster = graph
-						.getModuleGraphCluster(module.unit);
-				ModuleGraph moduleGraph = moduleCluster
-						.getModuleGraph(module.unit);
-				if (moduleGraph == null) {
-					moduleGraph = new ModuleGraph(graph, module.unit);
-					moduleCluster.addModule(moduleGraph);
-				}
-				moduleCluster.addNode(node);
-				hashLookupTable.put(node.getKey(), node);
 			}
 		} finally {
 			input.close();
 		}
 
-		return hashLookupTable;
+		// Output the count for wrong edges if there is any
+		if (wrongIntraModuleEdgeCnt > 0) {
+			Log.log("There are " + wrongIntraModuleEdgeCnt
+					+ " cross-module edges in the intra-module edge file");
+		}
 	}
 
 	/**
@@ -199,6 +290,13 @@ public class ProcessGraphLoadSession {
 							+ " is missed in graph lookup file!");
 				}
 
+				if (listener != null) {
+					listener.nodeLoadReference(fromNode,
+							LoadTarget.CROSS_MODULE_EDGE);
+					listener.nodeLoadReference(toNode,
+							LoadTarget.CROSS_MODULE_EDGE);
+				}
+
 				Edge<ExecutionNode> existing = fromNode.getOutgoingEdge(toNode);
 				if (existing == null) {
 					// Be careful when dealing with the cross module nodes.
@@ -217,6 +315,9 @@ public class ProcessGraphLoadSession {
 								fromNode, toNode, edgeType, edgeOrdinal);
 						fromNode.addOutgoingEdge(e);
 						toNode.addIncomingEdge(e);
+
+						if (listener != null)
+							listener.edgeCreation(e);
 					} else {
 						ExecutionNode exitNode = new ExecutionNode(fromModule,
 								MetaNodeType.CLUSTER_EXIT, signatureHash, 0,
@@ -228,6 +329,9 @@ public class ProcessGraphLoadSession {
 						fromNode.addOutgoingEdge(clusterExitEdge);
 						exitNode.addIncomingEdge(clusterExitEdge);
 
+						if (listener != null)
+							listener.edgeCreation(clusterExitEdge);
+
 						ExecutionNode entryNode = toCluster
 								.addClusterEntryNode(signatureHash, toModule);
 						toNode.setMetaNodeType(MetaNodeType.NORMAL);
@@ -235,6 +339,9 @@ public class ProcessGraphLoadSession {
 								entryNode, toNode, EdgeType.MODULE_ENTRY, 0);
 						entryNode.addOutgoingEdge(clusterEntryEdge);
 						toNode.addIncomingEdge(clusterEntryEdge);
+
+						if (listener != null)
+							listener.edgeCreation(clusterEntryEdge);
 					}
 				}
 			}
@@ -243,101 +350,79 @@ public class ProcessGraphLoadSession {
 		}
 	}
 
-	public void readIntraModuleEdges() throws IOException {
-		LittleEndianInputStream input = new LittleEndianInputStream(
-				dataSource
-						.getDataInputStream(ProcessTraceStreamType.MODULE_GRAPH));
+	private class NodeFactory {
+		final LittleEndianInputStream input;
 
-		try {
-			long edgeIndex = -1;
-			while (input.ready()) {
-				long annotatedFromTag = input.readLong();
-				long annotatedToTag = input.readLong();
-				edgeIndex++;
+		long tag = 0, tagOriginal = 0, hash = 0;
+		long blockIndex = -1L;
+		ModuleInstance module;
+		ModuleGraphCluster moduleCluster;
+		ExecutionNode node;
 
-				long fromTag = CrowdSafeTraceUtil.getTag(annotatedFromTag);
-				long toTag = CrowdSafeTraceUtil.getTag(annotatedToTag);
-				int fromVersion = CrowdSafeTraceUtil
-						.getTagVersion(annotatedFromTag);
-				int toVersion = CrowdSafeTraceUtil
-						.getTagVersion(annotatedToTag);
-
-				ModuleInstance fromModule = graph.getModules()
-						.getModuleForLoadedEdge(fromTag, edgeIndex);
-				ModuleInstance toModule = graph.getModules()
-						.getModuleForLoadedEdge(toTag, edgeIndex);
-
-				EdgeType edgeType = CrowdSafeTraceUtil
-						.getTagEdgeType(annotatedFromTag);
-				int edgeOrdinal = CrowdSafeTraceUtil
-						.getEdgeOrdinal(annotatedFromTag);
-
-				ExecutionNode fromNode = hashLookupTable.get(ExecutionNode.Key
-						.create(fromTag, fromVersion, fromModule));
-				ExecutionNode toNode = hashLookupTable.get(ExecutionNode.Key
-						.create(toTag, toVersion, toModule));
-
-				// Double check if tag1 and tag2 exist in the lookup file
-				if (fromNode == null) {
-					throw new TagNotFoundException("0x"
-							+ Long.toHexString(fromTag)
-							+ " is missed in graph lookup file!");
-				}
-				if (toNode == null) {
-					if (edgeType == EdgeType.CALL_CONTINUATION)
-						continue; // discard b/c we never reached the continuation point
-					else
-						throw new TagNotFoundException("0x"
-								+ Long.toHexString(toTag)
-								+ " is missed in graph lookup file!");
-				}
-
-				if ((fromModule.unit != toModule.unit)
-						&& (fromModule.unit != SoftwareDistributionUnit.UNKNOWN)
-						&& (toModule.unit != SoftwareDistributionUnit.UNKNOWN)
-						&& (graph.getModuleGraphCluster(fromModule.unit) != graph
-								.getModuleGraphCluster(toModule.unit))) {
-					throw new InvalidGraphException(
-							String.format(
-									"Error: a normal edge [%s - %s] crosses between module %s and %s",
-									fromNode,
-									toNode,
-									graph.getModuleGraphCluster(fromModule.unit).distribution.name,
-									graph.getModuleGraphCluster(toModule.unit).distribution.name));
-				}
-
-				Edge<ExecutionNode> existing = fromNode.getOutgoingEdge(toNode);
-				Edge<ExecutionNode> e = new Edge<ExecutionNode>(fromNode,
-						toNode, edgeType, edgeOrdinal);
-				if (existing == null) {
-					fromNode.addOutgoingEdge(e);
-					toNode.addIncomingEdge(e);
-				} else {
-					if (!existing.equals(e)) {
-						// One wired case to deal with here:
-						// A call edge (direct) and a continuation edge can
-						// point to the same block
-						if ((existing.getEdgeType() == EdgeType.DIRECT && e
-								.getEdgeType() == EdgeType.CALL_CONTINUATION)
-								|| (existing.getEdgeType() == EdgeType.CALL_CONTINUATION && e
-										.getEdgeType() == EdgeType.DIRECT)) {
-							existing.setEdgeType(EdgeType.DIRECT);
-						} else {
-							String msg = "Multiple edges:\n" + "Edge1: "
-									+ existing + "\n" + "Edge2: " + e;
-							throw new MultipleEdgeException(msg);
-						}
-					}
-				}
-			}
-		} finally {
-			input.close();
+		public NodeFactory() throws IOException {
+			input = new LittleEndianInputStream(
+					dataSource
+							.getDataInputStream(ProcessTraceStreamType.GRAPH_HASH));
 		}
 
-		// Output the count for wrong edges if there is any
-		if (wrongIntraModuleEdgeCnt > 0) {
-			Log.log("There are " + wrongIntraModuleEdgeCnt
-					+ " cross-module edges in the intra-module edge file");
+		void createNode() throws IOException {
+			tagOriginal = input.readLong();
+			hash = input.readLong();
+			blockIndex++;
+
+			tag = CrowdSafeTraceUtil.getTagEffectiveValue(tagOriginal);
+			int versionNumber = CrowdSafeTraceUtil
+					.getNodeVersionNumber(tagOriginal);
+			int metaNodeVal = CrowdSafeTraceUtil.getNodeMetaVal(tagOriginal);
+			module = graph.getModules()
+					.getModuleForLoadedBlock(tag, blockIndex);
+
+			if (listener != null)
+				listener.nodeLoadReference(tag, hash, LoadTarget.NODE);
+
+			MetaNodeType metaNodeType = MetaNodeType.values()[metaNodeVal];
+			node = new ExecutionNode(module, metaNodeType, tag, versionNumber,
+					hash);
+
+			if (listener != null)
+				listener.nodeCreation(node);
+
+			// Tags don't duplicate in lookup file
+			if (hashLookupTable.containsKey(node.getKey())) {
+				ExecutionNode existingNode = hashLookupTable.get(node.getKey());
+				if ((existingNode.getHash() != hash)
+						&& (module.unit != SoftwareDistributionUnit.UNKNOWN)
+						&& (existingNode.getModule().unit != SoftwareDistributionUnit.UNKNOWN)) {
+					String msg = String.format(
+							"Duplicate tags: %s -> %s in datasource %s",
+							node.getKey(), existingNode, dataSource.toString());
+					throw new InvalidTagException(msg);
+				}
+			}
+
+			moduleCluster = graph.getModuleGraphCluster(module.unit);
+			ModuleGraph moduleGraph = moduleCluster.getModuleGraph(module.unit);
+			if (moduleGraph == null) {
+				moduleGraph = new ModuleGraph(graph, module.unit);
+				moduleCluster.addModule(moduleGraph);
+			}
+			moduleCluster.addNode(node);
+			hashLookupTable.put(node.getKey(), node);
+
+			if (listener != null)
+				listener.graphAddition(node, moduleCluster);
+		}
+
+		private void createEntryPoint() {
+			ExecutionNode entryNode = moduleCluster.addClusterEntryNode(1L,
+					module);
+			Edge<ExecutionNode> clusterEntryEdge = new Edge<ExecutionNode>(
+					entryNode, node, EdgeType.MODULE_ENTRY, 0);
+			entryNode.addOutgoingEdge(clusterEntryEdge);
+			node.addIncomingEdge(clusterEntryEdge);
+
+			if (listener != null)
+				listener.edgeCreation(clusterEntryEdge);
 		}
 	}
 }
