@@ -30,8 +30,7 @@ public class ModuleGraphCluster {
 
 	private long executableNodeCount = 0;
 
-	public ModuleGraphCluster(AutonomousSoftwareDistribution distribution,
-			ProcessExecutionGraph containingGraph) {
+	public ModuleGraphCluster(AutonomousSoftwareDistribution distribution, ProcessExecutionGraph containingGraph) {
 		this.distribution = distribution;
 		this.graphData = new ExecutionGraphData(containingGraph);
 	}
@@ -82,20 +81,16 @@ public class ModuleGraphCluster {
 				case SIGNAL_HANDLER:
 				case SIGRETURN:
 					executableNodeCount++;
-					graphs.get(node.getModule().unit)
-							.incrementExecutableBlockCount();
+					graphs.get(node.getModule().unit).incrementExecutableBlockCount();
 			}
 		}
 	}
 
 	// Add the signature node to the graph
-	public ExecutionNode addClusterEntryNode(long crossModuleSignatureHash,
-			ModuleInstance module) {
-		ExecutionNode entryNode = entryNodesBySignatureHash
-				.get(crossModuleSignatureHash);
+	public ExecutionNode addClusterEntryNode(long crossModuleSignatureHash, ModuleInstance module) {
+		ExecutionNode entryNode = entryNodesBySignatureHash.get(crossModuleSignatureHash);
 		if (entryNode == null) {
-			entryNode = new ExecutionNode(module, MetaNodeType.CLUSTER_ENTRY,
-					0L, 0, crossModuleSignatureHash);
+			entryNode = new ExecutionNode(module, MetaNodeType.CLUSTER_ENTRY, 0L, 0, crossModuleSignatureHash);
 			entryNodesBySignatureHash.put(entryNode.getHash(), entryNode);
 			graphData.nodesByKey.put(entryNode.getKey(), entryNode);
 		}
@@ -136,8 +131,7 @@ public class ModuleGraphCluster {
 	public List<ExecutionNode> getDanglingNodes() {
 		List<ExecutionNode> danglingNodes = new ArrayList<ExecutionNode>();
 		for (ExecutionNode n : graphData.nodesByKey.values()) {
-			if (n.getIncomingEdges().size() == 0
-					&& n.getOutgoingEdges().size() == 0)
+			if (n.getIncomingEdges().size() == 0 && n.getOutgoingEdges().size() == 0)
 				danglingNodes.add(n);
 		}
 		return danglingNodes;

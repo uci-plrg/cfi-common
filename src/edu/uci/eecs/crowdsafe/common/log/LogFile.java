@@ -22,8 +22,7 @@ public class LogFile {
 		}
 	}
 
-	public static File create(String filePath, CollisionMode collisionMode,
-			NoSuchPathMode noSuchPathMode) {
+	public static File create(String filePath, CollisionMode collisionMode, NoSuchPathMode noSuchPathMode) {
 		File logFile = new File(filePath);
 		if (logFile.getParentFile() == null)
 			logFile = new File(new File("."), filePath);
@@ -39,16 +38,14 @@ public class LogFile {
 							logFile.getName(), directory.getAbsolutePath());
 					break;
 				case ERROR:
-					throw new LogFile.Exception(
-							"Logfile %s requires that directory %s already exists",
+					throw new LogFile.Exception("Logfile %s requires that directory %s already exists",
 							logFile.getName(), directory.getAbsolutePath());
 			}
 		}
 
 		if (logFile.exists()) {
 			if (logFile.isDirectory()) {
-				throw new LogFile.Exception(
-						"logfile %s already exists, and it is a directory!",
+				throw new LogFile.Exception("logfile %s already exists, and it is a directory!",
 						logFile.getAbsolutePath());
 			}
 
@@ -61,19 +58,16 @@ public class LogFile {
 						String start = name.substring(0, lastDot);
 						String end = name.substring(lastDot + 1);
 						do {
-							logFile = new File(directory, String.format(
-									"%s.%d.%s", start, index++, end));
+							logFile = new File(directory, String.format("%s.%d.%s", start, index++, end));
 						} while (logFile.exists());
 					} else {
 						do {
-							logFile = new File(directory, String.format(
-									"%s.%d", name, index++));
+							logFile = new File(directory, String.format("%s.%d", name, index++));
 						} while (logFile.exists());
 					}
 					break;
 				case ERROR:
-					throw new LogFile.Exception("Logfile %s already exists",
-							logFile.getAbsolutePath());
+					throw new LogFile.Exception("Logfile %s already exists", logFile.getAbsolutePath());
 			}
 		}
 

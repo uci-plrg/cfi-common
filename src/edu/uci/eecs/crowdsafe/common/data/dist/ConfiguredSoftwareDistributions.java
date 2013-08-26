@@ -32,40 +32,34 @@ public class ConfiguredSoftwareDistributions {
 	public final Map<String, AutonomousSoftwareDistribution> distributions = new HashMap<String, AutonomousSoftwareDistribution>();
 
 	private ConfiguredSoftwareDistributions() {
-		configDir = new File(
-				new File(
-						CrowdSafeConfiguration.getInstance().environmentValues
-								.get(CrowdSafeConfiguration.Environment.CROWD_SAFE_COMMON_DIR)),
-				"config");
+		configDir = new File(new File(
+				CrowdSafeConfiguration.getInstance().environmentValues
+						.get(CrowdSafeConfiguration.Environment.CROWD_SAFE_COMMON_DIR)), "config");
 
-		distributions.put(MAIN_PROGRAM, new AutonomousSoftwareDistribution(
-				MAIN_PROGRAM));
+		distributions.put(MAIN_PROGRAM, new AutonomousSoftwareDistribution(MAIN_PROGRAM));
 	}
 
 	private void initialize() {
 		try {
 			for (File configFile : configDir.listFiles()) {
 				if (configFile.getName().endsWith(".asd")) {
-					String distName = configFile.getName().substring(0,
-							configFile.getName().lastIndexOf('.'));
+					String distName = configFile.getName().substring(0, configFile.getName().lastIndexOf('.'));
 					AutonomousSoftwareDistribution dist = AutonomousSoftwareDistributionLoader
 							.loadDistribution(configFile);
 					distributions.put(distName, dist);
 				}
 			}
 		} catch (IOException e) {
-			throw new IllegalStateException(
-					String.format(
-							"Error reading the autonomous software distribution configuration from %s!",
-							configDir.getAbsolutePath()));
+			throw new IllegalStateException(String.format(
+					"Error reading the autonomous software distribution configuration from %s!",
+					configDir.getAbsolutePath()));
 		}
 	}
 
 	public SoftwareDistributionUnit establishUnit(String name) {
 		for (AutonomousSoftwareDistribution dist : distributions.values()) {
 			for (SoftwareDistributionUnit unit : dist.distributionUnits) {
-				if (unit.name.equals(name)
-						|| unit.name.equals(getFilename(name)))
+				if (unit.name.equals(name) || unit.name.equals(getFilename(name)))
 					return unit;
 			}
 		}

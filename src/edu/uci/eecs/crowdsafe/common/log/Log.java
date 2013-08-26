@@ -38,8 +38,7 @@ public class Log {
 
 	public static void log(String format, Object... args) {
 		if (outputs.isEmpty()) {
-			System.out
-					.println("Warning: attempt to log without any outputs configured.");
+			System.out.println("Warning: attempt to log without any outputs configured.");
 			return;
 		}
 
@@ -56,8 +55,7 @@ public class Log {
 
 	public static void log(Throwable throwable) {
 		if (outputs.isEmpty()) {
-			System.out
-					.println("Warning: attempt to log without any outputs configured.");
+			System.out.println("Warning: attempt to log without any outputs configured.");
 			return;
 		}
 

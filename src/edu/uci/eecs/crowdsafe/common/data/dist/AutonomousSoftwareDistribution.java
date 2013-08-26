@@ -13,8 +13,7 @@ public class AutonomousSoftwareDistribution {
 		distributionUnits = new HashSet<SoftwareDistributionUnit>();
 	}
 
-	AutonomousSoftwareDistribution(String name,
-			Set<SoftwareDistributionUnit> distributionUnits) {
+	AutonomousSoftwareDistribution(String name, Set<SoftwareDistributionUnit> distributionUnits) {
 		this.name = name;
 		this.distributionUnits = Collections.unmodifiableSet(distributionUnits);
 	}

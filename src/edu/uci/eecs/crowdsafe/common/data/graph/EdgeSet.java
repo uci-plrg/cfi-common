@@ -32,16 +32,13 @@ public class EdgeSet<NodeType extends Node> {
 
 	Edge<NodeType> callContinuation;
 
-	private final OrdinalEdgeList<NodeType> listView = new OrdinalEdgeList<NodeType>(
-			this);
+	private final OrdinalEdgeList<NodeType> listView = new OrdinalEdgeList<NodeType>(this);
 
 	public void addEdge(Direction direction, Edge<NodeType> edge) {
-		if ((direction == Direction.OUTGOING)
-				&& (edge.getEdgeType() == EdgeType.CALL_CONTINUATION)) {
+		if ((direction == Direction.OUTGOING) && (edge.getEdgeType() == EdgeType.CALL_CONTINUATION)) {
 			if (callContinuation != null) {
 				if (!callContinuation.equals(edge)) {
-					throw new IllegalStateException(
-							"Cannot add multiple call continuation edges!");
+					throw new IllegalStateException("Cannot add multiple call continuation edges!");
 				}
 			} else {
 				callContinuation = edge;
@@ -69,10 +66,8 @@ public class EdgeSet<NodeType extends Node> {
 		if (group.type == null) {
 			group.type = edge.getEdgeType();
 		} else if (group.type != edge.getEdgeType()) {
-			throw new IllegalArgumentException(
-					String.format(
-							"Attempt to add an edge of type %s to an edge group of type %s!",
-							edge.getEdgeType(), group.type));
+			throw new IllegalArgumentException(String.format(
+					"Attempt to add an edge of type %s to an edge group of type %s!", edge.getEdgeType(), group.type));
 		}
 		edges.add(null);
 		int edgePosition = group.position + group.size;
@@ -90,8 +85,7 @@ public class EdgeSet<NodeType extends Node> {
 	public List<Edge<NodeType>> getEdges(Direction direction, int ordinal) {
 		switch (direction) {
 			case INCOMING:
-				throw new UnsupportedOperationException(
-						"Incoming edges are not grouped by ordinal.");
+				throw new UnsupportedOperationException("Incoming edges are not grouped by ordinal.");
 			case OUTGOING:
 				if (ordinal >= outgoingOrdinals.size()) {
 					listView.group = null;
@@ -102,8 +96,7 @@ public class EdgeSet<NodeType extends Node> {
 				} else {
 					listView.group = outgoingOrdinals.get(ordinal);
 					listView.start = listView.group.position;
-					listView.end = listView.group.position
-							+ listView.group.size;
+					listView.end = listView.group.position + listView.group.size;
 					listView.includeCallContinuation = false;
 					listView.modified = false;
 				}
@@ -113,8 +106,7 @@ public class EdgeSet<NodeType extends Node> {
 	}
 
 	public List<Edge<NodeType>> getEdges(Direction direction) {
-		listView.includeCallContinuation = (callContinuation != null)
-				&& (direction == Direction.OUTGOING);
+		listView.includeCallContinuation = (callContinuation != null) && (direction == Direction.OUTGOING);
 		listView.modified = false;
 		if (edges.isEmpty()) {
 			listView.start = 0;
@@ -147,13 +139,11 @@ public class EdgeSet<NodeType extends Node> {
 	public int getOrdinalCount(Direction direction) {
 		switch (direction) {
 			case INCOMING:
-				throw new UnsupportedOperationException(
-						"Incoming edges are not grouped by ordinal.");
+				throw new UnsupportedOperationException("Incoming edges are not grouped by ordinal.");
 			case OUTGOING:
 				return outgoingOrdinals.size();
 			default:
-				throw new IllegalArgumentException(String.format(
-						"Unknown direction %s", direction));
+				throw new IllegalArgumentException(String.format("Unknown direction %s", direction));
 		}
 	}
 
@@ -164,14 +154,12 @@ public class EdgeSet<NodeType extends Node> {
 			case OUTGOING:
 				return directionDivider;
 			default:
-				throw new IllegalStateException(String.format(
-						"Unknown direction %d", direction));
+				throw new IllegalStateException(String.format("Unknown direction %d", direction));
 		}
 	}
 
 	public boolean checkOutgoingEdgeCompatibility(EdgeSet<NodeType> other) {
-		int max = Math.min(outgoingOrdinals.size(),
-				other.outgoingOrdinals.size());
+		int max = Math.min(outgoingOrdinals.size(), other.outgoingOrdinals.size());
 		for (int i = 0; i < max; i++) {
 			if (outgoingOrdinals.get(i).type != other.outgoingOrdinals.get(i).type)
 				return false;

@@ -17,8 +17,7 @@ public class ExecutionNode extends Node<ExecutionNode> {
 
 	public static class Key implements Node.Key {
 		public static Key create(long tag, int tagVersion, ModuleInstance module) {
-			return new Key(tag - module.start, tagVersion, module,
-					MetaNodeType.NORMAL);
+			return new Key(tag - module.start, tagVersion, module, MetaNodeType.NORMAL);
 		}
 
 		public final long relativeTag;
@@ -27,16 +26,13 @@ public class ExecutionNode extends Node<ExecutionNode> {
 
 		public final ModuleInstance module;
 
-		private Key(long relativeTag, int tagVersion, ModuleInstance module,
-				MetaNodeType type) {
+		private Key(long relativeTag, int tagVersion, ModuleInstance module, MetaNodeType type) {
 			this.relativeTag = relativeTag;
 			this.version = tagVersion;
 			this.module = module;
 
-			if ((type == MetaNodeType.NORMAL)
-					&& ((relativeTag < 0L) || (relativeTag > (module.end - module.start)))) {
-				throw new InvalidGraphException(
-						"Relative tag 0x%x is outside the module's relative bounds [0-%d]",
+			if ((type == MetaNodeType.NORMAL) && ((relativeTag < 0L) || (relativeTag > (module.end - module.start)))) {
+				throw new InvalidGraphException("Relative tag 0x%x is outside the module's relative bounds [0-%d]",
 						relativeTag, (module.end - module.start));
 			}
 		}
@@ -45,10 +41,8 @@ public class ExecutionNode extends Node<ExecutionNode> {
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;
-			result = prime * result
-					+ ((module == null) ? 0 : module.hashCode());
-			result = prime * result
-					+ (int) (relativeTag ^ (relativeTag >>> 32));
+			result = prime * result + ((module == null) ? 0 : module.hashCode());
+			result = prime * result + (int) (relativeTag ^ (relativeTag >>> 32));
 			result = prime * result + version;
 			return result;
 		}
@@ -76,8 +70,7 @@ public class ExecutionNode extends Node<ExecutionNode> {
 
 		@Override
 		public String toString() {
-			return String.format("%s(0x%x-v%d)", module.unit.filename,
-					relativeTag, version);
+			return String.format("%s(0x%x-v%d)", module.unit.filename, relativeTag, version);
 		}
 	}
 
@@ -87,8 +80,7 @@ public class ExecutionNode extends Node<ExecutionNode> {
 
 	private MetaNodeType metaNodeType;
 
-	public ExecutionNode(ModuleInstance module, MetaNodeType metaNodeType,
-			long tag, int tagVersion, long hash) {
+	public ExecutionNode(ModuleInstance module, MetaNodeType metaNodeType, long tag, int tagVersion, long hash) {
 		Key key;
 		switch (metaNodeType) {
 			case CLUSTER_ENTRY:
@@ -119,9 +111,7 @@ public class ExecutionNode extends Node<ExecutionNode> {
 			case CLUSTER_EXIT:
 				return String.format("ClusterExit(0x%x)", hash);
 			default:
-				return String.format("%s(0x%x-v%d|0x%x)",
-						key.module.unit.filename, key.relativeTag, key.version,
-						hash);
+				return String.format("%s(0x%x-v%d|0x%x)", key.module.unit.filename, key.relativeTag, key.version, hash);
 		}
 	}
 
@@ -138,8 +128,7 @@ public class ExecutionNode extends Node<ExecutionNode> {
 	}
 
 	public ExecutionNode changeHashCode(long newHash) {
-		return new ExecutionNode(key.module, metaNodeType, key.module.start
-				+ key.relativeTag, key.version, newHash);
+		return new ExecutionNode(key.module, metaNodeType, key.module.start + key.relativeTag, key.version, newHash);
 	}
 
 	public void addIncomingEdge(Edge<ExecutionNode> e) {
@@ -172,8 +161,7 @@ public class ExecutionNode extends Node<ExecutionNode> {
 			return false;
 		}
 		ExecutionNode node = (ExecutionNode) o;
-		if (node.metaNodeType == metaNodeType
-				&& metaNodeType == MetaNodeType.CLUSTER_ENTRY) {
+		if (node.metaNodeType == metaNodeType && metaNodeType == MetaNodeType.CLUSTER_ENTRY) {
 			return (node.hash == hash);
 		}
 

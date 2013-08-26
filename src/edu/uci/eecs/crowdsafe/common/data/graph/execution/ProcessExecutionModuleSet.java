@@ -15,8 +15,7 @@ public class ProcessExecutionModuleSet {
 
 	private final Set<ModuleInstance> instances = new HashSet<ModuleInstance>();
 
-	private final Multimap<SoftwareDistributionUnit, ModuleInstance> instancesByUnit = HashMultimap
-			.create();
+	private final Multimap<SoftwareDistributionUnit, ModuleInstance> instancesByUnit = HashMultimap.create();
 
 	public void add(ModuleInstance module) {
 		instances.add(module);
@@ -61,8 +60,7 @@ public class ProcessExecutionModuleSet {
 		return activeModule;
 	}
 
-	public ModuleInstance getModuleForLoadedCrossModuleEdge(long tag,
-			long edgeIndex) {
+	public ModuleInstance getModuleForLoadedCrossModuleEdge(long tag, long edgeIndex) {
 		ModuleInstance activeModule = ModuleInstance.UNKNOWN;
 		for (ModuleInstance instance : instances) {
 			if (instance.containsTag(tag)) {

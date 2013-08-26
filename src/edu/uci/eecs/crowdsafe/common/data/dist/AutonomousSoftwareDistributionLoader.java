@@ -10,16 +10,14 @@ import java.util.Set;
 public class AutonomousSoftwareDistributionLoader {
 
 	// TODO: should all the windows dlls really be in a single dist?
-	public static AutonomousSoftwareDistribution loadDistribution(
-			File configFile) throws IOException {
+	public static AutonomousSoftwareDistribution loadDistribution(File configFile) throws IOException {
 		Set<SoftwareDistributionUnit> distUnits = new HashSet<SoftwareDistributionUnit>();
 		BufferedReader reader = new BufferedReader(new FileReader(configFile));
 		String line;
 		while ((line = reader.readLine()) != null) {
 			distUnits.add(new SoftwareDistributionUnit(line.toLowerCase()));
 		}
-		String distName = configFile.getName().substring(0,
-				configFile.getName().lastIndexOf('.'));
+		String distName = configFile.getName().substring(0, configFile.getName().lastIndexOf('.'));
 		return new AutonomousSoftwareDistribution(distName, distUnits);
 	}
 }

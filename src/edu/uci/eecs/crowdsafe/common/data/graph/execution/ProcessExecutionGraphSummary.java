@@ -17,8 +17,7 @@ public class ProcessExecutionGraphSummary {
 
 		@Override
 		public int compare(ModuleGraph first, ModuleGraph second) {
-			return second.getExecutableBlockCount()
-					- first.getExecutableBlockCount();
+			return second.getExecutableBlockCount() - first.getExecutableBlockCount();
 		}
 	}
 
@@ -34,22 +33,17 @@ public class ProcessExecutionGraphSummary {
 			int clusterNodeCount = cluster.getGraphData().nodesByKey.size();
 			Set<ExecutionNode> unreachableNodes = cluster.getUnreachableNodes();
 
-			Log.log("Cluster %s has %d nodes (%d executable, %d entry points)",
-					cluster.distribution.name, clusterNodeCount,
-					cluster.getExecutableNodeCount(),
-					cluster.getEntryNodeCount());
+			Log.log("Cluster %s has %d nodes (%d executable, %d entry points)", cluster.distribution.name,
+					clusterNodeCount, cluster.getExecutableNodeCount(), cluster.getEntryNodeCount());
 
-			for (ModuleGraph moduleGraph : CrowdSafeCollections
-					.createSortedCopy(cluster.getGraphs(),
-							ModuleGraphSorter.INSTANCE)) {
-				Log.log("\tModule %s: %d nodes",
-						moduleGraph.softwareUnit.filename,
+			for (ModuleGraph moduleGraph : CrowdSafeCollections.createSortedCopy(cluster.getGraphs(),
+					ModuleGraphSorter.INSTANCE)) {
+				Log.log("\tModule %s: %d nodes", moduleGraph.softwareUnit.filename,
 						moduleGraph.getExecutableBlockCount());
 			}
 
 			if (!unreachableNodes.isEmpty()) {
-				Log.log("Warning: found %d unreachable nodes!",
-						unreachableNodes.size());
+				Log.log("Warning: found %d unreachable nodes!", unreachableNodes.size());
 				// for (ExecutionNode unreachableNode : unreachableNodes) {
 				// Log.log("\t%s", unreachableNode.toString());
 				// }
@@ -57,10 +51,8 @@ public class ProcessExecutionGraphSummary {
 					if (unreachableNode.getIncomingEdges().isEmpty()) {
 						Log.log("\t%s has no incoming edges", unreachableNode);
 					} else {
-						for (Edge<ExecutionNode> incoming : unreachableNode
-								.getIncomingEdges()) {
-							if (!unreachableNodes.contains(incoming
-									.getFromNode()))
+						for (Edge<ExecutionNode> incoming : unreachableNode.getIncomingEdges()) {
+							if (!unreachableNodes.contains(incoming.getFromNode()))
 								Log.log("\tMissed entry point %s", incoming);
 						}
 					}

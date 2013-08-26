@@ -24,12 +24,10 @@ public class ExecutionGraphData {
 			return null; // no way to find it across versions
 
 		SoftwareDistributionUnit foreignUnit = foreignNode.getModule().unit;
-		Iterable<ModuleInstance> localModules = containingGraph.getModules()
-				.getModule(foreignUnit);
+		Iterable<ModuleInstance> localModules = containingGraph.getModules().getModule(foreignUnit);
 		for (ModuleInstance localModule : localModules) {
 			long localTag = localModule.start + foreignNode.getRelativeTag();
-			ExecutionNode node = nodesByKey.get(ExecutionNode.Key.create(
-					localTag, 0, localModule));
+			ExecutionNode node = nodesByKey.get(ExecutionNode.Key.create(localTag, 0, localModule));
 			if (node != null)
 				return node;
 		}
@@ -48,16 +46,14 @@ public class ExecutionGraphData {
 				case PROCESS_ENTRY:
 				case CLUSTER_ENTRY:
 					if (node.hasIncomingEdges()) {
-						throw new InvalidGraphException(
-								"Entry point has incoming edges!");
+						throw new InvalidGraphException("Entry point has incoming edges!");
 					}
 					break;
 				case PROCESS_EXIT:
 				case CLUSTER_EXIT:
 					if (node.hasOutgoingEdges()) {
 						Log.log("");
-						throw new InvalidGraphException(
-								"Exit point has outgoing edges!");
+						throw new InvalidGraphException("Exit point has outgoing edges!");
 					}
 					break;
 				default:

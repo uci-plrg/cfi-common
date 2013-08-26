@@ -65,15 +65,12 @@ public class ProcessExecutionGraph {
 	 *            which takes 24 bytes
 	 *            </p>
 	 */
-	public ProcessExecutionGraph(ProcessTraceDataSource dataSource,
-			ProcessExecutionModuleSet modules) {
+	public ProcessExecutionGraph(ProcessTraceDataSource dataSource, ProcessExecutionModuleSet modules) {
 		this.dataSource = dataSource;
 		this.modules = modules;
 
-		for (AutonomousSoftwareDistribution dist : ConfiguredSoftwareDistributions
-				.getInstance().distributions.values()) {
-			ModuleGraphCluster moduleCluster = new ModuleGraphCluster(dist,
-					this);
+		for (AutonomousSoftwareDistribution dist : ConfiguredSoftwareDistributions.getInstance().distributions.values()) {
+			ModuleGraphCluster moduleCluster = new ModuleGraphCluster(dist, this);
 			moduleGraphs.put(dist, moduleCluster);
 
 			for (SoftwareDistributionUnit unit : dist.distributionUnits) {
@@ -86,20 +83,16 @@ public class ProcessExecutionGraph {
 		return modules;
 	}
 
-	public ModuleGraphCluster getModuleGraphCluster(
-			AutonomousSoftwareDistribution distribution) {
+	public ModuleGraphCluster getModuleGraphCluster(AutonomousSoftwareDistribution distribution) {
 		return moduleGraphs.get(distribution);
 	}
 
-	public ModuleGraphCluster getModuleGraphCluster(
-			SoftwareDistributionUnit softwareUnit) {
-		ModuleGraphCluster cluster = moduleGraphsBySoftwareUnit
-				.get(softwareUnit);
+	public ModuleGraphCluster getModuleGraphCluster(SoftwareDistributionUnit softwareUnit) {
+		ModuleGraphCluster cluster = moduleGraphsBySoftwareUnit.get(softwareUnit);
 		if (cluster != null)
 			return cluster;
-		return moduleGraphs
-				.get(ConfiguredSoftwareDistributions.getInstance().distributions
-						.get(ConfiguredSoftwareDistributions.MAIN_PROGRAM));
+		return moduleGraphs.get(ConfiguredSoftwareDistributions.getInstance().distributions
+				.get(ConfiguredSoftwareDistributions.MAIN_PROGRAM));
 	}
 
 	public Collection<ModuleGraphCluster> getAutonomousClusters() {

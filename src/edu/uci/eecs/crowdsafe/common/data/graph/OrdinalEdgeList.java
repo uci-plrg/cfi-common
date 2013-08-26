@@ -10,8 +10,8 @@ import edu.uci.eecs.crowdsafe.common.data.graph.EdgeSet.OutgoingOrdinal;
 
 class OrdinalEdgeList<NodeType extends Node> implements List<Edge<NodeType>> {
 
-	private class IndexingIterator implements ListIterator<Edge<NodeType>>,
-			Iterable<Edge<NodeType>>, Iterator<Edge<NodeType>> {
+	private class IndexingIterator implements ListIterator<Edge<NodeType>>, Iterable<Edge<NodeType>>,
+			Iterator<Edge<NodeType>> {
 		private int index;
 
 		@Override
@@ -62,20 +62,18 @@ class OrdinalEdgeList<NodeType extends Node> implements List<Edge<NodeType>> {
 
 		@Override
 		public void add(Edge<NodeType> edge) {
-			throw new UnsupportedOperationException(
-					"EdgeSet lists are readonly!");
+			throw new UnsupportedOperationException("EdgeSet lists are readonly!");
 		}
 
 		@Override
 		public void set(Edge<NodeType> edge) {
-			throw new UnsupportedOperationException(
-					"EdgeSet lists are readonly!");
+			throw new UnsupportedOperationException("EdgeSet lists are readonly!");
 		}
 
 		@Override
 		public void remove() {
-			throw new UnsupportedOperationException(String.format(
-					"Removing is not supported in %s", getClass().getName()));
+			throw new UnsupportedOperationException(String.format("Removing is not supported in %s", getClass()
+					.getName()));
 		}
 	}
 
@@ -227,20 +225,17 @@ class OrdinalEdgeList<NodeType extends Node> implements List<Edge<NodeType>> {
 
 	@Override
 	public List<Edge<NodeType>> subList(int fromIndex, int toIndex) {
-		throw new UnsupportedOperationException(
-				"EdgeSet lists are for indexing and iteration only!");
+		throw new UnsupportedOperationException("EdgeSet lists are for indexing and iteration only!");
 	}
 
 	@Override
 	public Object[] toArray() {
-		throw new UnsupportedOperationException(
-				"EdgeSet lists are for indexing and iteration only!");
+		throw new UnsupportedOperationException("EdgeSet lists are for indexing and iteration only!");
 	}
 
 	@Override
 	public <T> T[] toArray(T[] a) {
-		throw new UnsupportedOperationException(
-				"EdgeSet lists are for indexing and iteration only!");
+		throw new UnsupportedOperationException("EdgeSet lists are for indexing and iteration only!");
 	}
 
 }

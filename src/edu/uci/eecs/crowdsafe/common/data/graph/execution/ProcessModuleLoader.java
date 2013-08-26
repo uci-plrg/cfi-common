@@ -24,8 +24,7 @@ public class ProcessModuleLoader {
 	 * @return
 	 * @throws OverlapModuleException
 	 */
-	public static ProcessExecutionModuleSet loadModules(
-			ProcessTraceDataSource dataSource) throws IOException {
+	public static ProcessExecutionModuleSet loadModules(ProcessTraceDataSource dataSource) throws IOException {
 		ProcessExecutionModuleSet modules = new ProcessExecutionModuleSet();
 		BufferedReader reader = new BufferedReader(new InputStreamReader(
 				dataSource.getDataInputStream(ProcessTraceStreamType.MODULE)));
@@ -36,9 +35,7 @@ public class ProcessModuleLoader {
 				continue;
 			Matcher matcher = MODULE_PARSER.matcher(line);
 			if (!matcher.matches()) {
-				throw new InvalidGraphException(
-						"Failed to match line '%s' against the pattern--exiting now!",
-						line);
+				throw new InvalidGraphException("Failed to match line '%s' against the pattern--exiting now!", line);
 			}
 			long blockTimestamp = Long.parseLong(matcher.group(1));
 			long edgeTimestamp = Long.parseLong(matcher.group(2));
@@ -47,11 +44,11 @@ public class ProcessModuleLoader {
 			long start = Long.parseLong(matcher.group(5), 16);
 			long end = Long.parseLong(matcher.group(6), 16);
 
-			SoftwareDistributionUnit unit = ConfiguredSoftwareDistributions
-					.getInstance().establishUnit(moduleName.toLowerCase());
+			SoftwareDistributionUnit unit = ConfiguredSoftwareDistributions.getInstance().establishUnit(
+					moduleName.toLowerCase());
 
-			ModuleInstance module = new ModuleInstance(unit, start, end,
-					blockTimestamp, edgeTimestamp, crossModuleEdgeTimestamp);
+			ModuleInstance module = new ModuleInstance(unit, start, end, blockTimestamp, edgeTimestamp,
+					crossModuleEdgeTimestamp);
 			modules.add(module);
 		}
 		return modules;

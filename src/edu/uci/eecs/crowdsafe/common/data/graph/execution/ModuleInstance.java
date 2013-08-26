@@ -2,10 +2,9 @@ package edu.uci.eecs.crowdsafe.common.data.graph.execution;
 
 import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareDistributionUnit;
 
-
 public class ModuleInstance implements Comparable<ModuleInstance> {
-	public static ModuleInstance UNKNOWN = new ModuleInstance(
-			SoftwareDistributionUnit.UNKNOWN, 0L, Long.MAX_VALUE, 0L, 0L, 0L);
+	public static ModuleInstance UNKNOWN = new ModuleInstance(SoftwareDistributionUnit.UNKNOWN, 0L, Long.MAX_VALUE, 0L,
+			0L, 0L);
 
 	public final SoftwareDistributionUnit unit;
 	public final long start;
@@ -14,8 +13,7 @@ public class ModuleInstance implements Comparable<ModuleInstance> {
 	public final long edgeTimestamp;
 	public final long crossModuleEdgeTimestamp;
 
-	public ModuleInstance(SoftwareDistributionUnit unit, long start, long end,
-			long blockTimestamp, long edgeTimestamp,
+	public ModuleInstance(SoftwareDistributionUnit unit, long start, long end, long blockTimestamp, long edgeTimestamp,
 			long crossModuleEdgeTimestamp) {
 		this.unit = unit;
 		this.start = start;

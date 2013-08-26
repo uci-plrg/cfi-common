@@ -8,6 +8,5 @@ public interface ProcessTraceDataSource {
 
 	String getProcessName();
 
-	InputStream getDataInputStream(ProcessTraceStreamType streamType)
-			throws IOException;
+	InputStream getDataInputStream(ProcessTraceStreamType streamType) throws IOException;
 }

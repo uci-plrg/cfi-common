@@ -9,8 +9,7 @@ public class Edge<NodeType extends Node> {
 	// more information when debugging
 	private NodeType fromNode;
 
-	public Edge(NodeType fromNode, NodeType toNode, EdgeType edgeType,
-			int ordinal) {
+	public Edge(NodeType fromNode, NodeType toNode, EdgeType edgeType, int ordinal) {
 		this.fromNode = fromNode;
 		this.toNode = toNode;
 		this.edgeType = edgeType;
@@ -44,8 +43,7 @@ public class Edge<NodeType extends Node> {
 		if (o.getClass() != Edge.class)
 			return false;
 		Edge<NodeType> e = (Edge<NodeType>) o;
-		if (e.fromNode.equals(fromNode) && e.toNode.equals(toNode)
-				&& e.edgeType == edgeType && e.ordinal == ordinal)
+		if (e.fromNode.equals(fromNode) && e.toNode.equals(toNode) && e.edgeType == edgeType && e.ordinal == ordinal)
 			return true;
 		return false;
 

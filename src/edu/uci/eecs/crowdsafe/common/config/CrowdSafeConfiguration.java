@@ -30,15 +30,13 @@ public class CrowdSafeConfiguration {
 
 	private static CrowdSafeConfiguration INSTANCE;
 
-	public final Map<Environment, String> environmentValues = new EnumMap<Environment, String>(
-			Environment.class);
+	public final Map<Environment, String> environmentValues = new EnumMap<Environment, String>(Environment.class);
 
 	private void initializeImpl(Set<Environment> requiredEnvironment) {
 		for (Environment variable : requiredEnvironment) {
 			String value = System.getenv(variable.name);
 			if (value == null)
-				throw new IllegalStateException(String.format(
-						"Please configure the environment variable %s.",
+				throw new IllegalStateException(String.format("Please configure the environment variable %s.",
 						variable.name));
 			environmentValues.put(variable, value);
 		}

@@ -25,6 +25,7 @@ public abstract class Node<NodeType extends Node> implements NodeList {
 	public List<Edge<NodeType>> getIncomingEdges() {
 		return edges.getEdges(EdgeSet.Direction.INCOMING);
 	}
+
 	public boolean hasOutgoingEdges() {
 		return edges.getEdgeCount(EdgeSet.Direction.OUTGOING) > 0;
 	}
@@ -57,8 +58,7 @@ public abstract class Node<NodeType extends Node> implements NodeList {
 	}
 
 	public Edge<NodeType> getOutgoingEdge(NodeType toNode, int ordinal) {
-		for (Edge<NodeType> edge : edges.getEdges(EdgeSet.Direction.OUTGOING,
-				ordinal)) {
+		for (Edge<NodeType> edge : edges.getEdges(EdgeSet.Direction.OUTGOING, ordinal)) {
 			if (edge.getToNode().getKey().equals(toNode.getKey()))
 				return edge;
 		}

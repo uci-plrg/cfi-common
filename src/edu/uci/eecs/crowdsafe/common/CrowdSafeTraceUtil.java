@@ -48,8 +48,7 @@ public class CrowdSafeTraceUtil {
 		if (level == 0) {
 			return false;
 		}
-		List<? extends Edge<? extends Node>> outgoingEdges = node
-				.getOutgoingEdges();
+		List<? extends Edge<? extends Node>> outgoingEdges = node.getOutgoingEdges();
 		if (outgoingEdges.size() == 0) {
 			return true;
 		}

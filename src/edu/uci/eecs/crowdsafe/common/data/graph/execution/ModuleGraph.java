@@ -2,7 +2,6 @@ package edu.uci.eecs.crowdsafe.common.data.graph.execution;
 
 import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareDistributionUnit;
 
-
 /**
  * <p>
  * ModuleGraph is a special ExecutionGraph which starts from multiple different signature hash node. An indirect edge
@@ -29,8 +28,7 @@ public class ModuleGraph {
 
 	private int executableBlockCount = 0;
 
-	public ModuleGraph(ProcessExecutionGraph containingGraph,
-			SoftwareDistributionUnit softwareUnit) {
+	public ModuleGraph(ProcessExecutionGraph containingGraph, SoftwareDistributionUnit softwareUnit) {
 		this.containingGraph = containingGraph;
 		this.softwareUnit = softwareUnit;
 	}

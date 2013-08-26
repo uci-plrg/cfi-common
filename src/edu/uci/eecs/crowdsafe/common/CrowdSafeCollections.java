@@ -8,8 +8,7 @@ import java.util.List;
 
 public class CrowdSafeCollections {
 
-	public static <T> Collection<T> createSortedCopy(Collection<T> collection,
-			Comparator<T> comparator) {
+	public static <T> Collection<T> createSortedCopy(Collection<T> collection, Comparator<T> comparator) {
 		List<T> sorted = new ArrayList<T>(collection);
 		Collections.sort(sorted, comparator);
 		return sorted;
