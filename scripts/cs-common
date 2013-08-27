@@ -1,0 +1,44 @@
+#!/bin/bash
+
+function append_jars() {
+  jar_dir=$1
+
+  for j in `find $jar_dir -name '*.jar'`; do 
+    cp=$cp:$j
+  done
+}
+
+function append_classpath() {
+  project=$1
+  
+  if [ -z $$project ]; then
+    echo "Environment variable $project is required."
+    exit
+  fi
+  
+  project_path=${!project}
+  
+  if [ ! -e $project_path ]; then
+    echo "The path of $project could not be found: $project_path"
+    exit
+  fi
+  
+  #echo "Appending classpath for $project: "$project_path
+
+  if [ -z $jar_dir ]
+  then
+    cp=$cp:$project_path/bin
+  fi
+  
+  if [ -e $project_path/lib ]
+  then
+    append_jars $project_path/lib
+  fi
+}
+
+if [ -z $CROWD_SAFE_JARS ]
+then
+  cs_jar_dir=$CROWD_SAFE_JARS
+  append_jars $cs_jar_dir
+fi
+
