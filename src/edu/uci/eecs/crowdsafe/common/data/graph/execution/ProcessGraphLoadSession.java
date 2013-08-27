@@ -158,8 +158,9 @@ public class ProcessGraphLoadSession {
 
 				// Double check if tag1 and tag2 exist in the lookup file
 				if (fromNode == null) {
-					throw new TagNotFoundException("0x" + Long.toHexString(fromTag)
-							+ " is missed in graph lookup file!");
+					throw new TagNotFoundException(
+							"Failed to find the 'from' node for tag 0x%x(%s) in edge to 0x%x(%s) of type %s on ordinal %d",
+							fromTag, fromModule.unit.name, toTag, toModule.unit.name, edgeType, edgeOrdinal);
 				}
 				if (toNode == null) {
 					if (edgeType == EdgeType.CALL_CONTINUATION)
@@ -284,11 +285,8 @@ public class ProcessGraphLoadSession {
 								signatureHash, 0, signatureHash);
 						fromCluster.addNode(exitNode);
 						fromNode.setMetaNodeType(MetaNodeType.NORMAL);
-						Edge<ExecutionNode> clusterExitEdge = new Edge<ExecutionNode>(fromNode, exitNode, edgeType, 0); // TODO:
-																														// need
-																														// CROSS_MODULE
-																														// for
-																														// anything?
+						Edge<ExecutionNode> clusterExitEdge = new Edge<ExecutionNode>(fromNode, exitNode, edgeType, 0);
+						// TODO: need CROSS_MODULE for anything?
 						fromNode.addOutgoingEdge(clusterExitEdge);
 						exitNode.addIncomingEdge(clusterExitEdge);
 
@@ -333,7 +331,7 @@ public class ProcessGraphLoadSession {
 			tag = CrowdSafeTraceUtil.getTagEffectiveValue(tagOriginal);
 			int versionNumber = CrowdSafeTraceUtil.getNodeVersionNumber(tagOriginal);
 			int metaNodeVal = CrowdSafeTraceUtil.getNodeMetaVal(tagOriginal);
-			
+
 			module = graph.getModules().getModuleForLoadedBlock(tag, blockIndex);
 
 			if (listener != null)
