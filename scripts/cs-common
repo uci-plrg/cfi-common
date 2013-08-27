@@ -36,6 +36,14 @@ function append_classpath() {
   fi
 }
 
+function check_help() {
+  if [ $1 == "--help" ]
+  then
+    $2
+    exit
+  fi
+}
+
 if [ -z $CROWD_SAFE_JARS ]
 then
   cs_jar_dir=$CROWD_SAFE_JARS
