@@ -169,8 +169,7 @@ public class ProcessGraphLoadSession {
 								+ " is missed in graph lookup file!");
 				}
 
-				if ((fromModule.unit != toModule.unit) && (fromModule.unit != SoftwareDistributionUnit.UNKNOWN)
-						&& (toModule.unit != SoftwareDistributionUnit.UNKNOWN)
+				if ((fromModule.unit != toModule.unit)
 						&& (graph.getModuleGraphCluster(fromModule.unit) != graph.getModuleGraphCluster(toModule.unit))) {
 					throw new InvalidGraphException(String.format(
 							"Error: a normal edge [%s - %s] crosses between module %s and %s", fromNode, toNode,
@@ -334,6 +333,7 @@ public class ProcessGraphLoadSession {
 			tag = CrowdSafeTraceUtil.getTagEffectiveValue(tagOriginal);
 			int versionNumber = CrowdSafeTraceUtil.getNodeVersionNumber(tagOriginal);
 			int metaNodeVal = CrowdSafeTraceUtil.getNodeMetaVal(tagOriginal);
+			
 			module = graph.getModules().getModuleForLoadedBlock(tag, blockIndex);
 
 			if (listener != null)
@@ -354,6 +354,7 @@ public class ProcessGraphLoadSession {
 							existingNode, dataSource.toString());
 					throw new InvalidTagException(msg);
 				}
+				return;
 			}
 
 			moduleCluster = graph.getModuleGraphCluster(module.unit);

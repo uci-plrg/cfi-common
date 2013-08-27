@@ -6,19 +6,16 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.google.common.collect.HashMultimap;
+import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 
 import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareDistributionUnit;
 
 public class ProcessExecutionModuleSet {
 
-	private final Set<ModuleInstance> instances = new HashSet<ModuleInstance>();
-
-	private final Multimap<SoftwareDistributionUnit, ModuleInstance> instancesByUnit = HashMultimap.create();
+	private final Multimap<SoftwareDistributionUnit, ModuleInstance> instancesByUnit = ArrayListMultimap.create();
 
 	public void add(ModuleInstance module) {
-		instances.add(module);
 		instancesByUnit.put(module.unit, module);
 	}
 
@@ -38,7 +35,7 @@ public class ProcessExecutionModuleSet {
 
 	public ModuleInstance getModuleForLoadedBlock(long tag, long tagIndex) {
 		ModuleInstance activeModule = ModuleInstance.UNKNOWN;
-		for (ModuleInstance instance : instances) {
+		for (ModuleInstance instance : instancesByUnit.values()) {
 			if (instance.containsTag(tag)) {
 				if ((instance.blockTimestamp <= tagIndex)
 						&& ((activeModule == ModuleInstance.UNKNOWN) || (instance.blockTimestamp > activeModule.blockTimestamp)))
@@ -50,7 +47,7 @@ public class ProcessExecutionModuleSet {
 
 	public ModuleInstance getModuleForLoadedEdge(long tag, long edgeIndex) {
 		ModuleInstance activeModule = ModuleInstance.UNKNOWN;
-		for (ModuleInstance instance : instances) {
+		for (ModuleInstance instance : instancesByUnit.values()) {
 			if (instance.containsTag(tag)) {
 				if ((instance.edgeTimestamp <= edgeIndex)
 						&& ((activeModule == ModuleInstance.UNKNOWN) || (instance.edgeTimestamp > activeModule.edgeTimestamp)))
@@ -62,7 +59,7 @@ public class ProcessExecutionModuleSet {
 
 	public ModuleInstance getModuleForLoadedCrossModuleEdge(long tag, long edgeIndex) {
 		ModuleInstance activeModule = ModuleInstance.UNKNOWN;
-		for (ModuleInstance instance : instances) {
+		for (ModuleInstance instance : instancesByUnit.values()) {
 			if (instance.containsTag(tag)) {
 				if ((instance.crossModuleEdgeTimestamp <= edgeIndex)
 						&& ((activeModule == ModuleInstance.UNKNOWN) || (instance.crossModuleEdgeTimestamp > activeModule.crossModuleEdgeTimestamp)))
