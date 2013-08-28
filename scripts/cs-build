@@ -1,0 +1,55 @@
+#!/bin/bash
+
+function usage() {
+  echo "Usage: cs-build [-p <project>,<project>] [-j] [-d <destination>]"
+  echo "    p: project (one of {c,da,dr,tm})"
+  echo "    j: make jars"
+  echo "    d: deploy to CROWD_SAFE_JARS on <destination>"
+}
+
+. $csc/scripts/cs-common
+
+check_help $1 usage
+
+while getopts "p:jd:" Option
+do
+  case $Option in
+    p ) project_codes=$OPTARG;;
+    j ) jars=true;;
+    d ) deploy_to=$OPTARG;;
+    * ) usage
+  esac
+done
+
+project_dirs=""
+IFS=','
+for p in $project_codes
+do
+  project_dir="cs"$p
+  project_dir=${!project_dir}
+  project_dir=${project_dir%/}
+  project_dirs=$project_dirs" "$project_dir
+done
+IFS=' '
+
+for project_dir in $project_dirs
+do
+  cd $project_dir
+  if [ -z $jars ]
+  then
+    ant build-project
+  else
+    ant build-jar
+  fi
+done
+
+if [ ! -z $deploy_to ]
+then
+  payload=""
+  for project_dir in $project_dirs
+  do
+    payload=$payload" "$project_dir/dist/*.jar
+  done
+  remote_dir=$(ssh $deploy_to "mkdir -p \$CROWD_SAFE_JAR_DIR; echo \$CROWD_SAFE_JAR_DIR")
+  scp $payload $deploy_to:$remote_dir
+fi
