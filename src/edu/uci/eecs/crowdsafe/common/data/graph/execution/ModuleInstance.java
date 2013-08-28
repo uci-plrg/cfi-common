@@ -2,6 +2,7 @@ package edu.uci.eecs.crowdsafe.common.data.graph.execution;
 
 import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareDistributionUnit;
 
+// TODO: check the usage of ModuleInstance hashcode/equals: maybe use alternate key for equivocating all instances of the same software unit?
 public class ModuleInstance implements Comparable<ModuleInstance> {
 	public static ModuleInstance UNKNOWN = new ModuleInstance(SoftwareDistributionUnit.UNKNOWN, 0L, Long.MAX_VALUE, 0L,
 			0L, 0L);

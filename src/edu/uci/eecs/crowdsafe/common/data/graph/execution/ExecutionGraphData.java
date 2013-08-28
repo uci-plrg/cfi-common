@@ -24,7 +24,7 @@ public class ExecutionGraphData {
 			return null; // no way to find it across versions
 
 		SoftwareDistributionUnit foreignUnit = foreignNode.getModule().unit;
-		Iterable<ModuleInstance> localModules = containingGraph.getModules().getModule(foreignUnit);
+		Iterable<ModuleInstance> localModules = containingGraph.getModules().getUnitInstances(foreignUnit);
 		for (ModuleInstance localModule : localModules) {
 			long localTag = localModule.start + foreignNode.getRelativeTag();
 			ExecutionNode node = nodesByKey.get(ExecutionNode.Key.create(localTag, 0, localModule));

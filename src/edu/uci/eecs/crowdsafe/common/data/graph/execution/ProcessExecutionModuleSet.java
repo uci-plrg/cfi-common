@@ -19,6 +19,10 @@ public class ProcessExecutionModuleSet {
 		instancesByUnit.put(module.unit, module);
 	}
 
+	public Collection<ModuleInstance> getUnitInstances(SoftwareDistributionUnit unit) {
+		return instancesByUnit.get(unit);
+	}
+
 	public boolean hashOverlap() {
 		List<ModuleInstance> list = new ArrayList<ModuleInstance>();
 		for (int i = 0; i < list.size(); i++) {
@@ -67,9 +71,5 @@ public class ProcessExecutionModuleSet {
 			}
 		}
 		return activeModule;
-	}
-
-	public Collection<ModuleInstance> getModule(SoftwareDistributionUnit unit) {
-		return instancesByUnit.get(unit);
 	}
 }
