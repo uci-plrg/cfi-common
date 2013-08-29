@@ -16,13 +16,13 @@ public class ProcessTraceDirectory implements ProcessTraceDataSource {
 				ProcessTraceStreamType.class);
 
 		public FilePatterns() {
-			for (ProcessTraceStreamType streamType : STREAM_TYPES) {
+			for (ProcessTraceStreamType streamType : ALL_STREAM_TYPES) {
 				patterns.put(streamType, ".*\\." + streamType.id + "\\..*");
 			}
 		}
 	}
 
-	private static final EnumSet<ProcessTraceStreamType> STREAM_TYPES = EnumSet.allOf(ProcessTraceStreamType.class);
+	private static final EnumSet<ProcessTraceStreamType> ALL_STREAM_TYPES = EnumSet.allOf(ProcessTraceStreamType.class);
 
 	private static final FilePatterns FILE_PATTERNS = new FilePatterns();
 
@@ -32,32 +32,37 @@ public class ProcessTraceDirectory implements ProcessTraceDataSource {
 			ProcessTraceStreamType.class);
 
 	public ProcessTraceDirectory(File dir) throws ProcessTraceDataSourceException {
+		this(dir, ALL_STREAM_TYPES);
+	}
+
+	public ProcessTraceDirectory(File dir, Set<ProcessTraceStreamType> streamTypes)
+			throws ProcessTraceDataSourceException {
 		for (File file : dir.listFiles()) {
 			if (file.isDirectory())
 				continue;
 
-			for (Map.Entry<ProcessTraceStreamType, String> entry : FILE_PATTERNS.patterns.entrySet()) {
-				if (Pattern.matches(entry.getValue(), file.getName())) {
-					if (files.containsKey(entry.getKey()))
+			for (ProcessTraceStreamType streamType : streamTypes) {
+				if (Pattern.matches(FILE_PATTERNS.patterns.get(streamType), file.getName())) {
+					if (files.containsKey(streamType))
 						throw new ProcessTraceDataSourceException(String.format(
 								"Directory %s contains multiple files of type %s: %s and %s", dir.getAbsolutePath(),
-								entry.getKey(), file.getName(), files.get(entry.getKey()).getName()));
-					files.put(entry.getKey(), file);
+								streamType, file.getName(), files.get(streamType).getName()));
+					files.put(streamType, file);
 				}
 			}
 		}
 
-		if (files.size() != STREAM_TYPES.size()) {
-			Set<ProcessTraceStreamType> requiredTypes = STREAM_TYPES.clone();
+		if (files.size() != streamTypes.size()) {
+			Set<ProcessTraceStreamType> requiredTypes = EnumSet.copyOf(streamTypes);
 			requiredTypes.removeAll(files.keySet());
 			throw new ProcessTraceDataSourceException(String.format(
 					"Required data files are missing from directory %s: %s", dir.getAbsolutePath(), requiredTypes));
 		}
 
-		String runSignature = files.get(ProcessTraceStreamType.BLOCK_HASH).getName();
-		processName = runSignature.substring(0, runSignature.indexOf(ProcessTraceStreamType.BLOCK_HASH.id) - 1);
-		runSignature = runSignature.substring(runSignature.indexOf('.',
-				runSignature.indexOf(ProcessTraceStreamType.BLOCK_HASH.id)));
+		ProcessTraceStreamType anyType = files.keySet().iterator().next();
+		String runSignature = files.get(anyType).getName();
+		processName = runSignature.substring(0, runSignature.indexOf(anyType.id) - 1);
+		runSignature = runSignature.substring(runSignature.indexOf('.', runSignature.indexOf(anyType.id)));
 
 		int lastDash = runSignature.lastIndexOf('-');
 		int lastDot = runSignature.lastIndexOf('.');

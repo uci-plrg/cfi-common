@@ -41,8 +41,7 @@ public class ProcessExecutionModuleSet {
 		ModuleInstance activeModule = ModuleInstance.UNKNOWN;
 		for (ModuleInstance instance : instancesByUnit.values()) {
 			if (instance.containsTag(tag)) {
-				if ((instance.blockTimestamp <= tagIndex)
-						&& ((activeModule == ModuleInstance.UNKNOWN) || (instance.blockTimestamp > activeModule.blockTimestamp)))
+				if (instance.blockSpan.contains(tagIndex))
 					activeModule = instance;
 			}
 		}
@@ -53,8 +52,7 @@ public class ProcessExecutionModuleSet {
 		ModuleInstance activeModule = ModuleInstance.UNKNOWN;
 		for (ModuleInstance instance : instancesByUnit.values()) {
 			if (instance.containsTag(tag)) {
-				if ((instance.edgeTimestamp <= edgeIndex)
-						&& ((activeModule == ModuleInstance.UNKNOWN) || (instance.edgeTimestamp > activeModule.edgeTimestamp)))
+				if (instance.edgeSpan.contains(edgeIndex))
 					activeModule = instance;
 			}
 		}
@@ -65,8 +63,7 @@ public class ProcessExecutionModuleSet {
 		ModuleInstance activeModule = ModuleInstance.UNKNOWN;
 		for (ModuleInstance instance : instancesByUnit.values()) {
 			if (instance.containsTag(tag)) {
-				if ((instance.crossModuleEdgeTimestamp <= edgeIndex)
-						&& ((activeModule == ModuleInstance.UNKNOWN) || (instance.crossModuleEdgeTimestamp > activeModule.crossModuleEdgeTimestamp)))
+				if (instance.edgeSpan.contains(edgeIndex))
 					activeModule = instance;
 			}
 		}

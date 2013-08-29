@@ -12,6 +12,7 @@ import edu.uci.eecs.crowdsafe.common.exception.InvalidGraphException;
 import edu.uci.eecs.crowdsafe.common.exception.MultipleEdgeException;
 import edu.uci.eecs.crowdsafe.common.exception.TagNotFoundException;
 import edu.uci.eecs.crowdsafe.common.io.LittleEndianInputStream;
+import edu.uci.eecs.crowdsafe.common.log.Log;
 
 public class ProcessGraphEdgeFactory {
 	private final ProcessGraphLoadSession.GraphLoader loader;
@@ -55,9 +56,19 @@ public class ProcessGraphEdgeFactory {
 
 		// Double check if tag1 and tag2 exist in the lookup file
 		if (fromNode == null) {
-			throw new TagNotFoundException(
-					"Failed to find the 'from' node for tag 0x%x(%s) in edge to 0x%x(%s) of type %s on ordinal %d",
-					fromTag, fromModule.unit.name, toTag, toModule.unit.name, edgeType, edgeOrdinal);
+			boolean fixed = false;
+			if (edgeType == EdgeType.CALL_CONTINUATION) {
+				fromNode = loader.hashLookupTable.get(ExecutionNode.Key.create(fromTag, fromVersion + 1, fromModule));
+				if (fromNode != null) {
+					fixed = true;
+					Log.log("\t(Call continuation/tag version bug!)");
+				}
+			}
+			if (!fixed)
+				throw new TagNotFoundException(
+						"Failed to find the 'from' node for tag 0x%x-v%d(%s) in edge to 0x%x-v%d(%s) of type %s on ordinal %d",
+						fromTag, fromVersion, fromModule.unit.name, toTag, toVersion, toModule.unit.name, edgeType,
+						edgeOrdinal);
 		}
 		if (toNode == null) {
 			if (edgeType == EdgeType.CALL_CONTINUATION)
@@ -70,7 +81,7 @@ public class ProcessGraphEdgeFactory {
 				&& (loader.graph.getModuleGraphCluster(fromModule.unit) != loader.graph
 						.getModuleGraphCluster(toModule.unit))) {
 			throw new InvalidGraphException(String.format(
-					"Error: a normal edge [%s - %s] crosses between module %s and %s", fromNode, toNode,
+					"Error: a normal edge\n\t[%s - %s]\ncrosses between module %s and %s", fromNode, toNode,
 					loader.graph.getModuleGraphCluster(fromModule.unit).distribution.name,
 					loader.graph.getModuleGraphCluster(toModule.unit).distribution.name));
 		}

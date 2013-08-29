@@ -3,39 +3,49 @@ package edu.uci.eecs.crowdsafe.common.data.graph.execution;
 import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareDistributionUnit;
 
 // TODO: check the usage of ModuleInstance hashcode/equals: maybe use alternate key for equivocating all instances of the same software unit?
-public class ModuleInstance implements Comparable<ModuleInstance> {
+public class ModuleInstance {
 	public static ModuleInstance UNKNOWN = new ModuleInstance(SoftwareDistributionUnit.UNKNOWN, 0L, Long.MAX_VALUE, 0L,
-			0L, 0L);
+			Long.MAX_VALUE, 0L, Long.MAX_VALUE, 0L, Long.MAX_VALUE);
+
+	public static class Span {
+		public final long loadTimestamp;
+		public final long unloadTimestamp;
+
+		Span() {
+			loadTimestamp = 0L;
+			unloadTimestamp = Long.MAX_VALUE;
+		}
+
+		public Span(long loadTimestamp, long unloadTimestamp) {
+			this.loadTimestamp = loadTimestamp;
+			this.unloadTimestamp = unloadTimestamp;
+		}
+
+		public boolean contains(long timestamp) {
+			return (timestamp >= loadTimestamp) && (timestamp <= unloadTimestamp);
+		}
+	}
 
 	public final SoftwareDistributionUnit unit;
 	public final long start;
 	public final long end;
-	public final long blockTimestamp;
-	public final long edgeTimestamp;
-	public final long crossModuleEdgeTimestamp;
+	public final Span blockSpan;
+	public final Span edgeSpan;
+	public final Span crossModuleEdgeSpan;
 
-	public ModuleInstance(SoftwareDistributionUnit unit, long start, long end, long blockTimestamp, long edgeTimestamp,
-			long crossModuleEdgeTimestamp) {
+	public ModuleInstance(SoftwareDistributionUnit unit, long start, long end, long blockLoadTime,
+			long blockUnloadTime, long edgeLoadTime, long edgeUnloadTime, long crossModuleEdgeLoadTime,
+			long crossModuleEdgeUnloadTime) {
 		this.unit = unit;
 		this.start = start;
 		this.end = end;
-		this.blockTimestamp = blockTimestamp;
-		this.edgeTimestamp = edgeTimestamp;
-		this.crossModuleEdgeTimestamp = crossModuleEdgeTimestamp;
+		this.blockSpan = new Span(blockLoadTime, blockUnloadTime);
+		this.edgeSpan = new Span(edgeLoadTime, edgeUnloadTime);
+		this.crossModuleEdgeSpan = new Span(crossModuleEdgeLoadTime, crossModuleEdgeUnloadTime);
 	}
 
 	public boolean containsTag(long tag) {
 		return ((tag >= start) && (tag <= end));
-	}
-
-	/**
-	 * Compare between two modules. Assume that the modules are from the same execution and they are disjoint.
-	 * 
-	 * @param other
-	 * @return
-	 */
-	public int compareTo(ModuleInstance other) {
-		return (int) (start - other.start);
 	}
 
 	@Override
