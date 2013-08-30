@@ -86,10 +86,11 @@ public class ModuleGraphCluster {
 		}
 	}
 
-	public ExecutionNode addClusterEntryNode(long crossModuleSignatureHash, ModuleInstance module) {
+	public ExecutionNode addClusterEntryNode(long crossModuleSignatureHash, ModuleInstance module, long timestamp) {
 		ExecutionNode entryNode = entryNodesBySignatureHash.get(crossModuleSignatureHash);
 		if (entryNode == null) {
-			entryNode = new ExecutionNode(module, MetaNodeType.CLUSTER_ENTRY, 0L, 0, crossModuleSignatureHash);
+			entryNode = new ExecutionNode(module, MetaNodeType.CLUSTER_ENTRY, 0L, 0, crossModuleSignatureHash,
+					timestamp);
 			entryNodesBySignatureHash.put(entryNode.getHash(), entryNode);
 			graphData.nodesByKey.put(entryNode.getKey(), entryNode);
 		}

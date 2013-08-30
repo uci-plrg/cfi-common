@@ -10,6 +10,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import edu.uci.eecs.crowdsafe.common.io.LittleEndianInputStream;
+
 public class ProcessTraceDirectory implements ProcessTraceDataSource {
 	private static class FilePatterns {
 		final Map<ProcessTraceStreamType, String> patterns = new EnumMap<ProcessTraceStreamType, String>(
@@ -83,6 +85,12 @@ public class ProcessTraceDirectory implements ProcessTraceDataSource {
 	@Override
 	public InputStream getDataInputStream(ProcessTraceStreamType streamType) throws IOException {
 		return new FileInputStream(files.get(streamType));
+	}
+
+	@Override
+	public LittleEndianInputStream getLittleEndianInputStream(ProcessTraceStreamType streamType) throws IOException {
+		File file = files.get(streamType);
+		return new LittleEndianInputStream(new FileInputStream(file), "file:" + file.getAbsolutePath());
 	}
 
 	@Override

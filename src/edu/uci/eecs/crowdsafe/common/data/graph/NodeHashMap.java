@@ -16,13 +16,23 @@ public class NodeHashMap {
 		if (existing == null) {
 			map.put(node.getHash(), node);
 		} else {
+			if (existing.equals(node))
+				return;
+
 			if (existing.isSingleton()) {
 				NodeArrayList list = new NodeArrayList();
+				if (list.contains(node))
+					return;
+				
 				list.add((Node) existing);
 				list.add(node);
 				map.put(node.getHash(), list);
 			} else {
-				((NodeArrayList) existing).add(node);
+				NodeArrayList list = (NodeArrayList) existing;
+				if (list.contains(node))
+					return;
+				
+				list.add(node);
 			}
 		}
 

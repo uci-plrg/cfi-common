@@ -2,6 +2,10 @@ package edu.uci.eecs.crowdsafe.common.io;
 
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
+import java.io.EOFException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -11,17 +15,32 @@ public class LittleEndianInputStream {
 	private static final int BUFFER_SIZE = 1 << 14;
 
 	private final InputStream input;
+	public final String description;
 
 	private int end = -1;
 	private int byteIndex = -1;
 	byte data[] = new byte[BUFFER_SIZE];
 
-	public LittleEndianInputStream(InputStream input) {
+	public LittleEndianInputStream(InputStream input, String description) {
 		this.input = input;
+		this.description = description;
+	}
+
+	public LittleEndianInputStream(File file) throws FileNotFoundException {
+		this.input = new FileInputStream(file);
+		this.description = "file:" + file.getAbsolutePath();
+	}
+
+	public int available() throws IOException {
+		return ((end - byteIndex) + input.available());
 	}
 
 	public boolean ready() throws IOException {
 		return (byteIndex < end) || (input.available() > 0);
+	}
+
+	public boolean ready(int bytesRequested) throws IOException {
+		return ((byteIndex + bytesRequested) <= end) || (input.available() > 0);
 	}
 
 	public long readLong() throws IOException {
@@ -30,6 +49,9 @@ public class LittleEndianInputStream {
 			input.read(data, 0, end);
 			byteIndex = 0;
 		}
+
+		if (byteIndex >= end)
+			throw new EOFException("End of input stream reached.");
 
 		long value = ((((long) data[byteIndex + 7]) & 0xffL) << 0x38)
 				| ((((long) data[byteIndex + 6]) & 0xffL) << 0x30) | ((((long) data[byteIndex + 5]) & 0xffL) << 0x28)
@@ -56,9 +78,9 @@ public class LittleEndianInputStream {
 					(byte) 0xcd, (byte) 0xab, (byte) 0x89, 0x67, 0x45, 0x23, 0x01 };
 
 			ByteArrayInputStream input = new ByteArrayInputStream(buffer);
-			LittleEndianInputStream test = new LittleEndianInputStream(input);
+			LittleEndianInputStream test = new LittleEndianInputStream(input, "byte buffer");
 
-			while (test.ready()) {
+			while (test.ready(0x8)) {
 				long reversed = test.readLong();
 				Log.log("LittleEndianInputStream read value 0x%x", reversed);
 			}

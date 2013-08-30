@@ -14,6 +14,7 @@ import edu.uci.eecs.crowdsafe.common.exception.InvalidTagException;
 import edu.uci.eecs.crowdsafe.common.exception.MultipleEdgeException;
 import edu.uci.eecs.crowdsafe.common.exception.TagNotFoundException;
 import edu.uci.eecs.crowdsafe.common.io.LittleEndianInputStream;
+import edu.uci.eecs.crowdsafe.common.log.Log;
 
 /**
  * Before calling this function, you should have all the normal nodes added to the corresponding graph and their indexes
@@ -39,7 +40,7 @@ public class ProcessGraphCrossModuleEdgeFactory {
 	}
 
 	boolean ready() throws IOException {
-		return input.ready();
+		return input.ready(0x18);
 	}
 
 	void createEdge() throws IOException {
@@ -64,10 +65,12 @@ public class ProcessGraphCrossModuleEdgeFactory {
 
 		// Double check if tag1 and tag2 exist in the lookup file
 		if (fromNode == null) {
-			throw new TagNotFoundException("0x" + Long.toHexString(fromTag) + " is missed in graph lookup file!");
+			throw new TagNotFoundException("Failed to find cross-module edge source block %s!",
+					ExecutionNode.Key.create(fromTag, fromVersion, fromModule));
 		}
 		if (toNode == null) {
-			throw new TagNotFoundException("0x" + Long.toHexString(toTag) + " is missed in graph lookup file!");
+			throw new TagNotFoundException("Failed to find cross-module edge destination block %s!",
+					ExecutionNode.Key.create(toTag, toVersion, toModule));
 		}
 
 		if (loader.listener != null) {
@@ -95,7 +98,7 @@ public class ProcessGraphCrossModuleEdgeFactory {
 					loader.listener.edgeCreation(e);
 			} else {
 				ExecutionNode exitNode = new ExecutionNode(fromModule, MetaNodeType.CLUSTER_EXIT, signatureHash, 0,
-						signatureHash);
+						signatureHash, fromNode.getTimestamp());
 				fromCluster.addNode(exitNode);
 				fromNode.setMetaNodeType(MetaNodeType.NORMAL);
 				Edge<ExecutionNode> clusterExitEdge = new Edge<ExecutionNode>(fromNode, exitNode, edgeType, 0);
@@ -106,7 +109,7 @@ public class ProcessGraphCrossModuleEdgeFactory {
 				if (loader.listener != null)
 					loader.listener.edgeCreation(clusterExitEdge);
 
-				ExecutionNode entryNode = toCluster.addClusterEntryNode(signatureHash, toModule);
+				ExecutionNode entryNode = toCluster.addClusterEntryNode(signatureHash, toModule, toNode.getTimestamp());
 				toNode.setMetaNodeType(MetaNodeType.NORMAL);
 				Edge<ExecutionNode> clusterEntryEdge = new Edge<ExecutionNode>(entryNode, toNode,
 						EdgeType.MODULE_ENTRY, 0);
@@ -120,6 +123,9 @@ public class ProcessGraphCrossModuleEdgeFactory {
 	}
 
 	void close() throws IOException {
+		if (input.ready())
+			Log.log("Warning: input stream %s has %d bytes remaining.", input.description, input.available());
+
 		input.close();
 	}
 }

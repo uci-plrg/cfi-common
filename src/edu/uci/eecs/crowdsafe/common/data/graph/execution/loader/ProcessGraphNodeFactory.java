@@ -8,7 +8,9 @@ import edu.uci.eecs.crowdsafe.common.data.graph.execution.ExecutionNode;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.ModuleGraphCluster;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.ModuleInstance;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.ProcessExecutionModuleSet;
+import edu.uci.eecs.crowdsafe.common.exception.InvalidTagException;
 import edu.uci.eecs.crowdsafe.common.io.LittleEndianInputStream;
+import edu.uci.eecs.crowdsafe.common.log.Log;
 
 /**
  * <p>
@@ -41,7 +43,7 @@ public class ProcessGraphNodeFactory {
 	}
 
 	boolean ready() throws IOException {
-		return input.ready();
+		return input.ready(0x10);
 	}
 
 	ExecutionNode createNode() throws IOException {
@@ -56,10 +58,13 @@ public class ProcessGraphNodeFactory {
 		module = modules.getModuleForLoadedBlock(tag, blockIndex);
 
 		MetaNodeType metaNodeType = MetaNodeType.values()[metaNodeVal];
-		return new ExecutionNode(module, metaNodeType, tag, versionNumber, hash);
+		return new ExecutionNode(module, metaNodeType, tag, versionNumber, hash, blockIndex);
 	}
 
 	void close() throws IOException {
+		if (input.ready())
+			Log.log("Warning: input stream %s has %d bytes remaining.", input.description, input.available());
+		
 		input.close();
 	}
 }

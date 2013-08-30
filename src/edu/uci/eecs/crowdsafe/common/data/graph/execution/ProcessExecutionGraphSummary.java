@@ -43,17 +43,17 @@ public class ProcessExecutionGraphSummary {
 			}
 
 			if (!unreachableNodes.isEmpty()) {
-				Log.log("Warning: found %d unreachable nodes!", unreachableNodes.size());
+				Log.log("\t* Warning: found %d unreachable nodes!", unreachableNodes.size());
 				// for (ExecutionNode unreachableNode : unreachableNodes) {
 				// Log.log("\t%s", unreachableNode.toString());
 				// }
 				for (ExecutionNode unreachableNode : unreachableNodes) {
 					if (unreachableNode.getIncomingEdges().isEmpty()) {
-						Log.log("\t%s has no incoming edges", unreachableNode);
+						Log.log("\t  %s has no incoming edges", unreachableNode);
 					} else {
 						for (Edge<ExecutionNode> incoming : unreachableNode.getIncomingEdges()) {
 							if (!unreachableNodes.contains(incoming.getFromNode()))
-								Log.log("\tMissed entry point %s", incoming);
+								Log.log("\t  Missed entry point %s", incoming);
 						}
 					}
 				}

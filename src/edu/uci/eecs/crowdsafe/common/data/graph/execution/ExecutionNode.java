@@ -74,13 +74,16 @@ public class ExecutionNode extends Node<ExecutionNode> {
 		}
 	}
 
+	private final long timestamp;
+
 	private final Key key;
 
 	private final long hash;
 
 	private MetaNodeType metaNodeType;
 
-	public ExecutionNode(ModuleInstance module, MetaNodeType metaNodeType, long tag, int tagVersion, long hash) {
+	public ExecutionNode(ModuleInstance module, MetaNodeType metaNodeType, long tag, int tagVersion, long hash,
+			long timestamp) {
 		Key key;
 		switch (metaNodeType) {
 			case CLUSTER_ENTRY:
@@ -93,6 +96,7 @@ public class ExecutionNode extends Node<ExecutionNode> {
 		this.key = key;
 		this.metaNodeType = metaNodeType;
 		this.hash = hash;
+		this.timestamp = timestamp;
 	}
 
 	@Override
@@ -127,8 +131,13 @@ public class ExecutionNode extends Node<ExecutionNode> {
 		return key.module;
 	}
 
+	public long getTimestamp() {
+		return timestamp;
+	}
+
 	public ExecutionNode changeHashCode(long newHash) {
-		return new ExecutionNode(key.module, metaNodeType, key.module.start + key.relativeTag, key.version, newHash);
+		return new ExecutionNode(key.module, metaNodeType, key.module.start + key.relativeTag, key.version, newHash,
+				timestamp);
 	}
 
 	public void addIncomingEdge(Edge<ExecutionNode> e) {

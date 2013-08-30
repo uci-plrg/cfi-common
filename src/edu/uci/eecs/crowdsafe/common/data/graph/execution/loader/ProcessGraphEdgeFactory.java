@@ -27,7 +27,7 @@ public class ProcessGraphEdgeFactory {
 	}
 
 	boolean ready() throws IOException {
-		return input.ready();
+		return input.ready(0x10);
 	}
 
 	void createEdge() throws IOException {
@@ -73,8 +73,21 @@ public class ProcessGraphEdgeFactory {
 		if (toNode == null) {
 			if (edgeType == EdgeType.CALL_CONTINUATION)
 				return; // discard b/c we never reached the continuation point
-			else
-				throw new TagNotFoundException("0x" + Long.toHexString(toTag) + " is missed in graph lookup file!");
+			else {
+				boolean fixed = false;
+				if (edgeType == EdgeType.INDIRECT) {
+					toNode = loader.hashLookupTable.get(ExecutionNode.Key.create(toTag, toVersion + 1, toModule));
+					if (toNode != null) {
+						fixed = true;
+						Log.log("\t(Indirect branch/tag version bug!)");
+					}
+				}
+				if (!fixed)
+					throw new TagNotFoundException(
+							"Failed to find the 'to' node for tag 0x%x-v%d(%s) in edge #%d from 0x%x-v%d(%s) of type %s on ordinal %d",
+							toTag, toVersion, toModule.unit.name, edgeIndex, fromTag, fromVersion,
+							fromModule.unit.name, edgeType, edgeOrdinal);
+			}
 		}
 
 		if ((fromModule.unit != toModule.unit)
@@ -111,6 +124,9 @@ public class ProcessGraphEdgeFactory {
 	}
 
 	void close() throws IOException {
+		if (input.ready())
+			Log.log("Warning: input stream %s has %d bytes remaining.", input.description, input.available());
+
 		input.close();
 	}
 }

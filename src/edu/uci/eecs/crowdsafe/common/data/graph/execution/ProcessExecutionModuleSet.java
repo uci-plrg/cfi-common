@@ -63,7 +63,7 @@ public class ProcessExecutionModuleSet {
 		ModuleInstance activeModule = ModuleInstance.UNKNOWN;
 		for (ModuleInstance instance : instancesByUnit.values()) {
 			if (instance.containsTag(tag)) {
-				if (instance.edgeSpan.contains(edgeIndex))
+				if (instance.crossModuleEdgeSpan.contains(edgeIndex))
 					activeModule = instance;
 			}
 		}
