@@ -21,16 +21,7 @@ do
   esac
 done
 
-project_dirs=""
-IFS=','
-for p in $project_codes
-do
-  project_dir="cs"$p
-  project_dir=${!project_dir}
-  project_dir=${project_dir%/}
-  project_dirs=$project_dirs" "$project_dir
-done
-IFS=' '
+decode_project_dirs $project_codes
 
 for project_dir in $project_dirs
 do

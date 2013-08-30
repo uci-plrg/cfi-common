@@ -25,7 +25,7 @@ function append_classpath() {
   
   #echo "Appending classpath for $project: "$project_path
 
-  if [ -z $jar_dir ]
+  if [ -z $cs_jar_dir ]
   then
     cp=$cp:$project_path/bin
   fi
@@ -44,9 +44,24 @@ function check_help() {
   fi
 }
 
-if [ -z $CROWD_SAFE_JARS ]
+function decode_project_dirs() {
+  project_codes=$1
+  project_dirs=""
+
+  IFS=','
+  for p in $project_codes
+  do
+    project_dir="cs"$p
+    project_dir=${!project_dir}
+    project_dir=${project_dir%/}
+    project_dirs=$project_dirs" "$project_dir
+  done
+  IFS=' '
+}
+
+if [ ! -z $CROWD_SAFE_JAR_DIR ]
 then
-  cs_jar_dir=$CROWD_SAFE_JARS
+  cs_jar_dir=$CROWD_SAFE_JAR_DIR
   append_jars $cs_jar_dir
 fi
 
