@@ -1,0 +1,6 @@
+
+· Cross-module edge file:
+hexdump -v -e '/4 "%08x" /4 "%1x " /4 "%08x" /4 "%1x " 2/4 "%08x" "\n"' <input> > <output>
+
+· Edges of a certain type (specified by the last number) in the bb-graph file
+egrep "^[[:xdigit:]]+\s[[:xdigit:]]+\s[[:xdigit:]]+\s[[:xdigit:]]+\s[[:xdigit:]]{3}0"
