@@ -49,6 +49,11 @@ public class ProcessGraphEdgeFactory {
 		ExecutionNode fromNode = loader.hashLookupTable.get(ExecutionNode.Key.create(fromTag, fromVersion, fromModule));
 		ExecutionNode toNode = loader.hashLookupTable.get(ExecutionNode.Key.create(toTag, toVersion, toModule));
 
+		if (edgeOrdinal == 255) {
+			Log.log("\t(Edge %s has ordinal 255)", new Edge<ExecutionNode>(fromNode, toNode, edgeType, edgeOrdinal));
+			return;
+		}
+
 		if (loader.listener != null) {
 			loader.listener.nodeLoadReference(fromNode, LoadTarget.EDGE);
 			loader.listener.nodeLoadReference(toNode, LoadTarget.EDGE);
@@ -64,11 +69,19 @@ public class ProcessGraphEdgeFactory {
 					Log.log("\t(Call continuation/tag version bug!)");
 				}
 			}
-			if (!fixed)
+			if (!fixed) {
+				Log.log("Problem at edge index %d: missing 'from' node for tag 0x%x-v%d(%s) in edge to 0x%x-v%d(%s) of type %s on ordinal %d",
+						edgeIndex, fromTag, fromVersion, fromModule.unit.name, toTag, toVersion, toModule.unit.name,
+						edgeType, edgeOrdinal);
+				return;
+			}
+			/**
+			 * <pre>
 				throw new TagNotFoundException(
 						"Failed to find the 'from' node for tag 0x%x-v%d(%s) in edge to 0x%x-v%d(%s) of type %s on ordinal %d",
 						fromTag, fromVersion, fromModule.unit.name, toTag, toVersion, toModule.unit.name, edgeType,
 						edgeOrdinal);
+			 */
 		}
 		if (toNode == null) {
 			if (edgeType == EdgeType.CALL_CONTINUATION)
@@ -82,11 +95,19 @@ public class ProcessGraphEdgeFactory {
 						Log.log("\t(Indirect branch/tag version bug!)");
 					}
 				}
-				if (!fixed)
+				if (!fixed) {
+					Log.log("Problem at edge index %d: missing 'to' node for tag 0x%x-v%d(%s) in edge #%d from 0x%x-v%d(%s) of type %s on ordinal %d",
+							edgeIndex, toTag, toVersion, toModule.unit.name, edgeIndex, fromTag, fromVersion,
+							fromModule.unit.name, edgeType, edgeOrdinal);
+					return;
+				}
+				/**
+				 * <pre>
 					throw new TagNotFoundException(
 							"Failed to find the 'to' node for tag 0x%x-v%d(%s) in edge #%d from 0x%x-v%d(%s) of type %s on ordinal %d",
 							toTag, toVersion, toModule.unit.name, edgeIndex, fromTag, fromVersion,
 							fromModule.unit.name, edgeType, edgeOrdinal);
+				 */
 			}
 		}
 
@@ -109,7 +130,7 @@ public class ProcessGraphEdgeFactory {
 				loader.listener.edgeCreation(e);
 		} else {
 			if (!existing.equals(e)) {
-				// One wired case to deal with here:
+				// One weird case to deal with here:
 				// A call edge (direct) and a continuation edge can
 				// point to the same block
 				if ((existing.getEdgeType() == EdgeType.DIRECT && e.getEdgeType() == EdgeType.CALL_CONTINUATION)

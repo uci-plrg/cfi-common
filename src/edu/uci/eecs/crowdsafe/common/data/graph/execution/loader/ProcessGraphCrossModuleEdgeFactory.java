@@ -65,12 +65,24 @@ public class ProcessGraphCrossModuleEdgeFactory {
 
 		// Double check if tag1 and tag2 exist in the lookup file
 		if (fromNode == null) {
+			Log.log("Problem at cross-module edge index %d: missing cross-module edge source block %s!", edgeIndex,
+					ExecutionNode.Key.create(fromTag, fromVersion, fromModule));
+			return;
+			/**
+			 * <pre>
 			throw new TagNotFoundException("Failed to find cross-module edge source block %s!",
 					ExecutionNode.Key.create(fromTag, fromVersion, fromModule));
+			 */
 		}
 		if (toNode == null) {
+			Log.log("Problem at cross-module edge index %d: missing cross-module edge destination block %s!",
+					edgeIndex, ExecutionNode.Key.create(toTag, toVersion, toModule));
+			return;
+			/**
+			 * <pre>
 			throw new TagNotFoundException("Failed to find cross-module edge destination block %s!",
 					ExecutionNode.Key.create(toTag, toVersion, toModule));
+			 */
 		}
 
 		if (loader.listener != null) {
