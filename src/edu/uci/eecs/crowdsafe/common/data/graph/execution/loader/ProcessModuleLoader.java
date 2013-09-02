@@ -23,11 +23,11 @@ public class ProcessModuleLoader {
 
 	private static class PendingModuleKey {
 		final SoftwareDistributionUnit unit;
-		final long start;
+		final long startAddress;
 
-		PendingModuleKey(String moduleName, long start) {
+		PendingModuleKey(String moduleName, long startAddress) {
 			this.unit = ConfiguredSoftwareDistributions.getInstance().establishUnit(moduleName);
-			this.start = start;
+			this.startAddress = startAddress;
 		}
 
 		@Override
@@ -35,7 +35,7 @@ public class ProcessModuleLoader {
 			final int prime = 31;
 			int result = 1;
 			result = prime * result + ((unit == null) ? 0 : unit.name.hashCode());
-			result = prime * result + (int) (start ^ (start >>> 32));
+			result = prime * result + (int) (startAddress ^ (startAddress >>> 32));
 			return result;
 		}
 
@@ -53,7 +53,7 @@ public class ProcessModuleLoader {
 					return false;
 			} else if (!unit.name.equals(other.unit.name))
 				return false;
-			if (start != other.start)
+			if (startAddress != other.startAddress)
 				return false;
 			return true;
 		}
@@ -64,16 +64,14 @@ public class ProcessModuleLoader {
 		final long blockLoadTime;
 		final long edgeLoadTime;
 		final long crossModuleEdgeLoadTime;
-		final long end;
-
-		boolean unloaded = false;
+		final long endAddress;
 
 		public PendingModule(Matcher matcher) {
 			key = new PendingModuleKey(matcher.group(4).toLowerCase(), Long.parseLong(matcher.group(5), 16));
 			blockLoadTime = Long.parseLong(matcher.group(1));
 			edgeLoadTime = Long.parseLong(matcher.group(2));
 			crossModuleEdgeLoadTime = Long.parseLong(matcher.group(3));
-			end = Long.parseLong(matcher.group(6), 16);
+			endAddress = Long.parseLong(matcher.group(6), 16);
 		}
 	}
 
@@ -102,15 +100,6 @@ public class ProcessModuleLoader {
 			if (matcher.matches()) {
 				PendingModule module = new PendingModule(matcher);
 				pendingModules.put(module.key, module);
-
-				for (PendingModule pending : new ArrayList<PendingModule>(pendingModules.values())) {
-					if (pending.unloaded) {
-						modules.add(new ModuleInstance(pending.key.unit, pending.key.start, pending.end,
-								pending.blockLoadTime, module.blockLoadTime, pending.edgeLoadTime, module.edgeLoadTime,
-								pending.crossModuleEdgeLoadTime, module.crossModuleEdgeLoadTime));
-						pendingModules.remove(pending.key);
-					}
-				}
 			} else {
 				matcher = UNLOAD_PARSER.matcher(line);
 				if (!matcher.matches()) {
@@ -118,22 +107,20 @@ public class ProcessModuleLoader {
 							"Module loader failed to match line '%s' against the unload pattern--exiting now!", line);
 				}
 
-				PendingModule pending = pendingModules.get(new PendingModuleKey(matcher.group(4).toLowerCase(), Long
+				PendingModule pending = pendingModules.remove(new PendingModuleKey(matcher.group(4).toLowerCase(), Long
 						.parseLong(matcher.group(5), 16)));
-				pending.unloaded = true;
-				// long blockUnloadTime = Long.parseLong(matcher.group(1));
-				// long edgeUnloadTime = Long.parseLong(matcher.group(2));
-				// long crossModuleEdgeUnloadTime = Long.parseLong(matcher.group(3));
-				//
-				// modules.add(new ModuleInstance(pending.key.unit, pending.key.start, pending.end,
-				// pending.blockLoadTime,
-				// blockUnloadTime, pending.edgeLoadTime, edgeUnloadTime, pending.crossModuleEdgeLoadTime,
-				// crossModuleEdgeUnloadTime));
+				long blockUnloadTime = Long.parseLong(matcher.group(1));
+				long edgeUnloadTime = Long.parseLong(matcher.group(2));
+				long crossModuleEdgeUnloadTime = Long.parseLong(matcher.group(3));
+
+				modules.add(new ModuleInstance(pending.key.unit, pending.key.startAddress, pending.endAddress, pending.blockLoadTime,
+						blockUnloadTime, pending.edgeLoadTime, edgeUnloadTime, pending.crossModuleEdgeLoadTime,
+						crossModuleEdgeUnloadTime));
 			}
 		}
 
 		for (PendingModule pending : pendingModules.values()) {
-			modules.add(new ModuleInstance(pending.key.unit, pending.key.start, pending.end, pending.blockLoadTime,
+			modules.add(new ModuleInstance(pending.key.unit, pending.key.startAddress, pending.endAddress, pending.blockLoadTime,
 					Long.MAX_VALUE, pending.edgeLoadTime, Long.MAX_VALUE, pending.crossModuleEdgeLoadTime,
 					Long.MAX_VALUE));
 		}
