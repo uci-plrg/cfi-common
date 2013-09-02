@@ -22,7 +22,7 @@ public class ModuleInstance {
 		}
 
 		public boolean contains(long timestamp) {
-			return (timestamp >= loadTimestamp) && (timestamp <= unloadTimestamp);
+			return (timestamp >= loadTimestamp) && (timestamp < unloadTimestamp);
 		}
 	}
 

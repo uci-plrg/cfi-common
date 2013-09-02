@@ -80,7 +80,7 @@ public class ProcessModuleLoader {
 	private static final Pattern LOAD_PARSER = Pattern
 			.compile("\\(([0-9]+),([0-9]+),([0-9]+)\\) Loaded module ([a-zA-Z_0-9<>\\-\\.\\+]+): 0x([0-9A-Fa-f]+) - 0x([0-9A-Fa-f]+)");
 	private static final Pattern UNLOAD_PARSER = Pattern
-			.compile("Unloaded module ([a-zA-Z_0-9<>\\-\\.\\+]+): 0x([0-9A-Fa-f]+) - 0x([0-9A-Fa-f]+)");
+			.compile("\\(([0-9]+),([0-9]+),([0-9]+)\\) Unloaded module ([a-zA-Z_0-9<>\\-\\.\\+]+): 0x([0-9A-Fa-f]+) - 0x([0-9A-Fa-f]+)");
 
 	private final Map<PendingModuleKey, PendingModule> pendingModules = new HashMap<PendingModuleKey, PendingModule>();
 
@@ -111,15 +111,15 @@ public class ProcessModuleLoader {
 						pendingModules.remove(pending.key);
 					}
 				}
-			} else if (line.startsWith("Unloaded")) {
+			} else {
 				matcher = UNLOAD_PARSER.matcher(line);
 				if (!matcher.matches()) {
 					throw new InvalidGraphException(
 							"Module loader failed to match line '%s' against the unload pattern--exiting now!", line);
 				}
 
-				PendingModule pending = pendingModules.get(new PendingModuleKey(matcher.group(1).toLowerCase(), Long
-						.parseLong(matcher.group(2), 16)));
+				PendingModule pending = pendingModules.get(new PendingModuleKey(matcher.group(4).toLowerCase(), Long
+						.parseLong(matcher.group(5), 16)));
 				pending.unloaded = true;
 				// long blockUnloadTime = Long.parseLong(matcher.group(1));
 				// long edgeUnloadTime = Long.parseLong(matcher.group(2));
@@ -129,9 +129,6 @@ public class ProcessModuleLoader {
 				// pending.blockLoadTime,
 				// blockUnloadTime, pending.edgeLoadTime, edgeUnloadTime, pending.crossModuleEdgeLoadTime,
 				// crossModuleEdgeUnloadTime));
-			} else {
-				Log.log("Unexpected line '%s' in the module file. Skipping it.", line);
-				continue;
 			}
 		}
 
