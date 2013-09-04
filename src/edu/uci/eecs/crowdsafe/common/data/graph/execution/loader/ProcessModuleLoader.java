@@ -28,7 +28,7 @@ public class ProcessModuleLoader {
 
 		PendingModuleKey(String moduleName, long startAddress) {
 			this.unit = ConfiguredSoftwareDistributions.getInstance().establishUnit(moduleName);
-			this.version = Long.parseLong(ConfiguredSoftwareDistributions.getVersion(moduleName));
+			this.version = Long.parseLong(ConfiguredSoftwareDistributions.getVersion(moduleName), 16);
 			this.startAddress = startAddress;
 		}
 
