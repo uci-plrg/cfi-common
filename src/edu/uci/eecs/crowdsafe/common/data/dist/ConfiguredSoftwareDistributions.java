@@ -24,6 +24,13 @@ public class ConfiguredSoftwareDistributions {
 		return unitName.substring(0, dashIndex);
 	}
 
+	public static String getVersion(String unitName) {
+		int dashIndex = unitName.lastIndexOf('-');
+		if (dashIndex < 0)
+			return "";
+		return unitName.substring(dashIndex+1);
+	}
+
 	private static ConfiguredSoftwareDistributions INSTANCE;
 
 	public static final String MAIN_PROGRAM = "<main-program>";

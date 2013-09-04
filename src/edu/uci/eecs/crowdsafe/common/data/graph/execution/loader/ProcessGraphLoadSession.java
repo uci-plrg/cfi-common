@@ -12,14 +12,11 @@ import edu.uci.eecs.crowdsafe.common.data.graph.execution.ExecutionNode;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.ModuleGraph;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.ModuleGraphCluster;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.ProcessExecutionGraph;
-import edu.uci.eecs.crowdsafe.common.data.graph.execution.ProcessExecutionGraphSummary;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.ProcessExecutionModuleSet;
 import edu.uci.eecs.crowdsafe.common.datasource.ProcessTraceDataSource;
 import edu.uci.eecs.crowdsafe.common.datasource.ProcessTraceStreamType;
 import edu.uci.eecs.crowdsafe.common.exception.InvalidGraphException;
 import edu.uci.eecs.crowdsafe.common.exception.InvalidTagException;
-import edu.uci.eecs.crowdsafe.common.io.LittleEndianInputStream;
-import edu.uci.eecs.crowdsafe.common.log.Log;
 
 public class ProcessGraphLoadSession {
 
@@ -86,8 +83,6 @@ public class ProcessGraphLoadSession {
 		}
 
 		ProcessExecutionGraph loadGraph() throws IOException {
-			Log.log("\n --- Loading graph for %s(%d) ---", dataSource.getProcessName(), dataSource.getProcessId());
-
 			ProcessModuleLoader moduleLoader = new ProcessModuleLoader();
 			ProcessExecutionModuleSet modules = moduleLoader.loadModules(dataSource);
 			graph = new ProcessExecutionGraph(dataSource, modules);
@@ -107,9 +102,6 @@ public class ProcessGraphLoadSession {
 				cluster.getGraphData().validate();
 				cluster.findUnreachableNodes();
 			}
-
-			// Produce some analysis result for the graph
-			ProcessExecutionGraphSummary.summarizeGraph(graph);
 
 			return graph;
 		}
@@ -153,7 +145,7 @@ public class ProcessGraphLoadSession {
 			ModuleGraphCluster moduleCluster = graph.getModuleGraphCluster(node.getModule().unit);
 			ModuleGraph moduleGraph = moduleCluster.getModuleGraph(node.getModule().unit);
 			if (moduleGraph == null) {
-				moduleGraph = new ModuleGraph(graph, node.getModule().unit);
+				moduleGraph = new ModuleGraph(graph, node.getModule().unit, node.getModule().version);
 				moduleCluster.addModule(moduleGraph);
 			}
 			moduleCluster.addNode(node);

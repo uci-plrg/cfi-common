@@ -50,7 +50,7 @@ public class ProcessGraphEdgeFactory {
 		ExecutionNode toNode = loader.hashLookupTable.get(ExecutionNode.Key.create(toTag, toVersion, toModule));
 
 		if (edgeOrdinal == 255) {
-			Log.log("\t(Edge %s has ordinal 255)", new Edge<ExecutionNode>(fromNode, toNode, edgeType, edgeOrdinal));
+			Log.log("Warning: skipping edge %s with ordinal 255", new Edge<ExecutionNode>(fromNode, toNode, edgeType, edgeOrdinal));
 			return;
 		}
 

@@ -23,10 +23,12 @@ public class ProcessModuleLoader {
 
 	private static class PendingModuleKey {
 		final SoftwareDistributionUnit unit;
+		final long version; // not in hash key!
 		final long startAddress;
 
 		PendingModuleKey(String moduleName, long startAddress) {
 			this.unit = ConfiguredSoftwareDistributions.getInstance().establishUnit(moduleName);
+			this.version = Long.parseLong(ConfiguredSoftwareDistributions.getVersion(moduleName));
 			this.startAddress = startAddress;
 		}
 
@@ -113,16 +115,16 @@ public class ProcessModuleLoader {
 				long edgeUnloadTime = Long.parseLong(matcher.group(2));
 				long crossModuleEdgeUnloadTime = Long.parseLong(matcher.group(3));
 
-				modules.add(new ModuleInstance(pending.key.unit, pending.key.startAddress, pending.endAddress, pending.blockLoadTime,
-						blockUnloadTime, pending.edgeLoadTime, edgeUnloadTime, pending.crossModuleEdgeLoadTime,
-						crossModuleEdgeUnloadTime));
+				modules.add(new ModuleInstance(pending.key.unit, pending.key.version, pending.key.startAddress,
+						pending.endAddress, pending.blockLoadTime, blockUnloadTime, pending.edgeLoadTime,
+						edgeUnloadTime, pending.crossModuleEdgeLoadTime, crossModuleEdgeUnloadTime));
 			}
 		}
 
 		for (PendingModule pending : pendingModules.values()) {
-			modules.add(new ModuleInstance(pending.key.unit, pending.key.startAddress, pending.endAddress, pending.blockLoadTime,
-					Long.MAX_VALUE, pending.edgeLoadTime, Long.MAX_VALUE, pending.crossModuleEdgeLoadTime,
-					Long.MAX_VALUE));
+			modules.add(new ModuleInstance(pending.key.unit, pending.key.version, pending.key.startAddress,
+					pending.endAddress, pending.blockLoadTime, Long.MAX_VALUE, pending.edgeLoadTime, Long.MAX_VALUE,
+					pending.crossModuleEdgeLoadTime, Long.MAX_VALUE));
 		}
 
 		return modules;

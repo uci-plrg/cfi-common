@@ -1,0 +1,56 @@
+package crowd_safe_data_analysis;
+
+option java_package = "edu.uci.eecs.crowdsafe.common.data.results";
+option java_outer_classname = "Graph";
+
+message Process {
+  required int32 id = 1;
+  required string name = 2;
+  repeated Cluster cluster = 3;
+}
+
+message Cluster {
+  required string distributionName = 1;
+  required int32 nodeCount = 2;
+  required int32 executableNodeCount = 3;
+  required int32 entryPointCount = 4;
+  repeated ModuleInstance module = 5;
+  repeated UnreachableNode unreachable = 6;
+}
+
+message Module {
+  required string name = 1;
+  required int64 version = 2;
+}
+
+message ModuleInstance {
+  required Module module = 1;
+  required int32 nodeCount = 2;
+}
+
+message Node {
+  required Module module = 1;
+  required int32 relativeTag = 2;
+  required int32 tagVersion = 3;
+  required int64 hashcode = 4;
+}
+
+message Edge {
+  required Node fromNode = 1;
+  required Node toNode = 2;
+  required EdgeType type = 3;
+}
+
+enum EdgeType {
+  INDIRECT = 0;
+  DIRECT = 1;
+  CALL_CONTINUATION = 2;
+  UNEXPECTED_RETURN = 3;
+  MODULE_ENTRY = 4;
+}
+
+message UnreachableNode {
+  required Node node = 1;
+  repeated Edge missedIncomingEdge = 2;
+}
+

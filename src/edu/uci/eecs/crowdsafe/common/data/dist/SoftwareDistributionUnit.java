@@ -11,10 +11,11 @@ public class SoftwareDistributionUnit {
 		this.name = name;
 
 		int lastDash = name.lastIndexOf('-');
-		if (lastDash < 0)
+		if (lastDash < 0) {
 			filename = name;
-		else
+		} else {
 			filename = name.substring(0, lastDash);
+		}
 	}
 
 	@Override

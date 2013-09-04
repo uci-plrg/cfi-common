@@ -1,12 +1,17 @@
 package edu.uci.eecs.crowdsafe.common.data.graph.execution;
 
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
+import edu.uci.eecs.crowdsafe.common.CrowdSafeCollections;
 import edu.uci.eecs.crowdsafe.common.data.dist.AutonomousSoftwareDistribution;
 import edu.uci.eecs.crowdsafe.common.data.dist.ConfiguredSoftwareDistributions;
 import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareDistributionUnit;
+import edu.uci.eecs.crowdsafe.common.data.graph.Edge;
+import edu.uci.eecs.crowdsafe.common.data.results.Graph;
 import edu.uci.eecs.crowdsafe.common.datasource.ProcessTraceDataSource;
 
 /**
@@ -39,6 +44,16 @@ import edu.uci.eecs.crowdsafe.common.datasource.ProcessTraceDataSource;
  */
 
 public class ProcessExecutionGraph {
+
+	private static class ModuleGraphSorter implements Comparator<ModuleGraph> {
+		static final ModuleGraphSorter INSTANCE = new ModuleGraphSorter();
+
+		@Override
+		public int compare(ModuleGraph first, ModuleGraph second) {
+			return second.getExecutableBlockCount() - first.getExecutableBlockCount();
+		}
+	}
+
 	// Represents the list of core modules
 	private final Map<AutonomousSoftwareDistribution, ModuleGraphCluster> moduleGraphs = new HashMap<AutonomousSoftwareDistribution, ModuleGraphCluster>();
 	private final Map<SoftwareDistributionUnit, ModuleGraphCluster> moduleGraphsBySoftwareUnit = new HashMap<SoftwareDistributionUnit, ModuleGraphCluster>();
@@ -48,23 +63,6 @@ public class ProcessExecutionGraph {
 
 	public final ProcessTraceDataSource dataSource;
 
-	/**
-	 * The construction constructs the ExecutionGraph from a variety of files located in the run directory
-	 * 
-	 * @param intraModuleEdgeFiles
-	 *            <p>
-	 *            The files containing all the intra-module edges in the format of (tag1-->tag) entry, which takes 16
-	 *            bytes
-	 *            </p>
-	 * @param lookupFiles
-	 *            <p>
-	 *            The files containing the mapping entry from a tag value to the hash code of the basic block
-	 * @param crossModuleEdgeFile
-	 *            <p>
-	 *            The files containing all the cross-module edges in the format of (tag-->tag, Signiture Hash) entry,
-	 *            which takes 24 bytes
-	 *            </p>
-	 */
 	public ProcessExecutionGraph(ProcessTraceDataSource dataSource, ProcessExecutionModuleSet modules) {
 		this.dataSource = dataSource;
 		this.modules = modules;
@@ -105,6 +103,66 @@ public class ProcessExecutionGraph {
 			count += cluster.graphData.nodesByKey.size();
 		}
 		return count;
+	}
+
+	public Graph.Process summarizeProcess() {
+		Graph.Process.Builder processBuilder = Graph.Process.newBuilder();
+		processBuilder.setId(dataSource.getProcessId());
+		processBuilder.setName(dataSource.getProcessName());
+
+		for (AutonomousSoftwareDistribution dist : moduleGraphs.keySet()) {
+			Graph.Cluster.Builder clusterBuilder = Graph.Cluster.newBuilder();
+			Graph.Module.Builder moduleBuilder = Graph.Module.newBuilder();
+			Graph.ModuleInstance.Builder moduleInstanceBuilder = Graph.ModuleInstance.newBuilder();
+			Graph.UnreachableNode.Builder unreachableBuilder = Graph.UnreachableNode.newBuilder();
+			Graph.Node.Builder nodeBuilder = Graph.Node.newBuilder();
+			Graph.Edge.Builder edgeBuilder = Graph.Edge.newBuilder();
+
+			ModuleGraphCluster cluster = moduleGraphs.get(dist);
+			int clusterNodeCount = cluster.getGraphData().nodesByKey.size();
+
+			clusterBuilder.setDistributionName(dist.name);
+			clusterBuilder.setNodeCount(clusterNodeCount);
+			clusterBuilder.setExecutableNodeCount(cluster.getExecutableNodeCount());
+			clusterBuilder.setEntryPointCount(cluster.getEntryNodeCount());
+
+			for (ModuleGraph moduleGraph : CrowdSafeCollections.createSortedCopy(cluster.getGraphs(),
+					ModuleGraphSorter.INSTANCE)) {
+				moduleBuilder.clear().setName(moduleGraph.softwareUnit.filename);
+				moduleBuilder.setVersion(moduleGraph.version);
+				moduleInstanceBuilder.setModule(moduleBuilder.build());
+				moduleInstanceBuilder.setNodeCount(moduleGraph.getExecutableBlockCount());
+				clusterBuilder.addModule(moduleInstanceBuilder.build());
+			}
+
+			Set<ExecutionNode> unreachableNodes = cluster.getUnreachableNodes();
+			if (!unreachableNodes.isEmpty()) {
+				for (ExecutionNode unreachableNode : unreachableNodes) {
+					moduleBuilder.setName(unreachableNode.getModule().unit.filename);
+					moduleBuilder.setVersion(unreachableNode.getModule().version);
+					nodeBuilder.clear().setModule(moduleBuilder.build());
+					unreachableBuilder.clear().setNode(nodeBuilder.build());
+
+					if (!unreachableNode.getIncomingEdges().isEmpty()) {
+						for (Edge<ExecutionNode> incoming : unreachableNode.getIncomingEdges()) {
+							if (!unreachableNodes.contains(incoming.getFromNode())) {
+								moduleBuilder.setName(incoming.getFromNode().getModule().unit.filename);
+								moduleBuilder.setVersion(incoming.getFromNode().getModule().version);
+								nodeBuilder.setModule(moduleBuilder.build());
+								edgeBuilder.clear().setFromNode(nodeBuilder.build());
+								edgeBuilder.setToNode(unreachableBuilder.getNode());
+								edgeBuilder.setType(incoming.getEdgeType().mapToResultType());
+								unreachableBuilder.addMissedIncomingEdge(edgeBuilder.build());
+							}
+						}
+					}
+				}
+			}
+
+			processBuilder.addCluster(clusterBuilder.build());
+		}
+
+		return processBuilder.build();
 	}
 
 	public String toString() {

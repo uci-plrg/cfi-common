@@ -23,14 +23,16 @@ import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareDistributionUnit;
 
 public class ModuleGraph {
 	public final SoftwareDistributionUnit softwareUnit;
+	public final long version;
 
 	protected final ProcessExecutionGraph containingGraph;
 
 	private int executableBlockCount = 0;
 
-	public ModuleGraph(ProcessExecutionGraph containingGraph, SoftwareDistributionUnit softwareUnit) {
+	public ModuleGraph(ProcessExecutionGraph containingGraph, SoftwareDistributionUnit softwareUnit, long version) {
 		this.containingGraph = containingGraph;
 		this.softwareUnit = softwareUnit;
+		this.version = version;
 	}
 
 	public ProcessExecutionGraph getContainingGraph() {

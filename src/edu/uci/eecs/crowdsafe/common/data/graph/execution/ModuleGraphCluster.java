@@ -28,7 +28,7 @@ public class ModuleGraphCluster {
 	private final Map<SoftwareDistributionUnit, ModuleGraph> graphs = new HashMap<SoftwareDistributionUnit, ModuleGraph>();
 	private final Set<ExecutionNode> unreachableNodes = new HashSet<ExecutionNode>();
 
-	private long executableNodeCount = 0;
+	private int executableNodeCount = 0;
 
 	public ModuleGraphCluster(AutonomousSoftwareDistribution distribution, ProcessExecutionGraph containingGraph) {
 		this.distribution = distribution;
@@ -63,7 +63,7 @@ public class ModuleGraphCluster {
 		return entryNodesBySignatureHash;
 	}
 
-	public long getExecutableNodeCount() {
+	public int getExecutableNodeCount() {
 		return executableNodeCount;
 	}
 
