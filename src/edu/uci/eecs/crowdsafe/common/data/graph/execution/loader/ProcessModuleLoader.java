@@ -3,7 +3,6 @@ package edu.uci.eecs.crowdsafe.common.data.graph.execution.loader;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -17,18 +16,17 @@ import edu.uci.eecs.crowdsafe.common.datasource.ProcessTraceDataSource;
 import edu.uci.eecs.crowdsafe.common.datasource.ProcessTraceStreamType;
 import edu.uci.eecs.crowdsafe.common.exception.InvalidGraphException;
 import edu.uci.eecs.crowdsafe.common.exception.OverlapModuleException;
-import edu.uci.eecs.crowdsafe.common.log.Log;
 
 public class ProcessModuleLoader {
 
 	private static class PendingModuleKey {
 		final SoftwareDistributionUnit unit;
-		final long version; // not in hash key!
+		final String version; // not in hash key!
 		final long startAddress;
 
 		PendingModuleKey(String moduleName, long startAddress) {
 			this.unit = ConfiguredSoftwareDistributions.getInstance().establishUnit(moduleName);
-			this.version = Long.parseLong(ConfiguredSoftwareDistributions.getVersion(moduleName), 16);
+			this.version = ConfiguredSoftwareDistributions.getVersion(moduleName);
 			this.startAddress = startAddress;
 		}
 

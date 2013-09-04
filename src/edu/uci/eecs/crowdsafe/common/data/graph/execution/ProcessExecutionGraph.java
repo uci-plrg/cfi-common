@@ -141,6 +141,9 @@ public class ProcessExecutionGraph {
 					moduleBuilder.setName(unreachableNode.getModule().unit.filename);
 					moduleBuilder.setVersion(unreachableNode.getModule().version);
 					nodeBuilder.clear().setModule(moduleBuilder.build());
+					nodeBuilder.setRelativeTag((int) unreachableNode.getRelativeTag());
+					nodeBuilder.setTagVersion(unreachableNode.getTagVersion());
+					nodeBuilder.setHashcode(unreachableNode.getHash());
 					unreachableBuilder.clear().setNode(nodeBuilder.build());
 
 					if (!unreachableNode.getIncomingEdges().isEmpty()) {

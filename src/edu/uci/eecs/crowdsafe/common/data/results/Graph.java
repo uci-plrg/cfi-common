@@ -2571,15 +2571,20 @@ public final class Graph {
     com.google.protobuf.ByteString
         getNameBytes();
 
-    // required int64 version = 2;
+    // required string version = 2;
     /**
-     * <code>required int64 version = 2;</code>
+     * <code>required string version = 2;</code>
      */
     boolean hasVersion();
     /**
-     * <code>required int64 version = 2;</code>
+     * <code>required string version = 2;</code>
      */
-    long getVersion();
+    java.lang.String getVersion();
+    /**
+     * <code>required string version = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getVersionBytes();
   }
   /**
    * Protobuf type {@code crowd_safe_data_analysis.Module}
@@ -2637,9 +2642,9 @@ public final class Graph {
               name_ = input.readBytes();
               break;
             }
-            case 16: {
+            case 18: {
               bitField0_ |= 0x00000002;
-              version_ = input.readInt64();
+              version_ = input.readBytes();
               break;
             }
           }
@@ -2725,25 +2730,52 @@ public final class Graph {
       }
     }
 
-    // required int64 version = 2;
+    // required string version = 2;
     public static final int VERSION_FIELD_NUMBER = 2;
-    private long version_;
+    private java.lang.Object version_;
     /**
-     * <code>required int64 version = 2;</code>
+     * <code>required string version = 2;</code>
      */
     public boolean hasVersion() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>required int64 version = 2;</code>
+     * <code>required string version = 2;</code>
      */
-    public long getVersion() {
-      return version_;
+    public java.lang.String getVersion() {
+      java.lang.Object ref = version_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          version_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string version = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getVersionBytes() {
+      java.lang.Object ref = version_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        version_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
     }
 
     private void initFields() {
       name_ = "";
-      version_ = 0L;
+      version_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -2769,7 +2801,7 @@ public final class Graph {
         output.writeBytes(1, getNameBytes());
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeInt64(2, version_);
+        output.writeBytes(2, getVersionBytes());
       }
       getUnknownFields().writeTo(output);
     }
@@ -2786,7 +2818,7 @@ public final class Graph {
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(2, version_);
+          .computeBytesSize(2, getVersionBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -2906,7 +2938,7 @@ public final class Graph {
         super.clear();
         name_ = "";
         bitField0_ = (bitField0_ & ~0x00000001);
-        version_ = 0L;
+        version_ = "";
         bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
@@ -2966,7 +2998,9 @@ public final class Graph {
           onChanged();
         }
         if (other.hasVersion()) {
-          setVersion(other.getVersion());
+          bitField0_ |= 0x00000002;
+          version_ = other.version_;
+          onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -3077,35 +3111,76 @@ public final class Graph {
         return this;
       }
 
-      // required int64 version = 2;
-      private long version_ ;
+      // required string version = 2;
+      private java.lang.Object version_ = "";
       /**
-       * <code>required int64 version = 2;</code>
+       * <code>required string version = 2;</code>
        */
       public boolean hasVersion() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>required int64 version = 2;</code>
+       * <code>required string version = 2;</code>
        */
-      public long getVersion() {
-        return version_;
+      public java.lang.String getVersion() {
+        java.lang.Object ref = version_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          version_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
       }
       /**
-       * <code>required int64 version = 2;</code>
+       * <code>required string version = 2;</code>
        */
-      public Builder setVersion(long value) {
-        bitField0_ |= 0x00000002;
+      public com.google.protobuf.ByteString
+          getVersionBytes() {
+        java.lang.Object ref = version_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          version_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string version = 2;</code>
+       */
+      public Builder setVersion(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
         version_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int64 version = 2;</code>
+       * <code>required string version = 2;</code>
        */
       public Builder clearVersion() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        version_ = 0L;
+        version_ = getDefaultInstance().getVersion();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string version = 2;</code>
+       */
+      public Builder setVersionBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        version_ = value;
         onChanged();
         return this;
       }
@@ -6303,7 +6378,7 @@ public final class Graph {
       "is.ModuleInstance\022>\n\013unreachable\030\006 \003(\0132)" +
       ".crowd_safe_data_analysis.UnreachableNod" +
       "e\"\'\n\006Module\022\014\n\004name\030\001 \002(\t\022\017\n\007version\030\002 \002",
-      "(\003\"U\n\016ModuleInstance\0220\n\006module\030\001 \002(\0132 .c" +
+      "(\t\"U\n\016ModuleInstance\0220\n\006module\030\001 \002(\0132 .c" +
       "rowd_safe_data_analysis.Module\022\021\n\tnodeCo" +
       "unt\030\002 \002(\005\"s\n\004Node\0220\n\006module\030\001 \002(\0132 .crow" +
       "d_safe_data_analysis.Module\022\023\n\013relativeT" +
