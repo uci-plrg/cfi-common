@@ -1062,48 +1062,48 @@ public final class Graph {
   public interface ClusterOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // required string distributionName = 1;
+    // required string distribution_name = 1;
     /**
-     * <code>required string distributionName = 1;</code>
+     * <code>required string distribution_name = 1;</code>
      */
     boolean hasDistributionName();
     /**
-     * <code>required string distributionName = 1;</code>
+     * <code>required string distribution_name = 1;</code>
      */
     java.lang.String getDistributionName();
     /**
-     * <code>required string distributionName = 1;</code>
+     * <code>required string distribution_name = 1;</code>
      */
     com.google.protobuf.ByteString
         getDistributionNameBytes();
 
-    // required int32 nodeCount = 2;
+    // required int32 node_count = 2;
     /**
-     * <code>required int32 nodeCount = 2;</code>
+     * <code>required int32 node_count = 2;</code>
      */
     boolean hasNodeCount();
     /**
-     * <code>required int32 nodeCount = 2;</code>
+     * <code>required int32 node_count = 2;</code>
      */
     int getNodeCount();
 
-    // required int32 executableNodeCount = 3;
+    // required int32 executable_node_count = 3;
     /**
-     * <code>required int32 executableNodeCount = 3;</code>
+     * <code>required int32 executable_node_count = 3;</code>
      */
     boolean hasExecutableNodeCount();
     /**
-     * <code>required int32 executableNodeCount = 3;</code>
+     * <code>required int32 executable_node_count = 3;</code>
      */
     int getExecutableNodeCount();
 
-    // required int32 entryPointCount = 4;
+    // required int32 entry_point_count = 4;
     /**
-     * <code>required int32 entryPointCount = 4;</code>
+     * <code>required int32 entry_point_count = 4;</code>
      */
     boolean hasEntryPointCount();
     /**
-     * <code>required int32 entryPointCount = 4;</code>
+     * <code>required int32 entry_point_count = 4;</code>
      */
     int getEntryPointCount();
 
@@ -1290,17 +1290,17 @@ public final class Graph {
     }
 
     private int bitField0_;
-    // required string distributionName = 1;
-    public static final int DISTRIBUTIONNAME_FIELD_NUMBER = 1;
+    // required string distribution_name = 1;
+    public static final int DISTRIBUTION_NAME_FIELD_NUMBER = 1;
     private java.lang.Object distributionName_;
     /**
-     * <code>required string distributionName = 1;</code>
+     * <code>required string distribution_name = 1;</code>
      */
     public boolean hasDistributionName() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required string distributionName = 1;</code>
+     * <code>required string distribution_name = 1;</code>
      */
     public java.lang.String getDistributionName() {
       java.lang.Object ref = distributionName_;
@@ -1317,7 +1317,7 @@ public final class Graph {
       }
     }
     /**
-     * <code>required string distributionName = 1;</code>
+     * <code>required string distribution_name = 1;</code>
      */
     public com.google.protobuf.ByteString
         getDistributionNameBytes() {
@@ -1333,49 +1333,49 @@ public final class Graph {
       }
     }
 
-    // required int32 nodeCount = 2;
-    public static final int NODECOUNT_FIELD_NUMBER = 2;
+    // required int32 node_count = 2;
+    public static final int NODE_COUNT_FIELD_NUMBER = 2;
     private int nodeCount_;
     /**
-     * <code>required int32 nodeCount = 2;</code>
+     * <code>required int32 node_count = 2;</code>
      */
     public boolean hasNodeCount() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>required int32 nodeCount = 2;</code>
+     * <code>required int32 node_count = 2;</code>
      */
     public int getNodeCount() {
       return nodeCount_;
     }
 
-    // required int32 executableNodeCount = 3;
-    public static final int EXECUTABLENODECOUNT_FIELD_NUMBER = 3;
+    // required int32 executable_node_count = 3;
+    public static final int EXECUTABLE_NODE_COUNT_FIELD_NUMBER = 3;
     private int executableNodeCount_;
     /**
-     * <code>required int32 executableNodeCount = 3;</code>
+     * <code>required int32 executable_node_count = 3;</code>
      */
     public boolean hasExecutableNodeCount() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>required int32 executableNodeCount = 3;</code>
+     * <code>required int32 executable_node_count = 3;</code>
      */
     public int getExecutableNodeCount() {
       return executableNodeCount_;
     }
 
-    // required int32 entryPointCount = 4;
-    public static final int ENTRYPOINTCOUNT_FIELD_NUMBER = 4;
+    // required int32 entry_point_count = 4;
+    public static final int ENTRY_POINT_COUNT_FIELD_NUMBER = 4;
     private int entryPointCount_;
     /**
-     * <code>required int32 entryPointCount = 4;</code>
+     * <code>required int32 entry_point_count = 4;</code>
      */
     public boolean hasEntryPointCount() {
       return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
-     * <code>required int32 entryPointCount = 4;</code>
+     * <code>required int32 entry_point_count = 4;</code>
      */
     public int getEntryPointCount() {
       return entryPointCount_;
@@ -1889,16 +1889,16 @@ public final class Graph {
       }
       private int bitField0_;
 
-      // required string distributionName = 1;
+      // required string distribution_name = 1;
       private java.lang.Object distributionName_ = "";
       /**
-       * <code>required string distributionName = 1;</code>
+       * <code>required string distribution_name = 1;</code>
        */
       public boolean hasDistributionName() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required string distributionName = 1;</code>
+       * <code>required string distribution_name = 1;</code>
        */
       public java.lang.String getDistributionName() {
         java.lang.Object ref = distributionName_;
@@ -1912,7 +1912,7 @@ public final class Graph {
         }
       }
       /**
-       * <code>required string distributionName = 1;</code>
+       * <code>required string distribution_name = 1;</code>
        */
       public com.google.protobuf.ByteString
           getDistributionNameBytes() {
@@ -1928,7 +1928,7 @@ public final class Graph {
         }
       }
       /**
-       * <code>required string distributionName = 1;</code>
+       * <code>required string distribution_name = 1;</code>
        */
       public Builder setDistributionName(
           java.lang.String value) {
@@ -1941,7 +1941,7 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>required string distributionName = 1;</code>
+       * <code>required string distribution_name = 1;</code>
        */
       public Builder clearDistributionName() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -1950,7 +1950,7 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>required string distributionName = 1;</code>
+       * <code>required string distribution_name = 1;</code>
        */
       public Builder setDistributionNameBytes(
           com.google.protobuf.ByteString value) {
@@ -1963,22 +1963,22 @@ public final class Graph {
         return this;
       }
 
-      // required int32 nodeCount = 2;
+      // required int32 node_count = 2;
       private int nodeCount_ ;
       /**
-       * <code>required int32 nodeCount = 2;</code>
+       * <code>required int32 node_count = 2;</code>
        */
       public boolean hasNodeCount() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>required int32 nodeCount = 2;</code>
+       * <code>required int32 node_count = 2;</code>
        */
       public int getNodeCount() {
         return nodeCount_;
       }
       /**
-       * <code>required int32 nodeCount = 2;</code>
+       * <code>required int32 node_count = 2;</code>
        */
       public Builder setNodeCount(int value) {
         bitField0_ |= 0x00000002;
@@ -1987,7 +1987,7 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>required int32 nodeCount = 2;</code>
+       * <code>required int32 node_count = 2;</code>
        */
       public Builder clearNodeCount() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -1996,22 +1996,22 @@ public final class Graph {
         return this;
       }
 
-      // required int32 executableNodeCount = 3;
+      // required int32 executable_node_count = 3;
       private int executableNodeCount_ ;
       /**
-       * <code>required int32 executableNodeCount = 3;</code>
+       * <code>required int32 executable_node_count = 3;</code>
        */
       public boolean hasExecutableNodeCount() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>required int32 executableNodeCount = 3;</code>
+       * <code>required int32 executable_node_count = 3;</code>
        */
       public int getExecutableNodeCount() {
         return executableNodeCount_;
       }
       /**
-       * <code>required int32 executableNodeCount = 3;</code>
+       * <code>required int32 executable_node_count = 3;</code>
        */
       public Builder setExecutableNodeCount(int value) {
         bitField0_ |= 0x00000004;
@@ -2020,7 +2020,7 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>required int32 executableNodeCount = 3;</code>
+       * <code>required int32 executable_node_count = 3;</code>
        */
       public Builder clearExecutableNodeCount() {
         bitField0_ = (bitField0_ & ~0x00000004);
@@ -2029,22 +2029,22 @@ public final class Graph {
         return this;
       }
 
-      // required int32 entryPointCount = 4;
+      // required int32 entry_point_count = 4;
       private int entryPointCount_ ;
       /**
-       * <code>required int32 entryPointCount = 4;</code>
+       * <code>required int32 entry_point_count = 4;</code>
        */
       public boolean hasEntryPointCount() {
         return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
-       * <code>required int32 entryPointCount = 4;</code>
+       * <code>required int32 entry_point_count = 4;</code>
        */
       public int getEntryPointCount() {
         return entryPointCount_;
       }
       /**
-       * <code>required int32 entryPointCount = 4;</code>
+       * <code>required int32 entry_point_count = 4;</code>
        */
       public Builder setEntryPointCount(int value) {
         bitField0_ |= 0x00000008;
@@ -2053,7 +2053,7 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>required int32 entryPointCount = 4;</code>
+       * <code>required int32 entry_point_count = 4;</code>
        */
       public Builder clearEntryPointCount() {
         bitField0_ = (bitField0_ & ~0x00000008);
@@ -3213,13 +3213,13 @@ public final class Graph {
      */
     edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleOrBuilder getModuleOrBuilder();
 
-    // required int32 nodeCount = 2;
+    // required int32 node_count = 2;
     /**
-     * <code>required int32 nodeCount = 2;</code>
+     * <code>required int32 node_count = 2;</code>
      */
     boolean hasNodeCount();
     /**
-     * <code>required int32 nodeCount = 2;</code>
+     * <code>required int32 node_count = 2;</code>
      */
     int getNodeCount();
   }
@@ -3354,17 +3354,17 @@ public final class Graph {
       return module_;
     }
 
-    // required int32 nodeCount = 2;
-    public static final int NODECOUNT_FIELD_NUMBER = 2;
+    // required int32 node_count = 2;
+    public static final int NODE_COUNT_FIELD_NUMBER = 2;
     private int nodeCount_;
     /**
-     * <code>required int32 nodeCount = 2;</code>
+     * <code>required int32 node_count = 2;</code>
      */
     public boolean hasNodeCount() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>required int32 nodeCount = 2;</code>
+     * <code>required int32 node_count = 2;</code>
      */
     public int getNodeCount() {
       return nodeCount_;
@@ -3764,22 +3764,22 @@ public final class Graph {
         return moduleBuilder_;
       }
 
-      // required int32 nodeCount = 2;
+      // required int32 node_count = 2;
       private int nodeCount_ ;
       /**
-       * <code>required int32 nodeCount = 2;</code>
+       * <code>required int32 node_count = 2;</code>
        */
       public boolean hasNodeCount() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>required int32 nodeCount = 2;</code>
+       * <code>required int32 node_count = 2;</code>
        */
       public int getNodeCount() {
         return nodeCount_;
       }
       /**
-       * <code>required int32 nodeCount = 2;</code>
+       * <code>required int32 node_count = 2;</code>
        */
       public Builder setNodeCount(int value) {
         bitField0_ |= 0x00000002;
@@ -3788,7 +3788,7 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>required int32 nodeCount = 2;</code>
+       * <code>required int32 node_count = 2;</code>
        */
       public Builder clearNodeCount() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -3825,23 +3825,23 @@ public final class Graph {
      */
     edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleOrBuilder getModuleOrBuilder();
 
-    // required int32 relativeTag = 2;
+    // required int32 relative_tag = 2;
     /**
-     * <code>required int32 relativeTag = 2;</code>
+     * <code>required int32 relative_tag = 2;</code>
      */
     boolean hasRelativeTag();
     /**
-     * <code>required int32 relativeTag = 2;</code>
+     * <code>required int32 relative_tag = 2;</code>
      */
     int getRelativeTag();
 
-    // required int32 tagVersion = 3;
+    // required int32 tag_version = 3;
     /**
-     * <code>required int32 tagVersion = 3;</code>
+     * <code>required int32 tag_version = 3;</code>
      */
     boolean hasTagVersion();
     /**
-     * <code>required int32 tagVersion = 3;</code>
+     * <code>required int32 tag_version = 3;</code>
      */
     int getTagVersion();
 
@@ -3996,33 +3996,33 @@ public final class Graph {
       return module_;
     }
 
-    // required int32 relativeTag = 2;
-    public static final int RELATIVETAG_FIELD_NUMBER = 2;
+    // required int32 relative_tag = 2;
+    public static final int RELATIVE_TAG_FIELD_NUMBER = 2;
     private int relativeTag_;
     /**
-     * <code>required int32 relativeTag = 2;</code>
+     * <code>required int32 relative_tag = 2;</code>
      */
     public boolean hasRelativeTag() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>required int32 relativeTag = 2;</code>
+     * <code>required int32 relative_tag = 2;</code>
      */
     public int getRelativeTag() {
       return relativeTag_;
     }
 
-    // required int32 tagVersion = 3;
-    public static final int TAGVERSION_FIELD_NUMBER = 3;
+    // required int32 tag_version = 3;
+    public static final int TAG_VERSION_FIELD_NUMBER = 3;
     private int tagVersion_;
     /**
-     * <code>required int32 tagVersion = 3;</code>
+     * <code>required int32 tag_version = 3;</code>
      */
     public boolean hasTagVersion() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>required int32 tagVersion = 3;</code>
+     * <code>required int32 tag_version = 3;</code>
      */
     public int getTagVersion() {
       return tagVersion_;
@@ -4488,22 +4488,22 @@ public final class Graph {
         return moduleBuilder_;
       }
 
-      // required int32 relativeTag = 2;
+      // required int32 relative_tag = 2;
       private int relativeTag_ ;
       /**
-       * <code>required int32 relativeTag = 2;</code>
+       * <code>required int32 relative_tag = 2;</code>
        */
       public boolean hasRelativeTag() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>required int32 relativeTag = 2;</code>
+       * <code>required int32 relative_tag = 2;</code>
        */
       public int getRelativeTag() {
         return relativeTag_;
       }
       /**
-       * <code>required int32 relativeTag = 2;</code>
+       * <code>required int32 relative_tag = 2;</code>
        */
       public Builder setRelativeTag(int value) {
         bitField0_ |= 0x00000002;
@@ -4512,7 +4512,7 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>required int32 relativeTag = 2;</code>
+       * <code>required int32 relative_tag = 2;</code>
        */
       public Builder clearRelativeTag() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -4521,22 +4521,22 @@ public final class Graph {
         return this;
       }
 
-      // required int32 tagVersion = 3;
+      // required int32 tag_version = 3;
       private int tagVersion_ ;
       /**
-       * <code>required int32 tagVersion = 3;</code>
+       * <code>required int32 tag_version = 3;</code>
        */
       public boolean hasTagVersion() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>required int32 tagVersion = 3;</code>
+       * <code>required int32 tag_version = 3;</code>
        */
       public int getTagVersion() {
         return tagVersion_;
       }
       /**
-       * <code>required int32 tagVersion = 3;</code>
+       * <code>required int32 tag_version = 3;</code>
        */
       public Builder setTagVersion(int value) {
         bitField0_ |= 0x00000004;
@@ -4545,7 +4545,7 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>required int32 tagVersion = 3;</code>
+       * <code>required int32 tag_version = 3;</code>
        */
       public Builder clearTagVersion() {
         bitField0_ = (bitField0_ & ~0x00000004);
@@ -4601,31 +4601,31 @@ public final class Graph {
   public interface EdgeOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // required .crowd_safe_data_analysis.Node fromNode = 1;
+    // required .crowd_safe_data_analysis.Node from_node = 1;
     /**
-     * <code>required .crowd_safe_data_analysis.Node fromNode = 1;</code>
+     * <code>required .crowd_safe_data_analysis.Node from_node = 1;</code>
      */
     boolean hasFromNode();
     /**
-     * <code>required .crowd_safe_data_analysis.Node fromNode = 1;</code>
+     * <code>required .crowd_safe_data_analysis.Node from_node = 1;</code>
      */
     edu.uci.eecs.crowdsafe.common.data.results.Graph.Node getFromNode();
     /**
-     * <code>required .crowd_safe_data_analysis.Node fromNode = 1;</code>
+     * <code>required .crowd_safe_data_analysis.Node from_node = 1;</code>
      */
     edu.uci.eecs.crowdsafe.common.data.results.Graph.NodeOrBuilder getFromNodeOrBuilder();
 
-    // required .crowd_safe_data_analysis.Node toNode = 2;
+    // required .crowd_safe_data_analysis.Node to_node = 2;
     /**
-     * <code>required .crowd_safe_data_analysis.Node toNode = 2;</code>
+     * <code>required .crowd_safe_data_analysis.Node to_node = 2;</code>
      */
     boolean hasToNode();
     /**
-     * <code>required .crowd_safe_data_analysis.Node toNode = 2;</code>
+     * <code>required .crowd_safe_data_analysis.Node to_node = 2;</code>
      */
     edu.uci.eecs.crowdsafe.common.data.results.Graph.Node getToNode();
     /**
-     * <code>required .crowd_safe_data_analysis.Node toNode = 2;</code>
+     * <code>required .crowd_safe_data_analysis.Node to_node = 2;</code>
      */
     edu.uci.eecs.crowdsafe.common.data.results.Graph.NodeOrBuilder getToNodeOrBuilder();
 
@@ -4767,45 +4767,45 @@ public final class Graph {
     }
 
     private int bitField0_;
-    // required .crowd_safe_data_analysis.Node fromNode = 1;
-    public static final int FROMNODE_FIELD_NUMBER = 1;
+    // required .crowd_safe_data_analysis.Node from_node = 1;
+    public static final int FROM_NODE_FIELD_NUMBER = 1;
     private edu.uci.eecs.crowdsafe.common.data.results.Graph.Node fromNode_;
     /**
-     * <code>required .crowd_safe_data_analysis.Node fromNode = 1;</code>
+     * <code>required .crowd_safe_data_analysis.Node from_node = 1;</code>
      */
     public boolean hasFromNode() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required .crowd_safe_data_analysis.Node fromNode = 1;</code>
+     * <code>required .crowd_safe_data_analysis.Node from_node = 1;</code>
      */
     public edu.uci.eecs.crowdsafe.common.data.results.Graph.Node getFromNode() {
       return fromNode_;
     }
     /**
-     * <code>required .crowd_safe_data_analysis.Node fromNode = 1;</code>
+     * <code>required .crowd_safe_data_analysis.Node from_node = 1;</code>
      */
     public edu.uci.eecs.crowdsafe.common.data.results.Graph.NodeOrBuilder getFromNodeOrBuilder() {
       return fromNode_;
     }
 
-    // required .crowd_safe_data_analysis.Node toNode = 2;
-    public static final int TONODE_FIELD_NUMBER = 2;
+    // required .crowd_safe_data_analysis.Node to_node = 2;
+    public static final int TO_NODE_FIELD_NUMBER = 2;
     private edu.uci.eecs.crowdsafe.common.data.results.Graph.Node toNode_;
     /**
-     * <code>required .crowd_safe_data_analysis.Node toNode = 2;</code>
+     * <code>required .crowd_safe_data_analysis.Node to_node = 2;</code>
      */
     public boolean hasToNode() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>required .crowd_safe_data_analysis.Node toNode = 2;</code>
+     * <code>required .crowd_safe_data_analysis.Node to_node = 2;</code>
      */
     public edu.uci.eecs.crowdsafe.common.data.results.Graph.Node getToNode() {
       return toNode_;
     }
     /**
-     * <code>required .crowd_safe_data_analysis.Node toNode = 2;</code>
+     * <code>required .crowd_safe_data_analysis.Node to_node = 2;</code>
      */
     public edu.uci.eecs.crowdsafe.common.data.results.Graph.NodeOrBuilder getToNodeOrBuilder() {
       return toNode_;
@@ -5146,18 +5146,18 @@ public final class Graph {
       }
       private int bitField0_;
 
-      // required .crowd_safe_data_analysis.Node fromNode = 1;
+      // required .crowd_safe_data_analysis.Node from_node = 1;
       private edu.uci.eecs.crowdsafe.common.data.results.Graph.Node fromNode_ = edu.uci.eecs.crowdsafe.common.data.results.Graph.Node.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
           edu.uci.eecs.crowdsafe.common.data.results.Graph.Node, edu.uci.eecs.crowdsafe.common.data.results.Graph.Node.Builder, edu.uci.eecs.crowdsafe.common.data.results.Graph.NodeOrBuilder> fromNodeBuilder_;
       /**
-       * <code>required .crowd_safe_data_analysis.Node fromNode = 1;</code>
+       * <code>required .crowd_safe_data_analysis.Node from_node = 1;</code>
        */
       public boolean hasFromNode() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required .crowd_safe_data_analysis.Node fromNode = 1;</code>
+       * <code>required .crowd_safe_data_analysis.Node from_node = 1;</code>
        */
       public edu.uci.eecs.crowdsafe.common.data.results.Graph.Node getFromNode() {
         if (fromNodeBuilder_ == null) {
@@ -5167,7 +5167,7 @@ public final class Graph {
         }
       }
       /**
-       * <code>required .crowd_safe_data_analysis.Node fromNode = 1;</code>
+       * <code>required .crowd_safe_data_analysis.Node from_node = 1;</code>
        */
       public Builder setFromNode(edu.uci.eecs.crowdsafe.common.data.results.Graph.Node value) {
         if (fromNodeBuilder_ == null) {
@@ -5183,7 +5183,7 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>required .crowd_safe_data_analysis.Node fromNode = 1;</code>
+       * <code>required .crowd_safe_data_analysis.Node from_node = 1;</code>
        */
       public Builder setFromNode(
           edu.uci.eecs.crowdsafe.common.data.results.Graph.Node.Builder builderForValue) {
@@ -5197,7 +5197,7 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>required .crowd_safe_data_analysis.Node fromNode = 1;</code>
+       * <code>required .crowd_safe_data_analysis.Node from_node = 1;</code>
        */
       public Builder mergeFromNode(edu.uci.eecs.crowdsafe.common.data.results.Graph.Node value) {
         if (fromNodeBuilder_ == null) {
@@ -5216,7 +5216,7 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>required .crowd_safe_data_analysis.Node fromNode = 1;</code>
+       * <code>required .crowd_safe_data_analysis.Node from_node = 1;</code>
        */
       public Builder clearFromNode() {
         if (fromNodeBuilder_ == null) {
@@ -5229,7 +5229,7 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>required .crowd_safe_data_analysis.Node fromNode = 1;</code>
+       * <code>required .crowd_safe_data_analysis.Node from_node = 1;</code>
        */
       public edu.uci.eecs.crowdsafe.common.data.results.Graph.Node.Builder getFromNodeBuilder() {
         bitField0_ |= 0x00000001;
@@ -5237,7 +5237,7 @@ public final class Graph {
         return getFromNodeFieldBuilder().getBuilder();
       }
       /**
-       * <code>required .crowd_safe_data_analysis.Node fromNode = 1;</code>
+       * <code>required .crowd_safe_data_analysis.Node from_node = 1;</code>
        */
       public edu.uci.eecs.crowdsafe.common.data.results.Graph.NodeOrBuilder getFromNodeOrBuilder() {
         if (fromNodeBuilder_ != null) {
@@ -5247,7 +5247,7 @@ public final class Graph {
         }
       }
       /**
-       * <code>required .crowd_safe_data_analysis.Node fromNode = 1;</code>
+       * <code>required .crowd_safe_data_analysis.Node from_node = 1;</code>
        */
       private com.google.protobuf.SingleFieldBuilder<
           edu.uci.eecs.crowdsafe.common.data.results.Graph.Node, edu.uci.eecs.crowdsafe.common.data.results.Graph.Node.Builder, edu.uci.eecs.crowdsafe.common.data.results.Graph.NodeOrBuilder> 
@@ -5263,18 +5263,18 @@ public final class Graph {
         return fromNodeBuilder_;
       }
 
-      // required .crowd_safe_data_analysis.Node toNode = 2;
+      // required .crowd_safe_data_analysis.Node to_node = 2;
       private edu.uci.eecs.crowdsafe.common.data.results.Graph.Node toNode_ = edu.uci.eecs.crowdsafe.common.data.results.Graph.Node.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
           edu.uci.eecs.crowdsafe.common.data.results.Graph.Node, edu.uci.eecs.crowdsafe.common.data.results.Graph.Node.Builder, edu.uci.eecs.crowdsafe.common.data.results.Graph.NodeOrBuilder> toNodeBuilder_;
       /**
-       * <code>required .crowd_safe_data_analysis.Node toNode = 2;</code>
+       * <code>required .crowd_safe_data_analysis.Node to_node = 2;</code>
        */
       public boolean hasToNode() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>required .crowd_safe_data_analysis.Node toNode = 2;</code>
+       * <code>required .crowd_safe_data_analysis.Node to_node = 2;</code>
        */
       public edu.uci.eecs.crowdsafe.common.data.results.Graph.Node getToNode() {
         if (toNodeBuilder_ == null) {
@@ -5284,7 +5284,7 @@ public final class Graph {
         }
       }
       /**
-       * <code>required .crowd_safe_data_analysis.Node toNode = 2;</code>
+       * <code>required .crowd_safe_data_analysis.Node to_node = 2;</code>
        */
       public Builder setToNode(edu.uci.eecs.crowdsafe.common.data.results.Graph.Node value) {
         if (toNodeBuilder_ == null) {
@@ -5300,7 +5300,7 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>required .crowd_safe_data_analysis.Node toNode = 2;</code>
+       * <code>required .crowd_safe_data_analysis.Node to_node = 2;</code>
        */
       public Builder setToNode(
           edu.uci.eecs.crowdsafe.common.data.results.Graph.Node.Builder builderForValue) {
@@ -5314,7 +5314,7 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>required .crowd_safe_data_analysis.Node toNode = 2;</code>
+       * <code>required .crowd_safe_data_analysis.Node to_node = 2;</code>
        */
       public Builder mergeToNode(edu.uci.eecs.crowdsafe.common.data.results.Graph.Node value) {
         if (toNodeBuilder_ == null) {
@@ -5333,7 +5333,7 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>required .crowd_safe_data_analysis.Node toNode = 2;</code>
+       * <code>required .crowd_safe_data_analysis.Node to_node = 2;</code>
        */
       public Builder clearToNode() {
         if (toNodeBuilder_ == null) {
@@ -5346,7 +5346,7 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>required .crowd_safe_data_analysis.Node toNode = 2;</code>
+       * <code>required .crowd_safe_data_analysis.Node to_node = 2;</code>
        */
       public edu.uci.eecs.crowdsafe.common.data.results.Graph.Node.Builder getToNodeBuilder() {
         bitField0_ |= 0x00000002;
@@ -5354,7 +5354,7 @@ public final class Graph {
         return getToNodeFieldBuilder().getBuilder();
       }
       /**
-       * <code>required .crowd_safe_data_analysis.Node toNode = 2;</code>
+       * <code>required .crowd_safe_data_analysis.Node to_node = 2;</code>
        */
       public edu.uci.eecs.crowdsafe.common.data.results.Graph.NodeOrBuilder getToNodeOrBuilder() {
         if (toNodeBuilder_ != null) {
@@ -5364,7 +5364,7 @@ public final class Graph {
         }
       }
       /**
-       * <code>required .crowd_safe_data_analysis.Node toNode = 2;</code>
+       * <code>required .crowd_safe_data_analysis.Node to_node = 2;</code>
        */
       private com.google.protobuf.SingleFieldBuilder<
           edu.uci.eecs.crowdsafe.common.data.results.Graph.Node, edu.uci.eecs.crowdsafe.common.data.results.Graph.Node.Builder, edu.uci.eecs.crowdsafe.common.data.results.Graph.NodeOrBuilder> 
@@ -5444,27 +5444,27 @@ public final class Graph {
      */
     edu.uci.eecs.crowdsafe.common.data.results.Graph.NodeOrBuilder getNodeOrBuilder();
 
-    // repeated .crowd_safe_data_analysis.Edge missedIncomingEdge = 2;
+    // repeated .crowd_safe_data_analysis.Edge missed_incoming_edge = 2;
     /**
-     * <code>repeated .crowd_safe_data_analysis.Edge missedIncomingEdge = 2;</code>
+     * <code>repeated .crowd_safe_data_analysis.Edge missed_incoming_edge = 2;</code>
      */
     java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.Edge> 
         getMissedIncomingEdgeList();
     /**
-     * <code>repeated .crowd_safe_data_analysis.Edge missedIncomingEdge = 2;</code>
+     * <code>repeated .crowd_safe_data_analysis.Edge missed_incoming_edge = 2;</code>
      */
     edu.uci.eecs.crowdsafe.common.data.results.Graph.Edge getMissedIncomingEdge(int index);
     /**
-     * <code>repeated .crowd_safe_data_analysis.Edge missedIncomingEdge = 2;</code>
+     * <code>repeated .crowd_safe_data_analysis.Edge missed_incoming_edge = 2;</code>
      */
     int getMissedIncomingEdgeCount();
     /**
-     * <code>repeated .crowd_safe_data_analysis.Edge missedIncomingEdge = 2;</code>
+     * <code>repeated .crowd_safe_data_analysis.Edge missed_incoming_edge = 2;</code>
      */
     java.util.List<? extends edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeOrBuilder> 
         getMissedIncomingEdgeOrBuilderList();
     /**
-     * <code>repeated .crowd_safe_data_analysis.Edge missedIncomingEdge = 2;</code>
+     * <code>repeated .crowd_safe_data_analysis.Edge missed_incoming_edge = 2;</code>
      */
     edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeOrBuilder getMissedIncomingEdgeOrBuilder(
         int index);
@@ -5606,36 +5606,36 @@ public final class Graph {
       return node_;
     }
 
-    // repeated .crowd_safe_data_analysis.Edge missedIncomingEdge = 2;
-    public static final int MISSEDINCOMINGEDGE_FIELD_NUMBER = 2;
+    // repeated .crowd_safe_data_analysis.Edge missed_incoming_edge = 2;
+    public static final int MISSED_INCOMING_EDGE_FIELD_NUMBER = 2;
     private java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.Edge> missedIncomingEdge_;
     /**
-     * <code>repeated .crowd_safe_data_analysis.Edge missedIncomingEdge = 2;</code>
+     * <code>repeated .crowd_safe_data_analysis.Edge missed_incoming_edge = 2;</code>
      */
     public java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.Edge> getMissedIncomingEdgeList() {
       return missedIncomingEdge_;
     }
     /**
-     * <code>repeated .crowd_safe_data_analysis.Edge missedIncomingEdge = 2;</code>
+     * <code>repeated .crowd_safe_data_analysis.Edge missed_incoming_edge = 2;</code>
      */
     public java.util.List<? extends edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeOrBuilder> 
         getMissedIncomingEdgeOrBuilderList() {
       return missedIncomingEdge_;
     }
     /**
-     * <code>repeated .crowd_safe_data_analysis.Edge missedIncomingEdge = 2;</code>
+     * <code>repeated .crowd_safe_data_analysis.Edge missed_incoming_edge = 2;</code>
      */
     public int getMissedIncomingEdgeCount() {
       return missedIncomingEdge_.size();
     }
     /**
-     * <code>repeated .crowd_safe_data_analysis.Edge missedIncomingEdge = 2;</code>
+     * <code>repeated .crowd_safe_data_analysis.Edge missed_incoming_edge = 2;</code>
      */
     public edu.uci.eecs.crowdsafe.common.data.results.Graph.Edge getMissedIncomingEdge(int index) {
       return missedIncomingEdge_.get(index);
     }
     /**
-     * <code>repeated .crowd_safe_data_analysis.Edge missedIncomingEdge = 2;</code>
+     * <code>repeated .crowd_safe_data_analysis.Edge missed_incoming_edge = 2;</code>
      */
     public edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeOrBuilder getMissedIncomingEdgeOrBuilder(
         int index) {
@@ -6073,7 +6073,7 @@ public final class Graph {
         return nodeBuilder_;
       }
 
-      // repeated .crowd_safe_data_analysis.Edge missedIncomingEdge = 2;
+      // repeated .crowd_safe_data_analysis.Edge missed_incoming_edge = 2;
       private java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.Edge> missedIncomingEdge_ =
         java.util.Collections.emptyList();
       private void ensureMissedIncomingEdgeIsMutable() {
@@ -6087,7 +6087,7 @@ public final class Graph {
           edu.uci.eecs.crowdsafe.common.data.results.Graph.Edge, edu.uci.eecs.crowdsafe.common.data.results.Graph.Edge.Builder, edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeOrBuilder> missedIncomingEdgeBuilder_;
 
       /**
-       * <code>repeated .crowd_safe_data_analysis.Edge missedIncomingEdge = 2;</code>
+       * <code>repeated .crowd_safe_data_analysis.Edge missed_incoming_edge = 2;</code>
        */
       public java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.Edge> getMissedIncomingEdgeList() {
         if (missedIncomingEdgeBuilder_ == null) {
@@ -6097,7 +6097,7 @@ public final class Graph {
         }
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.Edge missedIncomingEdge = 2;</code>
+       * <code>repeated .crowd_safe_data_analysis.Edge missed_incoming_edge = 2;</code>
        */
       public int getMissedIncomingEdgeCount() {
         if (missedIncomingEdgeBuilder_ == null) {
@@ -6107,7 +6107,7 @@ public final class Graph {
         }
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.Edge missedIncomingEdge = 2;</code>
+       * <code>repeated .crowd_safe_data_analysis.Edge missed_incoming_edge = 2;</code>
        */
       public edu.uci.eecs.crowdsafe.common.data.results.Graph.Edge getMissedIncomingEdge(int index) {
         if (missedIncomingEdgeBuilder_ == null) {
@@ -6117,7 +6117,7 @@ public final class Graph {
         }
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.Edge missedIncomingEdge = 2;</code>
+       * <code>repeated .crowd_safe_data_analysis.Edge missed_incoming_edge = 2;</code>
        */
       public Builder setMissedIncomingEdge(
           int index, edu.uci.eecs.crowdsafe.common.data.results.Graph.Edge value) {
@@ -6134,7 +6134,7 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.Edge missedIncomingEdge = 2;</code>
+       * <code>repeated .crowd_safe_data_analysis.Edge missed_incoming_edge = 2;</code>
        */
       public Builder setMissedIncomingEdge(
           int index, edu.uci.eecs.crowdsafe.common.data.results.Graph.Edge.Builder builderForValue) {
@@ -6148,7 +6148,7 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.Edge missedIncomingEdge = 2;</code>
+       * <code>repeated .crowd_safe_data_analysis.Edge missed_incoming_edge = 2;</code>
        */
       public Builder addMissedIncomingEdge(edu.uci.eecs.crowdsafe.common.data.results.Graph.Edge value) {
         if (missedIncomingEdgeBuilder_ == null) {
@@ -6164,7 +6164,7 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.Edge missedIncomingEdge = 2;</code>
+       * <code>repeated .crowd_safe_data_analysis.Edge missed_incoming_edge = 2;</code>
        */
       public Builder addMissedIncomingEdge(
           int index, edu.uci.eecs.crowdsafe.common.data.results.Graph.Edge value) {
@@ -6181,7 +6181,7 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.Edge missedIncomingEdge = 2;</code>
+       * <code>repeated .crowd_safe_data_analysis.Edge missed_incoming_edge = 2;</code>
        */
       public Builder addMissedIncomingEdge(
           edu.uci.eecs.crowdsafe.common.data.results.Graph.Edge.Builder builderForValue) {
@@ -6195,7 +6195,7 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.Edge missedIncomingEdge = 2;</code>
+       * <code>repeated .crowd_safe_data_analysis.Edge missed_incoming_edge = 2;</code>
        */
       public Builder addMissedIncomingEdge(
           int index, edu.uci.eecs.crowdsafe.common.data.results.Graph.Edge.Builder builderForValue) {
@@ -6209,7 +6209,7 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.Edge missedIncomingEdge = 2;</code>
+       * <code>repeated .crowd_safe_data_analysis.Edge missed_incoming_edge = 2;</code>
        */
       public Builder addAllMissedIncomingEdge(
           java.lang.Iterable<? extends edu.uci.eecs.crowdsafe.common.data.results.Graph.Edge> values) {
@@ -6223,7 +6223,7 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.Edge missedIncomingEdge = 2;</code>
+       * <code>repeated .crowd_safe_data_analysis.Edge missed_incoming_edge = 2;</code>
        */
       public Builder clearMissedIncomingEdge() {
         if (missedIncomingEdgeBuilder_ == null) {
@@ -6236,7 +6236,7 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.Edge missedIncomingEdge = 2;</code>
+       * <code>repeated .crowd_safe_data_analysis.Edge missed_incoming_edge = 2;</code>
        */
       public Builder removeMissedIncomingEdge(int index) {
         if (missedIncomingEdgeBuilder_ == null) {
@@ -6249,14 +6249,14 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.Edge missedIncomingEdge = 2;</code>
+       * <code>repeated .crowd_safe_data_analysis.Edge missed_incoming_edge = 2;</code>
        */
       public edu.uci.eecs.crowdsafe.common.data.results.Graph.Edge.Builder getMissedIncomingEdgeBuilder(
           int index) {
         return getMissedIncomingEdgeFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.Edge missedIncomingEdge = 2;</code>
+       * <code>repeated .crowd_safe_data_analysis.Edge missed_incoming_edge = 2;</code>
        */
       public edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeOrBuilder getMissedIncomingEdgeOrBuilder(
           int index) {
@@ -6266,7 +6266,7 @@ public final class Graph {
         }
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.Edge missedIncomingEdge = 2;</code>
+       * <code>repeated .crowd_safe_data_analysis.Edge missed_incoming_edge = 2;</code>
        */
       public java.util.List<? extends edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeOrBuilder> 
            getMissedIncomingEdgeOrBuilderList() {
@@ -6277,14 +6277,14 @@ public final class Graph {
         }
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.Edge missedIncomingEdge = 2;</code>
+       * <code>repeated .crowd_safe_data_analysis.Edge missed_incoming_edge = 2;</code>
        */
       public edu.uci.eecs.crowdsafe.common.data.results.Graph.Edge.Builder addMissedIncomingEdgeBuilder() {
         return getMissedIncomingEdgeFieldBuilder().addBuilder(
             edu.uci.eecs.crowdsafe.common.data.results.Graph.Edge.getDefaultInstance());
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.Edge missedIncomingEdge = 2;</code>
+       * <code>repeated .crowd_safe_data_analysis.Edge missed_incoming_edge = 2;</code>
        */
       public edu.uci.eecs.crowdsafe.common.data.results.Graph.Edge.Builder addMissedIncomingEdgeBuilder(
           int index) {
@@ -6292,7 +6292,7 @@ public final class Graph {
             index, edu.uci.eecs.crowdsafe.common.data.results.Graph.Edge.getDefaultInstance());
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.Edge missedIncomingEdge = 2;</code>
+       * <code>repeated .crowd_safe_data_analysis.Edge missed_incoming_edge = 2;</code>
        */
       public java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.Edge.Builder> 
            getMissedIncomingEdgeBuilderList() {
@@ -6371,30 +6371,30 @@ public final class Graph {
       "\n\013graph.proto\022\030crowd_safe_data_analysis\"" +
       "W\n\007Process\022\n\n\002id\030\001 \002(\005\022\014\n\004name\030\002 \002(\t\0222\n\007" +
       "cluster\030\003 \003(\0132!.crowd_safe_data_analysis" +
-      ".Cluster\"\346\001\n\007Cluster\022\030\n\020distributionName" +
-      "\030\001 \002(\t\022\021\n\tnodeCount\030\002 \002(\005\022\033\n\023executableN" +
-      "odeCount\030\003 \002(\005\022\027\n\017entryPointCount\030\004 \002(\005\022" +
-      "8\n\006module\030\005 \003(\0132(.crowd_safe_data_analys" +
-      "is.ModuleInstance\022>\n\013unreachable\030\006 \003(\0132)" +
-      ".crowd_safe_data_analysis.UnreachableNod" +
-      "e\"\'\n\006Module\022\014\n\004name\030\001 \002(\t\022\017\n\007version\030\002 \002",
-      "(\t\"U\n\016ModuleInstance\0220\n\006module\030\001 \002(\0132 .c" +
-      "rowd_safe_data_analysis.Module\022\021\n\tnodeCo" +
-      "unt\030\002 \002(\005\"s\n\004Node\0220\n\006module\030\001 \002(\0132 .crow" +
-      "d_safe_data_analysis.Module\022\023\n\013relativeT" +
-      "ag\030\002 \002(\005\022\022\n\ntagVersion\030\003 \002(\005\022\020\n\010hashcode" +
-      "\030\004 \002(\003\"\232\001\n\004Edge\0220\n\010fromNode\030\001 \002(\0132\036.crow" +
-      "d_safe_data_analysis.Node\022.\n\006toNode\030\002 \002(" +
-      "\0132\036.crowd_safe_data_analysis.Node\0220\n\004typ" +
-      "e\030\003 \002(\0162\".crowd_safe_data_analysis.EdgeT" +
-      "ype\"{\n\017UnreachableNode\022,\n\004node\030\001 \002(\0132\036.c",
-      "rowd_safe_data_analysis.Node\022:\n\022missedIn" +
-      "comingEdge\030\002 \003(\0132\036.crowd_safe_data_analy" +
-      "sis.Edge*d\n\010EdgeType\022\014\n\010INDIRECT\020\000\022\n\n\006DI" +
-      "RECT\020\001\022\025\n\021CALL_CONTINUATION\020\002\022\025\n\021UNEXPEC" +
-      "TED_RETURN\020\003\022\020\n\014MODULE_ENTRY\020\004B3\n*edu.uc" +
-      "i.eecs.crowdsafe.common.data.resultsB\005Gr" +
-      "aph"
+      ".Cluster\"\354\001\n\007Cluster\022\031\n\021distribution_nam" +
+      "e\030\001 \002(\t\022\022\n\nnode_count\030\002 \002(\005\022\035\n\025executabl" +
+      "e_node_count\030\003 \002(\005\022\031\n\021entry_point_count\030" +
+      "\004 \002(\005\0228\n\006module\030\005 \003(\0132(.crowd_safe_data_" +
+      "analysis.ModuleInstance\022>\n\013unreachable\030\006" +
+      " \003(\0132).crowd_safe_data_analysis.Unreacha" +
+      "bleNode\"\'\n\006Module\022\014\n\004name\030\001 \002(\t\022\017\n\007versi",
+      "on\030\002 \002(\t\"V\n\016ModuleInstance\0220\n\006module\030\001 \002" +
+      "(\0132 .crowd_safe_data_analysis.Module\022\022\n\n" +
+      "node_count\030\002 \002(\005\"u\n\004Node\0220\n\006module\030\001 \002(\013" +
+      "2 .crowd_safe_data_analysis.Module\022\024\n\014re" +
+      "lative_tag\030\002 \002(\005\022\023\n\013tag_version\030\003 \002(\005\022\020\n" +
+      "\010hashcode\030\004 \002(\003\"\234\001\n\004Edge\0221\n\tfrom_node\030\001 " +
+      "\002(\0132\036.crowd_safe_data_analysis.Node\022/\n\007t" +
+      "o_node\030\002 \002(\0132\036.crowd_safe_data_analysis." +
+      "Node\0220\n\004type\030\003 \002(\0162\".crowd_safe_data_ana" +
+      "lysis.EdgeType\"}\n\017UnreachableNode\022,\n\004nod",
+      "e\030\001 \002(\0132\036.crowd_safe_data_analysis.Node\022" +
+      "<\n\024missed_incoming_edge\030\002 \003(\0132\036.crowd_sa" +
+      "fe_data_analysis.Edge*d\n\010EdgeType\022\014\n\010IND" +
+      "IRECT\020\000\022\n\n\006DIRECT\020\001\022\025\n\021CALL_CONTINUATION" +
+      "\020\002\022\025\n\021UNEXPECTED_RETURN\020\003\022\020\n\014MODULE_ENTR" +
+      "Y\020\004B3\n*edu.uci.eecs.crowdsafe.common.dat" +
+      "a.resultsB\005Graph"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

@@ -3,6 +3,15 @@ package crowd_safe_data_analysis;
 option java_package = "edu.uci.eecs.crowdsafe.common.data.results";
 option java_outer_classname = "Statistics";
 
+message StatisticsTree {
+  required int32 id = 1;
+  required string name = 2;
+  repeated IntegerStatistic int_stat = 3;
+  repeated FloatStatistic float_stat = 4;
+  repeated Ratio ratio = 5;
+  repeated StatisticsTree child = 6;
+}
+
 message IntegerStatistic {
   required string id = 1;
   required string name = 2;

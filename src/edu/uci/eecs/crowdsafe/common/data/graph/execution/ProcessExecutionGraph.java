@@ -159,6 +159,8 @@ public class ProcessExecutionGraph {
 							}
 						}
 					}
+					
+					clusterBuilder.addUnreachable(unreachableBuilder.build());
 				}
 			}
 

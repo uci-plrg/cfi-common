@@ -10,10 +10,10 @@ message Process {
 }
 
 message Cluster {
-  required string distributionName = 1;
-  required int32 nodeCount = 2;
-  required int32 executableNodeCount = 3;
-  required int32 entryPointCount = 4;
+  required string distribution_name = 1;
+  required int32 node_count = 2;
+  required int32 executable_node_count = 3;
+  required int32 entry_point_count = 4;
   repeated ModuleInstance module = 5;
   repeated UnreachableNode unreachable = 6;
 }
@@ -25,19 +25,19 @@ message Module {
 
 message ModuleInstance {
   required Module module = 1;
-  required int32 nodeCount = 2;
+  required int32 node_count = 2;
 }
 
 message Node {
   required Module module = 1;
-  required int32 relativeTag = 2;
-  required int32 tagVersion = 3;
+  required int32 relative_tag = 2;
+  required int32 tag_version = 3;
   required int64 hashcode = 4;
 }
 
 message Edge {
-  required Node fromNode = 1;
-  required Node toNode = 2;
+  required Node from_node = 1;
+  required Node to_node = 2;
   required EdgeType type = 3;
 }
 
@@ -51,6 +51,6 @@ enum EdgeType {
 
 message UnreachableNode {
   required Node node = 1;
-  repeated Edge missedIncomingEdge = 2;
+  repeated Edge missed_incoming_edge = 2;
 }
 
