@@ -4,8 +4,8 @@ option java_package = "edu.uci.eecs.crowdsafe.common.data.results";
 option java_outer_classname = "Statistics";
 
 message StatisticsTree {
-  required int32 id = 1;
-  required string name = 2;
+  optional int32 id = 1;
+  optional string name = 2;
   repeated IntegerStatistic int_stat = 3;
   repeated FloatStatistic float_stat = 4;
   repeated Ratio ratio = 5;
@@ -13,21 +13,21 @@ message StatisticsTree {
 }
 
 message IntegerStatistic {
-  required string id = 1;
-  required string name = 2;
-  required int32 value = 3;
+  optional string id = 1;
+  optional string name = 2;
+  optional int32 value = 3;
 }
 
 message FloatStatistic {
-  required string id = 1;
-  required string name = 2;
-  required float value = 3;
+  optional string id = 1;
+  optional string name = 2;
+  optional float value = 3;
 }
 
 message Ratio {
-  required string id = 1;
-  required string name = 2;
-  required int32 numerator = 3;
-  required int32 denominator = 4;
+  optional string id = 1;
+  optional string name = 2;
+  optional int32 numerator = 3;
+  optional int32 denominator = 4;
 }
 
