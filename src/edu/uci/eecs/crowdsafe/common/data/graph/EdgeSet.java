@@ -161,7 +161,11 @@ public class EdgeSet<NodeType extends Node> {
 	public boolean checkOutgoingEdgeCompatibility(EdgeSet<NodeType> other) {
 		int max = Math.min(outgoingOrdinals.size(), other.outgoingOrdinals.size());
 		for (int i = 0; i < max; i++) {
-			if (outgoingOrdinals.get(i).type != other.outgoingOrdinals.get(i).type)
+			OutgoingOrdinal myOrdinal = outgoingOrdinals.get(i);
+			OutgoingOrdinal otherOrdinal = other.outgoingOrdinals.get(i);
+			if ((myOrdinal.type == null) || (otherOrdinal.type == null))
+				continue;
+			if (myOrdinal.type != otherOrdinal.type)
 				return false;
 		}
 		return true;
