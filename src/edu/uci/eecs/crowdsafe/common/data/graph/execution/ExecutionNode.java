@@ -104,6 +104,16 @@ public class ExecutionNode extends Node<ExecutionNode> {
 		return key;
 	}
 
+	@Override
+	public boolean isEquivalent(Node other) {
+		if (!(other instanceof ExecutionNode))
+			return super.isEquivalent(other);
+
+		ExecutionNode n = (ExecutionNode) other;
+		return (key.relativeTag == n.key.relativeTag) && key.module.equals(n.key.module) && (getType() == n.getType())
+				&& (getHash() == n.getHash());
+	}
+
 	public void setMetaNodeType(MetaNodeType metaNodeType) {
 		this.metaNodeType = metaNodeType;
 	}

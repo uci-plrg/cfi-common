@@ -34,6 +34,16 @@ public class ExecutionGraphData {
 		return null;
 	}
 
+	public boolean HACK_containsEquivalent(ExecutionNode node) {
+		if (nodesByKey.containsKey(node.getKey()))
+			return true;
+		if (node.getKey().version > 0)
+			return nodesByKey.containsKey(ExecutionNode.Key.create(node.getModule().start + node.getKey().relativeTag,
+					0, node.getModule()));
+		else
+			return false;
+	}
+
 	/**
 	 * To validate the correctness of the graph. Basically it checks if entry points have no incoming edges, exit points
 	 * have no outgoing edges. It might include more validation stuff later...

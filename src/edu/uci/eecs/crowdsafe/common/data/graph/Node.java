@@ -18,6 +18,10 @@ public abstract class Node<NodeType extends Node> implements NodeList {
 
 	public abstract MetaNodeType getType();
 
+	public boolean isEquivalent(Node other) {
+		return getKey().equals(other.getKey()) && (getType() == other.getType()) && (getHash() == other.getHash());
+	}
+
 	public boolean hasIncomingEdges() {
 		return edges.getEdgeCount(EdgeSet.Direction.INCOMING) > 0;
 	}
