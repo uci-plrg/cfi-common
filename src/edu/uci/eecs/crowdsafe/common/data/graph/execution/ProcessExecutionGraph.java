@@ -145,10 +145,13 @@ public class ProcessExecutionGraph {
 					nodeBuilder.setTagVersion(unreachableNode.getTagVersion());
 					nodeBuilder.setHashcode(unreachableNode.getHash());
 					unreachableBuilder.clear().setNode(nodeBuilder.build());
+					unreachableBuilder.setIsEntryPoint(true);
 
 					if (!unreachableNode.getIncomingEdges().isEmpty()) {
 						for (Edge<ExecutionNode> incoming : unreachableNode.getIncomingEdges()) {
-							if (!unreachableNodes.contains(incoming.getFromNode())) {
+							if (unreachableNodes.contains(incoming.getFromNode())) {
+								unreachableBuilder.setIsEntryPoint(false);
+							} else {
 								moduleBuilder.setName(incoming.getFromNode().getModule().unit.filename);
 								moduleBuilder.setVersion(incoming.getFromNode().getModule().version);
 								nodeBuilder.setModule(moduleBuilder.build());

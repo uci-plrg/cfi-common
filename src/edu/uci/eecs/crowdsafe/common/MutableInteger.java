@@ -14,6 +14,14 @@ public class MutableInteger {
 	public int getVal() {
 		return innerVal;
 	}
+	
+	public void increment() {
+		innerVal++;
+	}
+	
+	public void decrement() {
+		innerVal--;
+	}
 
 	public String toString() {
 		return Integer.toString(innerVal);

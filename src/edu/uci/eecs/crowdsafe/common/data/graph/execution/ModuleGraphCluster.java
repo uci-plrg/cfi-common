@@ -10,6 +10,8 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 
+import org.w3c.dom.Node;
+
 import edu.uci.eecs.crowdsafe.common.data.dist.AutonomousSoftwareDistribution;
 import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareDistributionUnit;
 import edu.uci.eecs.crowdsafe.common.data.graph.Edge;
@@ -126,6 +128,22 @@ public class ModuleGraphCluster {
 				}
 			}
 		}
+
+		/**
+		 * <pre>
+		System.out.println(unreachableNodes.size() + " unreachable nodes for graph "
+				+ graphData.containingGraph.dataSource);
+
+		Set<ExecutionNode> internalUnreachables = new HashSet<ExecutionNode>();
+		for (ExecutionNode node : unreachableNodes) {
+			for (Edge<ExecutionNode> edge : node.getIncomingEdges()) {
+				if (unreachableNodes.contains(edge.getFromNode())) {
+					internalUnreachables.add(node);
+					break;
+				}
+			}
+		}
+		 */
 	}
 
 	public List<ExecutionNode> getDanglingNodes() {

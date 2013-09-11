@@ -52,5 +52,6 @@ enum EdgeType {
 message UnreachableNode {
   optional Node node = 1;
   repeated Edge missed_incoming_edge = 2;
+  optional bool is_entry_point = 3;
 }
 

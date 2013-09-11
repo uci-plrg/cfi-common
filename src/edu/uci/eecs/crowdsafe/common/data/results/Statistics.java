@@ -11,27 +11,27 @@ public final class Statistics {
   public interface StatisticsTreeOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // required int32 id = 1;
+    // optional int32 id = 1;
     /**
-     * <code>required int32 id = 1;</code>
+     * <code>optional int32 id = 1;</code>
      */
     boolean hasId();
     /**
-     * <code>required int32 id = 1;</code>
+     * <code>optional int32 id = 1;</code>
      */
     int getId();
 
-    // required string name = 2;
+    // optional string name = 2;
     /**
-     * <code>required string name = 2;</code>
+     * <code>optional string name = 2;</code>
      */
     boolean hasName();
     /**
-     * <code>required string name = 2;</code>
+     * <code>optional string name = 2;</code>
      */
     java.lang.String getName();
     /**
-     * <code>required string name = 2;</code>
+     * <code>optional string name = 2;</code>
      */
     com.google.protobuf.ByteString
         getNameBytes();
@@ -281,33 +281,33 @@ public final class Statistics {
     }
 
     private int bitField0_;
-    // required int32 id = 1;
+    // optional int32 id = 1;
     public static final int ID_FIELD_NUMBER = 1;
     private int id_;
     /**
-     * <code>required int32 id = 1;</code>
+     * <code>optional int32 id = 1;</code>
      */
     public boolean hasId() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required int32 id = 1;</code>
+     * <code>optional int32 id = 1;</code>
      */
     public int getId() {
       return id_;
     }
 
-    // required string name = 2;
+    // optional string name = 2;
     public static final int NAME_FIELD_NUMBER = 2;
     private java.lang.Object name_;
     /**
-     * <code>required string name = 2;</code>
+     * <code>optional string name = 2;</code>
      */
     public boolean hasName() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>required string name = 2;</code>
+     * <code>optional string name = 2;</code>
      */
     public java.lang.String getName() {
       java.lang.Object ref = name_;
@@ -324,7 +324,7 @@ public final class Statistics {
       }
     }
     /**
-     * <code>required string name = 2;</code>
+     * <code>optional string name = 2;</code>
      */
     public com.google.protobuf.ByteString
         getNameBytes() {
@@ -497,38 +497,6 @@ public final class Statistics {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
-      if (!hasId()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasName()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      for (int i = 0; i < getIntStatCount(); i++) {
-        if (!getIntStat(i).isInitialized()) {
-          memoizedIsInitialized = 0;
-          return false;
-        }
-      }
-      for (int i = 0; i < getFloatStatCount(); i++) {
-        if (!getFloatStat(i).isInitialized()) {
-          memoizedIsInitialized = 0;
-          return false;
-        }
-      }
-      for (int i = 0; i < getRatioCount(); i++) {
-        if (!getRatio(i).isInitialized()) {
-          memoizedIsInitialized = 0;
-          return false;
-        }
-      }
-      for (int i = 0; i < getChildCount(); i++) {
-        if (!getChild(i).isInitialized()) {
-          memoizedIsInitialized = 0;
-          return false;
-        }
-      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -940,38 +908,6 @@ public final class Statistics {
       }
 
       public final boolean isInitialized() {
-        if (!hasId()) {
-          
-          return false;
-        }
-        if (!hasName()) {
-          
-          return false;
-        }
-        for (int i = 0; i < getIntStatCount(); i++) {
-          if (!getIntStat(i).isInitialized()) {
-            
-            return false;
-          }
-        }
-        for (int i = 0; i < getFloatStatCount(); i++) {
-          if (!getFloatStat(i).isInitialized()) {
-            
-            return false;
-          }
-        }
-        for (int i = 0; i < getRatioCount(); i++) {
-          if (!getRatio(i).isInitialized()) {
-            
-            return false;
-          }
-        }
-        for (int i = 0; i < getChildCount(); i++) {
-          if (!getChild(i).isInitialized()) {
-            
-            return false;
-          }
-        }
         return true;
       }
 
@@ -994,22 +930,22 @@ public final class Statistics {
       }
       private int bitField0_;
 
-      // required int32 id = 1;
+      // optional int32 id = 1;
       private int id_ ;
       /**
-       * <code>required int32 id = 1;</code>
+       * <code>optional int32 id = 1;</code>
        */
       public boolean hasId() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required int32 id = 1;</code>
+       * <code>optional int32 id = 1;</code>
        */
       public int getId() {
         return id_;
       }
       /**
-       * <code>required int32 id = 1;</code>
+       * <code>optional int32 id = 1;</code>
        */
       public Builder setId(int value) {
         bitField0_ |= 0x00000001;
@@ -1018,7 +954,7 @@ public final class Statistics {
         return this;
       }
       /**
-       * <code>required int32 id = 1;</code>
+       * <code>optional int32 id = 1;</code>
        */
       public Builder clearId() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -1027,16 +963,16 @@ public final class Statistics {
         return this;
       }
 
-      // required string name = 2;
+      // optional string name = 2;
       private java.lang.Object name_ = "";
       /**
-       * <code>required string name = 2;</code>
+       * <code>optional string name = 2;</code>
        */
       public boolean hasName() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>required string name = 2;</code>
+       * <code>optional string name = 2;</code>
        */
       public java.lang.String getName() {
         java.lang.Object ref = name_;
@@ -1050,7 +986,7 @@ public final class Statistics {
         }
       }
       /**
-       * <code>required string name = 2;</code>
+       * <code>optional string name = 2;</code>
        */
       public com.google.protobuf.ByteString
           getNameBytes() {
@@ -1066,7 +1002,7 @@ public final class Statistics {
         }
       }
       /**
-       * <code>required string name = 2;</code>
+       * <code>optional string name = 2;</code>
        */
       public Builder setName(
           java.lang.String value) {
@@ -1079,7 +1015,7 @@ public final class Statistics {
         return this;
       }
       /**
-       * <code>required string name = 2;</code>
+       * <code>optional string name = 2;</code>
        */
       public Builder clearName() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -1088,7 +1024,7 @@ public final class Statistics {
         return this;
       }
       /**
-       * <code>required string name = 2;</code>
+       * <code>optional string name = 2;</code>
        */
       public Builder setNameBytes(
           com.google.protobuf.ByteString value) {
@@ -2075,43 +2011,43 @@ public final class Statistics {
   public interface IntegerStatisticOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // required string id = 1;
+    // optional string id = 1;
     /**
-     * <code>required string id = 1;</code>
+     * <code>optional string id = 1;</code>
      */
     boolean hasId();
     /**
-     * <code>required string id = 1;</code>
+     * <code>optional string id = 1;</code>
      */
     java.lang.String getId();
     /**
-     * <code>required string id = 1;</code>
+     * <code>optional string id = 1;</code>
      */
     com.google.protobuf.ByteString
         getIdBytes();
 
-    // required string name = 2;
+    // optional string name = 2;
     /**
-     * <code>required string name = 2;</code>
+     * <code>optional string name = 2;</code>
      */
     boolean hasName();
     /**
-     * <code>required string name = 2;</code>
+     * <code>optional string name = 2;</code>
      */
     java.lang.String getName();
     /**
-     * <code>required string name = 2;</code>
+     * <code>optional string name = 2;</code>
      */
     com.google.protobuf.ByteString
         getNameBytes();
 
-    // required int32 value = 3;
+    // optional int32 value = 3;
     /**
-     * <code>required int32 value = 3;</code>
+     * <code>optional int32 value = 3;</code>
      */
     boolean hasValue();
     /**
-     * <code>required int32 value = 3;</code>
+     * <code>optional int32 value = 3;</code>
      */
     int getValue();
   }
@@ -2221,17 +2157,17 @@ public final class Statistics {
     }
 
     private int bitField0_;
-    // required string id = 1;
+    // optional string id = 1;
     public static final int ID_FIELD_NUMBER = 1;
     private java.lang.Object id_;
     /**
-     * <code>required string id = 1;</code>
+     * <code>optional string id = 1;</code>
      */
     public boolean hasId() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required string id = 1;</code>
+     * <code>optional string id = 1;</code>
      */
     public java.lang.String getId() {
       java.lang.Object ref = id_;
@@ -2248,7 +2184,7 @@ public final class Statistics {
       }
     }
     /**
-     * <code>required string id = 1;</code>
+     * <code>optional string id = 1;</code>
      */
     public com.google.protobuf.ByteString
         getIdBytes() {
@@ -2264,17 +2200,17 @@ public final class Statistics {
       }
     }
 
-    // required string name = 2;
+    // optional string name = 2;
     public static final int NAME_FIELD_NUMBER = 2;
     private java.lang.Object name_;
     /**
-     * <code>required string name = 2;</code>
+     * <code>optional string name = 2;</code>
      */
     public boolean hasName() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>required string name = 2;</code>
+     * <code>optional string name = 2;</code>
      */
     public java.lang.String getName() {
       java.lang.Object ref = name_;
@@ -2291,7 +2227,7 @@ public final class Statistics {
       }
     }
     /**
-     * <code>required string name = 2;</code>
+     * <code>optional string name = 2;</code>
      */
     public com.google.protobuf.ByteString
         getNameBytes() {
@@ -2307,17 +2243,17 @@ public final class Statistics {
       }
     }
 
-    // required int32 value = 3;
+    // optional int32 value = 3;
     public static final int VALUE_FIELD_NUMBER = 3;
     private int value_;
     /**
-     * <code>required int32 value = 3;</code>
+     * <code>optional int32 value = 3;</code>
      */
     public boolean hasValue() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>required int32 value = 3;</code>
+     * <code>optional int32 value = 3;</code>
      */
     public int getValue() {
       return value_;
@@ -2333,18 +2269,6 @@ public final class Statistics {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
-      if (!hasId()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasName()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasValue()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -2578,18 +2502,6 @@ public final class Statistics {
       }
 
       public final boolean isInitialized() {
-        if (!hasId()) {
-          
-          return false;
-        }
-        if (!hasName()) {
-          
-          return false;
-        }
-        if (!hasValue()) {
-          
-          return false;
-        }
         return true;
       }
 
@@ -2612,16 +2524,16 @@ public final class Statistics {
       }
       private int bitField0_;
 
-      // required string id = 1;
+      // optional string id = 1;
       private java.lang.Object id_ = "";
       /**
-       * <code>required string id = 1;</code>
+       * <code>optional string id = 1;</code>
        */
       public boolean hasId() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required string id = 1;</code>
+       * <code>optional string id = 1;</code>
        */
       public java.lang.String getId() {
         java.lang.Object ref = id_;
@@ -2635,7 +2547,7 @@ public final class Statistics {
         }
       }
       /**
-       * <code>required string id = 1;</code>
+       * <code>optional string id = 1;</code>
        */
       public com.google.protobuf.ByteString
           getIdBytes() {
@@ -2651,7 +2563,7 @@ public final class Statistics {
         }
       }
       /**
-       * <code>required string id = 1;</code>
+       * <code>optional string id = 1;</code>
        */
       public Builder setId(
           java.lang.String value) {
@@ -2664,7 +2576,7 @@ public final class Statistics {
         return this;
       }
       /**
-       * <code>required string id = 1;</code>
+       * <code>optional string id = 1;</code>
        */
       public Builder clearId() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -2673,7 +2585,7 @@ public final class Statistics {
         return this;
       }
       /**
-       * <code>required string id = 1;</code>
+       * <code>optional string id = 1;</code>
        */
       public Builder setIdBytes(
           com.google.protobuf.ByteString value) {
@@ -2686,16 +2598,16 @@ public final class Statistics {
         return this;
       }
 
-      // required string name = 2;
+      // optional string name = 2;
       private java.lang.Object name_ = "";
       /**
-       * <code>required string name = 2;</code>
+       * <code>optional string name = 2;</code>
        */
       public boolean hasName() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>required string name = 2;</code>
+       * <code>optional string name = 2;</code>
        */
       public java.lang.String getName() {
         java.lang.Object ref = name_;
@@ -2709,7 +2621,7 @@ public final class Statistics {
         }
       }
       /**
-       * <code>required string name = 2;</code>
+       * <code>optional string name = 2;</code>
        */
       public com.google.protobuf.ByteString
           getNameBytes() {
@@ -2725,7 +2637,7 @@ public final class Statistics {
         }
       }
       /**
-       * <code>required string name = 2;</code>
+       * <code>optional string name = 2;</code>
        */
       public Builder setName(
           java.lang.String value) {
@@ -2738,7 +2650,7 @@ public final class Statistics {
         return this;
       }
       /**
-       * <code>required string name = 2;</code>
+       * <code>optional string name = 2;</code>
        */
       public Builder clearName() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -2747,7 +2659,7 @@ public final class Statistics {
         return this;
       }
       /**
-       * <code>required string name = 2;</code>
+       * <code>optional string name = 2;</code>
        */
       public Builder setNameBytes(
           com.google.protobuf.ByteString value) {
@@ -2760,22 +2672,22 @@ public final class Statistics {
         return this;
       }
 
-      // required int32 value = 3;
+      // optional int32 value = 3;
       private int value_ ;
       /**
-       * <code>required int32 value = 3;</code>
+       * <code>optional int32 value = 3;</code>
        */
       public boolean hasValue() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>required int32 value = 3;</code>
+       * <code>optional int32 value = 3;</code>
        */
       public int getValue() {
         return value_;
       }
       /**
-       * <code>required int32 value = 3;</code>
+       * <code>optional int32 value = 3;</code>
        */
       public Builder setValue(int value) {
         bitField0_ |= 0x00000004;
@@ -2784,7 +2696,7 @@ public final class Statistics {
         return this;
       }
       /**
-       * <code>required int32 value = 3;</code>
+       * <code>optional int32 value = 3;</code>
        */
       public Builder clearValue() {
         bitField0_ = (bitField0_ & ~0x00000004);
@@ -2807,43 +2719,43 @@ public final class Statistics {
   public interface FloatStatisticOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // required string id = 1;
+    // optional string id = 1;
     /**
-     * <code>required string id = 1;</code>
+     * <code>optional string id = 1;</code>
      */
     boolean hasId();
     /**
-     * <code>required string id = 1;</code>
+     * <code>optional string id = 1;</code>
      */
     java.lang.String getId();
     /**
-     * <code>required string id = 1;</code>
+     * <code>optional string id = 1;</code>
      */
     com.google.protobuf.ByteString
         getIdBytes();
 
-    // required string name = 2;
+    // optional string name = 2;
     /**
-     * <code>required string name = 2;</code>
+     * <code>optional string name = 2;</code>
      */
     boolean hasName();
     /**
-     * <code>required string name = 2;</code>
+     * <code>optional string name = 2;</code>
      */
     java.lang.String getName();
     /**
-     * <code>required string name = 2;</code>
+     * <code>optional string name = 2;</code>
      */
     com.google.protobuf.ByteString
         getNameBytes();
 
-    // required float value = 3;
+    // optional float value = 3;
     /**
-     * <code>required float value = 3;</code>
+     * <code>optional float value = 3;</code>
      */
     boolean hasValue();
     /**
-     * <code>required float value = 3;</code>
+     * <code>optional float value = 3;</code>
      */
     float getValue();
   }
@@ -2953,17 +2865,17 @@ public final class Statistics {
     }
 
     private int bitField0_;
-    // required string id = 1;
+    // optional string id = 1;
     public static final int ID_FIELD_NUMBER = 1;
     private java.lang.Object id_;
     /**
-     * <code>required string id = 1;</code>
+     * <code>optional string id = 1;</code>
      */
     public boolean hasId() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required string id = 1;</code>
+     * <code>optional string id = 1;</code>
      */
     public java.lang.String getId() {
       java.lang.Object ref = id_;
@@ -2980,7 +2892,7 @@ public final class Statistics {
       }
     }
     /**
-     * <code>required string id = 1;</code>
+     * <code>optional string id = 1;</code>
      */
     public com.google.protobuf.ByteString
         getIdBytes() {
@@ -2996,17 +2908,17 @@ public final class Statistics {
       }
     }
 
-    // required string name = 2;
+    // optional string name = 2;
     public static final int NAME_FIELD_NUMBER = 2;
     private java.lang.Object name_;
     /**
-     * <code>required string name = 2;</code>
+     * <code>optional string name = 2;</code>
      */
     public boolean hasName() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>required string name = 2;</code>
+     * <code>optional string name = 2;</code>
      */
     public java.lang.String getName() {
       java.lang.Object ref = name_;
@@ -3023,7 +2935,7 @@ public final class Statistics {
       }
     }
     /**
-     * <code>required string name = 2;</code>
+     * <code>optional string name = 2;</code>
      */
     public com.google.protobuf.ByteString
         getNameBytes() {
@@ -3039,17 +2951,17 @@ public final class Statistics {
       }
     }
 
-    // required float value = 3;
+    // optional float value = 3;
     public static final int VALUE_FIELD_NUMBER = 3;
     private float value_;
     /**
-     * <code>required float value = 3;</code>
+     * <code>optional float value = 3;</code>
      */
     public boolean hasValue() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>required float value = 3;</code>
+     * <code>optional float value = 3;</code>
      */
     public float getValue() {
       return value_;
@@ -3065,18 +2977,6 @@ public final class Statistics {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
-      if (!hasId()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasName()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasValue()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -3310,18 +3210,6 @@ public final class Statistics {
       }
 
       public final boolean isInitialized() {
-        if (!hasId()) {
-          
-          return false;
-        }
-        if (!hasName()) {
-          
-          return false;
-        }
-        if (!hasValue()) {
-          
-          return false;
-        }
         return true;
       }
 
@@ -3344,16 +3232,16 @@ public final class Statistics {
       }
       private int bitField0_;
 
-      // required string id = 1;
+      // optional string id = 1;
       private java.lang.Object id_ = "";
       /**
-       * <code>required string id = 1;</code>
+       * <code>optional string id = 1;</code>
        */
       public boolean hasId() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required string id = 1;</code>
+       * <code>optional string id = 1;</code>
        */
       public java.lang.String getId() {
         java.lang.Object ref = id_;
@@ -3367,7 +3255,7 @@ public final class Statistics {
         }
       }
       /**
-       * <code>required string id = 1;</code>
+       * <code>optional string id = 1;</code>
        */
       public com.google.protobuf.ByteString
           getIdBytes() {
@@ -3383,7 +3271,7 @@ public final class Statistics {
         }
       }
       /**
-       * <code>required string id = 1;</code>
+       * <code>optional string id = 1;</code>
        */
       public Builder setId(
           java.lang.String value) {
@@ -3396,7 +3284,7 @@ public final class Statistics {
         return this;
       }
       /**
-       * <code>required string id = 1;</code>
+       * <code>optional string id = 1;</code>
        */
       public Builder clearId() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -3405,7 +3293,7 @@ public final class Statistics {
         return this;
       }
       /**
-       * <code>required string id = 1;</code>
+       * <code>optional string id = 1;</code>
        */
       public Builder setIdBytes(
           com.google.protobuf.ByteString value) {
@@ -3418,16 +3306,16 @@ public final class Statistics {
         return this;
       }
 
-      // required string name = 2;
+      // optional string name = 2;
       private java.lang.Object name_ = "";
       /**
-       * <code>required string name = 2;</code>
+       * <code>optional string name = 2;</code>
        */
       public boolean hasName() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>required string name = 2;</code>
+       * <code>optional string name = 2;</code>
        */
       public java.lang.String getName() {
         java.lang.Object ref = name_;
@@ -3441,7 +3329,7 @@ public final class Statistics {
         }
       }
       /**
-       * <code>required string name = 2;</code>
+       * <code>optional string name = 2;</code>
        */
       public com.google.protobuf.ByteString
           getNameBytes() {
@@ -3457,7 +3345,7 @@ public final class Statistics {
         }
       }
       /**
-       * <code>required string name = 2;</code>
+       * <code>optional string name = 2;</code>
        */
       public Builder setName(
           java.lang.String value) {
@@ -3470,7 +3358,7 @@ public final class Statistics {
         return this;
       }
       /**
-       * <code>required string name = 2;</code>
+       * <code>optional string name = 2;</code>
        */
       public Builder clearName() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -3479,7 +3367,7 @@ public final class Statistics {
         return this;
       }
       /**
-       * <code>required string name = 2;</code>
+       * <code>optional string name = 2;</code>
        */
       public Builder setNameBytes(
           com.google.protobuf.ByteString value) {
@@ -3492,22 +3380,22 @@ public final class Statistics {
         return this;
       }
 
-      // required float value = 3;
+      // optional float value = 3;
       private float value_ ;
       /**
-       * <code>required float value = 3;</code>
+       * <code>optional float value = 3;</code>
        */
       public boolean hasValue() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>required float value = 3;</code>
+       * <code>optional float value = 3;</code>
        */
       public float getValue() {
         return value_;
       }
       /**
-       * <code>required float value = 3;</code>
+       * <code>optional float value = 3;</code>
        */
       public Builder setValue(float value) {
         bitField0_ |= 0x00000004;
@@ -3516,7 +3404,7 @@ public final class Statistics {
         return this;
       }
       /**
-       * <code>required float value = 3;</code>
+       * <code>optional float value = 3;</code>
        */
       public Builder clearValue() {
         bitField0_ = (bitField0_ & ~0x00000004);
@@ -3539,53 +3427,53 @@ public final class Statistics {
   public interface RatioOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // required string id = 1;
+    // optional string id = 1;
     /**
-     * <code>required string id = 1;</code>
+     * <code>optional string id = 1;</code>
      */
     boolean hasId();
     /**
-     * <code>required string id = 1;</code>
+     * <code>optional string id = 1;</code>
      */
     java.lang.String getId();
     /**
-     * <code>required string id = 1;</code>
+     * <code>optional string id = 1;</code>
      */
     com.google.protobuf.ByteString
         getIdBytes();
 
-    // required string name = 2;
+    // optional string name = 2;
     /**
-     * <code>required string name = 2;</code>
+     * <code>optional string name = 2;</code>
      */
     boolean hasName();
     /**
-     * <code>required string name = 2;</code>
+     * <code>optional string name = 2;</code>
      */
     java.lang.String getName();
     /**
-     * <code>required string name = 2;</code>
+     * <code>optional string name = 2;</code>
      */
     com.google.protobuf.ByteString
         getNameBytes();
 
-    // required int32 numerator = 3;
+    // optional int32 numerator = 3;
     /**
-     * <code>required int32 numerator = 3;</code>
+     * <code>optional int32 numerator = 3;</code>
      */
     boolean hasNumerator();
     /**
-     * <code>required int32 numerator = 3;</code>
+     * <code>optional int32 numerator = 3;</code>
      */
     int getNumerator();
 
-    // required int32 denominator = 4;
+    // optional int32 denominator = 4;
     /**
-     * <code>required int32 denominator = 4;</code>
+     * <code>optional int32 denominator = 4;</code>
      */
     boolean hasDenominator();
     /**
-     * <code>required int32 denominator = 4;</code>
+     * <code>optional int32 denominator = 4;</code>
      */
     int getDenominator();
   }
@@ -3700,17 +3588,17 @@ public final class Statistics {
     }
 
     private int bitField0_;
-    // required string id = 1;
+    // optional string id = 1;
     public static final int ID_FIELD_NUMBER = 1;
     private java.lang.Object id_;
     /**
-     * <code>required string id = 1;</code>
+     * <code>optional string id = 1;</code>
      */
     public boolean hasId() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required string id = 1;</code>
+     * <code>optional string id = 1;</code>
      */
     public java.lang.String getId() {
       java.lang.Object ref = id_;
@@ -3727,7 +3615,7 @@ public final class Statistics {
       }
     }
     /**
-     * <code>required string id = 1;</code>
+     * <code>optional string id = 1;</code>
      */
     public com.google.protobuf.ByteString
         getIdBytes() {
@@ -3743,17 +3631,17 @@ public final class Statistics {
       }
     }
 
-    // required string name = 2;
+    // optional string name = 2;
     public static final int NAME_FIELD_NUMBER = 2;
     private java.lang.Object name_;
     /**
-     * <code>required string name = 2;</code>
+     * <code>optional string name = 2;</code>
      */
     public boolean hasName() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>required string name = 2;</code>
+     * <code>optional string name = 2;</code>
      */
     public java.lang.String getName() {
       java.lang.Object ref = name_;
@@ -3770,7 +3658,7 @@ public final class Statistics {
       }
     }
     /**
-     * <code>required string name = 2;</code>
+     * <code>optional string name = 2;</code>
      */
     public com.google.protobuf.ByteString
         getNameBytes() {
@@ -3786,33 +3674,33 @@ public final class Statistics {
       }
     }
 
-    // required int32 numerator = 3;
+    // optional int32 numerator = 3;
     public static final int NUMERATOR_FIELD_NUMBER = 3;
     private int numerator_;
     /**
-     * <code>required int32 numerator = 3;</code>
+     * <code>optional int32 numerator = 3;</code>
      */
     public boolean hasNumerator() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>required int32 numerator = 3;</code>
+     * <code>optional int32 numerator = 3;</code>
      */
     public int getNumerator() {
       return numerator_;
     }
 
-    // required int32 denominator = 4;
+    // optional int32 denominator = 4;
     public static final int DENOMINATOR_FIELD_NUMBER = 4;
     private int denominator_;
     /**
-     * <code>required int32 denominator = 4;</code>
+     * <code>optional int32 denominator = 4;</code>
      */
     public boolean hasDenominator() {
       return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
-     * <code>required int32 denominator = 4;</code>
+     * <code>optional int32 denominator = 4;</code>
      */
     public int getDenominator() {
       return denominator_;
@@ -3829,22 +3717,6 @@ public final class Statistics {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
-      if (!hasId()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasName()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasNumerator()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasDenominator()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -4094,22 +3966,6 @@ public final class Statistics {
       }
 
       public final boolean isInitialized() {
-        if (!hasId()) {
-          
-          return false;
-        }
-        if (!hasName()) {
-          
-          return false;
-        }
-        if (!hasNumerator()) {
-          
-          return false;
-        }
-        if (!hasDenominator()) {
-          
-          return false;
-        }
         return true;
       }
 
@@ -4132,16 +3988,16 @@ public final class Statistics {
       }
       private int bitField0_;
 
-      // required string id = 1;
+      // optional string id = 1;
       private java.lang.Object id_ = "";
       /**
-       * <code>required string id = 1;</code>
+       * <code>optional string id = 1;</code>
        */
       public boolean hasId() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required string id = 1;</code>
+       * <code>optional string id = 1;</code>
        */
       public java.lang.String getId() {
         java.lang.Object ref = id_;
@@ -4155,7 +4011,7 @@ public final class Statistics {
         }
       }
       /**
-       * <code>required string id = 1;</code>
+       * <code>optional string id = 1;</code>
        */
       public com.google.protobuf.ByteString
           getIdBytes() {
@@ -4171,7 +4027,7 @@ public final class Statistics {
         }
       }
       /**
-       * <code>required string id = 1;</code>
+       * <code>optional string id = 1;</code>
        */
       public Builder setId(
           java.lang.String value) {
@@ -4184,7 +4040,7 @@ public final class Statistics {
         return this;
       }
       /**
-       * <code>required string id = 1;</code>
+       * <code>optional string id = 1;</code>
        */
       public Builder clearId() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -4193,7 +4049,7 @@ public final class Statistics {
         return this;
       }
       /**
-       * <code>required string id = 1;</code>
+       * <code>optional string id = 1;</code>
        */
       public Builder setIdBytes(
           com.google.protobuf.ByteString value) {
@@ -4206,16 +4062,16 @@ public final class Statistics {
         return this;
       }
 
-      // required string name = 2;
+      // optional string name = 2;
       private java.lang.Object name_ = "";
       /**
-       * <code>required string name = 2;</code>
+       * <code>optional string name = 2;</code>
        */
       public boolean hasName() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>required string name = 2;</code>
+       * <code>optional string name = 2;</code>
        */
       public java.lang.String getName() {
         java.lang.Object ref = name_;
@@ -4229,7 +4085,7 @@ public final class Statistics {
         }
       }
       /**
-       * <code>required string name = 2;</code>
+       * <code>optional string name = 2;</code>
        */
       public com.google.protobuf.ByteString
           getNameBytes() {
@@ -4245,7 +4101,7 @@ public final class Statistics {
         }
       }
       /**
-       * <code>required string name = 2;</code>
+       * <code>optional string name = 2;</code>
        */
       public Builder setName(
           java.lang.String value) {
@@ -4258,7 +4114,7 @@ public final class Statistics {
         return this;
       }
       /**
-       * <code>required string name = 2;</code>
+       * <code>optional string name = 2;</code>
        */
       public Builder clearName() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -4267,7 +4123,7 @@ public final class Statistics {
         return this;
       }
       /**
-       * <code>required string name = 2;</code>
+       * <code>optional string name = 2;</code>
        */
       public Builder setNameBytes(
           com.google.protobuf.ByteString value) {
@@ -4280,22 +4136,22 @@ public final class Statistics {
         return this;
       }
 
-      // required int32 numerator = 3;
+      // optional int32 numerator = 3;
       private int numerator_ ;
       /**
-       * <code>required int32 numerator = 3;</code>
+       * <code>optional int32 numerator = 3;</code>
        */
       public boolean hasNumerator() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>required int32 numerator = 3;</code>
+       * <code>optional int32 numerator = 3;</code>
        */
       public int getNumerator() {
         return numerator_;
       }
       /**
-       * <code>required int32 numerator = 3;</code>
+       * <code>optional int32 numerator = 3;</code>
        */
       public Builder setNumerator(int value) {
         bitField0_ |= 0x00000004;
@@ -4304,7 +4160,7 @@ public final class Statistics {
         return this;
       }
       /**
-       * <code>required int32 numerator = 3;</code>
+       * <code>optional int32 numerator = 3;</code>
        */
       public Builder clearNumerator() {
         bitField0_ = (bitField0_ & ~0x00000004);
@@ -4313,22 +4169,22 @@ public final class Statistics {
         return this;
       }
 
-      // required int32 denominator = 4;
+      // optional int32 denominator = 4;
       private int denominator_ ;
       /**
-       * <code>required int32 denominator = 4;</code>
+       * <code>optional int32 denominator = 4;</code>
        */
       public boolean hasDenominator() {
         return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
-       * <code>required int32 denominator = 4;</code>
+       * <code>optional int32 denominator = 4;</code>
        */
       public int getDenominator() {
         return denominator_;
       }
       /**
-       * <code>required int32 denominator = 4;</code>
+       * <code>optional int32 denominator = 4;</code>
        */
       public Builder setDenominator(int value) {
         bitField0_ |= 0x00000008;
@@ -4337,7 +4193,7 @@ public final class Statistics {
         return this;
       }
       /**
-       * <code>required int32 denominator = 4;</code>
+       * <code>optional int32 denominator = 4;</code>
        */
       public Builder clearDenominator() {
         bitField0_ = (bitField0_ & ~0x00000008);
@@ -4387,18 +4243,18 @@ public final class Statistics {
   static {
     java.lang.String[] descriptorData = {
       "\n\020statistics.proto\022\030crowd_safe_data_anal" +
-      "ysis\"\217\002\n\016StatisticsTree\022\n\n\002id\030\001 \002(\005\022\014\n\004n" +
-      "ame\030\002 \002(\t\022<\n\010int_stat\030\003 \003(\0132*.crowd_safe" +
+      "ysis\"\217\002\n\016StatisticsTree\022\n\n\002id\030\001 \001(\005\022\014\n\004n" +
+      "ame\030\002 \001(\t\022<\n\010int_stat\030\003 \003(\0132*.crowd_safe" +
       "_data_analysis.IntegerStatistic\022<\n\nfloat" +
       "_stat\030\004 \003(\0132(.crowd_safe_data_analysis.F" +
       "loatStatistic\022.\n\005ratio\030\005 \003(\0132\037.crowd_saf" +
       "e_data_analysis.Ratio\0227\n\005child\030\006 \003(\0132(.c" +
       "rowd_safe_data_analysis.StatisticsTree\";" +
-      "\n\020IntegerStatistic\022\n\n\002id\030\001 \002(\t\022\014\n\004name\030\002" +
-      " \002(\t\022\r\n\005value\030\003 \002(\005\"9\n\016FloatStatistic\022\n\n",
-      "\002id\030\001 \002(\t\022\014\n\004name\030\002 \002(\t\022\r\n\005value\030\003 \002(\002\"I" +
-      "\n\005Ratio\022\n\n\002id\030\001 \002(\t\022\014\n\004name\030\002 \002(\t\022\021\n\tnum" +
-      "erator\030\003 \002(\005\022\023\n\013denominator\030\004 \002(\005B8\n*edu" +
+      "\n\020IntegerStatistic\022\n\n\002id\030\001 \001(\t\022\014\n\004name\030\002" +
+      " \001(\t\022\r\n\005value\030\003 \001(\005\"9\n\016FloatStatistic\022\n\n",
+      "\002id\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\022\r\n\005value\030\003 \001(\002\"I" +
+      "\n\005Ratio\022\n\n\002id\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\022\021\n\tnum" +
+      "erator\030\003 \001(\005\022\023\n\013denominator\030\004 \001(\005B8\n*edu" +
       ".uci.eecs.crowdsafe.common.data.resultsB" +
       "\nStatistics"
     };
