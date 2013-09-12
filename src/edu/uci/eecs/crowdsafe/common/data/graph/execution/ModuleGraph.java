@@ -47,19 +47,6 @@ public class ModuleGraph {
 		return executableBlockCount;
 	}
 
-	/**
-	 * <pre>
-	private void addModuleBoundaryNode(Node n) {
-		Node newNode = new Node(containingGraph, n);
-		newNode.setMetaNodeType(MetaNodeType.MODULE_BOUNDARY);
-		graphData.nodesByHash.add(newNode);
-		newNode.setIndex(graphData.nodes.size());
-		graphData.nodes.add(newNode);
-
-		graphData.blockHashes.add(newNode.getHash());
-	}
-	 */
-
 	public String toString() {
 		return "Module_" + softwareUnit.name;
 	}

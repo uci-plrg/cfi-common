@@ -96,7 +96,6 @@ public class ProcessGraphCrossModuleEdgeFactory {
 			// Cross-module edges are not added to any node, but the
 			// edge from signature node to real entry node is preserved.
 			// We only need to add the signature nodes to "nodes"
-			fromNode.setMetaNodeType(MetaNodeType.MODULE_BOUNDARY);
 			ModuleGraphCluster fromCluster = loader.graph.getModuleGraphCluster(fromModule.unit);
 
 			ModuleGraphCluster toCluster = loader.graph.getModuleGraphCluster(toModule.unit);
@@ -112,9 +111,7 @@ public class ProcessGraphCrossModuleEdgeFactory {
 				ExecutionNode exitNode = new ExecutionNode(fromModule, MetaNodeType.CLUSTER_EXIT, signatureHash, 0,
 						signatureHash, fromNode.getTimestamp());
 				fromCluster.addNode(exitNode);
-				fromNode.setMetaNodeType(MetaNodeType.NORMAL);
 				Edge<ExecutionNode> clusterExitEdge = new Edge<ExecutionNode>(fromNode, exitNode, edgeType, 0);
-				// TODO: need CROSS_MODULE for anything?
 				fromNode.addOutgoingEdge(clusterExitEdge);
 				exitNode.addIncomingEdge(clusterExitEdge);
 
@@ -122,7 +119,6 @@ public class ProcessGraphCrossModuleEdgeFactory {
 					loader.listener.edgeCreation(clusterExitEdge);
 
 				ExecutionNode entryNode = toCluster.addClusterEntryNode(signatureHash, toModule, toNode.getTimestamp());
-				toNode.setMetaNodeType(MetaNodeType.NORMAL);
 				Edge<ExecutionNode> clusterEntryEdge = new Edge<ExecutionNode>(entryNode, toNode,
 						EdgeType.MODULE_ENTRY, 0);
 				entryNode.addOutgoingEdge(clusterEntryEdge);

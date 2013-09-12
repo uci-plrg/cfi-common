@@ -17,6 +17,10 @@ public class SoftwareDistributionUnit {
 			filename = name.substring(0, lastDash);
 		}
 	}
+	
+	public boolean isDynamic() {
+		return (this == UNKNOWN) || filename.endsWith(".cpl");
+	}
 
 	@Override
 	public int hashCode() {

@@ -80,7 +80,7 @@ public class ExecutionNode extends Node<ExecutionNode> {
 
 	private final long hash;
 
-	private MetaNodeType metaNodeType;
+	private final MetaNodeType metaNodeType;
 
 	public ExecutionNode(ModuleInstance module, MetaNodeType metaNodeType, long tag, int tagVersion, long hash,
 			long timestamp) {
@@ -105,17 +105,26 @@ public class ExecutionNode extends Node<ExecutionNode> {
 	}
 
 	@Override
-	public boolean isEquivalent(Node other) {
+	public boolean isModuleRelativeEquivalent(Node other) {
 		if (!(other instanceof ExecutionNode))
-			return super.isEquivalent(other);
+			return super.isModuleRelativeEquivalent(other);
 
 		ExecutionNode n = (ExecutionNode) other;
-		return (key.relativeTag == n.key.relativeTag) && key.module.equals(n.key.module) && (getType() == n.getType())
-				&& (getHash() == n.getHash());
+		return (key.relativeTag == n.key.relativeTag) && key.module.isEquivalent(n.key.module)
+				&& (getType() == n.getType()) && (getHash() == n.getHash());
 	}
 
-	public void setMetaNodeType(MetaNodeType metaNodeType) {
-		this.metaNodeType = metaNodeType;
+	@Override
+	public boolean isModuleRelativeMismatch(Node other) {
+		if (!(other instanceof ExecutionNode))
+			return super.isModuleRelativeMismatch(other);
+
+		ExecutionNode n = (ExecutionNode) other;
+		if (key.module.unit.isDynamic() || n.key.module.unit.isDynamic())
+			return false;
+
+		return !(key.relativeTag == n.key.relativeTag) && key.module.equals(n.key.module) && (getType() == n.getType())
+				&& (getHash() == n.getHash());
 	}
 
 	public String identify() {

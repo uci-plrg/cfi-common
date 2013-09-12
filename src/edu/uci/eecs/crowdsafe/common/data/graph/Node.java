@@ -2,8 +2,7 @@ package edu.uci.eecs.crowdsafe.common.data.graph;
 
 import java.util.List;
 
-import edu.uci.eecs.crowdsafe.common.data.graph.EdgeSet.Direction;
-import edu.uci.eecs.crowdsafe.common.data.graph.execution.ExecutionNode;
+import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareModule;
 
 public abstract class Node<NodeType extends Node> implements NodeList {
 
@@ -16,10 +15,16 @@ public abstract class Node<NodeType extends Node> implements NodeList {
 
 	public abstract long getHash();
 
+	public abstract SoftwareModule getModule();
+
 	public abstract MetaNodeType getType();
 
-	public boolean isEquivalent(Node other) {
+	public boolean isModuleRelativeEquivalent(Node other) {
 		return getKey().equals(other.getKey()) && (getType() == other.getType()) && (getHash() == other.getHash());
+	}
+
+	public boolean isModuleRelativeMismatch(Node other) {
+		return !(getKey().equals(other.getKey()) && (getType() == other.getType()) && (getHash() == other.getHash()));
 	}
 
 	public boolean hasIncomingEdges() {

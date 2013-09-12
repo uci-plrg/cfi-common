@@ -79,7 +79,7 @@ public class ModuleGraphCluster {
 				case TRAMPOLINE:
 				case PROCESS_ENTRY:
 				case PROCESS_EXIT:
-				case MODULE_BOUNDARY:
+					// case MODULE_BOUNDARY:
 				case SIGNAL_HANDLER:
 				case SIGRETURN:
 					executableNodeCount++;

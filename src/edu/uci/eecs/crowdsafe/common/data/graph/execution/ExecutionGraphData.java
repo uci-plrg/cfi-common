@@ -35,6 +35,8 @@ public class ExecutionGraphData {
 	}
 
 	public boolean HACK_containsEquivalent(ExecutionNode node) {
+		if (node.getKey().module.unit.isDynamic())
+			return false;
 		if (nodesByKey.containsKey(node.getKey()))
 			return true;
 		if (node.getKey().version > 0)

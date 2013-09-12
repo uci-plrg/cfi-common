@@ -1,9 +1,10 @@
 package edu.uci.eecs.crowdsafe.common.data.graph.execution;
 
 import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareDistributionUnit;
+import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareModule;
 
 // TODO: check the usage of ModuleInstance hashcode/equals: maybe use alternate key for equivocating all instances of the same software unit?
-public class ModuleInstance {
+public class ModuleInstance extends SoftwareModule {
 	public static ModuleInstance UNKNOWN = new ModuleInstance(SoftwareDistributionUnit.UNKNOWN, "", 0L, Long.MAX_VALUE,
 			0L, Long.MAX_VALUE, 0L, Long.MAX_VALUE, 0L, Long.MAX_VALUE);
 
@@ -26,8 +27,6 @@ public class ModuleInstance {
 		}
 	}
 
-	public final SoftwareDistributionUnit unit;
-	public final String version;
 	public final long start;
 	public final long end;
 	public final Span blockSpan;
@@ -37,8 +36,7 @@ public class ModuleInstance {
 	public ModuleInstance(SoftwareDistributionUnit unit, String version, long start, long end, long blockLoadTime,
 			long blockUnloadTime, long edgeLoadTime, long edgeUnloadTime, long crossModuleEdgeLoadTime,
 			long crossModuleEdgeUnloadTime) {
-		this.unit = unit;
-		this.version = version;
+		super(unit, version);
 		this.start = start;
 		this.end = end;
 		this.blockSpan = new Span(blockLoadTime, blockUnloadTime);
