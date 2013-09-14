@@ -87,10 +87,8 @@ public abstract class Node<NodeType extends Node> implements NodeList {
 		return edges.checkOutgoingEdgeCompatibility(other.edges);
 	}
 
-	// put the edge impl here?
-
 	public boolean isMetaNode() {
-		return getType() != MetaNodeType.NORMAL;
+		return (getType() != MetaNodeType.NORMAL) && (getType() != MetaNodeType.RETURN);
 	}
 
 	@Override
