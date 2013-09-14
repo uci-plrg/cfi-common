@@ -4,12 +4,14 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class AutonomousSoftwareDistributionLoader {
 
-	// TODO: should all the windows dlls really be in a single dist?
 	public static AutonomousSoftwareDistribution loadDistribution(File configFile) throws IOException {
 		Set<SoftwareDistributionUnit> distUnits = new HashSet<SoftwareDistributionUnit>();
 		BufferedReader reader = new BufferedReader(new FileReader(configFile));
@@ -19,5 +21,16 @@ public class AutonomousSoftwareDistributionLoader {
 		}
 		String distName = configFile.getName().substring(0, configFile.getName().lastIndexOf('.'));
 		return new AutonomousSoftwareDistribution(distName, distUnits);
+	}
+
+	public static List<AutonomousSoftwareDistribution> loadSingleton(File configFile) throws IOException {
+		List<AutonomousSoftwareDistribution> singletons = new ArrayList<AutonomousSoftwareDistribution>();
+		BufferedReader reader = new BufferedReader(new FileReader(configFile));
+		String line;
+		while ((line = reader.readLine()) != null) {
+			SoftwareDistributionUnit unit = new SoftwareDistributionUnit(line.toLowerCase());
+			singletons.add(new AutonomousSoftwareDistribution(unit.name, Collections.singleton(unit)));
+		}
+		return singletons;
 	}
 }

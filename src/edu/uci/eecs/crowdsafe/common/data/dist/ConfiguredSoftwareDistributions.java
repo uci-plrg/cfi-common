@@ -3,6 +3,7 @@ package edu.uci.eecs.crowdsafe.common.data.dist;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import edu.uci.eecs.crowdsafe.common.config.CrowdSafeConfiguration;
@@ -28,7 +29,7 @@ public class ConfiguredSoftwareDistributions {
 		int dashIndex = unitName.lastIndexOf('-');
 		if (dashIndex < 0)
 			return "";
-		return unitName.substring(dashIndex+1);
+		return unitName.substring(dashIndex + 1);
 	}
 
 	private static ConfiguredSoftwareDistributions INSTANCE;
@@ -50,10 +51,15 @@ public class ConfiguredSoftwareDistributions {
 		try {
 			for (File configFile : configDir.listFiles()) {
 				if (configFile.getName().endsWith(".asd")) {
-					String distName = configFile.getName().substring(0, configFile.getName().lastIndexOf('.'));
 					AutonomousSoftwareDistribution dist = AutonomousSoftwareDistributionLoader
 							.loadDistribution(configFile);
-					distributions.put(distName, dist);
+					distributions.put(dist.name, dist);
+				} else if (configFile.getName().endsWith(".ssm")) {
+					List<AutonomousSoftwareDistribution> singletons = AutonomousSoftwareDistributionLoader
+							.loadSingleton(configFile);
+					for (AutonomousSoftwareDistribution singleton : singletons) {
+						distributions.put(singleton.name, singleton);
+					}
 				}
 			}
 		} catch (IOException e) {

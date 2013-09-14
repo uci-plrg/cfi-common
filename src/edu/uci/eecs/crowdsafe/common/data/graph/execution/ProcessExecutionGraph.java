@@ -1,5 +1,6 @@
 package edu.uci.eecs.crowdsafe.common.data.graph.execution;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -54,7 +55,6 @@ public class ProcessExecutionGraph {
 		}
 	}
 
-	// Represents the list of core modules
 	private final Map<AutonomousSoftwareDistribution, ModuleGraphCluster> moduleGraphs = new HashMap<AutonomousSoftwareDistribution, ModuleGraphCluster>();
 	private final Map<SoftwareDistributionUnit, ModuleGraphCluster> moduleGraphsBySoftwareUnit = new HashMap<SoftwareDistributionUnit, ModuleGraphCluster>();
 
@@ -74,6 +74,14 @@ public class ProcessExecutionGraph {
 			for (SoftwareDistributionUnit unit : dist.distributionUnits) {
 				moduleGraphsBySoftwareUnit.put(unit, moduleCluster);
 			}
+		}
+	}
+
+	public void trimEmptyClusters() {
+		for (Map.Entry<AutonomousSoftwareDistribution, ModuleGraphCluster> entry : new ArrayList<Map.Entry<AutonomousSoftwareDistribution, ModuleGraphCluster>>(
+				moduleGraphs.entrySet())) {
+			if (entry.getValue().getGraphData().nodesByKey.isEmpty())
+				moduleGraphs.remove(entry.getKey());
 		}
 	}
 
@@ -162,7 +170,7 @@ public class ProcessExecutionGraph {
 							}
 						}
 					}
-					
+
 					clusterBuilder.addUnreachable(unreachableBuilder.build());
 				}
 			}

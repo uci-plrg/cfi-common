@@ -96,6 +96,8 @@ public class ProcessGraphLoadSession {
 			} catch (Exception e) {
 				throw new InvalidGraphException(e);
 			}
+			
+			graph.trimEmptyClusters();
 
 			// Some other initialization and sanity checks
 			for (ModuleGraphCluster cluster : graph.getAutonomousClusters()) {

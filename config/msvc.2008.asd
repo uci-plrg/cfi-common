@@ -1,0 +1,9 @@
+atl90.dll
+mfc90.dll
+mfc90u.dll
+mfcm90.dll
+mfcm90u.dll
+msdbg2.dll
+pdm.dll
+vbc7ui.dll
+vcomp90.dll

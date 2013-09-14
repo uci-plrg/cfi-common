@@ -1,0 +1,17 @@
+dao360.dll
+msexch40.dll
+msexcl40.dll
+msjet40.dll
+msjetoledb40.dll
+msjint40.dll
+msjter40.dll
+msjtes40.dll
+msltus40.dll
+mspbde40.dll
+msrd2x40.dll
+msrd3x40.dll
+msrepl40.dll
+mstext40.dll
+mswdat10.dll
+mswstr10.dll
+msxbde40.dll

@@ -1,0 +1,13 @@
+msscntrs.dll
+msshooks.dll
+mssitlb.dll
+mssph.dll
+mssphtb.dll
+mssprxy.dll
+mssrch.dll
+mssvp.dll
+propsys.dll
+srchadmin.dll
+structuredquery.dll
+tquery.dll
+wsearchmigplugin.dll
