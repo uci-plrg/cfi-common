@@ -7,13 +7,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import edu.uci.eecs.crowdsafe.common.CrowdSafeCollections;
 import edu.uci.eecs.crowdsafe.common.data.dist.AutonomousSoftwareDistribution;
 import edu.uci.eecs.crowdsafe.common.data.dist.ConfiguredSoftwareDistributions;
 import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareDistributionUnit;
 import edu.uci.eecs.crowdsafe.common.data.graph.Edge;
 import edu.uci.eecs.crowdsafe.common.data.results.Graph;
 import edu.uci.eecs.crowdsafe.common.datasource.ProcessTraceDataSource;
+import edu.uci.eecs.crowdsafe.common.util.CrowdSafeCollections;
 
 /**
  * <p>

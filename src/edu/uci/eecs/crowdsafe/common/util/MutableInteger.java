@@ -1,4 +1,4 @@
-package edu.uci.eecs.crowdsafe.common;
+package edu.uci.eecs.crowdsafe.common.util;
 
 public class MutableInteger {
 	private int innerVal;

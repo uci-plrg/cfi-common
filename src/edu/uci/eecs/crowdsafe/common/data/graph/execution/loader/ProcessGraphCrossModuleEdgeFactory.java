@@ -2,7 +2,6 @@ package edu.uci.eecs.crowdsafe.common.data.graph.execution.loader;
 
 import java.io.IOException;
 
-import edu.uci.eecs.crowdsafe.common.CrowdSafeTraceUtil;
 import edu.uci.eecs.crowdsafe.common.data.graph.Edge;
 import edu.uci.eecs.crowdsafe.common.data.graph.EdgeType;
 import edu.uci.eecs.crowdsafe.common.data.graph.MetaNodeType;
@@ -15,6 +14,7 @@ import edu.uci.eecs.crowdsafe.common.exception.MultipleEdgeException;
 import edu.uci.eecs.crowdsafe.common.exception.TagNotFoundException;
 import edu.uci.eecs.crowdsafe.common.io.LittleEndianInputStream;
 import edu.uci.eecs.crowdsafe.common.log.Log;
+import edu.uci.eecs.crowdsafe.common.util.CrowdSafeTraceUtil;
 
 /**
  * Before calling this function, you should have all the normal nodes added to the corresponding graph and their indexes

@@ -2,7 +2,6 @@ package edu.uci.eecs.crowdsafe.common.data.graph.execution.loader;
 
 import java.io.IOException;
 
-import edu.uci.eecs.crowdsafe.common.CrowdSafeTraceUtil;
 import edu.uci.eecs.crowdsafe.common.data.graph.MetaNodeType;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.ExecutionNode;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.ModuleGraphCluster;
@@ -11,6 +10,7 @@ import edu.uci.eecs.crowdsafe.common.data.graph.execution.ProcessExecutionModule
 import edu.uci.eecs.crowdsafe.common.exception.InvalidTagException;
 import edu.uci.eecs.crowdsafe.common.io.LittleEndianInputStream;
 import edu.uci.eecs.crowdsafe.common.log.Log;
+import edu.uci.eecs.crowdsafe.common.util.CrowdSafeTraceUtil;
 
 /**
  * <p>
