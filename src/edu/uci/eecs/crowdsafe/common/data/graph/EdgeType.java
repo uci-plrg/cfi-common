@@ -15,13 +15,13 @@ public enum EdgeType {
 			case CALL_CONTINUATION:
 				return Graph.EdgeType.CALL_CONTINUATION;
 			case DIRECT:
-				return Graph.EdgeType.CALL_CONTINUATION;
+				return Graph.EdgeType.DIRECT;
 			case INDIRECT:
-				return Graph.EdgeType.CALL_CONTINUATION;
+				return Graph.EdgeType.INDIRECT;
 			case MODULE_ENTRY:
-				return Graph.EdgeType.CALL_CONTINUATION;
+				return Graph.EdgeType.MODULE_ENTRY;
 			case UNEXPECTED_RETURN:
-				return Graph.EdgeType.CALL_CONTINUATION;
+				return Graph.EdgeType.UNEXPECTED_RETURN;
 		}
 		throw new IllegalStateException("Unknown EdgeType " + this);
 	}

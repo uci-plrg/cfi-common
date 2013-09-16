@@ -50,7 +50,8 @@ public class ProcessGraphEdgeFactory {
 		ExecutionNode toNode = loader.hashLookupTable.get(ExecutionNode.Key.create(toTag, toVersion, toModule));
 
 		if (edgeOrdinal == 255) {
-			Log.log("Warning: skipping edge %s with ordinal 255", new Edge<ExecutionNode>(fromNode, toNode, edgeType, edgeOrdinal));
+			Log.log("Warning: skipping edge %s with ordinal 255", new Edge<ExecutionNode>(fromNode, toNode, edgeType,
+					edgeOrdinal));
 			return;
 		}
 
@@ -115,6 +116,12 @@ public class ProcessGraphEdgeFactory {
 
 		Edge<ExecutionNode> existing = fromNode.getOutgoingEdge(toNode);
 		Edge<ExecutionNode> e = new Edge<ExecutionNode>(fromNode, toNode, edgeType, edgeOrdinal);
+
+		if ((existing != null)
+				&& ((existing.getEdgeType() == EdgeType.DIRECT && e.getEdgeType() == EdgeType.CALL_CONTINUATION) || (existing
+						.getEdgeType() == EdgeType.CALL_CONTINUATION && e.getEdgeType() == EdgeType.DIRECT))) {
+			existing = null; // // allow a call to its own continuation
+		}
 		if (existing == null) {
 			fromNode.addOutgoingEdge(e);
 			toNode.addIncomingEdge(e);
@@ -123,16 +130,8 @@ public class ProcessGraphEdgeFactory {
 				loader.listener.edgeCreation(e);
 		} else {
 			if (!existing.equals(e)) {
-				// One weird case to deal with here:
-				// A call edge (direct) and a continuation edge can
-				// point to the same block
-				if ((existing.getEdgeType() == EdgeType.DIRECT && e.getEdgeType() == EdgeType.CALL_CONTINUATION)
-						|| (existing.getEdgeType() == EdgeType.CALL_CONTINUATION && e.getEdgeType() == EdgeType.DIRECT)) {
-					existing.setEdgeType(EdgeType.DIRECT);
-				} else {
-					String msg = "Multiple edges:\n" + "Edge1: " + existing + "\n" + "Edge2: " + e;
-					throw new MultipleEdgeException(msg);
-				}
+				String msg = "Multiple edges:\n" + "Edge1: " + existing + "\n" + "Edge2: " + e;
+				throw new MultipleEdgeException(msg);
 			}
 		}
 	}

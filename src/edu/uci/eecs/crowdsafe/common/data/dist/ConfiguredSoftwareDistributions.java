@@ -10,11 +10,18 @@ import edu.uci.eecs.crowdsafe.common.config.CrowdSafeConfiguration;
 
 public class ConfiguredSoftwareDistributions {
 
+	public static void initialize() {
+		initialize(new File(new File(
+				CrowdSafeConfiguration.getInstance().environmentValues
+						.get(CrowdSafeConfiguration.Environment.CROWD_SAFE_COMMON_DIR)), "config"));
+	}
+
+	public static void initialize(File configDir) {
+		INSTANCE = new ConfiguredSoftwareDistributions(configDir);
+		INSTANCE.loadDistributions();
+	}
+
 	public static synchronized ConfiguredSoftwareDistributions getInstance() {
-		if (INSTANCE == null) {
-			INSTANCE = new ConfiguredSoftwareDistributions();
-			INSTANCE.initialize();
-		}
 		return INSTANCE;
 	}
 
@@ -36,18 +43,15 @@ public class ConfiguredSoftwareDistributions {
 
 	public static final String MAIN_PROGRAM = "<main-program>";
 
-	private final File configDir;
+	public final File configDir;
 	public final Map<String, AutonomousSoftwareDistribution> distributions = new HashMap<String, AutonomousSoftwareDistribution>();
 
-	private ConfiguredSoftwareDistributions() {
-		configDir = new File(new File(
-				CrowdSafeConfiguration.getInstance().environmentValues
-						.get(CrowdSafeConfiguration.Environment.CROWD_SAFE_COMMON_DIR)), "config");
-
+	private ConfiguredSoftwareDistributions(File configDir) {
+		this.configDir = configDir;
 		distributions.put(MAIN_PROGRAM, new AutonomousSoftwareDistribution(MAIN_PROGRAM));
 	}
 
-	private void initialize() {
+	private void loadDistributions() {
 		try {
 			for (File configFile : configDir.listFiles()) {
 				if (configFile.getName().endsWith(".asd")) {

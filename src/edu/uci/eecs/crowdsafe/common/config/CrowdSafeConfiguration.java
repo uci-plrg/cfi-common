@@ -19,21 +19,38 @@ public class CrowdSafeConfiguration {
 		}
 	}
 
+	public static class OptionOverride {
+		final Environment variable;
+		final String value;
+
+		public OptionOverride(Environment variable, String value) {
+			this.variable = variable;
+			this.value = value;
+		}
+	}
+
 	public static CrowdSafeConfiguration getInstance() {
 		return INSTANCE;
 	}
 
-	public static void initialize(Set<Environment> requiredEnvironment) {
+	public static void initialize(Set<Environment> requiredEnvironment, OptionOverride... options) {
 		INSTANCE = new CrowdSafeConfiguration();
-		INSTANCE.initializeImpl(requiredEnvironment);
+		INSTANCE.initializeImpl(requiredEnvironment, options);
 	}
 
 	private static CrowdSafeConfiguration INSTANCE;
 
 	public final Map<Environment, String> environmentValues = new EnumMap<Environment, String>(Environment.class);
 
-	private void initializeImpl(Set<Environment> requiredEnvironment) {
+	private void initializeImpl(Set<Environment> requiredEnvironment, OptionOverride options[]) {
+		for (OptionOverride option : options) {
+			environmentValues.put(option.variable, option.value);
+		}
+
 		for (Environment variable : requiredEnvironment) {
+			if (environmentValues.containsKey(variable))
+				continue; // overridden above
+
 			String value = System.getenv(variable.name);
 			if (value == null)
 				throw new IllegalStateException(String.format("Please configure the environment variable %s.",
