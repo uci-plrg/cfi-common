@@ -23,9 +23,12 @@ public class LogFile {
 	}
 
 	public static File create(String filePath, CollisionMode collisionMode, NoSuchPathMode noSuchPathMode) {
-		File logFile = new File(filePath);
+		return create(new File(filePath), collisionMode, noSuchPathMode);
+	}
+
+	public static File create(File logFile, CollisionMode collisionMode, NoSuchPathMode noSuchPathMode) {
 		if (logFile.getParentFile() == null)
-			logFile = new File(new File("."), filePath);
+			logFile = new File(new File("."), logFile.getPath());
 
 		File directory = logFile.getParentFile();
 		if (!(directory.exists() && directory.isDirectory())) {

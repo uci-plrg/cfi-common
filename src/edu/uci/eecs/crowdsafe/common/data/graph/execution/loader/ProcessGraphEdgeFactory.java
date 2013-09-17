@@ -30,6 +30,7 @@ public class ProcessGraphEdgeFactory {
 		return input.ready(0x10);
 	}
 
+	// 25% hot during load!
 	void createEdge() throws IOException {
 		long annotatedFromTag = input.readLong();
 		long annotatedToTag = input.readLong();

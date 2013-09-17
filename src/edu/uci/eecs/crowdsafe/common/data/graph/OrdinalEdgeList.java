@@ -24,6 +24,7 @@ class OrdinalEdgeList<NodeType extends Node> implements List<Edge<NodeType>> {
 			return (index < end) || ((index == end) && includeCallContinuation);
 		}
 
+		// 8% hot during load!
 		@Override
 		public Edge<NodeType> next() {
 			if (modified)

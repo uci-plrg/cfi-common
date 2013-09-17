@@ -125,6 +125,7 @@ public class ProcessModuleLoader {
 					pending.crossModuleEdgeLoadTime, Long.MAX_VALUE));
 		}
 
+		modules.freeze();
 		return modules;
 	}
 }

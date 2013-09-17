@@ -48,13 +48,8 @@ public class ProcessGraphLoadSession {
 		void add(ExecutionNode node);
 	}
 
-	final ProcessTraceDataSource dataSource;
-
-	public ProcessGraphLoadSession(ProcessTraceDataSource dataSource) {
-		this.dataSource = dataSource;
-	}
-
-	public void loadNodes(ExecutionNodeCollection collection, ProcessExecutionModuleSet modules) throws IOException {
+	public void loadNodes(ProcessTraceDataSource dataSource, ExecutionNodeCollection collection,
+			ProcessExecutionModuleSet modules) throws IOException {
 		ProcessGraphNodeFactory nodeFactory = new ProcessGraphNodeFactory(modules,
 				dataSource.getLittleEndianInputStream(ProcessTraceStreamType.GRAPH_HASH));
 
@@ -67,18 +62,21 @@ public class ProcessGraphLoadSession {
 		}
 	}
 
-	public ProcessExecutionGraph loadGraph(LoadEventListener listener) throws IOException {
-		GraphLoader graphLoader = new GraphLoader(listener);
+	public ProcessExecutionGraph loadGraph(ProcessTraceDataSource dataSource, LoadEventListener listener)
+			throws IOException {
+		GraphLoader graphLoader = new GraphLoader(dataSource, listener);
 		return graphLoader.loadGraph();
 	}
 
 	class GraphLoader {
+		final ProcessTraceDataSource dataSource;
 		final LoadEventListener listener;
 
 		final Map<ExecutionNode.Key, ExecutionNode> hashLookupTable = new HashMap<ExecutionNode.Key, ExecutionNode>();
 		ProcessExecutionGraph graph;
 
-		GraphLoader(LoadEventListener listener) {
+		GraphLoader(ProcessTraceDataSource dataSource, LoadEventListener listener) {
+			this.dataSource = dataSource;
 			this.listener = listener;
 		}
 
@@ -96,7 +94,7 @@ public class ProcessGraphLoadSession {
 			} catch (Exception e) {
 				throw new InvalidGraphException(e);
 			}
-			
+
 			graph.trimEmptyClusters();
 
 			// Some other initialization and sanity checks
@@ -127,6 +125,7 @@ public class ProcessGraphLoadSession {
 			}
 		}
 
+		// 12% hot during load!
 		private void addNodeToGraph(ExecutionNode node) {
 			if (listener != null)
 				listener.nodeCreation(node);

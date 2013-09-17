@@ -14,13 +14,21 @@ import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareDistributionUnit;
 public class ProcessExecutionModuleSet {
 
 	private final Multimap<SoftwareDistributionUnit, ModuleInstance> instancesByUnit = ArrayListMultimap.create();
+	private ModuleInstance modules[] = null;
 
 	public void add(ModuleInstance module) {
+		if (modules != null)
+			throw new IllegalStateException("This set of modules has been frozen, new modules cannot be added now!");
 		instancesByUnit.put(module.unit, module);
 	}
 
 	public Collection<ModuleInstance> getUnitInstances(SoftwareDistributionUnit unit) {
 		return instancesByUnit.get(unit);
+	}
+
+	public void freeze() {
+		List<ModuleInstance> instances = new ArrayList<ModuleInstance>(instancesByUnit.values());
+		modules = instances.toArray(new ModuleInstance[] {});
 	}
 
 	public boolean hashOverlap() {
@@ -39,33 +47,34 @@ public class ProcessExecutionModuleSet {
 
 	public ModuleInstance getModuleForLoadedBlock(long tag, long tagIndex) {
 		ModuleInstance activeModule = ModuleInstance.UNKNOWN;
-		for (ModuleInstance instance : instancesByUnit.values()) {
-			if (instance.containsTag(tag)) {
-				if (instance.blockSpan.contains(tagIndex))
-					activeModule = instance;
-			}
+		for (int i = 0; i < modules.length; i++) {
+			ModuleInstance instance = modules[i];
+			if ((tag >= instance.start) && (tag <= instance.end) && (tagIndex >= instance.blockSpan.loadTimestamp)
+					&& (tagIndex < instance.blockSpan.unloadTimestamp))
+				activeModule = instance;
 		}
 		return activeModule;
 	}
 
 	public ModuleInstance getModuleForLoadedEdge(long tag, long edgeIndex) {
 		ModuleInstance activeModule = ModuleInstance.UNKNOWN;
-		for (ModuleInstance instance : instancesByUnit.values()) {
-			if (instance.containsTag(tag)) {
-				if (instance.edgeSpan.contains(edgeIndex))
-					activeModule = instance;
-			}
+		for (int i = 0; i < modules.length; i++) {
+			ModuleInstance instance = modules[i];
+			if ((tag >= instance.start) && (tag <= instance.end) && (edgeIndex >= instance.edgeSpan.loadTimestamp)
+					&& (edgeIndex < instance.edgeSpan.unloadTimestamp))
+				activeModule = instance;
 		}
 		return activeModule;
 	}
 
 	public ModuleInstance getModuleForLoadedCrossModuleEdge(long tag, long edgeIndex) {
 		ModuleInstance activeModule = ModuleInstance.UNKNOWN;
-		for (ModuleInstance instance : instancesByUnit.values()) {
-			if (instance.containsTag(tag)) {
-				if (instance.crossModuleEdgeSpan.contains(edgeIndex))
-					activeModule = instance;
-			}
+		for (int i = 0; i < modules.length; i++) {
+			ModuleInstance instance = modules[i];
+			if ((tag >= instance.start) && (tag <= instance.end)
+					&& (edgeIndex >= instance.crossModuleEdgeSpan.loadTimestamp)
+					&& (edgeIndex < instance.crossModuleEdgeSpan.unloadTimestamp))
+				activeModule = instance;
 		}
 		return activeModule;
 	}

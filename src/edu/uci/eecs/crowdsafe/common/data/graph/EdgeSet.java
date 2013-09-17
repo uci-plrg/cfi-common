@@ -3,6 +3,12 @@ package edu.uci.eecs.crowdsafe.common.data.graph;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * <pre>
+ * Warning: only the iterator is threadsafe. Concurrent modifications to the list will corrupt the data structure! 
+ * 
+ * TODO: not sure what happens in a unity merge when one graph instance is being merged to itself.
+ */
 public class EdgeSet<NodeType extends Node> {
 
 	public enum Direction {
@@ -32,8 +38,13 @@ public class EdgeSet<NodeType extends Node> {
 
 	Edge<NodeType> callContinuation;
 
-	private final OrdinalEdgeList<NodeType> listView = new OrdinalEdgeList<NodeType>(this);
+	private final ThreadLocal<OrdinalEdgeList<NodeType>> threadListView = new ThreadLocal<OrdinalEdgeList<NodeType>>() {
+		protected OrdinalEdgeList<NodeType> initialValue() {
+			return new OrdinalEdgeList<NodeType>(EdgeSet.this);
+		}
+	};
 
+	// 15% hot during load!
 	public void addEdge(Direction direction, Edge<NodeType> edge) {
 		if ((direction == Direction.OUTGOING) && (edge.getEdgeType() == EdgeType.CALL_CONTINUATION)) {
 			if (callContinuation != null) {
@@ -49,6 +60,7 @@ public class EdgeSet<NodeType extends Node> {
 		if (edges.contains(edge))
 			return;
 
+		OrdinalEdgeList<NodeType> listView = threadListView.get();
 		listView.modified = true;
 
 		if (direction == Direction.INCOMING) {
@@ -83,6 +95,7 @@ public class EdgeSet<NodeType extends Node> {
 	}
 
 	public List<Edge<NodeType>> getEdges(Direction direction, int ordinal) {
+		OrdinalEdgeList<NodeType> listView = threadListView.get();
 		switch (direction) {
 			case INCOMING:
 				throw new UnsupportedOperationException("Incoming edges are not grouped by ordinal.");
@@ -106,6 +119,7 @@ public class EdgeSet<NodeType extends Node> {
 	}
 
 	public List<Edge<NodeType>> getEdges(Direction direction) {
+		OrdinalEdgeList<NodeType> listView = threadListView.get();
 		listView.includeCallContinuation = (callContinuation != null) && (direction == Direction.OUTGOING);
 		listView.modified = false;
 		if (edges.isEmpty()) {

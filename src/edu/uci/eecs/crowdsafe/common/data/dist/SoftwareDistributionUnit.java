@@ -30,6 +30,7 @@ public class SoftwareDistributionUnit {
 		return result;
 	}
 
+	// 5% hot during load!
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

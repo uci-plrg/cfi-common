@@ -182,6 +182,7 @@ public class ExecutionNode extends Node<ExecutionNode> {
 	 * For signature nodes, the node should be empty if they are both signature nodes and they have the same hash
 	 * signature.
 	 */
+	// 5% hot during load!
 	public boolean equals(Object o) {
 		if (o == null)
 			return false;
