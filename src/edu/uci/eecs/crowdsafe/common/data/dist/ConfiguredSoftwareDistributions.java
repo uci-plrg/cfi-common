@@ -21,7 +21,7 @@ public class ConfiguredSoftwareDistributions {
 		INSTANCE.loadDistributions();
 	}
 
-	public static synchronized ConfiguredSoftwareDistributions getInstance() {
+	public static ConfiguredSoftwareDistributions getInstance() {
 		return INSTANCE;
 	}
 
@@ -73,7 +73,7 @@ public class ConfiguredSoftwareDistributions {
 		}
 	}
 
-	public SoftwareDistributionUnit establishUnit(String name) {
+	public synchronized SoftwareDistributionUnit establishUnit(String name) {
 		for (AutonomousSoftwareDistribution dist : distributions.values()) {
 			for (SoftwareDistributionUnit unit : dist.distributionUnits) {
 				if (unit.name.equals(name) || unit.name.equals(getFilename(name)))

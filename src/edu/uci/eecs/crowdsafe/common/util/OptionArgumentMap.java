@@ -9,19 +9,30 @@ public class OptionArgumentMap {
 
 	public static abstract class Option<Type> {
 		public final Character id;
+		final boolean isRequired;
 
-		Option(Character id) {
+		Option(Character id, boolean isRequired) {
 			this.id = id;
+			this.isRequired = isRequired;
 		}
 
 		abstract Type getValue();
+
+		void validate() {
+			if (isRequired && (getValue() == null))
+				throw new IllegalStateException("Option '" + id + "' is required!");
+		}
 	}
 
 	public static class StringOption extends Option<String> {
 		String value = null;
 
 		public StringOption(Character id) {
-			super(id);
+			super(id, false);
+		}
+
+		public StringOption(Character id, boolean isRequired) {
+			super(id, isRequired);
 		}
 
 		@Override
@@ -34,7 +45,11 @@ public class OptionArgumentMap {
 		Boolean value = false;
 
 		public BooleanOption(Character id) {
-			super(id);
+			super(id, false);
+		}
+
+		public BooleanOption(Character id, boolean isRequired) {
+			super(id, isRequired);
 		}
 
 		@Override
@@ -47,8 +62,20 @@ public class OptionArgumentMap {
 		return new StringOption(c);
 	}
 
+	public static StringOption createStringOption(char c, boolean isRequired) {
+		return new StringOption(c, isRequired);
+	}
+
 	public static BooleanOption createBooleanOption(char c) {
 		return new BooleanOption(c);
+	}
+
+	public static BooleanOption createBooleanOption(char c, boolean isRequired) {
+		return new BooleanOption(c, isRequired);
+	}
+
+	public static void populateOptions(ArgumentStack args, Option<?>... options) {
+		new OptionArgumentMap(args, options).parseOptions();
 	}
 
 	private final ArgumentStack args;
@@ -92,6 +119,11 @@ public class OptionArgumentMap {
 			else
 				((BooleanOption) option).value = true;
 		}
+
+		for (Option<?> option : map.values()) {
+			option.validate();
+		}
+
 		args.popOptions();
 	}
 }

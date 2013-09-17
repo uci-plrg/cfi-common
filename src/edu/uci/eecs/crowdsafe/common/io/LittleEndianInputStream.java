@@ -19,7 +19,7 @@ public class LittleEndianInputStream {
 
 	private int end = -1;
 	private int byteIndex = -1;
-	byte data[] = new byte[BUFFER_SIZE];
+	byte buffer[] = new byte[BUFFER_SIZE];
 
 	public LittleEndianInputStream(InputStream input, String description) {
 		this.input = input;
@@ -46,18 +46,18 @@ public class LittleEndianInputStream {
 	public long readLong() throws IOException {
 		if ((end < 0) || (byteIndex == BUFFER_SIZE)) {
 			end = Math.min(input.available(), BUFFER_SIZE);
-			input.read(data, 0, end);
+			input.read(buffer, 0, end);
 			byteIndex = 0;
 		}
 
 		if (byteIndex >= end)
 			throw new EOFException("End of input stream reached.");
 
-		long value = ((((long) data[byteIndex + 7]) & 0xffL) << 0x38)
-				| ((((long) data[byteIndex + 6]) & 0xffL) << 0x30) | ((((long) data[byteIndex + 5]) & 0xffL) << 0x28)
-				| ((((long) data[byteIndex + 4]) & 0xffL) << 0x20) | ((((long) data[byteIndex + 3]) & 0xffL) << 0x18)
-				| ((((long) data[byteIndex + 2]) & 0xffL) << 0x10) | ((((long) data[byteIndex + 1]) & 0xffL) << 0x8)
-				| (((long) data[byteIndex]) & 0xffL);
+		long value = ((((long) buffer[byteIndex + 7]) & 0xffL) << 0x38)
+				| ((((long) buffer[byteIndex + 6]) & 0xffL) << 0x30) | ((((long) buffer[byteIndex + 5]) & 0xffL) << 0x28)
+				| ((((long) buffer[byteIndex + 4]) & 0xffL) << 0x20) | ((((long) buffer[byteIndex + 3]) & 0xffL) << 0x18)
+				| ((((long) buffer[byteIndex + 2]) & 0xffL) << 0x10) | ((((long) buffer[byteIndex + 1]) & 0xffL) << 0x8)
+				| (((long) buffer[byteIndex]) & 0xffL);
 		byteIndex += 8;
 		return value;
 	}

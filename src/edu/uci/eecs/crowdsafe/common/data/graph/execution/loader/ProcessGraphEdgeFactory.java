@@ -96,13 +96,6 @@ public class ProcessGraphEdgeFactory {
 							fromModule.unit.name, edgeType, edgeOrdinal);
 					return;
 				}
-				/**
-				 * <pre>
-					throw new TagNotFoundException(
-							"Failed to find the 'to' node for tag 0x%x-v%d(%s) in edge #%d from 0x%x-v%d(%s) of type %s on ordinal %d",
-							toTag, toVersion, toModule.unit.name, edgeIndex, fromTag, fromVersion,
-							fromModule.unit.name, edgeType, edgeOrdinal);
-				 */
 			}
 		}
 
