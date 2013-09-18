@@ -10,6 +10,7 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 
 import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareDistributionUnit;
+import edu.uci.eecs.crowdsafe.common.datasource.ProcessTraceStreamType;
 
 public class ProcessExecutionModuleSet {
 
@@ -45,36 +46,38 @@ public class ProcessExecutionModuleSet {
 		return false;
 	}
 
-	public ModuleInstance getModuleForLoadedBlock(long tag, long tagIndex) {
+	public ModuleInstance getModule(long tag, long streamIndex, ProcessTraceStreamType streamType) {
 		ModuleInstance activeModule = ModuleInstance.UNKNOWN;
-		for (int i = 0; i < modules.length; i++) {
-			ModuleInstance instance = modules[i];
-			if ((tag >= instance.start) && (tag <= instance.end) && (tagIndex >= instance.blockSpan.loadTimestamp)
-					&& (tagIndex < instance.blockSpan.unloadTimestamp))
-				activeModule = instance;
-		}
-		return activeModule;
-	}
-
-	public ModuleInstance getModuleForLoadedEdge(long tag, long edgeIndex) {
-		ModuleInstance activeModule = ModuleInstance.UNKNOWN;
-		for (int i = 0; i < modules.length; i++) {
-			ModuleInstance instance = modules[i];
-			if ((tag >= instance.start) && (tag <= instance.end) && (edgeIndex >= instance.edgeSpan.loadTimestamp)
-					&& (edgeIndex < instance.edgeSpan.unloadTimestamp))
-				activeModule = instance;
-		}
-		return activeModule;
-	}
-
-	public ModuleInstance getModuleForLoadedCrossModuleEdge(long tag, long edgeIndex) {
-		ModuleInstance activeModule = ModuleInstance.UNKNOWN;
-		for (int i = 0; i < modules.length; i++) {
-			ModuleInstance instance = modules[i];
-			if ((tag >= instance.start) && (tag <= instance.end)
-					&& (edgeIndex >= instance.crossModuleEdgeSpan.loadTimestamp)
-					&& (edgeIndex < instance.crossModuleEdgeSpan.unloadTimestamp))
-				activeModule = instance;
+		switch (streamType) {
+			case GRAPH_NODE:
+				for (int i = 0; i < modules.length; i++) {
+					ModuleInstance instance = modules[i];
+					if ((tag >= instance.start) && (tag <= instance.end)
+							&& (streamIndex >= instance.blockSpan.loadTimestamp)
+							&& (streamIndex < instance.blockSpan.unloadTimestamp))
+						activeModule = instance;
+				}
+				break;
+			case GRAPH_EDGE:
+				for (int i = 0; i < modules.length; i++) {
+					ModuleInstance instance = modules[i];
+					if ((tag >= instance.start) && (tag <= instance.end)
+							&& (streamIndex >= instance.edgeSpan.loadTimestamp)
+							&& (streamIndex < instance.edgeSpan.unloadTimestamp))
+						activeModule = instance;
+				}
+				break;
+			case CROSS_MODULE_EDGE:
+				for (int i = 0; i < modules.length; i++) {
+					ModuleInstance instance = modules[i];
+					if ((tag >= instance.start) && (tag <= instance.end)
+							&& (streamIndex >= instance.crossModuleEdgeSpan.loadTimestamp)
+							&& (streamIndex < instance.crossModuleEdgeSpan.unloadTimestamp))
+						activeModule = instance;
+				}
+				break;
+			default:
+				throw new IllegalArgumentException("Cannot identify modules for stream type " + streamType);
 		}
 		return activeModule;
 	}

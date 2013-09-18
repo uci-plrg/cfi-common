@@ -13,7 +13,7 @@ public class ClusterNode extends Node<ClusterNode> {
 
 		public final int instanceId;
 
-		Key(ClusterModule module, int relativeTag, int instanceId) {
+		public Key(ClusterModule module, int relativeTag, int instanceId) {
 			this.module = module;
 			this.relativeTag = relativeTag;
 			this.instanceId = instanceId;

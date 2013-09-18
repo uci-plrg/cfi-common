@@ -84,6 +84,12 @@ public class ClusterModuleList {
 			return module;
 	}
 
+	public synchronized ClusterModule getModule(SoftwareDistributionUnit unit, String version) {
+		lookupKey.unit = unit;
+		lookupKey.version = version;
+		return modules.get(lookupKey);
+	}
+
 	public List<ClusterModule> sortById() {
 		List<ClusterModule> moduleList = new ArrayList<ClusterModule>(modules.values());
 		Collections.sort(moduleList, IdSorter.INSTANCE);

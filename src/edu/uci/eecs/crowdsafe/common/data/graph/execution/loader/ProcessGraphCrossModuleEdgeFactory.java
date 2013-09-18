@@ -9,6 +9,7 @@ import edu.uci.eecs.crowdsafe.common.data.graph.execution.ExecutionNode;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.ModuleGraphCluster;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.ModuleInstance;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.loader.ProcessGraphLoadSession.LoadTarget;
+import edu.uci.eecs.crowdsafe.common.datasource.ProcessTraceStreamType;
 import edu.uci.eecs.crowdsafe.common.exception.InvalidTagException;
 import edu.uci.eecs.crowdsafe.common.exception.MultipleEdgeException;
 import edu.uci.eecs.crowdsafe.common.exception.TagNotFoundException;
@@ -54,8 +55,10 @@ public class ProcessGraphCrossModuleEdgeFactory {
 		int fromVersion = CrowdSafeTraceUtil.getTagVersion(annotatedFromTag);
 		int toVersion = CrowdSafeTraceUtil.getTagVersion(annotatedToTag);
 
-		ModuleInstance fromModule = loader.graph.getModules().getModuleForLoadedCrossModuleEdge(fromTag, edgeIndex);
-		ModuleInstance toModule = loader.graph.getModules().getModuleForLoadedCrossModuleEdge(toTag, edgeIndex);
+		ModuleInstance fromModule = loader.graph.getModules().getModule(fromTag, edgeIndex,
+				ProcessTraceStreamType.CROSS_MODULE_EDGE);
+		ModuleInstance toModule = loader.graph.getModules().getModule(toTag, edgeIndex,
+				ProcessTraceStreamType.CROSS_MODULE_EDGE);
 
 		EdgeType edgeType = CrowdSafeTraceUtil.getTagEdgeType(annotatedFromTag);
 		int edgeOrdinal = CrowdSafeTraceUtil.getEdgeOrdinal(annotatedFromTag);

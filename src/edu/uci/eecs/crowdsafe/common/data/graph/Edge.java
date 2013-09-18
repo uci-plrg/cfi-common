@@ -10,6 +10,11 @@ public class Edge<NodeType extends Node> {
 	private NodeType fromNode;
 
 	public Edge(NodeType fromNode, NodeType toNode, EdgeType edgeType, int ordinal) {
+		if (fromNode == null)
+			throw new IllegalArgumentException("Edge construction is missing the 'from' node!");
+		if (toNode == null)
+			throw new IllegalArgumentException("Edge construction is missing the 'to' node!");
+
 		this.fromNode = fromNode;
 		this.toNode = toNode;
 		this.edgeType = edgeType;
@@ -36,21 +41,35 @@ public class Edge<NodeType extends Node> {
 		return ordinal;
 	}
 
-	@SuppressWarnings("unchecked")
-	public boolean equals(Object o) {
-		if (o == null)
-			return false;
-		if (o.getClass() != Edge.class)
-			return false;
-		Edge<NodeType> e = (Edge<NodeType>) o;
-		if (e.fromNode.equals(fromNode) && e.toNode.equals(toNode) && e.edgeType == edgeType && e.ordinal == ordinal)
-			return true;
-		return false;
-
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((edgeType == null) ? 0 : edgeType.hashCode());
+		result = prime * result + ((fromNode == null) ? 0 : fromNode.hashCode());
+		result = prime * result + ordinal;
+		result = prime * result + ((toNode == null) ? 0 : toNode.hashCode());
+		return result;
 	}
 
-	public int hashCode() {
-		return fromNode.hashCode() << 5 ^ toNode.hashCode();
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Edge other = (Edge) obj;
+		if (edgeType != other.edgeType)
+			return false;
+		if (!fromNode.equals(other.fromNode))
+			return false;
+		if (ordinal != other.ordinal)
+			return false;
+		if (!toNode.equals(other.toNode))
+			return false;
+		return true;
 	}
 
 	public String toString() {
