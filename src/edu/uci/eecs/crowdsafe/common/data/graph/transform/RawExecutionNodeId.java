@@ -34,4 +34,9 @@ public class RawExecutionNodeId {
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return String.format("%x-v%d", tag, version);
+	}
 }

@@ -59,7 +59,7 @@ public class ProcessExecutionGraph {
 
 	public static final EnumSet<ProcessTraceStreamType> EXECUTION_GRAPH_FILE_TYPES = EnumSet.of(
 			ProcessTraceStreamType.MODULE, ProcessTraceStreamType.GRAPH_NODE, ProcessTraceStreamType.GRAPH_EDGE,
-			ProcessTraceStreamType.CROSS_MODULE_GRAPH);
+			ProcessTraceStreamType.CROSS_MODULE_EDGE);
 
 	private final Map<AutonomousSoftwareDistribution, ModuleGraphCluster> moduleGraphs = new HashMap<AutonomousSoftwareDistribution, ModuleGraphCluster>();
 	private final Map<SoftwareDistributionUnit, ModuleGraphCluster> moduleGraphsBySoftwareUnit = new HashMap<SoftwareDistributionUnit, ModuleGraphCluster>();

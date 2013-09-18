@@ -4,7 +4,7 @@ public enum ProcessTraceStreamType {
 	BLOCK_HASH("block-hash", 1),
 	PAIR_HASH("pair-hash", 1),
 	GRAPH_EDGE("graph-edge", 2),
-	CROSS_MODULE_GRAPH("cross-module", 3),
+	CROSS_MODULE_EDGE("cross-module", 3),
 	GRAPH_NODE("graph-node", 2),
 	MODULE("module");
 

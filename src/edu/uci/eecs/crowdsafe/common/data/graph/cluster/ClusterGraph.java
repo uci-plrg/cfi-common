@@ -1,5 +1,6 @@
 package edu.uci.eecs.crowdsafe.common.data.graph.cluster;
 
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,8 +9,11 @@ import edu.uci.eecs.crowdsafe.common.data.graph.MetaNodeType;
 import edu.uci.eecs.crowdsafe.common.data.graph.Node;
 import edu.uci.eecs.crowdsafe.common.data.graph.NodeHashMap;
 import edu.uci.eecs.crowdsafe.common.data.graph.NodeList;
+import edu.uci.eecs.crowdsafe.common.datasource.ClusterGraphStreamType;
 
 public class ClusterGraph {
+	
+	public static EnumSet<ClusterGraphStreamType> CLUSTER_GRAPH_STREAM_TYPES = EnumSet.allOf(ClusterGraphStreamType.class);
 
 	public final NodeHashMap nodesByHash = new NodeHashMap();
 	

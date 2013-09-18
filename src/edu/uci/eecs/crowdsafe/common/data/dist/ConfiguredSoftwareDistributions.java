@@ -45,10 +45,12 @@ public class ConfiguredSoftwareDistributions {
 
 	public final File configDir;
 	public final Map<String, AutonomousSoftwareDistribution> distributions = new HashMap<String, AutonomousSoftwareDistribution>();
+	public final Map<String, SoftwareDistributionUnit> unitsByName = new HashMap<String, SoftwareDistributionUnit>();
+	public final Map<SoftwareDistributionUnit, AutonomousSoftwareDistribution> distributionsByUnit = new HashMap<SoftwareDistributionUnit, AutonomousSoftwareDistribution>();
 
 	private ConfiguredSoftwareDistributions(File configDir) {
 		this.configDir = configDir;
-		distributions.put(MAIN_PROGRAM, new AutonomousSoftwareDistribution(MAIN_PROGRAM));
+		distributions.put(MAIN_PROGRAM, new AutonomousSoftwareDistribution(MAIN_PROGRAM, "main-program"));
 	}
 
 	private void loadDistributions() {
@@ -66,6 +68,13 @@ public class ConfiguredSoftwareDistributions {
 					}
 				}
 			}
+
+			for (AutonomousSoftwareDistribution distribution : distributions.values()) {
+				for (SoftwareDistributionUnit unit : distribution.distributionUnits) {
+					unitsByName.put(unit.name, unit);
+					distributionsByUnit.put(unit, distribution);
+				}
+			}
 		} catch (IOException e) {
 			throw new IllegalStateException(String.format(
 					"Error reading the autonomous software distribution configuration from %s!",
@@ -74,14 +83,17 @@ public class ConfiguredSoftwareDistributions {
 	}
 
 	public synchronized SoftwareDistributionUnit establishUnit(String name) {
-		for (AutonomousSoftwareDistribution dist : distributions.values()) {
-			for (SoftwareDistributionUnit unit : dist.distributionUnits) {
-				if (unit.name.equals(name) || unit.name.equals(getFilename(name)))
-					return unit;
-			}
-		}
+		SoftwareDistributionUnit existing = unitsByName.get(name);
+		if (existing == null)
+			existing = unitsByName.get(getFilename(name));
+		if (existing != null)
+			return existing;
+
 		SoftwareDistributionUnit unit = new SoftwareDistributionUnit(name);
-		distributions.get(MAIN_PROGRAM).distributionUnits.add(unit);
+		AutonomousSoftwareDistribution main = distributions.get(MAIN_PROGRAM);
+		unitsByName.put(unit.name, unit);
+		distributionsByUnit.put(unit, main);
+		main.distributionUnits.add(unit);
 		return unit;
 	}
 }

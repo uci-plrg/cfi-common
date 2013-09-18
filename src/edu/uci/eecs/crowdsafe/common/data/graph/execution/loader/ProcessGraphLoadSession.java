@@ -181,7 +181,7 @@ public class ProcessGraphLoadSession {
 
 		private void readCrossModuleEdges() throws IOException {
 			ProcessGraphCrossModuleEdgeFactory crossModuleEdgeFactory = new ProcessGraphCrossModuleEdgeFactory(this,
-					dataSource.getLittleEndianInputStream(ProcessTraceStreamType.CROSS_MODULE_GRAPH));
+					dataSource.getLittleEndianInputStream(ProcessTraceStreamType.CROSS_MODULE_EDGE));
 
 			try {
 				while (crossModuleEdgeFactory.ready()) {
