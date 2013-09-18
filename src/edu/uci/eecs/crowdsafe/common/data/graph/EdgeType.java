@@ -7,8 +7,7 @@ public enum EdgeType {
 	DIRECT,
 	CALL_CONTINUATION,
 	UNEXPECTED_RETURN,
-	MODULE_ENTRY,
-	CROSS_CUSTOM_MODULE;
+	CLUSTER_ENTRY;
 
 	public Graph.EdgeType mapToResultType() {
 		switch (this) {
@@ -18,8 +17,8 @@ public enum EdgeType {
 				return Graph.EdgeType.DIRECT;
 			case INDIRECT:
 				return Graph.EdgeType.INDIRECT;
-			case MODULE_ENTRY:
-				return Graph.EdgeType.MODULE_ENTRY;
+			case CLUSTER_ENTRY:
+				return Graph.EdgeType.CLUSTER_ENTRY;
 			case UNEXPECTED_RETURN:
 				return Graph.EdgeType.UNEXPECTED_RETURN;
 		}

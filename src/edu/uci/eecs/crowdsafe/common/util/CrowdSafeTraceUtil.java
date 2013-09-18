@@ -4,6 +4,7 @@ import java.util.List;
 
 import edu.uci.eecs.crowdsafe.common.data.graph.Edge;
 import edu.uci.eecs.crowdsafe.common.data.graph.EdgeType;
+import edu.uci.eecs.crowdsafe.common.data.graph.MetaNodeType;
 import edu.uci.eecs.crowdsafe.common.data.graph.Node;
 
 public class CrowdSafeTraceUtil {
@@ -27,8 +28,8 @@ public class CrowdSafeTraceUtil {
 		return new Long(tag >>> 56).intValue();
 	}
 
-	public static int getNodeMetaVal(long tag) {
-		return new Long(tag << 8 >>> 56).intValue();
+	public static MetaNodeType getNodeMetaType(long tag) {
+		return MetaNodeType.values()[(int)(tag << 8 >>> 56)];
 	}
 
 	// get the lower 6 byte of the tag, which is a long integer

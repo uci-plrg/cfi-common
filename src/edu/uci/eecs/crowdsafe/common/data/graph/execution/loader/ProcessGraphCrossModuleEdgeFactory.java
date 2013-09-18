@@ -120,7 +120,7 @@ public class ProcessGraphCrossModuleEdgeFactory {
 
 				ExecutionNode entryNode = toCluster.addClusterEntryNode(signatureHash, toModule, toNode.getTimestamp());
 				Edge<ExecutionNode> clusterEntryEdge = new Edge<ExecutionNode>(entryNode, toNode,
-						EdgeType.MODULE_ENTRY, 0);
+						EdgeType.CLUSTER_ENTRY, 0);
 				entryNode.addOutgoingEdge(clusterEntryEdge);
 				toNode.addIncomingEdge(clusterEntryEdge);
 

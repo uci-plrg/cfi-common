@@ -32,7 +32,7 @@ public final class Graph {
     /**
      * <code>MODULE_ENTRY = 4;</code>
      */
-    MODULE_ENTRY(4, 4),
+    CLUSTER_ENTRY(4, 4),
     ;
 
     /**
@@ -65,7 +65,7 @@ public final class Graph {
         case 1: return DIRECT;
         case 2: return CALL_CONTINUATION;
         case 3: return UNEXPECTED_RETURN;
-        case 4: return MODULE_ENTRY;
+        case 4: return CLUSTER_ENTRY;
         default: return null;
       }
     }

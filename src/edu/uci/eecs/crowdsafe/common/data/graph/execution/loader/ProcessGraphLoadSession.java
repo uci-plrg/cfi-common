@@ -51,7 +51,7 @@ public class ProcessGraphLoadSession {
 	public void loadNodes(ProcessTraceDataSource dataSource, ExecutionNodeCollection collection,
 			ProcessExecutionModuleSet modules) throws IOException {
 		ProcessGraphNodeFactory nodeFactory = new ProcessGraphNodeFactory(modules,
-				dataSource.getLittleEndianInputStream(ProcessTraceStreamType.GRAPH_HASH));
+				dataSource.getLittleEndianInputStream(ProcessTraceStreamType.GRAPH_NODE));
 
 		try {
 			while (nodeFactory.ready()) {
@@ -108,7 +108,7 @@ public class ProcessGraphLoadSession {
 
 		private void loadGraphNodes(ProcessExecutionModuleSet modules) throws IOException {
 			ProcessGraphNodeFactory nodeFactory = new ProcessGraphNodeFactory(modules,
-					dataSource.getLittleEndianInputStream(ProcessTraceStreamType.GRAPH_HASH));
+					dataSource.getLittleEndianInputStream(ProcessTraceStreamType.GRAPH_NODE));
 			try {
 				if (nodeFactory.ready()) {
 					ExecutionNode node = nodeFactory.createNode();
@@ -159,7 +159,7 @@ public class ProcessGraphLoadSession {
 		private void createEntryPoint(ExecutionNode node) {
 			ExecutionNode entryNode = graph.getModuleGraphCluster(node.getModule().unit).addClusterEntryNode(1L,
 					node.getModule(), node.getTimestamp());
-			Edge<ExecutionNode> clusterEntryEdge = new Edge<ExecutionNode>(entryNode, node, EdgeType.MODULE_ENTRY, 0);
+			Edge<ExecutionNode> clusterEntryEdge = new Edge<ExecutionNode>(entryNode, node, EdgeType.CLUSTER_ENTRY, 0);
 			entryNode.addOutgoingEdge(clusterEntryEdge);
 			node.addIncomingEdge(clusterEntryEdge);
 
@@ -169,7 +169,7 @@ public class ProcessGraphLoadSession {
 
 		private void readIntraModuleEdges() throws IOException {
 			ProcessGraphEdgeFactory edgeFactory = new ProcessGraphEdgeFactory(this,
-					dataSource.getLittleEndianInputStream(ProcessTraceStreamType.MODULE_GRAPH));
+					dataSource.getLittleEndianInputStream(ProcessTraceStreamType.GRAPH_EDGE));
 
 			try {
 				while (edgeFactory.ready())

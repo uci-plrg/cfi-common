@@ -1,94 +1,94 @@
-package edu.uci.eecs.crowdsafe.common.data.graph.execution.packer;
+package edu.uci.eecs.crowdsafe.common.data.graph.transform;
 
 import java.io.IOException;
 
 import edu.uci.eecs.crowdsafe.common.io.LittleEndianInputStream;
 import edu.uci.eecs.crowdsafe.common.io.LittleEndianOutputStream;
 
-interface ProcessExecutionGraphRecord {
+interface RawGraphEntry {
 
-	abstract class Factory {
+	abstract class Factory<EntryType extends RawGraphEntry> {
 		protected final LittleEndianInputStream input;
-		private final int recordSize;
+		private final int entryWordCount;
 
-		Factory(LittleEndianInputStream input, int recordSize) {
+		Factory(LittleEndianInputStream input, int entryWordCount) {
 			this.input = input;
-			this.recordSize = recordSize;
+			this.entryWordCount = entryWordCount;
 		}
 
-		abstract ProcessExecutionGraphRecord createRecord() throws IOException;
+		abstract EntryType createEntry() throws IOException;
 
-		boolean hasMoreRecords() throws IOException {
-			return input.ready(recordSize);
+		boolean hasMoreEntries() throws IOException {
+			return input.ready(entryWordCount);
 		}
 	}
 
-	static class TwoWordFactory extends Factory {
+	static class TwoWordFactory extends Factory<TwoWordEntry> {
 		TwoWordFactory(LittleEndianInputStream input) {
 			super(input, 2);
 		}
 
 		@Override
-		public ProcessExecutionGraphRecord createRecord() throws IOException {
-			return new TwoWordRecord(input.readLong(), input.readLong());
+		TwoWordEntry createEntry() throws IOException {
+			return new TwoWordEntry(input.readLong(), input.readLong());
 		}
 	}
 
-	static class ThreeWordFactory extends Factory {
+	static class ThreeWordFactory extends Factory<ThreeWordEntry> {
 		ThreeWordFactory(LittleEndianInputStream input) {
 			super(input, 3);
 		}
 
 		@Override
-		public ProcessExecutionGraphRecord createRecord() throws IOException {
-			return new ThreeWordRecord(input.readLong(), input.readLong(), input.readLong());
+		ThreeWordEntry createEntry() throws IOException {
+			return new ThreeWordEntry(input.readLong(), input.readLong(), input.readLong());
 		}
 	}
 
-	abstract class Writer<RecordType extends ProcessExecutionGraphRecord> {
+	abstract class Writer<EntryType extends RawGraphEntry> {
 		protected final LittleEndianOutputStream output;
 
 		protected Writer(LittleEndianOutputStream output) {
 			this.output = output;
 		}
 
-		abstract void writeRecord(RecordType record) throws IOException;
-		
+		abstract void writeEntry(EntryType entry) throws IOException;
+
 		void flush() throws IOException {
 			output.flush();
 		}
 	}
 
-	static class TwoWordWriter extends Writer<TwoWordRecord> {
+	static class TwoWordWriter extends Writer<TwoWordEntry> {
 		TwoWordWriter(LittleEndianOutputStream output) {
 			super(output);
 		}
 
 		@Override
-		void writeRecord(TwoWordRecord record) throws IOException {
-			output.writeLong(record.first);
-			output.writeLong(record.second);
+		void writeEntry(TwoWordEntry entry) throws IOException {
+			output.writeLong(entry.first);
+			output.writeLong(entry.second);
 		}
 	}
 
-	static class ThreeWordWriter extends Writer<ThreeWordRecord> {
+	static class ThreeWordWriter extends Writer<ThreeWordEntry> {
 		ThreeWordWriter(LittleEndianOutputStream output) {
 			super(output);
 		}
 
 		@Override
-		void writeRecord(ThreeWordRecord record) throws IOException {
-			output.writeLong(record.first);
-			output.writeLong(record.second);
-			output.writeLong(record.third);
+		void writeEntry(ThreeWordEntry entry) throws IOException {
+			output.writeLong(entry.first);
+			output.writeLong(entry.second);
+			output.writeLong(entry.third);
 		}
 	}
 
-	static class TwoWordRecord implements ProcessExecutionGraphRecord {
+	static class TwoWordEntry implements RawGraphEntry {
 		final long first, second;
 		final int hash;
 
-		private TwoWordRecord(long first, long second) {
+		private TwoWordEntry(long first, long second) {
 			this.first = first;
 			this.second = second;
 
@@ -111,7 +111,7 @@ interface ProcessExecutionGraphRecord {
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			TwoWordRecord other = (TwoWordRecord) obj;
+			TwoWordEntry other = (TwoWordEntry) obj;
 			if (first != other.first)
 				return false;
 			if (second != other.second)
@@ -120,11 +120,11 @@ interface ProcessExecutionGraphRecord {
 		}
 	}
 
-	static class ThreeWordRecord implements ProcessExecutionGraphRecord {
+	static class ThreeWordEntry implements RawGraphEntry {
 		final long first, second, third;
 		final int hash;
 
-		private ThreeWordRecord(long first, long second, long third) {
+		private ThreeWordEntry(long first, long second, long third) {
 			this.first = first;
 			this.second = second;
 			this.third = third;
@@ -149,7 +149,7 @@ interface ProcessExecutionGraphRecord {
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			ThreeWordRecord other = (ThreeWordRecord) obj;
+			ThreeWordEntry other = (ThreeWordEntry) obj;
 			if (first != other.first)
 				return false;
 			if (second != other.second)

@@ -16,6 +16,8 @@ public abstract class Node<NodeType extends Node> implements NodeList {
 	public abstract long getHash();
 
 	public abstract SoftwareModule getModule();
+	
+	public abstract int getRelativeTag();
 
 	public abstract MetaNodeType getType();
 

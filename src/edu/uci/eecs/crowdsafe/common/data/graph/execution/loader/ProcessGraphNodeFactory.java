@@ -53,11 +53,9 @@ public class ProcessGraphNodeFactory {
 
 		tag = CrowdSafeTraceUtil.getTagEffectiveValue(tagOriginal);
 		int versionNumber = CrowdSafeTraceUtil.getNodeVersionNumber(tagOriginal);
-		int metaNodeVal = CrowdSafeTraceUtil.getNodeMetaVal(tagOriginal);
-
+		MetaNodeType metaNodeType = CrowdSafeTraceUtil.getNodeMetaType(tagOriginal);
 		module = modules.getModuleForLoadedBlock(tag, blockIndex);
-
-		MetaNodeType metaNodeType = MetaNodeType.values()[metaNodeVal];
+		
 		return new ExecutionNode(module, metaNodeType, tag, versionNumber, hash, blockIndex);
 	}
 

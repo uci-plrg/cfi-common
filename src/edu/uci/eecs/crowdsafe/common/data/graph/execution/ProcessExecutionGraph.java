@@ -3,6 +3,7 @@ package edu.uci.eecs.crowdsafe.common.data.graph.execution;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -13,6 +14,7 @@ import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareDistributionUnit;
 import edu.uci.eecs.crowdsafe.common.data.graph.Edge;
 import edu.uci.eecs.crowdsafe.common.data.results.Graph;
 import edu.uci.eecs.crowdsafe.common.datasource.ProcessTraceDataSource;
+import edu.uci.eecs.crowdsafe.common.datasource.ProcessTraceStreamType;
 import edu.uci.eecs.crowdsafe.common.util.CrowdSafeCollections;
 
 /**
@@ -54,6 +56,10 @@ public class ProcessExecutionGraph {
 			return second.getExecutableBlockCount() - first.getExecutableBlockCount();
 		}
 	}
+
+	public static final EnumSet<ProcessTraceStreamType> EXECUTION_GRAPH_FILE_TYPES = EnumSet.of(
+			ProcessTraceStreamType.MODULE, ProcessTraceStreamType.GRAPH_NODE, ProcessTraceStreamType.GRAPH_EDGE,
+			ProcessTraceStreamType.CROSS_MODULE_GRAPH);
 
 	private final Map<AutonomousSoftwareDistribution, ModuleGraphCluster> moduleGraphs = new HashMap<AutonomousSoftwareDistribution, ModuleGraphCluster>();
 	private final Map<SoftwareDistributionUnit, ModuleGraphCluster> moduleGraphsBySoftwareUnit = new HashMap<SoftwareDistributionUnit, ModuleGraphCluster>();

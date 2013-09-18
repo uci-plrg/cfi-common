@@ -2,7 +2,6 @@ package edu.uci.eecs.crowdsafe.common.data.graph.execution;
 
 import edu.uci.eecs.crowdsafe.common.data.graph.Edge;
 import edu.uci.eecs.crowdsafe.common.data.graph.EdgeSet;
-import edu.uci.eecs.crowdsafe.common.data.graph.EdgeType;
 import edu.uci.eecs.crowdsafe.common.data.graph.MetaNodeType;
 import edu.uci.eecs.crowdsafe.common.data.graph.Node;
 import edu.uci.eecs.crowdsafe.common.exception.InvalidGraphException;
@@ -17,7 +16,13 @@ public class ExecutionNode extends Node<ExecutionNode> {
 
 	public static class Key implements Node.Key {
 		public static Key create(long tag, int tagVersion, ModuleInstance module) {
-			return new Key(tag - module.start, tagVersion, module, MetaNodeType.NORMAL);
+			long relativeTag = (tag - module.start);
+			if ((relativeTag < 0L) || (relativeTag > (module.end - module.start))) {
+				throw new InvalidGraphException("Relative tag 0x%x is outside the module's relative bounds [0-%d]",
+						relativeTag, (module.end - module.start));
+			}
+
+			return new Key(relativeTag, tagVersion, module);
 		}
 
 		public final long relativeTag;
@@ -26,15 +31,10 @@ public class ExecutionNode extends Node<ExecutionNode> {
 
 		public final ModuleInstance module;
 
-		private Key(long relativeTag, int tagVersion, ModuleInstance module, MetaNodeType type) {
+		private Key(long relativeTag, int tagVersion, ModuleInstance module) {
 			this.relativeTag = relativeTag;
 			this.version = tagVersion;
 			this.module = module;
-
-			if ((type == MetaNodeType.NORMAL) && ((relativeTag < 0L) || (relativeTag > (module.end - module.start)))) {
-				throw new InvalidGraphException("Relative tag 0x%x is outside the module's relative bounds [0-%d]",
-						relativeTag, (module.end - module.start));
-			}
 		}
 
 		@Override
@@ -88,7 +88,7 @@ public class ExecutionNode extends Node<ExecutionNode> {
 		switch (metaNodeType) {
 			case CLUSTER_ENTRY:
 			case CLUSTER_EXIT:
-				key = new Key(hash, 0, module, metaNodeType);
+				key = new Key(hash, 0, module);
 				break;
 			default:
 				key = Key.create(tag, tagVersion, module);
@@ -138,8 +138,8 @@ public class ExecutionNode extends Node<ExecutionNode> {
 		}
 	}
 
-	public long getRelativeTag() {
-		return key.relativeTag;
+	public int getRelativeTag() {
+		return (int) key.relativeTag;
 	}
 
 	public int getTagVersion() {
@@ -186,11 +186,12 @@ public class ExecutionNode extends Node<ExecutionNode> {
 	public boolean equals(Object o) {
 		if (o == null)
 			return false;
-		if (o.getClass() != ExecutionNode.class) {
+		if (o.getClass() != getClass()) {
 			return false;
 		}
 		ExecutionNode node = (ExecutionNode) o;
-		if (node.metaNodeType == metaNodeType && metaNodeType == MetaNodeType.CLUSTER_ENTRY) {
+		if ((node.metaNodeType == metaNodeType)
+				&& ((metaNodeType == MetaNodeType.CLUSTER_ENTRY) || (metaNodeType == MetaNodeType.CLUSTER_EXIT))) {
 			return (node.hash == hash);
 		}
 
@@ -198,11 +199,16 @@ public class ExecutionNode extends Node<ExecutionNode> {
 	}
 
 	public int hashCode() {
-		// if (metaNodeType == MetaNodeType.CLUSTER_ENTRY) {
-		// return ((Long) hash).hashCode();
-		// }
-		// return key.hashCode() << 5 ^ new Long(hash).hashCode();
-		return key.hashCode();
+		switch (metaNodeType) {
+			case CLUSTER_ENTRY:
+			case CLUSTER_EXIT:
+				final int prime = 31;
+				int result = super.hashCode();
+				result = prime * result + (int) (hash ^ (hash >>> 32));
+				return result;
+			default:
+				return key.hashCode();
+		}
 	}
 
 	@Override

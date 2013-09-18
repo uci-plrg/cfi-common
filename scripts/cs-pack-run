@@ -1,0 +1,37 @@
+#!/bin/bash
+
+. $csc/scripts/cs-common
+
+function usage() {
+  echo "cs-pack-run <run-dir> [ <run-dir> ... ]"
+}
+
+check_help $1 print_usage
+
+two_word_file_patterns=('*.graph-edge.*.dat' '*.graph-node.*.dat')
+three_word_file_patterns=('*.cross-module.*.dat')
+
+for f in $@
+do
+  [ ! -d $f ] && echo "Inputs to cs-pack-run must be run directories!" \
+    && exit
+
+  for p in ${two_word_file_patterns[@]}
+  do
+    two_word_files=$two_word_files" "$(ls -1 $f/${p})
+  done
+  for p in ${three_word_file_patterns[@]}
+  do
+    three_word_files=$three_word_files" "$(ls -1 $f/${p})
+  done
+
+  [ -z "$two_word_files" ] && [ -z "$three_word_files" ] \
+    && echo "No data files found in run directory "$f
+
+  cs-pack -s 2 $two_word_files
+  cs-pack -s 3 $three_word_files
+
+  two_word_files=""
+  three_word_files=""
+done
+

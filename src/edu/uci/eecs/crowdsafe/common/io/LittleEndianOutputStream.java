@@ -45,6 +45,7 @@ public class LittleEndianOutputStream {
 	public void flush() throws IOException {
 		if (byteIndex > 0) {
 			output.write(buffer, 0, byteIndex);
+			output.flush();
 			byteIndex = 0;
 		}
 	}
