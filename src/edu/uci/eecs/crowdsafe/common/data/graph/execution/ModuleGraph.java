@@ -21,22 +21,16 @@ import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareDistributionUnit;
  * 
  */
 
+// TODO: this class seems kind of pointless now
 public class ModuleGraph {
 	public final SoftwareDistributionUnit softwareUnit;
 	public final String version;
 
-	protected final ProcessExecutionGraph containingGraph;
-
 	private int executableBlockCount = 0;
 
-	public ModuleGraph(ProcessExecutionGraph containingGraph, SoftwareDistributionUnit softwareUnit, String version) {
-		this.containingGraph = containingGraph;
+	public ModuleGraph(SoftwareDistributionUnit softwareUnit, String version) {
 		this.softwareUnit = softwareUnit;
 		this.version = version;
-	}
-
-	public ProcessExecutionGraph getContainingGraph() {
-		return containingGraph;
 	}
 
 	void incrementExecutableBlockCount() {

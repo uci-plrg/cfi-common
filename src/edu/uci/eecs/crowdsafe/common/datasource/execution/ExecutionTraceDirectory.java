@@ -1,4 +1,4 @@
-package edu.uci.eecs.crowdsafe.common.datasource;
+package edu.uci.eecs.crowdsafe.common.datasource.execution;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,43 +10,44 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import edu.uci.eecs.crowdsafe.common.datasource.TraceDataSourceException;
 import edu.uci.eecs.crowdsafe.common.io.LittleEndianInputStream;
 
-public class ProcessTraceDirectory implements ProcessTraceDataSource {
+public class ExecutionTraceDirectory implements ExecutionTraceDataSource {
 	private static class FilePatterns {
-		final Map<ProcessTraceStreamType, String> patterns = new EnumMap<ProcessTraceStreamType, String>(
-				ProcessTraceStreamType.class);
+		final Map<ExecutionTraceStreamType, String> patterns = new EnumMap<ExecutionTraceStreamType, String>(
+				ExecutionTraceStreamType.class);
 
 		public FilePatterns() {
-			for (ProcessTraceStreamType streamType : ALL_STREAM_TYPES) {
+			for (ExecutionTraceStreamType streamType : ALL_STREAM_TYPES) {
 				patterns.put(streamType, ".*\\." + streamType.id + "\\..*");
 			}
 		}
 	}
 
-	private static final EnumSet<ProcessTraceStreamType> ALL_STREAM_TYPES = EnumSet.allOf(ProcessTraceStreamType.class);
+	private static final EnumSet<ExecutionTraceStreamType> ALL_STREAM_TYPES = EnumSet.allOf(ExecutionTraceStreamType.class);
 
 	private static final FilePatterns FILE_PATTERNS = new FilePatterns();
 
 	private final int processId;
 	private final String processName;
-	private final Map<ProcessTraceStreamType, File> files = new EnumMap<ProcessTraceStreamType, File>(
-			ProcessTraceStreamType.class);
+	private final Map<ExecutionTraceStreamType, File> files = new EnumMap<ExecutionTraceStreamType, File>(
+			ExecutionTraceStreamType.class);
 
-	public ProcessTraceDirectory(File dir) throws ProcessTraceDataSourceException {
+	public ExecutionTraceDirectory(File dir) throws TraceDataSourceException {
 		this(dir, ALL_STREAM_TYPES);
 	}
 
-	public ProcessTraceDirectory(File dir, Set<ProcessTraceStreamType> streamTypes)
-			throws ProcessTraceDataSourceException {
+	public ExecutionTraceDirectory(File dir, Set<ExecutionTraceStreamType> streamTypes)
+			throws TraceDataSourceException {
 		for (File file : dir.listFiles()) {
 			if (file.isDirectory())
 				continue;
 
-			for (ProcessTraceStreamType streamType : streamTypes) {
+			for (ExecutionTraceStreamType streamType : streamTypes) {
 				if (Pattern.matches(FILE_PATTERNS.patterns.get(streamType), file.getName())) {
 					if (files.containsKey(streamType))
-						throw new ProcessTraceDataSourceException(String.format(
+						throw new TraceDataSourceException(String.format(
 								"Directory %s contains multiple files of type %s: %s and %s", dir.getAbsolutePath(),
 								streamType, file.getName(), files.get(streamType).getName()));
 					files.put(streamType, file);
@@ -55,13 +56,13 @@ public class ProcessTraceDirectory implements ProcessTraceDataSource {
 		}
 
 		if (files.size() != streamTypes.size()) {
-			Set<ProcessTraceStreamType> requiredTypes = EnumSet.copyOf(streamTypes);
+			Set<ExecutionTraceStreamType> requiredTypes = EnumSet.copyOf(streamTypes);
 			requiredTypes.removeAll(files.keySet());
-			throw new ProcessTraceDataSourceException(String.format(
+			throw new TraceDataSourceException(String.format(
 					"Required data files are missing from directory %s: %s", dir.getAbsolutePath(), requiredTypes));
 		}
 
-		ProcessTraceStreamType anyType = files.keySet().iterator().next();
+		ExecutionTraceStreamType anyType = files.keySet().iterator().next();
 		String runSignature = files.get(anyType).getName();
 		processName = runSignature.substring(0, runSignature.indexOf(anyType.id) - 1);
 		runSignature = runSignature.substring(runSignature.indexOf('.', runSignature.indexOf(anyType.id)));
@@ -83,12 +84,12 @@ public class ProcessTraceDirectory implements ProcessTraceDataSource {
 	}
 
 	@Override
-	public InputStream getDataInputStream(ProcessTraceStreamType streamType) throws IOException {
+	public InputStream getDataInputStream(ExecutionTraceStreamType streamType) throws IOException {
 		return new FileInputStream(files.get(streamType));
 	}
 
 	@Override
-	public LittleEndianInputStream getLittleEndianInputStream(ProcessTraceStreamType streamType) throws IOException {
+	public LittleEndianInputStream getLittleEndianInputStream(ExecutionTraceStreamType streamType) throws IOException {
 		File file = files.get(streamType);
 		return new LittleEndianInputStream(new FileInputStream(file), "file:" + file.getAbsolutePath());
 	}

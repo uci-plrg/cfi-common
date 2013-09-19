@@ -19,7 +19,7 @@ interface RawGraphEntry {
 		abstract EntryType createEntry() throws IOException;
 
 		boolean hasMoreEntries() throws IOException {
-			return input.ready(entryWordCount);
+			return input.ready(entryWordCount * 8);
 		}
 	}
 

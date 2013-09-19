@@ -4,12 +4,12 @@ import java.io.IOException;
 
 import edu.uci.eecs.crowdsafe.common.data.graph.Edge;
 import edu.uci.eecs.crowdsafe.common.data.graph.EdgeType;
+import edu.uci.eecs.crowdsafe.common.data.graph.GraphLoadEventListener.LoadTarget;
 import edu.uci.eecs.crowdsafe.common.data.graph.MetaNodeType;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.ExecutionNode;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.ModuleGraphCluster;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.ModuleInstance;
-import edu.uci.eecs.crowdsafe.common.data.graph.execution.loader.ProcessGraphLoadSession.LoadTarget;
-import edu.uci.eecs.crowdsafe.common.datasource.ProcessTraceStreamType;
+import edu.uci.eecs.crowdsafe.common.datasource.execution.ExecutionTraceStreamType;
 import edu.uci.eecs.crowdsafe.common.exception.InvalidTagException;
 import edu.uci.eecs.crowdsafe.common.exception.MultipleEdgeException;
 import edu.uci.eecs.crowdsafe.common.exception.TagNotFoundException;
@@ -29,6 +29,9 @@ import edu.uci.eecs.crowdsafe.common.util.CrowdSafeTraceUtil;
  * @throws TagNotFoundException
  */
 public class ProcessGraphCrossModuleEdgeFactory {
+
+	private static final int ENTRY_BYTE_COUNT = 0x18;
+
 	private final ProcessGraphLoadSession.GraphLoader loader;
 	private final LittleEndianInputStream input;
 
@@ -41,7 +44,7 @@ public class ProcessGraphCrossModuleEdgeFactory {
 	}
 
 	boolean ready() throws IOException {
-		return input.ready(0x18);
+		return input.ready(ENTRY_BYTE_COUNT);
 	}
 
 	void createEdge() throws IOException {
@@ -56,9 +59,9 @@ public class ProcessGraphCrossModuleEdgeFactory {
 		int toVersion = CrowdSafeTraceUtil.getTagVersion(annotatedToTag);
 
 		ModuleInstance fromModule = loader.graph.getModules().getModule(fromTag, edgeIndex,
-				ProcessTraceStreamType.CROSS_MODULE_EDGE);
+				ExecutionTraceStreamType.CROSS_MODULE_EDGE);
 		ModuleInstance toModule = loader.graph.getModules().getModule(toTag, edgeIndex,
-				ProcessTraceStreamType.CROSS_MODULE_EDGE);
+				ExecutionTraceStreamType.CROSS_MODULE_EDGE);
 
 		EdgeType edgeType = CrowdSafeTraceUtil.getTagEdgeType(annotatedFromTag);
 		int edgeOrdinal = CrowdSafeTraceUtil.getEdgeOrdinal(annotatedFromTag);
@@ -99,9 +102,9 @@ public class ProcessGraphCrossModuleEdgeFactory {
 			// Cross-module edges are not added to any node, but the
 			// edge from signature node to real entry node is preserved.
 			// We only need to add the signature nodes to "nodes"
-			ModuleGraphCluster fromCluster = loader.graph.getModuleGraphCluster(fromModule.unit);
+			ModuleGraphCluster<ExecutionNode> fromCluster = loader.graph.getModuleGraphCluster(fromModule.unit);
 
-			ModuleGraphCluster toCluster = loader.graph.getModuleGraphCluster(toModule.unit);
+			ModuleGraphCluster<ExecutionNode> toCluster = loader.graph.getModuleGraphCluster(toModule.unit);
 
 			if (fromCluster == toCluster) {
 				Edge<ExecutionNode> e = new Edge<ExecutionNode>(fromNode, toNode, edgeType, edgeOrdinal);
@@ -121,7 +124,12 @@ public class ProcessGraphCrossModuleEdgeFactory {
 				if (loader.listener != null)
 					loader.listener.edgeCreation(clusterExitEdge);
 
-				ExecutionNode entryNode = toCluster.addClusterEntryNode(signatureHash, toModule, toNode.getTimestamp());
+				ExecutionNode entryNode = toCluster.getEntryPoints().get(signatureHash);
+				if (entryNode == null) {
+					entryNode = new ExecutionNode(toModule, MetaNodeType.CLUSTER_ENTRY, 0L, 0, signatureHash,
+							toNode.getTimestamp());
+					toCluster.addClusterEntryNode(entryNode);
+				}
 				Edge<ExecutionNode> clusterEntryEdge = new Edge<ExecutionNode>(entryNode, toNode,
 						EdgeType.CLUSTER_ENTRY, 0);
 				entryNode.addOutgoingEdge(clusterEntryEdge);

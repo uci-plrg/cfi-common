@@ -1,35 +1,51 @@
 package edu.uci.eecs.crowdsafe.common.data.graph.cluster;
 
 import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.Map;
 
+import edu.uci.eecs.crowdsafe.common.data.dist.AutonomousSoftwareDistribution;
 import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareModule;
 import edu.uci.eecs.crowdsafe.common.data.graph.MetaNodeType;
-import edu.uci.eecs.crowdsafe.common.data.graph.Node;
-import edu.uci.eecs.crowdsafe.common.data.graph.NodeHashMap;
-import edu.uci.eecs.crowdsafe.common.data.graph.NodeList;
-import edu.uci.eecs.crowdsafe.common.datasource.ClusterGraphStreamType;
+import edu.uci.eecs.crowdsafe.common.data.graph.execution.ModuleGraph;
+import edu.uci.eecs.crowdsafe.common.data.graph.execution.ModuleGraphCluster;
+import edu.uci.eecs.crowdsafe.common.data.results.Graph;
+import edu.uci.eecs.crowdsafe.common.datasource.cluster.ClusterTraceStreamType;
 
-public class ClusterGraph {
-	
-	public static EnumSet<ClusterGraphStreamType> CLUSTER_GRAPH_STREAM_TYPES = EnumSet.allOf(ClusterGraphStreamType.class);
+public class ClusterGraph extends ModuleGraphCluster<ClusterNode> {
 
-	public final NodeHashMap nodesByHash = new NodeHashMap();
-	
-	public final Map<ClusterNode.Key, ClusterNode> nodesByKey = new HashMap<ClusterNode.Key, ClusterNode>();
-	
-	public final ClusterModuleList moduleList = new ClusterModuleList();
+	public static EnumSet<ClusterTraceStreamType> CLUSTER_GRAPH_STREAM_TYPES = EnumSet
+			.allOf(ClusterTraceStreamType.class);
+
+	public final ClusterModuleList moduleList;
+
+	public ClusterGraph(AutonomousSoftwareDistribution cluster) {
+		super(cluster);
+		moduleList = new ClusterModuleList();
+	}
+
+	public ClusterGraph(AutonomousSoftwareDistribution cluster, ClusterModuleList moduleList) {
+		super(cluster);
+		this.moduleList = moduleList;
+
+		for (ClusterModule module : moduleList.getModules()) {
+			addModule(new ModuleGraph(module.unit, module.version));
+		}
+	}
 
 	public ClusterNode addNode(long hash, SoftwareModule module, int relativeTag, MetaNodeType type) {
-		ClusterModule mergedModule = moduleList.addModule(module.unit, module.version);
-		
+		ClusterModule mergedModule = moduleList.establishModule(module.unit, module.version);
+		if (getModuleGraph(module.unit) == null)
+			addModule(new ModuleGraph(module.unit, module.version));
+
 		ClusterNode.Key key = new ClusterNode.Key(mergedModule, relativeTag, 0);
-		while (nodesByKey.containsKey(key))
-			key = new ClusterNode.Key(mergedModule, relativeTag, key.instanceId+1);
-		
+		while (graphData.nodesByKey.containsKey(key))
+			key = new ClusterNode.Key(mergedModule, relativeTag, key.instanceId + 1);
+
 		ClusterNode node = new ClusterNode(key, hash, type);
-		nodesByHash.add(node);
+		super.addNode(node);
 		return node;
+	}
+
+	public Graph.Node summarizeProcess() {
+		return null;
 	}
 }

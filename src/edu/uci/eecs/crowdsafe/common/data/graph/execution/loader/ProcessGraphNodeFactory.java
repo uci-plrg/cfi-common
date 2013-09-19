@@ -7,7 +7,7 @@ import edu.uci.eecs.crowdsafe.common.data.graph.execution.ExecutionNode;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.ModuleGraphCluster;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.ModuleInstance;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.ProcessExecutionModuleSet;
-import edu.uci.eecs.crowdsafe.common.datasource.ProcessTraceStreamType;
+import edu.uci.eecs.crowdsafe.common.datasource.execution.ExecutionTraceStreamType;
 import edu.uci.eecs.crowdsafe.common.exception.InvalidTagException;
 import edu.uci.eecs.crowdsafe.common.io.LittleEndianInputStream;
 import edu.uci.eecs.crowdsafe.common.log.Log;
@@ -30,6 +30,9 @@ import edu.uci.eecs.crowdsafe.common.util.CrowdSafeTraceUtil;
  * @throws InvalidTagException
  */
 public class ProcessGraphNodeFactory {
+	
+	private static final int ENTRY_BYTE_COUNT = 0x10;
+	
 	private final ProcessExecutionModuleSet modules;
 	private final LittleEndianInputStream input;
 
@@ -44,7 +47,7 @@ public class ProcessGraphNodeFactory {
 	}
 
 	boolean ready() throws IOException {
-		return input.ready(0x10);
+		return input.ready(ENTRY_BYTE_COUNT);
 	}
 
 	ExecutionNode createNode() throws IOException {
@@ -55,7 +58,7 @@ public class ProcessGraphNodeFactory {
 		tag = CrowdSafeTraceUtil.getTagEffectiveValue(tagOriginal);
 		int versionNumber = CrowdSafeTraceUtil.getNodeVersionNumber(tagOriginal);
 		MetaNodeType metaNodeType = CrowdSafeTraceUtil.getNodeMetaType(tagOriginal);
-		module = modules.getModule(tag, blockIndex, ProcessTraceStreamType.GRAPH_NODE);
+		module = modules.getModule(tag, blockIndex, ExecutionTraceStreamType.GRAPH_NODE);
 
 		return new ExecutionNode(module, metaNodeType, tag, versionNumber, hash, blockIndex);
 	}

@@ -1,6 +1,7 @@
 package edu.uci.eecs.crowdsafe.common.data.graph.cluster;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -68,7 +69,7 @@ public class ClusterModuleList {
 
 	private final ModuleKey lookupKey = new ModuleKey();
 
-	ClusterModule addModule(SoftwareDistributionUnit unit, String version) {
+	public ClusterModule addModule(SoftwareDistributionUnit unit, String version) {
 		ClusterModule module = new ClusterModule(modules.size(), unit, version);
 		modules.put(new ModuleKey(module.unit, module.version), module);
 		return module;
@@ -94,5 +95,9 @@ public class ClusterModuleList {
 		List<ClusterModule> moduleList = new ArrayList<ClusterModule>(modules.values());
 		Collections.sort(moduleList, IdSorter.INSTANCE);
 		return moduleList;
+	}
+	
+	public Collection<ClusterModule> getModules() {
+		return modules.values();
 	}
 }

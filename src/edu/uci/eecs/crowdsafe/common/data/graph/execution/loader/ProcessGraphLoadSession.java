@@ -4,54 +4,34 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import edu.uci.eecs.crowdsafe.common.data.dist.AutonomousSoftwareDistribution;
 import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareDistributionUnit;
 import edu.uci.eecs.crowdsafe.common.data.graph.Edge;
 import edu.uci.eecs.crowdsafe.common.data.graph.EdgeType;
+import edu.uci.eecs.crowdsafe.common.data.graph.GraphLoadEventListener;
+import edu.uci.eecs.crowdsafe.common.data.graph.MetaNodeType;
 import edu.uci.eecs.crowdsafe.common.data.graph.Node;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.ExecutionNode;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.ModuleGraph;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.ModuleGraphCluster;
+import edu.uci.eecs.crowdsafe.common.data.graph.execution.ModuleInstance;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.ProcessExecutionGraph;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.ProcessExecutionModuleSet;
-import edu.uci.eecs.crowdsafe.common.datasource.ProcessTraceDataSource;
-import edu.uci.eecs.crowdsafe.common.datasource.ProcessTraceStreamType;
+import edu.uci.eecs.crowdsafe.common.datasource.execution.ExecutionTraceDataSource;
+import edu.uci.eecs.crowdsafe.common.datasource.execution.ExecutionTraceStreamType;
 import edu.uci.eecs.crowdsafe.common.exception.InvalidGraphException;
 import edu.uci.eecs.crowdsafe.common.exception.InvalidTagException;
 
 public class ProcessGraphLoadSession {
 
-	public enum LoadTarget {
-		NODE("node"),
-		EDGE("edge"),
-		CROSS_MODULE_EDGE("cross-module edge");
-
-		public final String displayName;
-
-		private LoadTarget(String displayName) {
-			this.displayName = displayName;
-		}
-	}
-
-	public interface LoadEventListener {
-		void nodeLoadReference(long tag, long hash, LoadTarget target);
-
-		void nodeLoadReference(Node node, LoadTarget target);
-
-		void nodeCreation(Node node);
-
-		void graphAddition(Node node, ModuleGraphCluster cluster);
-
-		void edgeCreation(Edge edge);
-	}
-
 	public interface ExecutionNodeCollection {
 		void add(ExecutionNode node);
 	}
 
-	public void loadNodes(ProcessTraceDataSource dataSource, ExecutionNodeCollection collection,
+	public void loadNodes(ExecutionTraceDataSource dataSource, ExecutionNodeCollection collection,
 			ProcessExecutionModuleSet modules) throws IOException {
 		ProcessGraphNodeFactory nodeFactory = new ProcessGraphNodeFactory(modules,
-				dataSource.getLittleEndianInputStream(ProcessTraceStreamType.GRAPH_NODE));
+				dataSource.getLittleEndianInputStream(ExecutionTraceStreamType.GRAPH_NODE));
 
 		try {
 			while (nodeFactory.ready()) {
@@ -62,20 +42,20 @@ public class ProcessGraphLoadSession {
 		}
 	}
 
-	public ProcessExecutionGraph loadGraph(ProcessTraceDataSource dataSource, LoadEventListener listener)
+	public ProcessExecutionGraph loadGraph(ExecutionTraceDataSource dataSource, GraphLoadEventListener listener)
 			throws IOException {
 		GraphLoader graphLoader = new GraphLoader(dataSource, listener);
 		return graphLoader.loadGraph();
 	}
 
 	class GraphLoader {
-		final ProcessTraceDataSource dataSource;
-		final LoadEventListener listener;
+		final ExecutionTraceDataSource dataSource;
+		final GraphLoadEventListener listener;
 
 		final Map<ExecutionNode.Key, ExecutionNode> hashLookupTable = new HashMap<ExecutionNode.Key, ExecutionNode>();
 		ProcessExecutionGraph graph;
 
-		GraphLoader(ProcessTraceDataSource dataSource, LoadEventListener listener) {
+		GraphLoader(ExecutionTraceDataSource dataSource, GraphLoadEventListener listener) {
 			this.dataSource = dataSource;
 			this.listener = listener;
 		}
@@ -98,9 +78,10 @@ public class ProcessGraphLoadSession {
 			graph.trimEmptyClusters();
 
 			// Some other initialization and sanity checks
-			for (ModuleGraphCluster cluster : graph.getAutonomousClusters()) {
-				cluster.getGraphData().validate();
-				cluster.findUnreachableNodes();
+			for (AutonomousSoftwareDistribution cluster : graph.getRepresentedClusters()) {
+				ModuleGraphCluster clusterGraph = graph.getModuleGraphCluster(cluster);
+				clusterGraph.getGraphData().validate();
+				clusterGraph.findUnreachableNodes();
 			}
 
 			return graph;
@@ -108,7 +89,7 @@ public class ProcessGraphLoadSession {
 
 		private void loadGraphNodes(ProcessExecutionModuleSet modules) throws IOException {
 			ProcessGraphNodeFactory nodeFactory = new ProcessGraphNodeFactory(modules,
-					dataSource.getLittleEndianInputStream(ProcessTraceStreamType.GRAPH_NODE));
+					dataSource.getLittleEndianInputStream(ExecutionTraceStreamType.GRAPH_NODE));
 			try {
 				if (nodeFactory.ready()) {
 					ExecutionNode node = nodeFactory.createNode();
@@ -146,7 +127,7 @@ public class ProcessGraphLoadSession {
 			ModuleGraphCluster moduleCluster = graph.getModuleGraphCluster(node.getModule().unit);
 			ModuleGraph moduleGraph = moduleCluster.getModuleGraph(node.getModule().unit);
 			if (moduleGraph == null) {
-				moduleGraph = new ModuleGraph(graph, node.getModule().unit, node.getModule().version);
+				moduleGraph = new ModuleGraph(node.getModule().unit, node.getModule().version);
 				moduleCluster.addModule(moduleGraph);
 			}
 			moduleCluster.addNode(node);
@@ -157,8 +138,9 @@ public class ProcessGraphLoadSession {
 		}
 
 		private void createEntryPoint(ExecutionNode node) {
-			ExecutionNode entryNode = graph.getModuleGraphCluster(node.getModule().unit).addClusterEntryNode(1L,
-					node.getModule(), node.getTimestamp());
+			ExecutionNode entryNode = new ExecutionNode(node.getModule(), MetaNodeType.CLUSTER_ENTRY, 0L, 0, 1L,
+					node.getTimestamp());
+			graph.getModuleGraphCluster(node.getModule().unit).addClusterEntryNode(entryNode);
 			Edge<ExecutionNode> clusterEntryEdge = new Edge<ExecutionNode>(entryNode, node, EdgeType.CLUSTER_ENTRY, 0);
 			entryNode.addOutgoingEdge(clusterEntryEdge);
 			node.addIncomingEdge(clusterEntryEdge);
@@ -169,7 +151,7 @@ public class ProcessGraphLoadSession {
 
 		private void readIntraModuleEdges() throws IOException {
 			ProcessGraphEdgeFactory edgeFactory = new ProcessGraphEdgeFactory(this,
-					dataSource.getLittleEndianInputStream(ProcessTraceStreamType.GRAPH_EDGE));
+					dataSource.getLittleEndianInputStream(ExecutionTraceStreamType.GRAPH_EDGE));
 
 			try {
 				while (edgeFactory.ready())
@@ -181,7 +163,7 @@ public class ProcessGraphLoadSession {
 
 		private void readCrossModuleEdges() throws IOException {
 			ProcessGraphCrossModuleEdgeFactory crossModuleEdgeFactory = new ProcessGraphCrossModuleEdgeFactory(this,
-					dataSource.getLittleEndianInputStream(ProcessTraceStreamType.CROSS_MODULE_EDGE));
+					dataSource.getLittleEndianInputStream(ExecutionTraceStreamType.CROSS_MODULE_EDGE));
 
 			try {
 				while (crossModuleEdgeFactory.ready()) {

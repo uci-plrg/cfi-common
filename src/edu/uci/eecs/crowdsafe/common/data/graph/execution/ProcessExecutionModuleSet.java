@@ -10,7 +10,7 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 
 import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareDistributionUnit;
-import edu.uci.eecs.crowdsafe.common.datasource.ProcessTraceStreamType;
+import edu.uci.eecs.crowdsafe.common.datasource.execution.ExecutionTraceStreamType;
 
 public class ProcessExecutionModuleSet {
 
@@ -46,7 +46,7 @@ public class ProcessExecutionModuleSet {
 		return false;
 	}
 
-	public ModuleInstance getModule(long tag, long streamIndex, ProcessTraceStreamType streamType) {
+	public ModuleInstance getModule(long tag, long streamIndex, ExecutionTraceStreamType streamType) {
 		ModuleInstance activeModule = ModuleInstance.UNKNOWN;
 		switch (streamType) {
 			case GRAPH_NODE:

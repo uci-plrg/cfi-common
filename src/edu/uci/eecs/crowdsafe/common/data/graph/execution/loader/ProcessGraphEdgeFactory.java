@@ -4,18 +4,20 @@ import java.io.IOException;
 
 import edu.uci.eecs.crowdsafe.common.data.graph.Edge;
 import edu.uci.eecs.crowdsafe.common.data.graph.EdgeType;
+import edu.uci.eecs.crowdsafe.common.data.graph.GraphLoadEventListener.LoadTarget;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.ExecutionNode;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.ModuleInstance;
-import edu.uci.eecs.crowdsafe.common.data.graph.execution.loader.ProcessGraphLoadSession.LoadTarget;
-import edu.uci.eecs.crowdsafe.common.datasource.ProcessTraceStreamType;
+import edu.uci.eecs.crowdsafe.common.datasource.execution.ExecutionTraceStreamType;
 import edu.uci.eecs.crowdsafe.common.exception.InvalidGraphException;
 import edu.uci.eecs.crowdsafe.common.exception.MultipleEdgeException;
-import edu.uci.eecs.crowdsafe.common.exception.TagNotFoundException;
 import edu.uci.eecs.crowdsafe.common.io.LittleEndianInputStream;
 import edu.uci.eecs.crowdsafe.common.log.Log;
 import edu.uci.eecs.crowdsafe.common.util.CrowdSafeTraceUtil;
 
 public class ProcessGraphEdgeFactory {
+	
+	private static final int ENTRY_BYTE_COUNT = 0x10;
+	
 	private final ProcessGraphLoadSession.GraphLoader loader;
 	private final LittleEndianInputStream input;
 
@@ -28,7 +30,7 @@ public class ProcessGraphEdgeFactory {
 	}
 
 	boolean ready() throws IOException {
-		return input.ready(0x10);
+		return input.ready(ENTRY_BYTE_COUNT);
 	}
 
 	// 25% hot during load!
@@ -43,9 +45,9 @@ public class ProcessGraphEdgeFactory {
 		int toVersion = CrowdSafeTraceUtil.getTagVersion(annotatedToTag);
 
 		ModuleInstance fromModule = loader.graph.getModules().getModule(fromTag, edgeIndex,
-				ProcessTraceStreamType.GRAPH_EDGE);
+				ExecutionTraceStreamType.GRAPH_EDGE);
 		ModuleInstance toModule = loader.graph.getModules().getModule(toTag, edgeIndex,
-				ProcessTraceStreamType.GRAPH_EDGE);
+				ExecutionTraceStreamType.GRAPH_EDGE);
 
 		EdgeType edgeType = CrowdSafeTraceUtil.getTagEdgeType(annotatedFromTag);
 		int edgeOrdinal = CrowdSafeTraceUtil.getEdgeOrdinal(annotatedFromTag);
@@ -107,8 +109,8 @@ public class ProcessGraphEdgeFactory {
 						.getModuleGraphCluster(toModule.unit))) {
 			throw new InvalidGraphException(String.format(
 					"Error: a normal edge\n\t[%s - %s]\ncrosses between module %s and %s", fromNode, toNode,
-					loader.graph.getModuleGraphCluster(fromModule.unit).distribution.name,
-					loader.graph.getModuleGraphCluster(toModule.unit).distribution.name));
+					loader.graph.getModuleGraphCluster(fromModule.unit).cluster.name,
+					loader.graph.getModuleGraphCluster(toModule.unit).cluster.name));
 		}
 
 		Edge<ExecutionNode> existing = fromNode.getOutgoingEdge(toNode);

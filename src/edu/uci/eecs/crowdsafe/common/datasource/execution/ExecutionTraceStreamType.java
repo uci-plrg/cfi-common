@@ -1,6 +1,6 @@
-package edu.uci.eecs.crowdsafe.common.datasource;
+package edu.uci.eecs.crowdsafe.common.datasource.execution;
 
-public enum ProcessTraceStreamType {
+public enum ExecutionTraceStreamType {
 	BLOCK_HASH("block-hash", 1),
 	PAIR_HASH("pair-hash", 1),
 	GRAPH_EDGE("graph-edge", 2),
@@ -11,11 +11,11 @@ public enum ProcessTraceStreamType {
 	public final String id;
 	public final int entryWordCount;
 
-	private ProcessTraceStreamType(String id) {
+	private ExecutionTraceStreamType(String id) {
 		this(id, -1);
 	}
 
-	private ProcessTraceStreamType(String id, int entryWordCount) {
+	private ExecutionTraceStreamType(String id, int entryWordCount) {
 		this.id = id;
 		this.entryWordCount = entryWordCount;
 	}

@@ -12,8 +12,8 @@ import edu.uci.eecs.crowdsafe.common.data.dist.ConfiguredSoftwareDistributions;
 import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareDistributionUnit;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.ModuleInstance;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.ProcessExecutionModuleSet;
-import edu.uci.eecs.crowdsafe.common.datasource.ProcessTraceDataSource;
-import edu.uci.eecs.crowdsafe.common.datasource.ProcessTraceStreamType;
+import edu.uci.eecs.crowdsafe.common.datasource.execution.ExecutionTraceDataSource;
+import edu.uci.eecs.crowdsafe.common.datasource.execution.ExecutionTraceStreamType;
 import edu.uci.eecs.crowdsafe.common.exception.InvalidGraphException;
 import edu.uci.eecs.crowdsafe.common.exception.OverlapModuleException;
 
@@ -89,10 +89,10 @@ public class ProcessModuleLoader {
 	 * @return
 	 * @throws OverlapModuleException
 	 */
-	public ProcessExecutionModuleSet loadModules(ProcessTraceDataSource dataSource) throws IOException {
+	public ProcessExecutionModuleSet loadModules(ExecutionTraceDataSource dataSource) throws IOException {
 		ProcessExecutionModuleSet modules = new ProcessExecutionModuleSet();
 		BufferedReader reader = new BufferedReader(new InputStreamReader(
-				dataSource.getDataInputStream(ProcessTraceStreamType.MODULE)));
+				dataSource.getDataInputStream(ExecutionTraceStreamType.MODULE)));
 
 		String line;
 		while ((line = reader.readLine()) != null) {

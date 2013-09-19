@@ -1,6 +1,6 @@
-package edu.uci.eecs.crowdsafe.common.datasource;
+package edu.uci.eecs.crowdsafe.common.datasource.cluster;
 
-public enum ClusterGraphStreamType {
+public enum ClusterTraceStreamType {
 	GRAPH_EDGE("graph-edge", "dat", 2),
 	GRAPH_NODE("graph-node", "dat", 2),
 	MODULE("module", "log");
@@ -9,11 +9,11 @@ public enum ClusterGraphStreamType {
 	public final String extension;
 	public final int entryWordCount;
 
-	private ClusterGraphStreamType(String id, String extension) {
+	private ClusterTraceStreamType(String id, String extension) {
 		this(id, extension, -1);
 	}
 
-	private ClusterGraphStreamType(String id, String extension, int entryWordCount) {
+	private ClusterTraceStreamType(String id, String extension, int entryWordCount) {
 		this.id = id;
 		this.extension = extension;
 		this.entryWordCount = entryWordCount;

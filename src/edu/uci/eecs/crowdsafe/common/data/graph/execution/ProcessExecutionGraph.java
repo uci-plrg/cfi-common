@@ -12,9 +12,10 @@ import edu.uci.eecs.crowdsafe.common.data.dist.AutonomousSoftwareDistribution;
 import edu.uci.eecs.crowdsafe.common.data.dist.ConfiguredSoftwareDistributions;
 import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareDistributionUnit;
 import edu.uci.eecs.crowdsafe.common.data.graph.Edge;
+import edu.uci.eecs.crowdsafe.common.data.graph.Node;
 import edu.uci.eecs.crowdsafe.common.data.results.Graph;
-import edu.uci.eecs.crowdsafe.common.datasource.ProcessTraceDataSource;
-import edu.uci.eecs.crowdsafe.common.datasource.ProcessTraceStreamType;
+import edu.uci.eecs.crowdsafe.common.datasource.execution.ExecutionTraceDataSource;
+import edu.uci.eecs.crowdsafe.common.datasource.execution.ExecutionTraceStreamType;
 import edu.uci.eecs.crowdsafe.common.util.CrowdSafeCollections;
 
 /**
@@ -57,9 +58,9 @@ public class ProcessExecutionGraph {
 		}
 	}
 
-	public static final EnumSet<ProcessTraceStreamType> EXECUTION_GRAPH_FILE_TYPES = EnumSet.of(
-			ProcessTraceStreamType.MODULE, ProcessTraceStreamType.GRAPH_NODE, ProcessTraceStreamType.GRAPH_EDGE,
-			ProcessTraceStreamType.CROSS_MODULE_EDGE);
+	public static final EnumSet<ExecutionTraceStreamType> EXECUTION_GRAPH_FILE_TYPES = EnumSet.of(
+			ExecutionTraceStreamType.MODULE, ExecutionTraceStreamType.GRAPH_NODE, ExecutionTraceStreamType.GRAPH_EDGE,
+			ExecutionTraceStreamType.CROSS_MODULE_EDGE);
 
 	private final Map<AutonomousSoftwareDistribution, ModuleGraphCluster> moduleGraphs = new HashMap<AutonomousSoftwareDistribution, ModuleGraphCluster>();
 	private final Map<SoftwareDistributionUnit, ModuleGraphCluster> moduleGraphsBySoftwareUnit = new HashMap<SoftwareDistributionUnit, ModuleGraphCluster>();
@@ -67,14 +68,14 @@ public class ProcessExecutionGraph {
 	// Used to normalize the tag in a single graph
 	protected final ProcessExecutionModuleSet modules;
 
-	public final ProcessTraceDataSource dataSource;
+	public final ExecutionTraceDataSource dataSource;
 
-	public ProcessExecutionGraph(ProcessTraceDataSource dataSource, ProcessExecutionModuleSet modules) {
+	public ProcessExecutionGraph(ExecutionTraceDataSource dataSource, ProcessExecutionModuleSet modules) {
 		this.dataSource = dataSource;
 		this.modules = modules;
 
 		for (AutonomousSoftwareDistribution dist : ConfiguredSoftwareDistributions.getInstance().distributions.values()) {
-			ModuleGraphCluster moduleCluster = new ModuleGraphCluster(dist, this);
+			ModuleGraphCluster moduleCluster = new ModuleGraphCluster(dist);
 			moduleGraphs.put(dist, moduleCluster);
 
 			for (SoftwareDistributionUnit unit : dist.distributionUnits) {
@@ -107,8 +108,8 @@ public class ProcessExecutionGraph {
 				.get(ConfiguredSoftwareDistributions.MAIN_PROGRAM));
 	}
 
-	public Collection<ModuleGraphCluster> getAutonomousClusters() {
-		return moduleGraphs.values();
+	public Collection<AutonomousSoftwareDistribution> getRepresentedClusters() {
+		return moduleGraphs.keySet();
 	}
 
 	public int calculateTotalNodeCount() {
@@ -132,7 +133,7 @@ public class ProcessExecutionGraph {
 			Graph.Node.Builder nodeBuilder = Graph.Node.newBuilder();
 			Graph.Edge.Builder edgeBuilder = Graph.Edge.newBuilder();
 
-			ModuleGraphCluster cluster = moduleGraphs.get(dist);
+			ModuleGraphCluster<? extends Node> cluster = moduleGraphs.get(dist);
 			int clusterNodeCount = cluster.getGraphData().nodesByKey.size();
 
 			clusterBuilder.setDistributionName(dist.name);
@@ -149,20 +150,21 @@ public class ProcessExecutionGraph {
 				clusterBuilder.addModule(moduleInstanceBuilder.build());
 			}
 
-			Set<ExecutionNode> unreachableNodes = cluster.getUnreachableNodes();
+			Set<? extends Node> unreachableNodes = cluster.getUnreachableNodes();
 			if (!unreachableNodes.isEmpty()) {
-				for (ExecutionNode unreachableNode : unreachableNodes) {
+				for (Node<?> unreachableNode : unreachableNodes) {
 					moduleBuilder.setName(unreachableNode.getModule().unit.filename);
 					moduleBuilder.setVersion(unreachableNode.getModule().version);
 					nodeBuilder.clear().setModule(moduleBuilder.build());
 					nodeBuilder.setRelativeTag((int) unreachableNode.getRelativeTag());
-					nodeBuilder.setTagVersion(unreachableNode.getTagVersion());
+					if (unreachableNode instanceof ExecutionNode)
+						nodeBuilder.setTagVersion(((ExecutionNode) unreachableNode).getTagVersion());
 					nodeBuilder.setHashcode(unreachableNode.getHash());
 					unreachableBuilder.clear().setNode(nodeBuilder.build());
 					unreachableBuilder.setIsEntryPoint(true);
 
 					if (!unreachableNode.getIncomingEdges().isEmpty()) {
-						for (Edge<ExecutionNode> incoming : unreachableNode.getIncomingEdges()) {
+						for (Edge<? extends Node> incoming : unreachableNode.getIncomingEdges()) {
 							if (unreachableNodes.contains(incoming.getFromNode())) {
 								unreachableBuilder.setIsEntryPoint(false);
 							} else {

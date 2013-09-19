@@ -22,9 +22,9 @@ import edu.uci.eecs.crowdsafe.common.data.graph.execution.ModuleInstance;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.ProcessExecutionGraph;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.ProcessExecutionModuleSet;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.loader.ProcessModuleLoader;
-import edu.uci.eecs.crowdsafe.common.datasource.ProcessTraceDataSource;
-import edu.uci.eecs.crowdsafe.common.datasource.ProcessTraceDirectory;
-import edu.uci.eecs.crowdsafe.common.datasource.ProcessTraceStreamType;
+import edu.uci.eecs.crowdsafe.common.datasource.execution.ExecutionTraceDataSource;
+import edu.uci.eecs.crowdsafe.common.datasource.execution.ExecutionTraceDirectory;
+import edu.uci.eecs.crowdsafe.common.datasource.execution.ExecutionTraceStreamType;
 import edu.uci.eecs.crowdsafe.common.io.LittleEndianInputStream;
 import edu.uci.eecs.crowdsafe.common.io.LittleEndianOutputStream;
 import edu.uci.eecs.crowdsafe.common.log.Log;
@@ -43,7 +43,7 @@ public class RawGraphTransformer {
 			this.node = node;
 		}
 	}
-
+	
 	private final ArgumentStack args;
 
 	private final ProcessModuleLoader executionModuleLoader = new ProcessModuleLoader();
@@ -51,7 +51,7 @@ public class RawGraphTransformer {
 	// transitory per run:
 
 	private File outputDir = null;
-	private ProcessTraceDataSource dataSource = null;
+	private ExecutionTraceDataSource dataSource = null;
 	private ProcessExecutionModuleSet executionModules = null;
 	private ClusterGraphWriter.Directory graphWriters = null;
 	private final Map<AutonomousSoftwareDistribution, ClusterModuleList> clusterModules = new HashMap<AutonomousSoftwareDistribution, ClusterModuleList>();
@@ -74,7 +74,7 @@ public class RawGraphTransformer {
 
 			while (args.size() > 0) {
 				File runDir = new File(args.pop());
-				dataSource = new ProcessTraceDirectory(runDir, ProcessExecutionGraph.EXECUTION_GRAPH_FILE_TYPES);
+				dataSource = new ExecutionTraceDirectory(runDir, ProcessExecutionGraph.EXECUTION_GRAPH_FILE_TYPES);
 				File outputDir = new File(runDir, "cluster");
 				outputDir.mkdir();
 				graphWriters = new ClusterGraphWriter.Directory(outputDir, dataSource.getProcessName());
@@ -100,9 +100,9 @@ public class RawGraphTransformer {
 			clusterModules.put(dist, new ClusterModuleList());
 		}
 
-		transformNodes(ProcessTraceStreamType.GRAPH_NODE);
-		transformEdges(ProcessTraceStreamType.GRAPH_EDGE);
-		transformCrossModuleEdges(ProcessTraceStreamType.CROSS_MODULE_EDGE);
+		transformNodes(ExecutionTraceStreamType.GRAPH_NODE);
+		transformEdges(ExecutionTraceStreamType.GRAPH_EDGE);
+		transformCrossModuleEdges(ExecutionTraceStreamType.CROSS_MODULE_EDGE);
 
 		writeEdges();
 		writeNodes();
@@ -110,7 +110,7 @@ public class RawGraphTransformer {
 		graphWriters.flush();
 	}
 
-	private void transformNodes(ProcessTraceStreamType streamType) throws IOException {
+	private void transformNodes(ExecutionTraceStreamType streamType) throws IOException {
 		LittleEndianInputStream input = dataSource.getLittleEndianInputStream(streamType);
 		RawGraphEntry.TwoWordFactory factory = new RawGraphEntry.TwoWordFactory(input);
 
@@ -139,7 +139,7 @@ public class RawGraphTransformer {
 		}
 	}
 
-	private void transformEdges(ProcessTraceStreamType streamType) throws IOException {
+	private void transformEdges(ExecutionTraceStreamType streamType) throws IOException {
 		LittleEndianInputStream input = dataSource.getLittleEndianInputStream(streamType);
 		RawGraphEntry.TwoWordFactory factory = new RawGraphEntry.TwoWordFactory(input);
 
@@ -175,7 +175,7 @@ public class RawGraphTransformer {
 		}
 	}
 
-	private void transformCrossModuleEdges(ProcessTraceStreamType streamType) throws IOException {
+	private void transformCrossModuleEdges(ExecutionTraceStreamType streamType) throws IOException {
 		LittleEndianInputStream input = dataSource.getLittleEndianInputStream(streamType);
 		RawGraphEntry.ThreeWordFactory factory = new RawGraphEntry.ThreeWordFactory(input);
 
@@ -212,7 +212,7 @@ public class RawGraphTransformer {
 	}
 
 	private ClusterNodeIdentity identifyNode(long absoluteTag, int tagVersion, long entryIndex,
-			ProcessTraceStreamType streamType) {
+			ExecutionTraceStreamType streamType) {
 		ModuleInstance moduleInstance = executionModules.getModule(absoluteTag, entryIndex, streamType);
 		AutonomousSoftwareDistribution cluster = ConfiguredSoftwareDistributions.getInstance().distributionsByUnit
 				.get(moduleInstance.unit);

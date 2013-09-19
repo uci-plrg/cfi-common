@@ -12,7 +12,7 @@ import edu.uci.eecs.crowdsafe.common.data.graph.Edge;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterModule;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterModuleList;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterNode;
-import edu.uci.eecs.crowdsafe.common.datasource.ClusterGraphStreamType;
+import edu.uci.eecs.crowdsafe.common.datasource.cluster.ClusterTraceStreamType;
 import edu.uci.eecs.crowdsafe.common.io.LittleEndianOutputStream;
 
 public class ClusterGraphWriter {
@@ -53,17 +53,17 @@ public class ClusterGraphWriter {
 
 	ClusterGraphWriter(AutonomousSoftwareDistribution cluster, File outputDir, String processName) throws IOException {
 		String outputFilename = String.format("%s.%s.%s.%s", processName, cluster.id,
-				ClusterGraphStreamType.GRAPH_NODE.id, ClusterGraphStreamType.GRAPH_NODE.extension);
+				ClusterTraceStreamType.GRAPH_NODE.id, ClusterTraceStreamType.GRAPH_NODE.extension);
 		File outputFile = new File(outputDir, outputFilename);
 		nodeStream = new LittleEndianOutputStream(outputFile);
 
-		outputFilename = String.format("%s.%s.%s.%s", processName, cluster.id, ClusterGraphStreamType.GRAPH_EDGE.id,
-				ClusterGraphStreamType.GRAPH_EDGE.extension);
+		outputFilename = String.format("%s.%s.%s.%s", processName, cluster.id, ClusterTraceStreamType.GRAPH_EDGE.id,
+				ClusterTraceStreamType.GRAPH_EDGE.extension);
 		outputFile = new File(outputDir, outputFilename);
 		edgeStream = new LittleEndianOutputStream(outputFile);
 
-		outputFilename = String.format("%s.%s.%s.%s", processName, cluster.id, ClusterGraphStreamType.MODULE.id,
-				ClusterGraphStreamType.MODULE.extension);
+		outputFilename = String.format("%s.%s.%s.%s", processName, cluster.id, ClusterTraceStreamType.MODULE.id,
+				ClusterTraceStreamType.MODULE.extension);
 		outputFile = new File(outputDir, outputFilename);
 		moduleWriter = new BufferedWriter(new FileWriter(outputFile));
 	}

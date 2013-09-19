@@ -1,43 +1,39 @@
 package edu.uci.eecs.crowdsafe.common.data.graph.execution;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 
-import org.w3c.dom.Node;
-
 import edu.uci.eecs.crowdsafe.common.data.dist.AutonomousSoftwareDistribution;
 import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareDistributionUnit;
 import edu.uci.eecs.crowdsafe.common.data.graph.Edge;
-import edu.uci.eecs.crowdsafe.common.data.graph.EdgeType;
-import edu.uci.eecs.crowdsafe.common.data.graph.MetaNodeType;
+import edu.uci.eecs.crowdsafe.common.data.graph.GraphData;
+import edu.uci.eecs.crowdsafe.common.data.graph.Node;
 
-public class ModuleGraphCluster {
-	public final AutonomousSoftwareDistribution distribution;
+public class ModuleGraphCluster<NodeType extends Node> {
+	public final AutonomousSoftwareDistribution cluster;
 
-	// Maps from signature hash to bogus signature node
-	protected Map<Long, ExecutionNode> entryNodesBySignatureHash = new HashMap<Long, ExecutionNode>();
-	protected Map<Long, ExecutionNode> exitNodesBySignatureHash = new HashMap<Long, ExecutionNode>();
+	// Maps from signature hash to entry and exit points
+	protected Map<Long, NodeType> entryNodesBySignatureHash = new HashMap<Long, NodeType>();
+	protected Map<Long, NodeType> exitNodesBySignatureHash = new HashMap<Long, NodeType>();
 
-	protected final ExecutionGraphData graphData;
+	protected final GraphData<NodeType> graphData;
 
 	private final Map<SoftwareDistributionUnit, ModuleGraph> graphs = new HashMap<SoftwareDistributionUnit, ModuleGraph>();
-	private final Set<ExecutionNode> unreachableNodes = new HashSet<ExecutionNode>();
+	private final Set<NodeType> unreachableNodes = new HashSet<NodeType>();
 
 	private int executableNodeCount = 0;
 
-	public ModuleGraphCluster(AutonomousSoftwareDistribution distribution, ProcessExecutionGraph containingGraph) {
-		this.distribution = distribution;
-		this.graphData = new ExecutionGraphData(containingGraph);
+	public ModuleGraphCluster(AutonomousSoftwareDistribution cluster) {
+		this.cluster = cluster;
+		this.graphData = new GraphData();
 	}
 
-	public ExecutionGraphData getGraphData() {
+	public GraphData<NodeType> getGraphData() {
 		return graphData;
 	}
 
@@ -53,7 +49,7 @@ public class ModuleGraphCluster {
 		return graphs.values();
 	}
 
-	public Set<ExecutionNode> getUnreachableNodes() {
+	public Set<NodeType> getUnreachableNodes() {
 		return unreachableNodes;
 	}
 
@@ -61,7 +57,7 @@ public class ModuleGraphCluster {
 		return entryNodesBySignatureHash.size();
 	}
 
-	public Map<Long, ExecutionNode> getEntryPoints() {
+	public Map<Long, NodeType> getEntryPoints() {
 		return entryNodesBySignatureHash;
 	}
 
@@ -69,7 +65,7 @@ public class ModuleGraphCluster {
 		return executableNodeCount;
 	}
 
-	public void addNode(ExecutionNode node) {
+	public void addNode(NodeType node) {
 		graphData.nodesByHash.add(node);
 
 		if (graphData.nodesByKey.put(node.getKey(), node) == null) {
@@ -83,45 +79,40 @@ public class ModuleGraphCluster {
 				case SIGNAL_HANDLER:
 				case SIGRETURN:
 					executableNodeCount++;
+
 					graphs.get(node.getModule().unit).incrementExecutableBlockCount();
 			}
 		}
 	}
 
-	public ExecutionNode addClusterEntryNode(long crossModuleSignatureHash, ModuleInstance module, long timestamp) {
-		ExecutionNode entryNode = entryNodesBySignatureHash.get(crossModuleSignatureHash);
-		if (entryNode == null) {
-			entryNode = new ExecutionNode(module, MetaNodeType.CLUSTER_ENTRY, 0L, 0, crossModuleSignatureHash,
-					timestamp);
-			entryNodesBySignatureHash.put(entryNode.getHash(), entryNode);
+	public void addClusterEntryNode(NodeType entryNode) {
+		if (entryNodesBySignatureHash.put(entryNode.getHash(), entryNode) == null)
 			graphData.nodesByKey.put(entryNode.getKey(), entryNode);
-		}
-		return entryNode;
 	}
 
 	public void findUnreachableNodes() {
 		unreachableNodes.clear();
 		unreachableNodes.addAll(graphData.nodesByKey.values());
-		Set<ExecutionNode> visitedNodes = new HashSet<ExecutionNode>();
-		Queue<ExecutionNode> bfsQueue = new LinkedList<ExecutionNode>();
+		Set<Node> visitedNodes = new HashSet<Node>();
+		Queue<Node> bfsQueue = new LinkedList<Node>();
 		bfsQueue.addAll(entryNodesBySignatureHash.values());
 
 		while (bfsQueue.size() > 0) {
-			ExecutionNode node = bfsQueue.remove();
+			Node<?> node = bfsQueue.remove();
 			unreachableNodes.remove(node);
 			visitedNodes.add(node);
 
-			for (Edge<ExecutionNode> edge : node.getOutgoingEdges()) {
-				ExecutionNode neighbor = edge.getToNode();
+			for (Edge<? extends Node> edge : node.getOutgoingEdges()) {
+				Node neighbor = edge.getToNode();
 				if (!visitedNodes.contains(neighbor)) {
 					bfsQueue.add(neighbor);
 					visitedNodes.add(neighbor);
 				}
 			}
 
-			Edge<ExecutionNode> continuationEdge = node.getCallContinuation();
+			Edge<? extends Node> continuationEdge = node.getCallContinuation();
 			if (continuationEdge != null) {
-				ExecutionNode continuation = continuationEdge.getToNode();
+				Node continuation = continuationEdge.getToNode();
 				if (!visitedNodes.contains(continuation)) {
 					bfsQueue.add(continuation);
 					visitedNodes.add(continuation);
@@ -134,9 +125,9 @@ public class ModuleGraphCluster {
 		System.out.println(unreachableNodes.size() + " unreachable nodes for graph "
 				+ graphData.containingGraph.dataSource);
 
-		Set<ExecutionNode> internalUnreachables = new HashSet<ExecutionNode>();
-		for (ExecutionNode node : unreachableNodes) {
-			for (Edge<ExecutionNode> edge : node.getIncomingEdges()) {
+		Set<Node> internalUnreachables = new HashSet<Node>();
+		for (Node node : unreachableNodes) {
+			for (Edge<Node> edge : node.getIncomingEdges()) {
 				if (unreachableNodes.contains(edge.getFromNode())) {
 					internalUnreachables.add(node);
 					break;
@@ -144,14 +135,5 @@ public class ModuleGraphCluster {
 			}
 		}
 		 */
-	}
-
-	public List<ExecutionNode> getDanglingNodes() {
-		List<ExecutionNode> danglingNodes = new ArrayList<ExecutionNode>();
-		for (ExecutionNode n : graphData.nodesByKey.values()) {
-			if (n.getIncomingEdges().size() == 0 && n.getOutgoingEdges().size() == 0)
-				danglingNodes.add(n);
-		}
-		return danglingNodes;
 	}
 }

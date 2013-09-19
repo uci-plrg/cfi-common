@@ -35,6 +35,12 @@ public class OptionArgumentMap {
 			super(id, isRequired);
 		}
 
+		public StringOption(Character id, String defaultValue) {
+			super(id, false);
+			
+			this.value = defaultValue;
+		}
+
 		@Override
 		public String getValue() {
 			return value;
@@ -64,6 +70,10 @@ public class OptionArgumentMap {
 
 	public static StringOption createStringOption(char c, boolean isRequired) {
 		return new StringOption(c, isRequired);
+	}
+
+	public static StringOption createStringOption(char c, String defaultValue) {
+		return new StringOption(c, defaultValue);
 	}
 
 	public static BooleanOption createBooleanOption(char c) {
