@@ -124,7 +124,7 @@ public class ProcessGraphCrossModuleEdgeFactory {
 				if (loader.listener != null)
 					loader.listener.edgeCreation(clusterExitEdge);
 
-				ExecutionNode entryNode = toCluster.getEntryPoints().get(signatureHash);
+				ExecutionNode entryNode = toCluster.getEntryPoint(signatureHash);
 				if (entryNode == null) {
 					entryNode = new ExecutionNode(toModule, MetaNodeType.CLUSTER_ENTRY, 0L, 0, signatureHash,
 							toNode.getTimestamp());

@@ -6,6 +6,7 @@ import java.util.Map;
 
 import edu.uci.eecs.crowdsafe.common.data.dist.AutonomousSoftwareDistribution;
 import edu.uci.eecs.crowdsafe.common.data.graph.GraphLoadEventListener;
+import edu.uci.eecs.crowdsafe.common.data.graph.MetaNodeType;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterGraph;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterModuleList;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterNode;
@@ -60,13 +61,13 @@ public class ClusterGraphLoadSession {
 
 		final GraphLoadEventListener listener;
 
-		final Map<ExecutionNode.Key, ExecutionNode> hashLookupTable = new HashMap<ExecutionNode.Key, ExecutionNode>();
 		ClusterGraph graph;
+		final List<ClusterNode> nodeList = new ArrayList<ClusterNode>();
 
 		GraphLoader(AutonomousSoftwareDistribution cluster, GraphLoadEventListener listener) {
 			this.cluster = cluster;
 			this.listener = listener;
-			
+
 		}
 
 		ModuleGraphCluster loadGraph() throws IOException {
@@ -93,7 +94,8 @@ public class ClusterGraphLoadSession {
 				while (nodeFactory.ready()) {
 					ClusterNode node = nodeFactory.createNode();
 					graph.addNode(node);
-					
+					nodeList.add(node);
+
 					if (listener != null)
 						listener.graphAddition(node, graph);
 				}
@@ -103,7 +105,7 @@ public class ClusterGraphLoadSession {
 		}
 
 		private void loadEdges(ClusterModuleList modules) throws IOException {
-			ClusterGraphEdgeFactory edgeFactory = new ClusterGraphEdgeFactory(modules,
+			ClusterGraphEdgeFactory edgeFactory = new ClusterGraphEdgeFactory(graph,
 					dataSource.getLittleEndianInputStream(cluster, ClusterTraceStreamType.GRAPH_EDGE));
 
 			try {

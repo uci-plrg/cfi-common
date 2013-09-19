@@ -41,7 +41,7 @@ public class ClusterGraph extends ModuleGraphCluster<ClusterNode> {
 			key = new ClusterNode.Key(mergedModule, relativeTag, key.instanceId + 1);
 
 		ClusterNode node = new ClusterNode(key, hash, type);
-		super.addNode(node);
+		addNode(node);
 		return node;
 	}
 

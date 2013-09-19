@@ -66,11 +66,13 @@ public class ClusterModuleList {
 	}
 
 	private final Map<ModuleKey, ClusterModule> modules = new HashMap<ModuleKey, ClusterModule>();
+	private final List<ClusterModule> moduleList = new ArrayList<ClusterModule>();
 
 	private final ModuleKey lookupKey = new ModuleKey();
 
 	public ClusterModule addModule(SoftwareDistributionUnit unit, String version) {
-		ClusterModule module = new ClusterModule(modules.size(), unit, version);
+		ClusterModule module = new ClusterModule(moduleList.size(), unit, version);
+		moduleList.add(module);
 		modules.put(new ModuleKey(module.unit, module.version), module);
 		return module;
 	}
@@ -99,5 +101,9 @@ public class ClusterModuleList {
 	
 	public Collection<ClusterModule> getModules() {
 		return modules.values();
+	}
+	
+	public ClusterModule getModule(int index) {
+		return moduleList.get(index);
 	}
 }

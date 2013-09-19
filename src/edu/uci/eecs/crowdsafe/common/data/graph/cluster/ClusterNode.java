@@ -6,14 +6,15 @@ import edu.uci.eecs.crowdsafe.common.data.graph.MetaNodeType;
 import edu.uci.eecs.crowdsafe.common.data.graph.Node;
 
 public class ClusterNode extends Node<ClusterNode> {
+
 	public static class Key implements Node.Key {
 		public final ClusterModule module;
 
-		public final int relativeTag;
+		public final long relativeTag;
 
 		public final int instanceId;
 
-		public Key(ClusterModule module, int relativeTag, int instanceId) {
+		public Key(ClusterModule module, long relativeTag, int instanceId) {
 			this.module = module;
 			this.relativeTag = relativeTag;
 			this.instanceId = instanceId;
@@ -25,7 +26,7 @@ public class ClusterNode extends Node<ClusterNode> {
 			int result = 1;
 			result = prime * result + instanceId;
 			result = prime * result + ((module == null) ? 0 : module.hashCode());
-			result = prime * result + relativeTag;
+			result = prime * result + (int) (relativeTag ^ (relativeTag >>> 32));
 			return result;
 		}
 
@@ -35,19 +36,82 @@ public class ClusterNode extends Node<ClusterNode> {
 				return true;
 			if (obj == null)
 				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			Key other = (Key) obj;
-			if (instanceId != other.instanceId)
-				return false;
-			if (module == null) {
-				if (other.module != null)
+			if (obj.getClass() == Key.class) {
+				Key other = (Key) obj;
+				if (instanceId != other.instanceId)
 					return false;
-			} else if (!module.equals(other.module))
+				if (!module.equals(other.module))
+					return false;
+				if (relativeTag != other.relativeTag)
+					return false;
+				return true;
+			} else if (obj.getClass() == LookupKey.class) {
+				LookupKey other = (LookupKey) obj;
+				if (instanceId != other.instanceId)
+					return false;
+				if (!module.equals(other.module))
+					return false;
+				if (relativeTag != other.relativeTag)
+					return false;
+				return true;
+			} else {
 				return false;
-			if (relativeTag != other.relativeTag)
+			}
+		}
+	}
+
+	public static class LookupKey implements Node.Key {
+		private ClusterModule module;
+
+		private long relativeTag;
+
+		private int instanceId;
+
+		public LookupKey setIdentity(ClusterModule module, long relativeTag, int instanceId) {
+			this.module = module;
+			this.relativeTag = relativeTag;
+			this.instanceId = instanceId;
+
+			return this;
+		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + instanceId;
+			result = prime * result + ((module == null) ? 0 : module.hashCode());
+			result = prime * result + (int) (relativeTag ^ (relativeTag >>> 32));
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
 				return false;
-			return true;
+			if (obj.getClass() == Key.class) {
+				Key other = (Key) obj;
+				if (instanceId != other.instanceId)
+					return false;
+				if (!module.equals(other.module))
+					return false;
+				if (relativeTag != other.relativeTag)
+					return false;
+				return true;
+			} else if (obj.getClass() == LookupKey.class) {
+				LookupKey other = (LookupKey) obj;
+				if (instanceId != other.instanceId)
+					return false;
+				if (!module.equals(other.module))
+					return false;
+				if (relativeTag != other.relativeTag)
+					return false;
+				return true;
+			} else {
+				return false;
+			}
 		}
 	}
 
@@ -63,7 +127,7 @@ public class ClusterNode extends Node<ClusterNode> {
 		this.type = type;
 	}
 
-	public ClusterNode(ClusterModule module, int relativeTag, int instanceId, long hash, MetaNodeType type) {
+	public ClusterNode(ClusterModule module, long relativeTag, int instanceId, long hash, MetaNodeType type) {
 		this(new Key(module, relativeTag, instanceId), hash, type);
 	}
 
@@ -79,7 +143,7 @@ public class ClusterNode extends Node<ClusterNode> {
 
 	@Override
 	public int getRelativeTag() {
-		return key.relativeTag;
+		return (int) key.relativeTag;
 	}
 
 	public MetaNodeType getType() {
@@ -97,5 +161,35 @@ public class ClusterNode extends Node<ClusterNode> {
 
 	public void addOutgoingEdge(Edge<ClusterNode> e) {
 		edges.addEdge(EdgeSet.Direction.OUTGOING, e);
+	}
+
+	public String identify() {
+		switch (type) {
+			case CLUSTER_ENTRY:
+				return String.format("ClusterEntry(0x%x)", hash);
+			case CLUSTER_EXIT:
+				return String.format("ClusterExit(0x%x)", hash);
+			default:
+				return String.format("%s(0x%x-i%d|0x%x)", key.module.unit.filename, key.relativeTag, key.instanceId,
+						hash);
+		}
+	}
+
+	@Override
+	public int hashCode() {
+		return key.hashCode();
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof ClusterNode) {
+			return key.equals(((ClusterNode) o).key);
+		}
+		return false;
+	}
+
+	@Override
+	public String toString() {
+		return identify();
 	}
 }

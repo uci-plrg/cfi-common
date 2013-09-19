@@ -1,8 +1,8 @@
 package edu.uci.eecs.crowdsafe.common.datasource.cluster;
 
 public enum ClusterTraceStreamType {
-	GRAPH_EDGE("graph-edge", "dat", 2),
 	GRAPH_NODE("graph-node", "dat", 2),
+	GRAPH_EDGE("graph-edge", "dat", 1),
 	MODULE("module", "log");
 
 	public final String id;

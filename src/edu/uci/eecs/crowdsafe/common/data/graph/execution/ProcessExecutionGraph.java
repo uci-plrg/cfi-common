@@ -139,7 +139,7 @@ public class ProcessExecutionGraph {
 			clusterBuilder.setDistributionName(dist.name);
 			clusterBuilder.setNodeCount(clusterNodeCount);
 			clusterBuilder.setExecutableNodeCount(cluster.getExecutableNodeCount());
-			clusterBuilder.setEntryPointCount(cluster.getEntryNodeCount());
+			clusterBuilder.setEntryPointCount(cluster.getEntryHashes().size());
 
 			for (ModuleGraph moduleGraph : CrowdSafeCollections.createSortedCopy(cluster.getGraphs(),
 					ModuleGraphSorter.INSTANCE)) {

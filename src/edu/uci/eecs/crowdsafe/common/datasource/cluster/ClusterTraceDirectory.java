@@ -34,13 +34,16 @@ public class ClusterTraceDirectory implements ClusterTraceDataSource {
 	public ClusterTraceDirectory(File directory, Set<ClusterTraceStreamType> streamTypes)
 			throws TraceDataSourceException {
 		this.directory = directory;
-		for (File file : directory.listFiles()) {
-			if (file.isDirectory())
-				continue;
+		File[] ls = directory.listFiles();
+		for (AutonomousSoftwareDistribution cluster : ConfiguredSoftwareDistributions.getInstance().distributions
+				.values()) {
 
-			for (AutonomousSoftwareDistribution cluster : ConfiguredSoftwareDistributions.getInstance().distributions
-					.values()) {
-				Map<ClusterTraceStreamType, File> files = null;
+			Map<ClusterTraceStreamType, File> files = null;
+
+			for (File file : ls) {
+				if (file.isDirectory())
+					continue;
+
 				for (ClusterTraceStreamType streamType : streamTypes) {
 					if (matches(file.getName(), cluster, streamType)) {
 						if (files == null) {
@@ -54,27 +57,28 @@ public class ClusterTraceDirectory implements ClusterTraceDataSource {
 									files.get(streamType).getName()));
 						files.put(streamType, file);
 					}
-
-					if ((files.size() > 0) && (files.size() < ALL_STREAM_TYPES.size())) {
-						Set<ClusterTraceStreamType> requiredTypes = EnumSet.copyOf(streamTypes);
-						requiredTypes.removeAll(files.keySet());
-						Log.log("Directory %s contains some but not all files for cluster %s.\n\tMissing types are %s.\n\tSkipping this cluster.",
-								directory.getAbsolutePath(), requiredTypes, cluster.name);
-						filesByCluster.remove(cluster);
-					}
 				}
+			}
+			
+			if ((files != null) && (files.size() < ALL_STREAM_TYPES.size())) {
+				Set<ClusterTraceStreamType> requiredTypes = EnumSet.copyOf(streamTypes);
+				requiredTypes.removeAll(files.keySet());
+				Log.log("Directory %s contains some but not all files for cluster %s.\n\tMissing types are %s.\n\tSkipping this cluster.",
+						directory.getAbsolutePath(), cluster.name, requiredTypes);
+				filesByCluster.remove(cluster);
 			}
 		}
 	}
 
 	private boolean matches(String filename, AutonomousSoftwareDistribution cluster, ClusterTraceStreamType streamType) {
-		return matches(filename, "\\.*", cluster, streamType);
+		return matches(filename, ".*", cluster, streamType);
 	}
 
 	private boolean matches(String filename, String processName, AutonomousSoftwareDistribution cluster,
 			ClusterTraceStreamType streamType) {
 		return Pattern.matches(
-				String.format("%s.%s.%s.%s", processName, cluster.name, streamType.id, streamType.extension), filename);
+				String.format("%s\\.%s\\.%s\\.%s", processName, cluster.name, streamType.id, streamType.extension),
+				filename);
 	}
 
 	@Override

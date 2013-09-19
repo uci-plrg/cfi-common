@@ -19,6 +19,12 @@ public class Edge<NodeType extends Node> {
 		this.toNode = toNode;
 		this.edgeType = edgeType;
 		this.ordinal = ordinal;
+
+		if (toNode.getType() == MetaNodeType.CLUSTER_ENTRY)
+			toNode.toString();
+
+		if (fromNode.getRelativeTag() == 0x1ea8eL)
+			fromNode.toString();
 	}
 
 	public void setEdgeType(EdgeType edgeType) {
@@ -73,6 +79,6 @@ public class Edge<NodeType extends Node> {
 	}
 
 	public String toString() {
-		return fromNode + "(" + edgeType + ")--" + ordinal + "-->" + toNode;
+		return String.format("%s(%s)--%d-->%s", fromNode, edgeType, ordinal, toNode);
 	}
 }

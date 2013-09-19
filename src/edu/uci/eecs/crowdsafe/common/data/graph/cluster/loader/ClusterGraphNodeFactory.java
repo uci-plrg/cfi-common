@@ -2,6 +2,8 @@ package edu.uci.eecs.crowdsafe.common.data.graph.cluster.loader;
 
 import java.io.IOException;
 
+import edu.uci.eecs.crowdsafe.common.data.graph.MetaNodeType;
+import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterModule;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterModuleList;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterNode;
 import edu.uci.eecs.crowdsafe.common.io.LittleEndianInputStream;
@@ -9,10 +11,10 @@ import edu.uci.eecs.crowdsafe.common.io.LittleEndianInputStream;
 public class ClusterGraphNodeFactory {
 
 	private static final int ENTRY_BYTE_COUNT = 0x10;
-	
+
 	private final ClusterModuleList modules;
 	private final LittleEndianInputStream input;
-
+	
 	ClusterGraphNodeFactory(ClusterModuleList modules, LittleEndianInputStream input) {
 		this.input = input;
 		this.modules = modules;
@@ -23,7 +25,29 @@ public class ClusterGraphNodeFactory {
 	}
 
 	ClusterNode createNode() throws IOException {
-		return null;
+		long first = input.readLong();
+		int moduleIndex = (int) (first & 0xffffL);
+		long relativeTag = ((first >> 0x10) & 0xffffffL);
+		int instanceId = (int) ((first >> 0x28) & 0xffL);
+
+		if (((int) ((first >> 0x30) & 0xffL)) > MetaNodeType.values().length)
+			toString();
+
+		MetaNodeType type = MetaNodeType.values()[(int) ((first >> 0x30) & 0xffL)];
+		ClusterModule module = modules.getModule(moduleIndex);
+
+		long hash = input.readLong();
+
+		switch (type) {
+			case CLUSTER_ENTRY:
+				relativeTag = hash;
+				break;
+			case CLUSTER_EXIT:
+				relativeTag = hash;
+				break;
+		}
+
+		return new ClusterNode(module, relativeTag, instanceId, hash, type);
 	}
 
 	void close() throws IOException {
