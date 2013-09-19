@@ -1,12 +1,11 @@
 package edu.uci.eecs.crowdsafe.common.data.graph.cluster.loader;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 import edu.uci.eecs.crowdsafe.common.data.dist.AutonomousSoftwareDistribution;
 import edu.uci.eecs.crowdsafe.common.data.graph.GraphLoadEventListener;
-import edu.uci.eecs.crowdsafe.common.data.graph.MetaNodeType;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterGraph;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterModuleList;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterNode;
@@ -105,7 +104,7 @@ public class ClusterGraphLoadSession {
 		}
 
 		private void loadEdges(ClusterModuleList modules) throws IOException {
-			ClusterGraphEdgeFactory edgeFactory = new ClusterGraphEdgeFactory(graph,
+			ClusterGraphEdgeFactory edgeFactory = new ClusterGraphEdgeFactory(nodeList,
 					dataSource.getLittleEndianInputStream(cluster, ClusterTraceStreamType.GRAPH_EDGE));
 
 			try {
