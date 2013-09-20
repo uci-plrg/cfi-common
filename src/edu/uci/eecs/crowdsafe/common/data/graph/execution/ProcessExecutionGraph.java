@@ -2,22 +2,17 @@ package edu.uci.eecs.crowdsafe.common.data.graph.execution;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import edu.uci.eecs.crowdsafe.common.data.dist.AutonomousSoftwareDistribution;
 import edu.uci.eecs.crowdsafe.common.data.dist.ConfiguredSoftwareDistributions;
 import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareDistributionUnit;
-import edu.uci.eecs.crowdsafe.common.data.graph.Edge;
-import edu.uci.eecs.crowdsafe.common.data.graph.ModuleGraph;
 import edu.uci.eecs.crowdsafe.common.data.graph.ModuleGraphCluster;
 import edu.uci.eecs.crowdsafe.common.data.results.Graph;
 import edu.uci.eecs.crowdsafe.common.datasource.execution.ExecutionTraceDataSource;
 import edu.uci.eecs.crowdsafe.common.datasource.execution.ExecutionTraceStreamType;
-import edu.uci.eecs.crowdsafe.common.util.CrowdSafeCollections;
 
 /**
  * <p>
@@ -49,15 +44,6 @@ import edu.uci.eecs.crowdsafe.common.util.CrowdSafeCollections;
  */
 
 public class ProcessExecutionGraph {
-
-	private static class ModuleGraphSorter implements Comparator<ModuleGraph> {
-		static final ModuleGraphSorter INSTANCE = new ModuleGraphSorter();
-
-		@Override
-		public int compare(ModuleGraph first, ModuleGraph second) {
-			return second.getExecutableBlockCount() - first.getExecutableBlockCount();
-		}
-	}
 
 	public static final EnumSet<ExecutionTraceStreamType> EXECUTION_GRAPH_FILE_TYPES = EnumSet.of(
 			ExecutionTraceStreamType.MODULE, ExecutionTraceStreamType.GRAPH_NODE, ExecutionTraceStreamType.GRAPH_EDGE,
@@ -127,64 +113,8 @@ public class ProcessExecutionGraph {
 		processBuilder.setName(dataSource.getProcessName());
 
 		for (AutonomousSoftwareDistribution dist : moduleGraphs.keySet()) {
-			Graph.Cluster.Builder clusterBuilder = Graph.Cluster.newBuilder();
-			Graph.Module.Builder moduleBuilder = Graph.Module.newBuilder();
-			Graph.ModuleInstance.Builder moduleInstanceBuilder = Graph.ModuleInstance.newBuilder();
-			Graph.UnreachableNode.Builder unreachableBuilder = Graph.UnreachableNode.newBuilder();
-			Graph.Node.Builder nodeBuilder = Graph.Node.newBuilder();
-			Graph.Edge.Builder edgeBuilder = Graph.Edge.newBuilder();
-
 			ModuleGraphCluster<ExecutionNode> cluster = moduleGraphs.get(dist);
-			int clusterNodeCount = cluster.getNodeCount();
-
-			clusterBuilder.setDistributionName(dist.name);
-			clusterBuilder.setNodeCount(clusterNodeCount);
-			clusterBuilder.setExecutableNodeCount(cluster.getExecutableNodeCount());
-			clusterBuilder.setEntryPointCount(cluster.getEntryHashes().size());
-
-			for (ModuleGraph moduleGraph : CrowdSafeCollections.createSortedCopy(cluster.getGraphs(),
-					ModuleGraphSorter.INSTANCE)) {
-				moduleBuilder.clear().setName(moduleGraph.softwareUnit.filename);
-				moduleBuilder.setVersion(moduleGraph.version);
-				moduleInstanceBuilder.setModule(moduleBuilder.build());
-				moduleInstanceBuilder.setNodeCount(moduleGraph.getExecutableBlockCount());
-				clusterBuilder.addModule(moduleInstanceBuilder.build());
-			}
-
-			Set<ExecutionNode> unreachableNodes = cluster.getUnreachableNodes();
-			if (!unreachableNodes.isEmpty()) {
-				for (ExecutionNode unreachableNode : unreachableNodes) {
-					moduleBuilder.setName(unreachableNode.getModule().unit.filename);
-					moduleBuilder.setVersion(unreachableNode.getModule().version);
-					nodeBuilder.clear().setModule(moduleBuilder.build());
-					nodeBuilder.setRelativeTag((int) unreachableNode.getRelativeTag());
-					if (unreachableNode instanceof ExecutionNode)
-						nodeBuilder.setTagVersion(((ExecutionNode) unreachableNode).getTagVersion());
-					nodeBuilder.setHashcode(unreachableNode.getHash());
-					unreachableBuilder.clear().setNode(nodeBuilder.build());
-					unreachableBuilder.setIsEntryPoint(true);
-
-					if (!unreachableNode.getIncomingEdges().isEmpty()) {
-						for (Edge<ExecutionNode> incoming : unreachableNode.getIncomingEdges()) {
-							if (unreachableNodes.contains(incoming.getFromNode())) {
-								unreachableBuilder.setIsEntryPoint(false);
-							} else {
-								moduleBuilder.setName(incoming.getFromNode().getModule().unit.filename);
-								moduleBuilder.setVersion(incoming.getFromNode().getModule().version);
-								nodeBuilder.setModule(moduleBuilder.build());
-								edgeBuilder.clear().setFromNode(nodeBuilder.build());
-								edgeBuilder.setToNode(unreachableBuilder.getNode());
-								edgeBuilder.setType(incoming.getEdgeType().mapToResultType());
-								unreachableBuilder.addMissedIncomingEdge(edgeBuilder.build());
-							}
-						}
-					}
-
-					clusterBuilder.addUnreachable(unreachableBuilder.build());
-				}
-			}
-
-			processBuilder.addCluster(clusterBuilder.build());
+			processBuilder.addCluster(cluster.summarize());
 		}
 
 		return processBuilder.build();

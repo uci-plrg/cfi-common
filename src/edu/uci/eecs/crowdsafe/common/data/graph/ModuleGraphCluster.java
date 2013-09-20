@@ -1,6 +1,7 @@
 package edu.uci.eecs.crowdsafe.common.data.graph;
 
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -10,9 +11,22 @@ import java.util.Set;
 
 import edu.uci.eecs.crowdsafe.common.data.dist.AutonomousSoftwareDistribution;
 import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareDistributionUnit;
+import edu.uci.eecs.crowdsafe.common.data.graph.execution.ExecutionNode;
+import edu.uci.eecs.crowdsafe.common.data.results.Graph;
 import edu.uci.eecs.crowdsafe.common.log.Log;
+import edu.uci.eecs.crowdsafe.common.util.CrowdSafeCollections;
 
 public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>> {
+
+	private static class ModuleGraphSorter implements Comparator<ModuleGraph> {
+		static final ModuleGraphSorter INSTANCE = new ModuleGraphSorter();
+
+		@Override
+		public int compare(ModuleGraph first, ModuleGraph second) {
+			return second.getExecutableBlockCount() - first.getExecutableBlockCount();
+		}
+	}
+
 	public final AutonomousSoftwareDistribution cluster;
 
 	// Maps from the signature hash of the cross-module edge to entry points
@@ -152,6 +166,8 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 
 		Log.log("%d unreachable nodes for cluster %s", unreachableNodes.size(), cluster.name);
 
+		/**
+		 * <pre>
 		Set<EdgeEndpointType> missedEntries = new HashSet<EdgeEndpointType>();
 		for (EdgeEndpointType node : unreachableNodes) {
 			boolean reachableFromUnreachables = false;
@@ -174,5 +190,63 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 				Log.log("No entry points into %s", node);
 			}
 		}
+		 */
+	}
+
+	public Graph.Cluster summarize() {
+		Graph.Cluster.Builder clusterBuilder = Graph.Cluster.newBuilder();
+		Graph.Module.Builder moduleBuilder = Graph.Module.newBuilder();
+		Graph.ModuleInstance.Builder moduleInstanceBuilder = Graph.ModuleInstance.newBuilder();
+		Graph.UnreachableNode.Builder unreachableBuilder = Graph.UnreachableNode.newBuilder();
+		Graph.Node.Builder nodeBuilder = Graph.Node.newBuilder();
+		Graph.Edge.Builder edgeBuilder = Graph.Edge.newBuilder();
+
+		int clusterNodeCount = getNodeCount();
+
+		clusterBuilder.setDistributionName(cluster.name);
+		clusterBuilder.setNodeCount(clusterNodeCount);
+		clusterBuilder.setExecutableNodeCount(getExecutableNodeCount());
+		clusterBuilder.setEntryPointCount(getEntryHashes().size());
+
+		for (ModuleGraph moduleGraph : CrowdSafeCollections.createSortedCopy(getGraphs(), ModuleGraphSorter.INSTANCE)) {
+			moduleBuilder.clear().setName(moduleGraph.softwareUnit.filename);
+			moduleBuilder.setVersion(moduleGraph.version);
+			moduleInstanceBuilder.setModule(moduleBuilder.build());
+			moduleInstanceBuilder.setNodeCount(moduleGraph.getExecutableBlockCount());
+			clusterBuilder.addModule(moduleInstanceBuilder.build());
+		}
+
+		Set<EdgeEndpointType> unreachableNodes = getUnreachableNodes();
+		if (!unreachableNodes.isEmpty()) {
+			for (Node<?> unreachableNode : unreachableNodes) {
+				moduleBuilder.setName(unreachableNode.getModule().unit.filename);
+				moduleBuilder.setVersion(unreachableNode.getModule().version);
+				nodeBuilder.clear().setModule(moduleBuilder.build());
+				nodeBuilder.setRelativeTag((int) unreachableNode.getRelativeTag());
+				if (unreachableNode instanceof ExecutionNode)
+					nodeBuilder.setTagVersion(((ExecutionNode) unreachableNode).getTagVersion());
+				nodeBuilder.setHashcode(unreachableNode.getHash());
+				unreachableBuilder.clear().setNode(nodeBuilder.build());
+				unreachableBuilder.setIsEntryPoint(true);
+
+				if (!unreachableNode.getIncomingEdges().isEmpty()) {
+					for (Edge<?> incoming : unreachableNode.getIncomingEdges()) {
+						if (unreachableNodes.contains(incoming.getFromNode())) {
+							unreachableBuilder.setIsEntryPoint(false);
+						} else {
+							moduleBuilder.setName(incoming.getFromNode().getModule().unit.filename);
+							moduleBuilder.setVersion(incoming.getFromNode().getModule().version);
+							nodeBuilder.setModule(moduleBuilder.build());
+							edgeBuilder.clear().setFromNode(nodeBuilder.build());
+							edgeBuilder.setToNode(unreachableBuilder.getNode());
+							edgeBuilder.setType(incoming.getEdgeType().mapToResultType());
+							unreachableBuilder.addMissedIncomingEdge(edgeBuilder.build());
+						}
+					}
+				}
+				clusterBuilder.addUnreachable(unreachableBuilder.build());
+			}
+		}
+		return clusterBuilder.build();
 	}
 }
