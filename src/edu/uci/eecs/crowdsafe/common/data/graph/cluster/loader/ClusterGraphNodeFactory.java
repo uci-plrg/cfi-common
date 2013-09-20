@@ -3,6 +3,8 @@ package edu.uci.eecs.crowdsafe.common.data.graph.cluster.loader;
 import java.io.IOException;
 
 import edu.uci.eecs.crowdsafe.common.data.graph.MetaNodeType;
+import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterBasicBlock;
+import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterBoundaryNode;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterModule;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterModuleList;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterNode;
@@ -24,7 +26,7 @@ public class ClusterGraphNodeFactory {
 		return input.ready(ENTRY_BYTE_COUNT);
 	}
 
-	ClusterNode createNode() throws IOException {
+	ClusterNode<?> createNode() throws IOException {
 		long first = input.readLong();
 		int moduleIndex = (int) (first & 0xffffL);
 		long relativeTag = ((first >> 0x10) & 0xffffffL);
@@ -40,14 +42,11 @@ public class ClusterGraphNodeFactory {
 
 		switch (type) {
 			case CLUSTER_ENTRY:
-				relativeTag = hash;
-				break;
 			case CLUSTER_EXIT:
-				relativeTag = hash;
-				break;
+				return new ClusterBoundaryNode(hash, type);
 		}
 
-		return new ClusterNode(module, relativeTag, instanceId, hash, type);
+		return new ClusterBasicBlock(module, relativeTag, instanceId, hash, type);
 	}
 
 	void close() throws IOException {

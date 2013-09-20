@@ -1,15 +1,15 @@
 package edu.uci.eecs.crowdsafe.common.data.graph;
 
-public class Edge<NodeType extends Node> {
-	private NodeType toNode;
+public class Edge<EndpointType extends Node<?>> {
+	private EndpointType toNode;
 	private EdgeType edgeType;
 	private int ordinal;
 
 	// Add this filed for debugging reason, cause it provides
 	// more information when debugging
-	private NodeType fromNode;
+	private EndpointType fromNode;
 
-	public Edge(NodeType fromNode, NodeType toNode, EdgeType edgeType, int ordinal) {
+	public Edge(EndpointType fromNode, EndpointType toNode, EdgeType edgeType, int ordinal) {
 		if (fromNode == null)
 			throw new IllegalArgumentException("Edge construction is missing the 'from' node!");
 		if (toNode == null)
@@ -31,11 +31,11 @@ public class Edge<NodeType extends Node> {
 		this.edgeType = edgeType;
 	}
 
-	public NodeType getFromNode() {
+	public EndpointType getFromNode() {
 		return fromNode;
 	}
 
-	public NodeType getToNode() {
+	public EndpointType getToNode() {
 		return toNode;
 	}
 
@@ -66,7 +66,7 @@ public class Edge<NodeType extends Node> {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Edge other = (Edge) obj;
+		Edge<?> other = (Edge<?>) obj;
 		if (edgeType != other.edgeType)
 			return false;
 		if (!fromNode.equals(other.fromNode))

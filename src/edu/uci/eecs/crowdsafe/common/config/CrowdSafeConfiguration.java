@@ -4,8 +4,6 @@ import java.util.EnumMap;
 import java.util.Map;
 import java.util.Set;
 
-import edu.uci.eecs.crowdsafe.common.config.CrowdSafeConfiguration.Environment;
-
 public class CrowdSafeConfiguration {
 
 	public enum Environment {

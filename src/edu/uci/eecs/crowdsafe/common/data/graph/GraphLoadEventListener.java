@@ -1,7 +1,5 @@
 package edu.uci.eecs.crowdsafe.common.data.graph;
 
-import edu.uci.eecs.crowdsafe.common.data.graph.execution.ModuleGraphCluster;
-
 public interface GraphLoadEventListener {
 
 	public enum LoadTarget {
@@ -18,11 +16,11 @@ public interface GraphLoadEventListener {
 
 	void nodeLoadReference(long tag, long hash, LoadTarget target);
 
-	void nodeLoadReference(Node node, LoadTarget target);
+	void nodeLoadReference(Node<?> node, LoadTarget target);
 
-	void nodeCreation(Node node);
+	void nodeCreation(Node<?> node);
 
-	void graphAddition(Node node, ModuleGraphCluster cluster);
+	void graphAddition(Node<?> node, ModuleGraphCluster<?> cluster);
 
-	void edgeCreation(Edge edge);
+	void edgeCreation(Edge<?> edge);
 }

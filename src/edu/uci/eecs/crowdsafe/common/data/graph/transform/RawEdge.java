@@ -3,12 +3,12 @@ package edu.uci.eecs.crowdsafe.common.data.graph.transform;
 import edu.uci.eecs.crowdsafe.common.data.graph.EdgeType;
 
 public class RawEdge {
-	public final RawClusterNodeId fromNode;
-	public final RawClusterNodeId toNode;
+	public final RawClusterNode fromNode;
+	public final RawClusterNode toNode;
 	public final EdgeType type;
 	public final int ordinal;
 
-	RawEdge(RawClusterNodeId fromNode, RawClusterNodeId toNode, EdgeType type, int ordinal) {
+	RawEdge(RawClusterNode fromNode, RawClusterNode toNode, EdgeType type, int ordinal) {
 		this.fromNode = fromNode;
 		this.toNode = toNode;
 		this.type = type;

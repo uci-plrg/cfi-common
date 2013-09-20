@@ -2,7 +2,6 @@ package edu.uci.eecs.crowdsafe.common.data.graph.cluster.loader;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import edu.uci.eecs.crowdsafe.common.data.dist.AutonomousSoftwareDistribution;

@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import edu.uci.eecs.crowdsafe.common.data.dist.AutonomousSoftwareDistribution;
-import edu.uci.eecs.crowdsafe.common.data.graph.MetaNodeType;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterModule;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterModuleList;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterNode;
@@ -69,18 +68,16 @@ public class ClusterGraphWriter {
 		moduleWriter = new BufferedWriter(new FileWriter(outputFile));
 	}
 
-	public void writeNode(ClusterNode node) throws IOException {
-		long word = node.getKey().module.id;
-		word |= ((long) node.getKey().relativeTag & 0xffffffL) << 0x10;
-		word |= ((long) node.getKey().instanceId) << 0x28;
+	public void writeNode(ClusterNode<?> node) throws IOException {
+		long word = node.getModule().id;
+		word |= ((long) node.getRelativeTag() & 0xffffffL) << 0x10;
+		word |= ((long) node.getInstanceId()) << 0x28;
 		word |= ((long) node.getType().ordinal()) << 0x30;
 		nodeStream.writeLong(word);
 		nodeStream.writeLong(node.getHash());
 	}
 
 	public void writeEdge(RawEdge edge) throws IOException {
-		int typeByte = edge.type.ordinal();
-
 		long word = (long) edge.fromNode.index;
 		word |= ((long) edge.toNode.index) << 0x1c;
 		word |= ((long) edge.type.ordinal()) << 0x38;

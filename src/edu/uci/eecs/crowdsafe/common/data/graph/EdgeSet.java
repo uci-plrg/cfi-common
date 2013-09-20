@@ -9,7 +9,7 @@ import java.util.List;
  * 
  * TODO: not sure what happens in a unity merge when one graph instance is being merged to itself.
  */
-public class EdgeSet<NodeType extends Node> {
+public class EdgeSet<EdgeEndpointType extends Node<EdgeEndpointType>> {
 
 	public enum Direction {
 		INCOMING,
@@ -32,20 +32,20 @@ public class EdgeSet<NodeType extends Node> {
 	 * Both outgoing and incoming edges are held in this list. The outgoing edges occur first and are indexed by
 	 * outgoingOrdinals. The incoming edges start at directionDivider and are not sorted, grouped or indexed.
 	 */
-	final List<Edge<NodeType>> edges = new ArrayList<Edge<NodeType>>();
+	final List<Edge<EdgeEndpointType>> edges = new ArrayList<Edge<EdgeEndpointType>>();
 	final List<OutgoingOrdinal> outgoingOrdinals = new ArrayList<OutgoingOrdinal>();
 	int directionDivider = 0;
 
-	Edge<NodeType> callContinuation;
+	Edge<EdgeEndpointType> callContinuation;
 
-	private final ThreadLocal<OrdinalEdgeList<NodeType>> threadListView = new ThreadLocal<OrdinalEdgeList<NodeType>>() {
-		protected OrdinalEdgeList<NodeType> initialValue() {
-			return new OrdinalEdgeList<NodeType>(EdgeSet.this);
+	private final ThreadLocal<OrdinalEdgeList<EdgeEndpointType>> threadListView = new ThreadLocal<OrdinalEdgeList<EdgeEndpointType>>() {
+		protected OrdinalEdgeList<EdgeEndpointType> initialValue() {
+			return new OrdinalEdgeList<EdgeEndpointType>(EdgeSet.this);
 		}
 	};
 
 	// 15% hot during load!
-	public void addEdge(Direction direction, Edge<NodeType> edge) {
+	public void addEdge(Direction direction, Edge<EdgeEndpointType> edge) {
 		if ((direction == Direction.OUTGOING) && (edge.getEdgeType() == EdgeType.CALL_CONTINUATION)) {
 			if (callContinuation != null) {
 				if (!callContinuation.equals(edge)) {
@@ -60,7 +60,7 @@ public class EdgeSet<NodeType extends Node> {
 		if (edges.contains(edge))
 			return;
 
-		OrdinalEdgeList<NodeType> listView = threadListView.get();
+		OrdinalEdgeList<EdgeEndpointType> listView = threadListView.get();
 		listView.modified = true;
 
 		if (direction == Direction.INCOMING) {
@@ -94,8 +94,8 @@ public class EdgeSet<NodeType extends Node> {
 		}
 	}
 
-	public List<Edge<NodeType>> getEdges(Direction direction, int ordinal) {
-		OrdinalEdgeList<NodeType> listView = threadListView.get();
+	public List<Edge<EdgeEndpointType>> getEdges(Direction direction, int ordinal) {
+		OrdinalEdgeList<EdgeEndpointType> listView = threadListView.get();
 		switch (direction) {
 			case INCOMING:
 				throw new UnsupportedOperationException("Incoming edges are not grouped by ordinal.");
@@ -118,8 +118,8 @@ public class EdgeSet<NodeType extends Node> {
 		return listView;
 	}
 
-	public List<Edge<NodeType>> getEdges(Direction direction) {
-		OrdinalEdgeList<NodeType> listView = threadListView.get();
+	public List<Edge<EdgeEndpointType>> getEdges(Direction direction) {
+		OrdinalEdgeList<EdgeEndpointType> listView = threadListView.get();
 		listView.includeCallContinuation = (callContinuation != null) && (direction == Direction.OUTGOING);
 		listView.modified = false;
 		if (edges.isEmpty()) {
@@ -146,7 +146,7 @@ public class EdgeSet<NodeType extends Node> {
 		return listView;
 	}
 
-	public Edge<NodeType> getCallContinuation() {
+	public Edge<EdgeEndpointType> getCallContinuation() {
 		return callContinuation;
 	}
 
@@ -172,7 +172,7 @@ public class EdgeSet<NodeType extends Node> {
 		}
 	}
 
-	public boolean checkOutgoingEdgeCompatibility(EdgeSet<NodeType> other) {
+	public boolean checkOutgoingEdgeCompatibility(EdgeSet<?> other) {
 		int max = Math.min(outgoingOrdinals.size(), other.outgoingOrdinals.size());
 		for (int i = 0; i < max; i++) {
 			OutgoingOrdinal myOrdinal = outgoingOrdinals.get(i);

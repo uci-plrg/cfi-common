@@ -41,15 +41,15 @@ public class CrowdSafeTraceUtil {
 		return (new Long(annotatedTag >>> 56)).intValue();
 	}
 
-	public static boolean isTailNode(Node node) {
+	public static boolean isTailNode(Node<?> node) {
 		return isTailNode(node, 10);
 	}
 
-	public static boolean isTailNode(Node node, int level) {
+	public static boolean isTailNode(Node<?> node, int level) {
 		if (level == 0) {
 			return false;
 		}
-		List<? extends Edge<? extends Node>> outgoingEdges = node.getOutgoingEdges();
+		List<? extends Edge<?>> outgoingEdges = node.getOutgoingEdges();
 		if (outgoingEdges.size() == 0) {
 			return true;
 		}

@@ -1,9 +1,9 @@
 package edu.uci.eecs.crowdsafe.common.data.graph;
 
-public interface NodeList {
+public interface NodeList<NodeType extends Node<NodeType>> {
 	int size();
 
 	boolean isSingleton();
 
-	Node get(int index);
+	NodeType get(int index);
 }

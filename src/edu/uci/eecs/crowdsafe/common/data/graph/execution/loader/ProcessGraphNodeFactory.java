@@ -3,12 +3,11 @@ package edu.uci.eecs.crowdsafe.common.data.graph.execution.loader;
 import java.io.IOException;
 
 import edu.uci.eecs.crowdsafe.common.data.graph.MetaNodeType;
+import edu.uci.eecs.crowdsafe.common.data.graph.ModuleGraphCluster;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.ExecutionNode;
-import edu.uci.eecs.crowdsafe.common.data.graph.execution.ModuleGraphCluster;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.ModuleInstance;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.ProcessExecutionModuleSet;
 import edu.uci.eecs.crowdsafe.common.datasource.execution.ExecutionTraceStreamType;
-import edu.uci.eecs.crowdsafe.common.exception.InvalidTagException;
 import edu.uci.eecs.crowdsafe.common.io.LittleEndianInputStream;
 import edu.uci.eecs.crowdsafe.common.log.Log;
 import edu.uci.eecs.crowdsafe.common.util.CrowdSafeTraceUtil;
@@ -30,16 +29,16 @@ import edu.uci.eecs.crowdsafe.common.util.CrowdSafeTraceUtil;
  * @throws InvalidTagException
  */
 public class ProcessGraphNodeFactory {
-	
+
 	private static final int ENTRY_BYTE_COUNT = 0x10;
-	
+
 	private final ProcessExecutionModuleSet modules;
 	private final LittleEndianInputStream input;
 
 	long tag = 0, tagOriginal = 0, hash = 0;
 	long blockIndex = -1L;
 	ModuleInstance module;
-	ModuleGraphCluster moduleCluster;
+	ModuleGraphCluster<ExecutionNode> moduleCluster;
 
 	public ProcessGraphNodeFactory(ProcessExecutionModuleSet modules, LittleEndianInputStream input) throws IOException {
 		this.modules = modules;

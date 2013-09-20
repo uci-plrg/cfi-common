@@ -1,4 +1,4 @@
-package edu.uci.eecs.crowdsafe.common.data.graph.execution;
+package edu.uci.eecs.crowdsafe.common.data.graph;
 
 import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareDistributionUnit;
 

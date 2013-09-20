@@ -8,12 +8,13 @@ import edu.uci.eecs.crowdsafe.common.data.graph.execution.ModuleInstance;
 import edu.uci.eecs.crowdsafe.common.exception.InvalidGraphException;
 import edu.uci.eecs.crowdsafe.common.log.Log;
 
-public class GraphData<NodeType extends Node> {
-	public final NodeHashMap nodesByHash = new NodeHashMap();
+public class GraphData<NodeType extends Node<NodeType>> {
 
-	public final Map<Node.Key, NodeType> nodesByKey = new HashMap<Node.Key, NodeType>();
+	public final NodeHashMap<NodeType> nodesByHash = new NodeHashMap<NodeType>();
 
-	public boolean HACK_containsEquivalent(Node node) {
+	final Map<Node.Key, NodeType> nodesByKey = new HashMap<Node.Key, NodeType>();
+
+	public boolean HACK_containsEquivalent(Node<?> node) {
 		if (node.getModule().unit.isDynamic())
 			return false;
 		if (nodesByKey.containsKey(node.getKey()))

@@ -1,7 +1,7 @@
 package edu.uci.eecs.crowdsafe.common.data.dist;
 
 public abstract class SoftwareModule {
-
+	
 	public final SoftwareDistributionUnit unit;
 	public final String version;
 
@@ -32,16 +32,15 @@ public abstract class SoftwareModule {
 		if (getClass() != obj.getClass())
 			return false;
 		SoftwareModule other = (SoftwareModule) obj;
-		if (unit == null) {
-			if (other.unit != null)
-				return false;
-		} else if (!unit.equals(other.unit))
+		if (!unit.equals(other.unit))
 			return false;
-		if (version == null) {
-			if (other.version != null)
-				return false;
-		} else if (!version.equals(other.version))
+		if (!version.equals(other.version))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return unit.name + "-" + version;
 	}
 }

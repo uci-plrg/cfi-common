@@ -2,21 +2,23 @@ package edu.uci.eecs.crowdsafe.common.data.graph.transform;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import edu.uci.eecs.crowdsafe.common.config.CrowdSafeConfiguration;
 import edu.uci.eecs.crowdsafe.common.data.dist.AutonomousSoftwareDistribution;
 import edu.uci.eecs.crowdsafe.common.data.dist.ConfiguredSoftwareDistributions;
-import edu.uci.eecs.crowdsafe.common.data.graph.Edge;
 import edu.uci.eecs.crowdsafe.common.data.graph.EdgeType;
 import edu.uci.eecs.crowdsafe.common.data.graph.MetaNodeType;
+import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterBasicBlock;
+import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterBoundaryNode;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterModule;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterModuleList;
-import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterNode;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.writer.ClusterGraphWriter;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.ModuleInstance;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.ProcessExecutionGraph;
@@ -34,6 +36,11 @@ import edu.uci.eecs.crowdsafe.common.util.OptionArgumentMap;
 
 public class RawGraphTransformer {
 
+	private static final OptionArgumentMap.BooleanOption verboseOption = OptionArgumentMap.createBooleanOption('v');
+	private static final OptionArgumentMap.StringOption logOption = OptionArgumentMap.createStringOption('l');
+	private static final OptionArgumentMap.StringOption inputOption = OptionArgumentMap.createStringOption('i');
+	private static final OptionArgumentMap.StringOption outputOption = OptionArgumentMap.createStringOption('o');
+
 	private final ArgumentStack args;
 
 	private final ProcessModuleLoader executionModuleLoader = new ProcessModuleLoader();
@@ -45,27 +52,53 @@ public class RawGraphTransformer {
 	private ProcessExecutionModuleSet executionModules = null;
 	private ClusterGraphWriter.Directory graphWriters = null;
 	private final Map<AutonomousSoftwareDistribution, ClusterModuleList> clusterModules = new HashMap<AutonomousSoftwareDistribution, ClusterModuleList>();
-
 	private final Map<AutonomousSoftwareDistribution, RawClusterNodeList> nodesByCluster = new HashMap<AutonomousSoftwareDistribution, RawClusterNodeList>();
 	private final Map<AutonomousSoftwareDistribution, Set<RawEdge>> edgesByCluster = new HashMap<AutonomousSoftwareDistribution, Set<RawEdge>>();
 
 	public RawGraphTransformer(ArgumentStack args) {
 		this.args = args;
 
-		OptionArgumentMap.populateOptions(args);
+		OptionArgumentMap.populateOptions(args, verboseOption, logOption, inputOption, outputOption);
 	}
 
 	private void run() {
 		try {
-			Log.addOutput(System.out);
+			if (verboseOption.getValue()) {
+				Log.addOutput(System.out);
+			}
+			if (logOption.getValue() != null) {
+				Log.addOutput(new File(logOption.getValue()));
+			}
+
+			if ((inputOption.getValue() == null) != (outputOption.getValue() == null))
+				throw new IllegalArgumentException("The input (-i) and output (-o) options must be used together!");
+
+			List<String> pathList = new ArrayList<String>();
+			if (inputOption.getValue() == null) {
+				while (args.size() > 0)
+					pathList.add(args.pop());
+			} else {
+				if (args.size() > 0)
+					throw new IllegalArgumentException(
+							"The input (-i) and output (-o) options cannot be used with a list of run directories!");
+
+				pathList.add(inputOption.getValue());
+			}
+
 			CrowdSafeConfiguration.initialize(EnumSet.of(CrowdSafeConfiguration.Environment.CROWD_SAFE_COMMON_DIR));
 			ConfiguredSoftwareDistributions.initialize();
 
-			while (args.size() > 0) {
-				File runDir = new File(args.pop());
+			for (String inputPath : pathList) {
+				File runDir = new File(inputPath);
 				dataSource = new ExecutionTraceDirectory(runDir, ProcessExecutionGraph.EXECUTION_GRAPH_FILE_TYPES);
-				File outputDir = new File(runDir, "cluster");
-				outputDir.mkdir();
+
+				File outputDir;
+				if (outputOption.getValue() == null) {
+					outputDir = new File(runDir, "cluster");
+				} else {
+					outputDir = new File(outputOption.getValue());
+				}
+				outputDir.mkdirs();
 				graphWriters = new ClusterGraphWriter.Directory(outputDir, dataSource.getProcessName());
 				transformGraph();
 
@@ -120,14 +153,14 @@ public class RawGraphTransformer {
 					moduleInstance.version);
 			graphWriters.establishClusterWriters(cluster);
 
-			ClusterNode node = new ClusterNode(clusterModule, relativeTag, tagVersion, nodeEntry.second, nodeType);
+			ClusterBasicBlock node = new ClusterBasicBlock(clusterModule, relativeTag, tagVersion, nodeEntry.second,
+					nodeType);
 			RawClusterNodeList nodeList = establishNodeList(cluster);
-			RawClusterNodeId nodeId = nodeList.addNode(cluster, node);
+			RawClusterNode nodeId = nodeList.addNode(cluster, node);
 
 			if ((nodesByCluster.size() == 1) && (nodeList.size() == 1)) {
-				ClusterNode entry = new ClusterNode(node.getKey().module, 0L, node.getKey().instanceId, 1L,
-						MetaNodeType.CLUSTER_ENTRY);
-				RawClusterNodeId entryId = nodeList.addNode(cluster, entry);
+				ClusterBoundaryNode entry = new ClusterBoundaryNode(1L, MetaNodeType.CLUSTER_ENTRY);
+				RawClusterNode entryId = nodeList.addNode(cluster, entry);
 				establishEdgeSet(cluster).add(new RawEdge(entryId, nodeId, EdgeType.CLUSTER_ENTRY, 0));
 			}
 		}
@@ -144,18 +177,23 @@ public class RawGraphTransformer {
 
 			long absoluteFromTag = CrowdSafeTraceUtil.getTag(edgeEntry.first);
 			int fromTagVersion = CrowdSafeTraceUtil.getTagVersion(edgeEntry.first);
-			RawClusterNodeId fromNodeId = identifyNode(absoluteFromTag, fromTagVersion, entryIndex, streamType);
+			RawClusterNode fromNodeId = identifyNode(absoluteFromTag, fromTagVersion, entryIndex, streamType);
 
 			EdgeType type = CrowdSafeTraceUtil.getTagEdgeType(edgeEntry.first);
 			int ordinal = CrowdSafeTraceUtil.getEdgeOrdinal(edgeEntry.first);
 
 			long absoluteToTag = CrowdSafeTraceUtil.getTag(edgeEntry.second);
 			int toTagVersion = CrowdSafeTraceUtil.getTagVersion(edgeEntry.second);
-			RawClusterNodeId toNodeId = identifyNode(absoluteToTag, toTagVersion, entryIndex, streamType);
+			RawClusterNode toNodeId = identifyNode(absoluteToTag, toTagVersion, entryIndex, streamType);
+
+			if (fromNodeId == null) {
+				Log.log("Error: missing 'from' node 0x%x-v%d", absoluteFromTag, fromTagVersion);
+				continue;
+			}
 
 			if (toNodeId == null) {
 				if (type != EdgeType.CALL_CONTINUATION)
-					Log.log("Error: missing 'to' node %s", toNodeId.node);
+					Log.log("Error: missing 'to' node 0x%x-v%d", absoluteToTag, toTagVersion);
 
 				continue;
 			}
@@ -180,25 +218,33 @@ public class RawGraphTransformer {
 
 			long absoluteFromTag = CrowdSafeTraceUtil.getTag(edgeEntry.first);
 			int fromTagVersion = CrowdSafeTraceUtil.getTagVersion(edgeEntry.first);
-			RawClusterNodeId fromNodeId = identifyNode(absoluteFromTag, fromTagVersion, entryIndex, streamType);
+			RawClusterNode fromNodeId = identifyNode(absoluteFromTag, fromTagVersion, entryIndex, streamType);
 			EdgeType type = CrowdSafeTraceUtil.getTagEdgeType(edgeEntry.first);
 			int ordinal = CrowdSafeTraceUtil.getEdgeOrdinal(edgeEntry.first);
 
 			long absoluteToTag = CrowdSafeTraceUtil.getTag(edgeEntry.second);
 			int toTagVersion = CrowdSafeTraceUtil.getTagVersion(edgeEntry.second);
-			RawClusterNodeId toNodeId = identifyNode(absoluteToTag, toTagVersion, entryIndex, streamType);
+			RawClusterNode toNodeId = identifyNode(absoluteToTag, toTagVersion, entryIndex, streamType);
+
+			if (fromNodeId == null) {
+				Log.log("Error: missing 'from' node 0x%x-v%d", absoluteFromTag, fromTagVersion);
+				continue;
+			}
+
+			if (toNodeId == null) {
+				Log.log("Error: missing 'to' node 0x%x-v%d", absoluteToTag, toTagVersion);
+				continue;
+			}
 
 			if (fromNodeId.cluster == toNodeId.cluster) {
 				establishEdgeSet(fromNodeId.cluster).add(new RawEdge(fromNodeId, toNodeId, type, ordinal));
 			} else {
-				ClusterNode entry = new ClusterNode(toNodeId.node.getKey().module, edgeEntry.third,
-						toNodeId.node.getKey().instanceId, edgeEntry.third, MetaNodeType.CLUSTER_ENTRY);
-				RawClusterNodeId entryId = nodesByCluster.get(toNodeId.cluster).addNode(toNodeId.cluster, entry);
+				ClusterBoundaryNode entry = new ClusterBoundaryNode(edgeEntry.third, MetaNodeType.CLUSTER_ENTRY);
+				RawClusterNode entryId = nodesByCluster.get(toNodeId.cluster).addNode(toNodeId.cluster, entry);
 				establishEdgeSet(toNodeId.cluster).add(new RawEdge(entryId, toNodeId, EdgeType.CLUSTER_ENTRY, 0));
 
-				ClusterNode exit = new ClusterNode(fromNodeId.node.getKey().module, edgeEntry.third,
-						fromNodeId.node.getKey().instanceId, edgeEntry.third, MetaNodeType.CLUSTER_EXIT);
-				RawClusterNodeId exitId = nodesByCluster.get(fromNodeId.cluster).addNode(fromNodeId.cluster, exit);
+				ClusterBoundaryNode exit = new ClusterBoundaryNode(edgeEntry.third, MetaNodeType.CLUSTER_EXIT);
+				RawClusterNode exitId = nodesByCluster.get(fromNodeId.cluster).addNode(fromNodeId.cluster, exit);
 				establishEdgeSet(fromNodeId.cluster).add(new RawEdge(fromNodeId, exitId, type, ordinal));
 			}
 		}
@@ -222,7 +268,7 @@ public class RawGraphTransformer {
 		return set;
 	}
 
-	private RawClusterNodeId identifyNode(long absoluteTag, int tagVersion, long entryIndex,
+	private RawClusterNode identifyNode(long absoluteTag, int tagVersion, long entryIndex,
 			ExecutionTraceStreamType streamType) {
 		ModuleInstance moduleInstance = executionModules.getModule(absoluteTag, entryIndex, streamType);
 		AutonomousSoftwareDistribution cluster = ConfiguredSoftwareDistributions.getInstance().distributionsByUnit
@@ -230,14 +276,15 @@ public class RawGraphTransformer {
 
 		ClusterModule clusterModule = clusterModules.get(cluster)
 				.getModule(moduleInstance.unit, moduleInstance.version);
-		ClusterNode.Key key = new ClusterNode.Key(clusterModule, (int) (absoluteTag - moduleInstance.start), tagVersion);
+		ClusterBasicBlock.Key key = new ClusterBasicBlock.Key(clusterModule,
+				(int) (absoluteTag - moduleInstance.start), tagVersion);
 		return nodesByCluster.get(cluster).getNode(key);
 	}
 
 	private void writeNodes() throws IOException {
 		for (Map.Entry<AutonomousSoftwareDistribution, RawClusterNodeList> list : nodesByCluster.entrySet()) {
 			ClusterGraphWriter writer = graphWriters.getWriter(list.getKey());
-			for (RawClusterNodeId node : list.getValue().values()) {
+			for (RawClusterNode node : list.getValue()) {
 				writer.writeNode(node.node);
 			}
 		}

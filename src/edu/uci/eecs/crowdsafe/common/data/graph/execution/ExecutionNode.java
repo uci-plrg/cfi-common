@@ -105,7 +105,7 @@ public class ExecutionNode extends Node<ExecutionNode> {
 	}
 
 	@Override
-	public boolean isModuleRelativeEquivalent(Node other) {
+	public boolean isModuleRelativeEquivalent(Node<?> other) {
 		if (!(other instanceof ExecutionNode))
 			return super.isModuleRelativeEquivalent(other);
 
@@ -115,7 +115,7 @@ public class ExecutionNode extends Node<ExecutionNode> {
 	}
 
 	@Override
-	public boolean isModuleRelativeMismatch(Node other) {
+	public boolean isModuleRelativeMismatch(Node<?> other) {
 		if (!(other instanceof ExecutionNode))
 			return super.isModuleRelativeMismatch(other);
 

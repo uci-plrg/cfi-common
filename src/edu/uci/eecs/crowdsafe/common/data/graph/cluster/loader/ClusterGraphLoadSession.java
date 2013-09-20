@@ -6,16 +6,17 @@ import java.util.List;
 
 import edu.uci.eecs.crowdsafe.common.data.dist.AutonomousSoftwareDistribution;
 import edu.uci.eecs.crowdsafe.common.data.graph.GraphLoadEventListener;
+import edu.uci.eecs.crowdsafe.common.data.graph.ModuleGraphCluster;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterGraph;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterModuleList;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterNode;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.ExecutionNode;
-import edu.uci.eecs.crowdsafe.common.data.graph.execution.ModuleGraphCluster;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.ProcessExecutionModuleSet;
 import edu.uci.eecs.crowdsafe.common.datasource.cluster.ClusterTraceDataSource;
 import edu.uci.eecs.crowdsafe.common.datasource.cluster.ClusterTraceStreamType;
 import edu.uci.eecs.crowdsafe.common.datasource.execution.ExecutionTraceDataSource;
 import edu.uci.eecs.crowdsafe.common.exception.InvalidGraphException;
+import edu.uci.eecs.crowdsafe.common.log.Log;
 
 public class ClusterGraphLoadSession {
 
@@ -50,7 +51,7 @@ public class ClusterGraphLoadSession {
 		 */
 	}
 
-	public ModuleGraphCluster loadClusterGraph(AutonomousSoftwareDistribution cluster) throws IOException {
+	public ModuleGraphCluster<ClusterNode<?>> loadClusterGraph(AutonomousSoftwareDistribution cluster) throws IOException {
 		GraphLoader graphLoader = new GraphLoader(cluster, null);
 		return graphLoader.loadGraph();
 	}
@@ -61,7 +62,7 @@ public class ClusterGraphLoadSession {
 		final GraphLoadEventListener listener;
 
 		ClusterGraph graph;
-		final List<ClusterNode> nodeList = new ArrayList<ClusterNode>();
+		final List<ClusterNode<?>> nodeList = new ArrayList<ClusterNode<?>>();
 
 		GraphLoader(AutonomousSoftwareDistribution cluster, GraphLoadEventListener listener) {
 			this.cluster = cluster;
@@ -69,7 +70,9 @@ public class ClusterGraphLoadSession {
 
 		}
 
-		ModuleGraphCluster loadGraph() throws IOException {
+		ModuleGraphCluster<ClusterNode<?>> loadGraph() throws IOException {
+			long start = System.currentTimeMillis();
+
 			ClusterModuleList modules = moduleLoader.loadModules(cluster, dataSource);
 			graph = new ClusterGraph(cluster, modules);
 
@@ -82,6 +85,8 @@ public class ClusterGraphLoadSession {
 				throw new InvalidGraphException(e);
 			}
 
+			Log.log("Cluster %s loaded in %f seconds.", cluster.name, (System.currentTimeMillis() - start) / 1000.);
+
 			graph.findUnreachableNodes();
 			return graph;
 		}
@@ -91,7 +96,7 @@ public class ClusterGraphLoadSession {
 					dataSource.getLittleEndianInputStream(cluster, ClusterTraceStreamType.GRAPH_NODE));
 			try {
 				while (nodeFactory.ready()) {
-					ClusterNode node = nodeFactory.createNode();
+					ClusterNode<?> node = nodeFactory.createNode();
 					graph.addNode(node);
 					nodeList.add(node);
 

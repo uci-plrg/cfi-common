@@ -10,11 +10,9 @@ import edu.uci.eecs.crowdsafe.common.data.graph.Edge;
 import edu.uci.eecs.crowdsafe.common.data.graph.EdgeType;
 import edu.uci.eecs.crowdsafe.common.data.graph.GraphLoadEventListener;
 import edu.uci.eecs.crowdsafe.common.data.graph.MetaNodeType;
-import edu.uci.eecs.crowdsafe.common.data.graph.Node;
+import edu.uci.eecs.crowdsafe.common.data.graph.ModuleGraph;
+import edu.uci.eecs.crowdsafe.common.data.graph.ModuleGraphCluster;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.ExecutionNode;
-import edu.uci.eecs.crowdsafe.common.data.graph.execution.ModuleGraph;
-import edu.uci.eecs.crowdsafe.common.data.graph.execution.ModuleGraphCluster;
-import edu.uci.eecs.crowdsafe.common.data.graph.execution.ModuleInstance;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.ProcessExecutionGraph;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.ProcessExecutionModuleSet;
 import edu.uci.eecs.crowdsafe.common.datasource.execution.ExecutionTraceDataSource;
@@ -79,7 +77,7 @@ public class ProcessGraphLoadSession {
 
 			// Some other initialization and sanity checks
 			for (AutonomousSoftwareDistribution cluster : graph.getRepresentedClusters()) {
-				ModuleGraphCluster clusterGraph = graph.getModuleGraphCluster(cluster);
+				ModuleGraphCluster<ExecutionNode> clusterGraph = graph.getModuleGraphCluster(cluster);
 				clusterGraph.getGraphData().validate();
 				clusterGraph.findUnreachableNodes();
 			}
@@ -124,7 +122,7 @@ public class ProcessGraphLoadSession {
 				return;
 			}
 
-			ModuleGraphCluster moduleCluster = graph.getModuleGraphCluster(node.getModule().unit);
+			ModuleGraphCluster<ExecutionNode> moduleCluster = graph.getModuleGraphCluster(node.getModule().unit);
 			ModuleGraph moduleGraph = moduleCluster.getModuleGraph(node.getModule().unit);
 			if (moduleGraph == null) {
 				moduleGraph = new ModuleGraph(node.getModule().unit, node.getModule().version);

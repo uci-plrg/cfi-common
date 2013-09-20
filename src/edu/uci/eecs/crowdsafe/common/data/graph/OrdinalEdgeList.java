@@ -8,14 +8,14 @@ import java.util.ListIterator;
 
 import edu.uci.eecs.crowdsafe.common.data.graph.EdgeSet.OutgoingOrdinal;
 
-class OrdinalEdgeList<NodeType extends Node> implements List<Edge<NodeType>> {
+class OrdinalEdgeList<EdgeEndpointType extends Node<EdgeEndpointType>> implements List<Edge<EdgeEndpointType>> {
 
-	private class IndexingIterator implements ListIterator<Edge<NodeType>>, Iterable<Edge<NodeType>>,
-			Iterator<Edge<NodeType>> {
+	private class IndexingIterator implements ListIterator<Edge<EdgeEndpointType>>, Iterable<Edge<EdgeEndpointType>>,
+			Iterator<Edge<EdgeEndpointType>> {
 		private int index;
 
 		@Override
-		public Iterator<Edge<NodeType>> iterator() {
+		public Iterator<Edge<EdgeEndpointType>> iterator() {
 			return this;
 		}
 
@@ -26,7 +26,7 @@ class OrdinalEdgeList<NodeType extends Node> implements List<Edge<NodeType>> {
 
 		// 8% hot during load!
 		@Override
-		public Edge<NodeType> next() {
+		public Edge<EdgeEndpointType> next() {
 			if (modified)
 				throw new ConcurrentModificationException();
 
@@ -48,7 +48,7 @@ class OrdinalEdgeList<NodeType extends Node> implements List<Edge<NodeType>> {
 		}
 
 		@Override
-		public Edge<NodeType> previous() {
+		public Edge<EdgeEndpointType> previous() {
 			index--;
 			if (index == end)
 				return data.callContinuation;
@@ -62,12 +62,12 @@ class OrdinalEdgeList<NodeType extends Node> implements List<Edge<NodeType>> {
 		}
 
 		@Override
-		public void add(Edge<NodeType> edge) {
+		public void add(Edge<EdgeEndpointType> edge) {
 			throw new UnsupportedOperationException("EdgeSet lists are readonly!");
 		}
 
 		@Override
-		public void set(Edge<NodeType> edge) {
+		public void set(Edge<EdgeEndpointType> edge) {
 			throw new UnsupportedOperationException("EdgeSet lists are readonly!");
 		}
 
@@ -78,7 +78,7 @@ class OrdinalEdgeList<NodeType extends Node> implements List<Edge<NodeType>> {
 		}
 	}
 
-	private final EdgeSet<NodeType> data;
+	private final EdgeSet<EdgeEndpointType> data;
 
 	int start;
 	int end;
@@ -88,7 +88,7 @@ class OrdinalEdgeList<NodeType extends Node> implements List<Edge<NodeType>> {
 
 	private final IndexingIterator iterator = new IndexingIterator();
 
-	OrdinalEdgeList(EdgeSet data) {
+	OrdinalEdgeList(EdgeSet<EdgeEndpointType> data) {
 		this.data = data;
 	}
 
@@ -117,7 +117,7 @@ class OrdinalEdgeList<NodeType extends Node> implements List<Edge<NodeType>> {
 	}
 
 	@Override
-	public Edge<NodeType> get(int index) {
+	public Edge<EdgeEndpointType> get(int index) {
 		if (includeCallContinuation && (index == (end - start)))
 			return data.callContinuation;
 		return data.edges.get(start + index);
@@ -152,13 +152,13 @@ class OrdinalEdgeList<NodeType extends Node> implements List<Edge<NodeType>> {
 	}
 
 	@Override
-	public ListIterator<Edge<NodeType>> listIterator() {
+	public ListIterator<Edge<EdgeEndpointType>> listIterator() {
 		iterator.index = start;
 		return iterator;
 	}
 
 	@Override
-	public ListIterator<Edge<NodeType>> listIterator(int i) {
+	public ListIterator<Edge<EdgeEndpointType>> listIterator(int i) {
 		iterator.index = start + i;
 		return iterator;
 	}
@@ -169,28 +169,28 @@ class OrdinalEdgeList<NodeType extends Node> implements List<Edge<NodeType>> {
 	}
 
 	@Override
-	public Iterator<Edge<NodeType>> iterator() {
+	public Iterator<Edge<EdgeEndpointType>> iterator() {
 		iterator.index = start;
 		return iterator;
 	}
 
 	@Override
-	public boolean add(Edge<NodeType> e) {
+	public boolean add(Edge<EdgeEndpointType> e) {
 		throw new UnsupportedOperationException("EdgeSet lists are readonly!");
 	}
 
 	@Override
-	public void add(int index, Edge<NodeType> element) {
+	public void add(int index, Edge<EdgeEndpointType> element) {
 		throw new UnsupportedOperationException("EdgeSet lists are readonly!");
 	}
 
 	@Override
-	public boolean addAll(Collection<? extends Edge<NodeType>> c) {
+	public boolean addAll(Collection<? extends Edge<EdgeEndpointType>> c) {
 		throw new UnsupportedOperationException("EdgeSet lists are readonly!");
 	}
 
 	@Override
-	public boolean addAll(int index, Collection<? extends Edge<NodeType>> c) {
+	public boolean addAll(int index, Collection<? extends Edge<EdgeEndpointType>> c) {
 		throw new UnsupportedOperationException("EdgeSet lists are readonly!");
 	}
 
@@ -205,7 +205,7 @@ class OrdinalEdgeList<NodeType extends Node> implements List<Edge<NodeType>> {
 	}
 
 	@Override
-	public Edge<NodeType> remove(int index) {
+	public Edge<EdgeEndpointType> remove(int index) {
 		throw new UnsupportedOperationException("EdgeSet lists are readonly!");
 	}
 
@@ -220,12 +220,12 @@ class OrdinalEdgeList<NodeType extends Node> implements List<Edge<NodeType>> {
 	}
 
 	@Override
-	public Edge<NodeType> set(int index, Edge<NodeType> element) {
+	public Edge<EdgeEndpointType> set(int index, Edge<EdgeEndpointType> element) {
 		throw new UnsupportedOperationException("EdgeSet lists are readonly!");
 	}
 
 	@Override
-	public List<Edge<NodeType>> subList(int fromIndex, int toIndex) {
+	public List<Edge<EdgeEndpointType>> subList(int fromIndex, int toIndex) {
 		throw new UnsupportedOperationException("EdgeSet lists are for indexing and iteration only!");
 	}
 

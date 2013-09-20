@@ -4,15 +4,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import edu.uci.eecs.crowdsafe.common.data.graph.execution.ExecutionNode;
-
-public class NodeHashMap {
-	private final Map<Long, NodeList> map = new HashMap<Long, NodeList>();
+public class NodeHashMap<NodeType extends Node<NodeType>> {
+	private final Map<Long, NodeList<NodeType>> map = new HashMap<Long, NodeList<NodeType>>();
 
 	private int nodeCount = 0;
 
-	public void add(Node node) {
-		NodeList existing = map.get(node.getHash());
+	@SuppressWarnings("unchecked")
+	public void add(NodeType node) {
+		NodeList<NodeType> existing = map.get(node.getHash());
 		if (existing == null) {
 			map.put(node.getHash(), node);
 		} else {
@@ -20,18 +19,18 @@ public class NodeHashMap {
 				return;
 
 			if (existing.isSingleton()) {
-				NodeArrayList list = new NodeArrayList();
+				NodeArrayList<NodeType> list = new NodeArrayList<NodeType>();
 				if (list.contains(node))
 					return;
-				
-				list.add((Node) existing);
+
+				list.add((NodeType) existing);
 				list.add(node);
 				map.put(node.getHash(), list);
 			} else {
-				NodeArrayList list = (NodeArrayList) existing;
+				NodeArrayList<NodeType> list = (NodeArrayList<NodeType>) existing;
 				if (list.contains(node))
 					return;
-				
+
 				list.add(node);
 			}
 		}
@@ -39,7 +38,7 @@ public class NodeHashMap {
 		nodeCount++;
 	}
 
-	public NodeList get(long hash) {
+	public NodeList<NodeType> get(long hash) {
 		return map.get(hash);
 	}
 

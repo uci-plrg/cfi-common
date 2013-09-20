@@ -3,6 +3,7 @@ package edu.uci.eecs.crowdsafe.common.data.dist;
 public class SoftwareDistributionUnit {
 
 	public static final SoftwareDistributionUnit UNKNOWN = new SoftwareDistributionUnit("__unknown__");
+	public static final SoftwareDistributionUnit CLUSTER_BOUNDARY = new SoftwareDistributionUnit("__cluster-boundary__");
 
 	public final String name;
 	public final String filename;

@@ -3,13 +3,13 @@ package edu.uci.eecs.crowdsafe.common.data.graph.transform;
 import edu.uci.eecs.crowdsafe.common.data.dist.AutonomousSoftwareDistribution;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterNode;
 
-public class RawClusterNodeId {
+public class RawClusterNode {
 
 	public final AutonomousSoftwareDistribution cluster;
-	public final ClusterNode node;
+	public final ClusterNode<?> node;
 	public final int index;
 
-	RawClusterNodeId(AutonomousSoftwareDistribution cluster, ClusterNode node, int index) {
+	RawClusterNode(AutonomousSoftwareDistribution cluster, ClusterNode<?> node, int index) {
 		this.cluster = cluster;
 		this.node = node;
 		this.index = index;
@@ -32,7 +32,7 @@ public class RawClusterNodeId {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		RawClusterNodeId other = (RawClusterNodeId) obj;
+		RawClusterNode other = (RawClusterNode) obj;
 		if (!cluster.name.equals(other.cluster.name))
 			return false;
 		if (index != other.index)
