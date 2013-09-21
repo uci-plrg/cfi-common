@@ -1,14 +1,25 @@
 package edu.uci.eecs.crowdsafe.common.data.graph;
 
 import java.util.Collection;
-import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
 import edu.uci.eecs.crowdsafe.common.data.graph.EdgeSet.OutgoingOrdinal;
+import edu.uci.eecs.crowdsafe.common.util.InstancePool;
 
-class OrdinalEdgeList<EdgeEndpointType extends Node<EdgeEndpointType>> implements List<Edge<EdgeEndpointType>> {
+public class OrdinalEdgeList<EdgeEndpointType extends Node<EdgeEndpointType>> extends
+		InstancePool.Item<OrdinalEdgeList<EdgeEndpointType>> implements List<Edge<EdgeEndpointType>> {
+
+	private static class Factory implements InstancePool.Factory<OrdinalEdgeList<?>> {
+		static final Factory INSTANCE = new Factory();
+
+		@Override
+		@SuppressWarnings("rawtypes")
+		public OrdinalEdgeList<?> createItem() {
+			return new OrdinalEdgeList();
+		}
+	}
 
 	private class IndexingIterator implements ListIterator<Edge<EdgeEndpointType>>, Iterable<Edge<EdgeEndpointType>>,
 			Iterator<Edge<EdgeEndpointType>> {
@@ -27,9 +38,6 @@ class OrdinalEdgeList<EdgeEndpointType extends Node<EdgeEndpointType>> implement
 		// 8% hot during load!
 		@Override
 		public Edge<EdgeEndpointType> next() {
-			if (modified)
-				throw new ConcurrentModificationException();
-
 			if (index == end) {
 				index++;
 				return data.callContinuation;
@@ -78,19 +86,27 @@ class OrdinalEdgeList<EdgeEndpointType extends Node<EdgeEndpointType>> implement
 		}
 	}
 
-	private final EdgeSet<EdgeEndpointType> data;
+	static <T extends Node<T>> OrdinalEdgeList<T> get(EdgeSet<T> data) {
+		@SuppressWarnings("unchecked")
+		OrdinalEdgeList<T> list = (OrdinalEdgeList<T>) LIST_POOL.get().checkout();
+		list.data = data;
+		return list;
+	}
+
+	private static final ThreadLocal<InstancePool<OrdinalEdgeList<?>>> LIST_POOL = new ThreadLocal<InstancePool<OrdinalEdgeList<?>>>() {
+		protected InstancePool<OrdinalEdgeList<?>> initialValue() {
+			return new InstancePool<OrdinalEdgeList<?>>(OrdinalEdgeList.Factory.INSTANCE, 20);
+		}
+	};
+
+	private EdgeSet<EdgeEndpointType> data;
 
 	int start;
 	int end;
 	boolean includeCallContinuation;
-	boolean modified;
 	OutgoingOrdinal group;
 
 	private final IndexingIterator iterator = new IndexingIterator();
-
-	OrdinalEdgeList(EdgeSet<EdgeEndpointType> data) {
-		this.data = data;
-	}
 
 	@Override
 	public boolean contains(Object o) {
@@ -239,4 +255,9 @@ class OrdinalEdgeList<EdgeEndpointType extends Node<EdgeEndpointType>> implement
 		throw new UnsupportedOperationException("EdgeSet lists are for indexing and iteration only!");
 	}
 
+	@Override
+	public void release() {
+		data = null;
+		super.release();
+	}
 }

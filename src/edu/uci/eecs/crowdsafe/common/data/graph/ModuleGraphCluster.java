@@ -146,12 +146,17 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 			unreachableNodes.remove(node);
 			visitedNodes.add(node);
 
-			for (Edge<EdgeEndpointType> edge : node.getOutgoingEdges()) {
-				EdgeEndpointType neighbor = edge.getToNode();
-				if (!visitedNodes.contains(neighbor)) {
-					bfsQueue.add(neighbor);
-					visitedNodes.add(neighbor);
+			OrdinalEdgeList<EdgeEndpointType> edgeList = node.getOutgoingEdges();
+			try {
+				for (Edge<EdgeEndpointType> edge : edgeList) {
+					EdgeEndpointType neighbor = edge.getToNode();
+					if (!visitedNodes.contains(neighbor)) {
+						bfsQueue.add(neighbor);
+						visitedNodes.add(neighbor);
+					}
 				}
+			} finally {
+				edgeList.release();
 			}
 
 			Edge<EdgeEndpointType> continuationEdge = node.getCallContinuation();
@@ -229,20 +234,25 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 				unreachableBuilder.clear().setNode(nodeBuilder.build());
 				unreachableBuilder.setIsEntryPoint(true);
 
-				if (!unreachableNode.getIncomingEdges().isEmpty()) {
-					for (Edge<?> incoming : unreachableNode.getIncomingEdges()) {
-						if (unreachableNodes.contains(incoming.getFromNode())) {
-							unreachableBuilder.setIsEntryPoint(false);
-						} else {
-							moduleBuilder.setName(incoming.getFromNode().getModule().unit.filename);
-							moduleBuilder.setVersion(incoming.getFromNode().getModule().version);
-							nodeBuilder.setModule(moduleBuilder.build());
-							edgeBuilder.clear().setFromNode(nodeBuilder.build());
-							edgeBuilder.setToNode(unreachableBuilder.getNode());
-							edgeBuilder.setType(incoming.getEdgeType().mapToResultType());
-							unreachableBuilder.addMissedIncomingEdge(edgeBuilder.build());
+				OrdinalEdgeList<?> edgeList = unreachableNode.getIncomingEdges();
+				try {
+					if (!edgeList.isEmpty()) {
+						for (Edge<?> incoming : edgeList) {
+							if (unreachableNodes.contains(incoming.getFromNode())) {
+								unreachableBuilder.setIsEntryPoint(false);
+							} else {
+								moduleBuilder.setName(incoming.getFromNode().getModule().unit.filename);
+								moduleBuilder.setVersion(incoming.getFromNode().getModule().version);
+								nodeBuilder.setModule(moduleBuilder.build());
+								edgeBuilder.clear().setFromNode(nodeBuilder.build());
+								edgeBuilder.setToNode(unreachableBuilder.getNode());
+								edgeBuilder.setType(incoming.getEdgeType().mapToResultType());
+								unreachableBuilder.addMissedIncomingEdge(edgeBuilder.build());
+							}
 						}
 					}
+				} finally {
+					edgeList.release();
 				}
 				clusterBuilder.addUnreachable(unreachableBuilder.build());
 			}

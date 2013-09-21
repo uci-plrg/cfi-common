@@ -1,7 +1,5 @@
 package edu.uci.eecs.crowdsafe.common.data.graph;
 
-import java.util.List;
-
 import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareModule;
 
 public abstract class Node<EdgeEndpointType extends Node<EdgeEndpointType>> implements NodeList<EdgeEndpointType> {
@@ -33,7 +31,7 @@ public abstract class Node<EdgeEndpointType extends Node<EdgeEndpointType>> impl
 		return edges.getEdgeCount(EdgeSet.Direction.INCOMING) > 0;
 	}
 
-	public List<Edge<EdgeEndpointType>> getIncomingEdges() {
+	public OrdinalEdgeList<EdgeEndpointType> getIncomingEdges() {
 		return edges.getEdges(EdgeSet.Direction.INCOMING);
 	}
 
@@ -51,14 +49,14 @@ public abstract class Node<EdgeEndpointType extends Node<EdgeEndpointType>> impl
 	/**
 	 * Includes the call continuation when present
 	 */
-	public List<Edge<EdgeEndpointType>> getOutgoingEdges() {
+	public OrdinalEdgeList<EdgeEndpointType> getOutgoingEdges() {
 		return edges.getEdges(EdgeSet.Direction.OUTGOING);
 	}
 
 	/**
 	 * Includes the call continuation when present
 	 */
-	public List<Edge<EdgeEndpointType>> getOutgoingEdges(int ordinal) {
+	public OrdinalEdgeList<EdgeEndpointType> getOutgoingEdges(int ordinal) {
 		return edges.getEdges(EdgeSet.Direction.OUTGOING, ordinal);
 	}
 
@@ -70,9 +68,14 @@ public abstract class Node<EdgeEndpointType extends Node<EdgeEndpointType>> impl
 	}
 
 	public Edge<EdgeEndpointType> getOutgoingEdge(EdgeEndpointType toNode) {
-		for (Edge<EdgeEndpointType> edge : edges.getEdges(EdgeSet.Direction.OUTGOING)) {
-			if (edge.getToNode().getKey().equals(toNode.getKey()))
-				return edge;
+		OrdinalEdgeList<EdgeEndpointType> edgeList = edges.getEdges(EdgeSet.Direction.OUTGOING);
+		try {
+			for (Edge<EdgeEndpointType> edge : edgeList) {
+				if (edge.getToNode().getKey().equals(toNode.getKey()))
+					return edge;
+			}
+		} finally {
+			edgeList.release();
 		}
 		return null;
 	}
@@ -92,13 +95,13 @@ public abstract class Node<EdgeEndpointType extends Node<EdgeEndpointType>> impl
 	public boolean isMetaNode() {
 		return (getType() != MetaNodeType.NORMAL) && (getType() != MetaNodeType.RETURN);
 	}
-	
+
 	@Override
 	@SuppressWarnings("unchecked")
 	public EdgeEndpointType get(int index) {
 		return (EdgeEndpointType) this;
 	}
-	
+
 	@Override
 	public int size() {
 		return 1;

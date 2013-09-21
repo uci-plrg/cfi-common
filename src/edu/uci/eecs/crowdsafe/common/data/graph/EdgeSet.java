@@ -38,12 +38,6 @@ public class EdgeSet<EdgeEndpointType extends Node<EdgeEndpointType>> {
 
 	Edge<EdgeEndpointType> callContinuation;
 
-	private final ThreadLocal<OrdinalEdgeList<EdgeEndpointType>> threadListView = new ThreadLocal<OrdinalEdgeList<EdgeEndpointType>>() {
-		protected OrdinalEdgeList<EdgeEndpointType> initialValue() {
-			return new OrdinalEdgeList<EdgeEndpointType>(EdgeSet.this);
-		}
-	};
-
 	// 15% hot during load!
 	public void addEdge(Direction direction, Edge<EdgeEndpointType> edge) {
 		if ((direction == Direction.OUTGOING) && (edge.getEdgeType() == EdgeType.CALL_CONTINUATION)) {
@@ -59,9 +53,6 @@ public class EdgeSet<EdgeEndpointType extends Node<EdgeEndpointType>> {
 
 		if (edges.contains(edge))
 			return;
-
-		OrdinalEdgeList<EdgeEndpointType> listView = threadListView.get();
-		listView.modified = true;
 
 		if (direction == Direction.INCOMING) {
 			edges.add(edge);
@@ -94,8 +85,8 @@ public class EdgeSet<EdgeEndpointType extends Node<EdgeEndpointType>> {
 		}
 	}
 
-	public List<Edge<EdgeEndpointType>> getEdges(Direction direction, int ordinal) {
-		OrdinalEdgeList<EdgeEndpointType> listView = threadListView.get();
+	public OrdinalEdgeList<EdgeEndpointType> getEdges(Direction direction, int ordinal) {
+		OrdinalEdgeList<EdgeEndpointType> listView = OrdinalEdgeList.get(this);// threadListView.get();
 		switch (direction) {
 			case INCOMING:
 				throw new UnsupportedOperationException("Incoming edges are not grouped by ordinal.");
@@ -105,23 +96,20 @@ public class EdgeSet<EdgeEndpointType extends Node<EdgeEndpointType>> {
 					listView.start = 0;
 					listView.end = 0;
 					listView.includeCallContinuation = false;
-					listView.modified = false;
 				} else {
 					listView.group = outgoingOrdinals.get(ordinal);
 					listView.start = listView.group.position;
 					listView.end = listView.group.position + listView.group.size;
 					listView.includeCallContinuation = false;
-					listView.modified = false;
 				}
 				break;
 		}
 		return listView;
 	}
 
-	public List<Edge<EdgeEndpointType>> getEdges(Direction direction) {
-		OrdinalEdgeList<EdgeEndpointType> listView = threadListView.get();
+	public OrdinalEdgeList<EdgeEndpointType> getEdges(Direction direction) {
+		OrdinalEdgeList<EdgeEndpointType> listView = OrdinalEdgeList.get(this);// threadListView.get();
 		listView.includeCallContinuation = (callContinuation != null) && (direction == Direction.OUTGOING);
-		listView.modified = false;
 		if (edges.isEmpty()) {
 			listView.start = 0;
 			listView.group = null;
@@ -134,13 +122,11 @@ public class EdgeSet<EdgeEndpointType extends Node<EdgeEndpointType>> {
 				listView.group = null;
 				listView.start = directionDivider;
 				listView.end = edges.size();
-				listView.modified = false;
 				break;
 			case OUTGOING:
 				listView.group = null;
 				listView.start = 0;
 				listView.end = directionDivider;
-				listView.modified = false;
 				break;
 		}
 		return listView;

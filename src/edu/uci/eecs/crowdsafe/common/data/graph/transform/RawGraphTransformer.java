@@ -291,9 +291,9 @@ public class RawGraphTransformer {
 	}
 
 	private void writeEdges() throws IOException {
-		for (Map.Entry<AutonomousSoftwareDistribution, Set<RawEdge>> set : edgesByCluster.entrySet()) {
-			ClusterGraphWriter writer = graphWriters.getWriter(set.getKey());
-			for (RawEdge edge : set.getValue()) {
+		for (Map.Entry<AutonomousSoftwareDistribution, Set<RawEdge>> clusterEdgeList : edgesByCluster.entrySet()) {
+			ClusterGraphWriter writer = graphWriters.getWriter(clusterEdgeList.getKey());
+			for (RawEdge edge : clusterEdgeList.getValue()) {
 				writer.writeEdge(edge);
 			}
 		}
