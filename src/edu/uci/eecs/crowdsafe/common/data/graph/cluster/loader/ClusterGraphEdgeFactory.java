@@ -37,9 +37,6 @@ public class ClusterGraphEdgeFactory {
 		EdgeType type = EdgeType.values()[(int) ((first >> 0x38L) & 0xfL)];
 		int ordinal = (int) ((first >> 0x3cL) & 0xfL);
 
-//		if (fromNodeIndex == toNodeIndex)
-//			toString();
-
 		ClusterNode<?> fromNode = nodeList.get(fromNodeIndex);
 		ClusterNode<?> toNode = nodeList.get(toNodeIndex);
 

@@ -71,6 +71,9 @@ public class ClusterModuleList {
 	private final ModuleKey lookupKey = new ModuleKey();
 
 	public ClusterModule addModule(SoftwareDistributionUnit unit, String version) {
+		if (unit.equals(ClusterBoundaryNode.BOUNDARY_MODULE.unit))
+			return ClusterBoundaryNode.BOUNDARY_MODULE; // placeholder only, not to be included in the list
+
 		ClusterModule module = new ClusterModule(moduleList.size(), unit, version);
 		moduleList.add(module);
 		modules.put(new ModuleKey(module.unit, module.version), module);
@@ -98,11 +101,11 @@ public class ClusterModuleList {
 		Collections.sort(moduleList, IdSorter.INSTANCE);
 		return moduleList;
 	}
-	
+
 	public Collection<ClusterModule> getModules() {
 		return modules.values();
 	}
-	
+
 	public ClusterModule getModule(int index) {
 		return moduleList.get(index);
 	}

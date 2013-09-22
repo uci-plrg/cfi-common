@@ -15,6 +15,7 @@ import edu.uci.eecs.crowdsafe.common.data.graph.execution.ExecutionNode;
 import edu.uci.eecs.crowdsafe.common.data.results.Graph;
 import edu.uci.eecs.crowdsafe.common.log.Log;
 import edu.uci.eecs.crowdsafe.common.util.CrowdSafeCollections;
+import edu.uci.eecs.crowdsafe.common.util.CrowdSafeDebug;
 
 public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>> {
 
@@ -64,6 +65,12 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 		return unreachableNodes;
 	}
 
+	public void removeUnreachableNodes(Set<? extends Node<?>> removals) {
+		for (Node<?> removal : removals)
+			if (unreachableNodes.contains(removal))
+				graphData.nodesByKey.remove(removal.getKey());
+	}
+
 	public Collection<Long> getEntryHashes() {
 		return entryNodes.keySet();
 	}
@@ -108,29 +115,19 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 	}
 
 	public void addNode(EdgeEndpointType node) {
+		graphData.nodesByKey.put(node.getKey(), node);
+
 		switch (node.getType()) {
 			case CLUSTER_ENTRY:
 				addClusterEntryNode(node);
-				return;
+				//$FALL-THROUGH$
 			case CLUSTER_EXIT:
-				graphData.nodesByKey.put(node.getKey(), node);
 				return;
-		}
+			default:
+				graphData.nodesByHash.add(node);
+				executableNodeCount++;
+				graphs.get(node.getModule().unit).incrementExecutableBlockCount();
 
-		graphData.nodesByHash.add(node);
-
-		if (graphData.nodesByKey.put(node.getKey(), node) == null) {
-			switch (node.getType()) {
-				case NORMAL:
-				case RETURN:
-				case TRAMPOLINE:
-				case PROCESS_ENTRY:
-				case PROCESS_EXIT:
-				case SIGNAL_HANDLER:
-				case SIGRETURN:
-					executableNodeCount++;
-					graphs.get(node.getModule().unit).incrementExecutableBlockCount();
-			}
 		}
 	}
 
@@ -171,8 +168,9 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 
 		Log.log("%d unreachable nodes for cluster %s", unreachableNodes.size(), cluster.name);
 
-		/**
-		 * <pre>
+		if (!CrowdSafeDebug.LOG_UNREACHABLE_ENTRY_POINTS)
+			return;
+
 		Set<EdgeEndpointType> missedEntries = new HashSet<EdgeEndpointType>();
 		for (EdgeEndpointType node : unreachableNodes) {
 			boolean reachableFromUnreachables = false;
@@ -189,13 +187,12 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 		for (EdgeEndpointType node : missedEntries) {
 			if (node.hasIncomingEdges()) {
 				for (Edge<EdgeEndpointType> edge : node.getIncomingEdges()) {
-					Log.log("Missed incoming edge %s", edge);
+					Log.log("\tMissed incoming edge %s", edge);
 				}
 			} else {
-				Log.log("No entry points into %s", node);
+				Log.log("\tNo entry points into %s", node);
 			}
 		}
-		 */
 	}
 
 	public Graph.Cluster summarize() {

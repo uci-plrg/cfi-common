@@ -51,8 +51,9 @@ public class ClusterGraphLoadSession {
 		 */
 	}
 
-	public ModuleGraphCluster<ClusterNode<?>> loadClusterGraph(AutonomousSoftwareDistribution cluster) throws IOException {
-		GraphLoader graphLoader = new GraphLoader(cluster, null);
+	public ModuleGraphCluster<ClusterNode<?>> loadClusterGraph(AutonomousSoftwareDistribution cluster,
+			GraphLoadEventListener listener) throws IOException {
+		GraphLoader graphLoader = new GraphLoader(cluster, listener);
 		return graphLoader.loadGraph();
 	}
 
@@ -67,7 +68,6 @@ public class ClusterGraphLoadSession {
 		GraphLoader(AutonomousSoftwareDistribution cluster, GraphLoadEventListener listener) {
 			this.cluster = cluster;
 			this.listener = listener;
-
 		}
 
 		ModuleGraphCluster<ClusterNode<?>> loadGraph() throws IOException {
@@ -97,6 +97,10 @@ public class ClusterGraphLoadSession {
 			try {
 				while (nodeFactory.ready()) {
 					ClusterNode<?> node = nodeFactory.createNode();
+
+					if (listener != null)
+						listener.nodeCreation(node);
+					
 					graph.addNode(node);
 					nodeList.add(node);
 

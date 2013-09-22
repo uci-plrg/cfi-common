@@ -32,10 +32,6 @@ public class ClusterGraph extends ModuleGraphCluster<ClusterNode<?>> {
 	}
 
 	public ClusterNode<?> addNode(long hash, SoftwareModule module, int relativeTag, MetaNodeType type) {
-		ClusterModule mergedModule = moduleList.establishModule(module.unit, module.version);
-		if (getModuleGraph(module.unit) == null)
-			addModule(new ModuleGraph(module.unit, module.version));
-
 		switch (type) {
 			case CLUSTER_ENTRY:
 				ClusterBoundaryNode.Key entryKey = new ClusterBoundaryNode.Key(hash, type);
@@ -43,6 +39,7 @@ public class ClusterGraph extends ModuleGraphCluster<ClusterNode<?>> {
 				if (entry == null) {
 					entry = new ClusterBoundaryNode(hash, type);
 					addClusterEntryNode(entry);
+					addNode(entry);
 				}
 				return entry;
 			case CLUSTER_EXIT:
@@ -55,6 +52,10 @@ public class ClusterGraph extends ModuleGraphCluster<ClusterNode<?>> {
 				return exit;
 		}
 
+		ClusterModule mergedModule = moduleList.establishModule(module.unit, module.version);
+		if (getModuleGraph(module.unit) == null)
+			addModule(new ModuleGraph(module.unit, module.version));
+		
 		ClusterBasicBlock.Key key = new ClusterBasicBlock.Key(mergedModule, relativeTag, 0);
 		while (hasNode(key))
 			key = new ClusterBasicBlock.Key(mergedModule, relativeTag, key.instanceId + 1);
