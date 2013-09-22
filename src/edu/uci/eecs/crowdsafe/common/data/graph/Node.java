@@ -1,8 +1,8 @@
 package edu.uci.eecs.crowdsafe.common.data.graph;
 
-import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareModule;
 
-public abstract class Node<EdgeEndpointType extends Node<EdgeEndpointType>> implements NodeList<EdgeEndpointType> {
+public abstract class Node<EdgeEndpointType extends Node<EdgeEndpointType>> implements NodeIdentifier,
+		NodeList<EdgeEndpointType> {
 
 	public interface Key {
 	}
@@ -10,14 +10,6 @@ public abstract class Node<EdgeEndpointType extends Node<EdgeEndpointType>> impl
 	protected final EdgeSet<EdgeEndpointType> edges = new EdgeSet<EdgeEndpointType>();
 
 	public abstract Key getKey();
-
-	public abstract long getHash();
-
-	public abstract SoftwareModule getModule();
-
-	public abstract int getRelativeTag();
-
-	public abstract MetaNodeType getType();
 
 	public boolean isModuleRelativeEquivalent(Node<?> other) {
 		return getKey().equals(other.getKey()) && (getType() == other.getType()) && (getHash() == other.getHash());

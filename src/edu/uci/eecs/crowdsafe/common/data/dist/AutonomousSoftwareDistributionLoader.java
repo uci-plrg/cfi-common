@@ -15,10 +15,15 @@ public class AutonomousSoftwareDistributionLoader {
 	public static AutonomousSoftwareDistribution loadDistribution(File configFile) throws IOException {
 		Set<SoftwareDistributionUnit> distUnits = new HashSet<SoftwareDistributionUnit>();
 		BufferedReader reader = new BufferedReader(new FileReader(configFile));
-		String line;
-		while ((line = reader.readLine()) != null) {
-			distUnits.add(new SoftwareDistributionUnit(line.toLowerCase()));
+		try {
+			String line;
+			while ((line = reader.readLine()) != null) {
+				distUnits.add(new SoftwareDistributionUnit(line.toLowerCase()));
+			}
+		} finally {
+			reader.close();
 		}
+
 		String distName = configFile.getName().substring(0, configFile.getName().lastIndexOf('.'));
 		return new AutonomousSoftwareDistribution(distName, distUnits);
 	}
@@ -26,11 +31,16 @@ public class AutonomousSoftwareDistributionLoader {
 	public static List<AutonomousSoftwareDistribution> loadSingleton(File configFile) throws IOException {
 		List<AutonomousSoftwareDistribution> singletons = new ArrayList<AutonomousSoftwareDistribution>();
 		BufferedReader reader = new BufferedReader(new FileReader(configFile));
-		String line;
-		while ((line = reader.readLine()) != null) {
-			SoftwareDistributionUnit unit = new SoftwareDistributionUnit(line.toLowerCase());
-			singletons.add(new AutonomousSoftwareDistribution(unit.name, Collections.singleton(unit)));
+		try {
+			String line;
+			while ((line = reader.readLine()) != null) {
+				SoftwareDistributionUnit unit = new SoftwareDistributionUnit(line.toLowerCase());
+				singletons.add(new AutonomousSoftwareDistribution(unit.name, Collections.singleton(unit)));
+			}
+		} finally {
+			reader.close();
 		}
+
 		return singletons;
 	}
 }

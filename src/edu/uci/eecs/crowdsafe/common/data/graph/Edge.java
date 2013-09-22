@@ -1,6 +1,8 @@
 package edu.uci.eecs.crowdsafe.common.data.graph;
 
-public class Edge<EndpointType extends Node<?>> {
+import edu.uci.eecs.crowdsafe.common.data.graph.cluster.writer.ClusterDataWriter;
+
+public class Edge<EndpointType extends Node<?>> implements ClusterDataWriter.Edge<EndpointType> {
 	private EndpointType toNode;
 	private EdgeType edgeType;
 	private int ordinal;
@@ -31,18 +33,22 @@ public class Edge<EndpointType extends Node<?>> {
 		this.edgeType = edgeType;
 	}
 
+	@Override
 	public EndpointType getFromNode() {
 		return fromNode;
 	}
 
+	@Override
 	public EndpointType getToNode() {
 		return toNode;
 	}
 
+	@Override
 	public EdgeType getEdgeType() {
 		return edgeType;
 	}
 
+	@Override
 	public int getOrdinal() {
 		return ordinal;
 	}

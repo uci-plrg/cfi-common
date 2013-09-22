@@ -1,18 +1,39 @@
 package edu.uci.eecs.crowdsafe.common.data.graph.transform;
 
 import edu.uci.eecs.crowdsafe.common.data.graph.EdgeType;
+import edu.uci.eecs.crowdsafe.common.data.graph.cluster.writer.ClusterDataWriter;
 
-public class RawEdge {
-	public final RawClusterNode fromNode;
-	public final RawClusterNode toNode;
+public class RawEdge implements ClusterDataWriter.Edge<IndexedClusterNode> {
+	public final IndexedClusterNode fromNode;
+	public final IndexedClusterNode toNode;
 	public final EdgeType type;
 	public final int ordinal;
 
-	RawEdge(RawClusterNode fromNode, RawClusterNode toNode, EdgeType type, int ordinal) {
+	RawEdge(IndexedClusterNode fromNode, IndexedClusterNode toNode, EdgeType type, int ordinal) {
 		this.fromNode = fromNode;
 		this.toNode = toNode;
 		this.type = type;
 		this.ordinal = ordinal;
+	}
+
+	@Override
+	public IndexedClusterNode getFromNode() {
+		return fromNode;
+	}
+
+	@Override
+	public IndexedClusterNode getToNode() {
+		return toNode;
+	}
+
+	@Override
+	public EdgeType getEdgeType() {
+		return type;
+	}
+
+	@Override
+	public int getOrdinal() {
+		return ordinal;
 	}
 
 	@Override

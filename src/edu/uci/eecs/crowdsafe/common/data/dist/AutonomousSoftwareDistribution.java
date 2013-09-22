@@ -19,4 +19,9 @@ public class AutonomousSoftwareDistribution {
 		this.name = this.id = name;
 		this.distributionUnits = Collections.unmodifiableSet(distributionUnits);
 	}
+
+	@Override
+	public String toString() {
+		return name;
+	}
 }

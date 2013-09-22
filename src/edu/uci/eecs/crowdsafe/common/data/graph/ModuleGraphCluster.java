@@ -229,7 +229,7 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 				nodeBuilder.clear().setModule(moduleBuilder.build());
 				nodeBuilder.setRelativeTag((int) unreachableNode.getRelativeTag());
 				if (unreachableNode instanceof ExecutionNode)
-					nodeBuilder.setTagVersion(((ExecutionNode) unreachableNode).getTagVersion());
+					nodeBuilder.setTagVersion(((ExecutionNode) unreachableNode).getInstanceId());
 				nodeBuilder.setHashcode(unreachableNode.getHash());
 				unreachableBuilder.clear().setNode(nodeBuilder.build());
 				unreachableBuilder.setIsEntryPoint(true);
@@ -258,5 +258,10 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 			}
 		}
 		return clusterBuilder.build();
+	}
+
+	@Override
+	public String toString() {
+		return "graph " + cluster.name;
 	}
 }

@@ -19,7 +19,7 @@ public class GraphData<NodeType extends Node<NodeType>> {
 			return false;
 		if (nodesByKey.containsKey(node.getKey()))
 			return true;
-		if ((node instanceof ExecutionNode) && (((ExecutionNode) node).getTagVersion() > 0))
+		if ((node instanceof ExecutionNode) && (((ExecutionNode) node).getInstanceId() > 0))
 			return nodesByKey.containsKey(ExecutionNode.Key.create(
 					((ModuleInstance) node.getModule()).start + node.getRelativeTag(), 0,
 					(ModuleInstance) node.getModule()));

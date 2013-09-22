@@ -142,7 +142,8 @@ public class ExecutionNode extends Node<ExecutionNode> {
 		return (int) key.relativeTag;
 	}
 
-	public int getTagVersion() {
+	@Override
+	public int getInstanceId() {
 		return key.version;
 	}
 

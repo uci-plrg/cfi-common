@@ -1,12 +1,7 @@
 package edu.uci.eecs.crowdsafe.common.util;
 
-import java.util.List;
-
-import edu.uci.eecs.crowdsafe.common.data.graph.Edge;
 import edu.uci.eecs.crowdsafe.common.data.graph.EdgeType;
 import edu.uci.eecs.crowdsafe.common.data.graph.MetaNodeType;
-import edu.uci.eecs.crowdsafe.common.data.graph.Node;
-import edu.uci.eecs.crowdsafe.common.data.graph.OrdinalEdgeList;
 
 public class CrowdSafeTraceUtil {
 

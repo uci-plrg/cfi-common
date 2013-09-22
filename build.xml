@@ -11,8 +11,8 @@
 	<property name="dist" value="${basedir}/dist" />
 	<property name="bin" value="bin" />
 	<property name="debuglevel" value="source,lines,vars" />
-	<property name="target" value="1.6" />
-	<property name="source" value="1.6" />
+	<property name="target" value="1.7" />
+	<property name="source" value="1.7" />
 
 	<path id="crowd-safe-common.classpath">
 		<pathelement location="${bin}" />

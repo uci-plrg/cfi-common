@@ -47,8 +47,8 @@ public class ArgumentStack {
 		Getopt options = this.options;
 		this.options = null;
 
-		while (options.getopt() >= 0)
-			;
+		while (options.getopt() >= 0) {
+		}
 		for (int i = 0; i < options.getOptind(); i++) {
 			pop();
 		}

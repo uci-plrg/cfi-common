@@ -1,18 +1,46 @@
 package edu.uci.eecs.crowdsafe.common.data.graph.transform;
 
 import edu.uci.eecs.crowdsafe.common.data.dist.AutonomousSoftwareDistribution;
+import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareModule;
+import edu.uci.eecs.crowdsafe.common.data.graph.MetaNodeType;
+import edu.uci.eecs.crowdsafe.common.data.graph.NodeIdentifier;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterNode;
 
-public class RawClusterNode {
+public class IndexedClusterNode implements NodeIdentifier {
 
 	public final AutonomousSoftwareDistribution cluster;
 	public final ClusterNode<?> node;
 	public final int index;
 
-	RawClusterNode(AutonomousSoftwareDistribution cluster, ClusterNode<?> node, int index) {
+	IndexedClusterNode(AutonomousSoftwareDistribution cluster, ClusterNode<?> node, int index) {
 		this.cluster = cluster;
 		this.node = node;
 		this.index = index;
+	}
+
+	@Override
+	public SoftwareModule getModule() {
+		return node.getModule();
+	}
+
+	@Override
+	public int getRelativeTag() {
+		return node.getRelativeTag();
+	}
+	
+	@Override
+	public int getInstanceId() {
+		return node.getInstanceId();
+	}
+
+	@Override
+	public long getHash() {
+		return node.getHash();
+	}
+
+	@Override
+	public MetaNodeType getType() {
+		return node.getType();
 	}
 
 	@Override
@@ -32,7 +60,7 @@ public class RawClusterNode {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		RawClusterNode other = (RawClusterNode) obj;
+		IndexedClusterNode other = (IndexedClusterNode) obj;
 		if (!cluster.name.equals(other.cluster.name))
 			return false;
 		if (index != other.index)

@@ -16,12 +16,15 @@ public class OptionArgumentMap {
 			this.isRequired = isRequired;
 		}
 
-		abstract Type getValue();
+		public abstract boolean hasValue();
+		
+		public abstract Type getValue();
 
 		void validate() {
 			if (isRequired && (getValue() == null))
 				throw new IllegalStateException("Option '" + id + "' is required!");
 		}
+		
 	}
 
 	public static class StringOption extends Option<String> {
@@ -40,6 +43,11 @@ public class OptionArgumentMap {
 			
 			this.value = defaultValue;
 		}
+		
+		@Override
+		public boolean hasValue() {
+			return (value != null);
+		}
 
 		@Override
 		public String getValue() {
@@ -56,6 +64,11 @@ public class OptionArgumentMap {
 
 		public BooleanOption(Character id, boolean isRequired) {
 			super(id, isRequired);
+		}
+		
+		@Override
+		public boolean hasValue() {
+			return value;
 		}
 
 		@Override

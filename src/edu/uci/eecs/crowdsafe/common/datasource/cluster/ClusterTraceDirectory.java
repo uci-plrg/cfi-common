@@ -59,7 +59,7 @@ public class ClusterTraceDirectory implements ClusterTraceDataSource {
 					}
 				}
 			}
-			
+
 			if ((files != null) && (files.size() < ALL_STREAM_TYPES.size())) {
 				Set<ClusterTraceStreamType> requiredTypes = EnumSet.copyOf(streamTypes);
 				requiredTypes.removeAll(files.keySet());
@@ -77,7 +77,7 @@ public class ClusterTraceDirectory implements ClusterTraceDataSource {
 	private boolean matches(String filename, String processName, AutonomousSoftwareDistribution cluster,
 			ClusterTraceStreamType streamType) {
 		return Pattern.matches(
-				String.format("%s\\.%s\\.%s\\.%s", processName, cluster.name, streamType.id, streamType.extension),
+				String.format("%s\\.%s\\.%s\\.%s", processName, cluster.id, streamType.id, streamType.extension),
 				filename);
 	}
 

@@ -89,6 +89,23 @@ public class Log {
 		}
 	}
 
+	public static void sharedLog(String format, Object... args) {
+		if (sharedOutputs.isEmpty()) {
+			System.out.println("Warning: attempt to log without any outputs configured.");
+			return;
+		}
+
+		try {
+			for (PrintWriter output : sharedOutputs) {
+				output.format(format, args);
+				output.println();
+				output.flush();
+			}
+		} catch (Throwable t) {
+			throw new OutputException(t);
+		}
+	}
+
 	public static void log(Throwable throwable) {
 		if (getOutputs().isEmpty()) {
 			System.out.println("Warning: attempt to log without any outputs configured.");
