@@ -3,6 +3,7 @@ package edu.uci.eecs.crowdsafe.common.data.graph.transform;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -10,9 +11,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
+
 import edu.uci.eecs.crowdsafe.common.config.CrowdSafeConfiguration;
 import edu.uci.eecs.crowdsafe.common.data.dist.AutonomousSoftwareDistribution;
 import edu.uci.eecs.crowdsafe.common.data.dist.ConfiguredSoftwareDistributions;
+import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareDistributionUnit;
 import edu.uci.eecs.crowdsafe.common.data.graph.EdgeType;
 import edu.uci.eecs.crowdsafe.common.data.graph.MetaNodeType;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterBasicBlock;
@@ -53,6 +58,13 @@ public class RawGraphTransformer {
 	private final Map<AutonomousSoftwareDistribution, RawClusterData> dataByCluster = new HashMap<AutonomousSoftwareDistribution, RawClusterData>();
 	private final Map<AutonomousSoftwareDistribution, Set<RawEdge>> edgesByCluster = new HashMap<AutonomousSoftwareDistribution, Set<RawEdge>>();
 
+	private final Set<Long> flattenedCollisions = new HashSet<Long>();
+
+	// for resolving tag versions on call continuation targets
+	// private final Map<RawTag, Integer> latestObservedVersion = new HashMap<RawTag, Integer>();
+	// private final Map<RawTag, Integer> maximumVersion = new HashMap<RawTag, Integer>();
+	// private final Map<RawTag, RawEdge> pendingCallContinuations = new HashMap<RawTag, RawEdge>();
+
 	public RawGraphTransformer(ArgumentStack args) {
 		this.args = args;
 
@@ -88,6 +100,11 @@ public class RawGraphTransformer {
 
 			for (String inputPath : pathList) {
 				File runDir = new File(inputPath);
+				if (!(runDir.exists() && runDir.isDirectory())) {
+					Log.log("Warning: input path %s is not a directory!", runDir.getAbsolutePath());
+					continue;
+				}
+
 				dataSource = new ExecutionTraceDirectory(runDir, ProcessExecutionGraph.EXECUTION_GRAPH_FILE_TYPES);
 
 				File outputDir;
@@ -130,6 +147,9 @@ public class RawGraphTransformer {
 		LittleEndianInputStream input = dataSource.getLittleEndianInputStream(streamType);
 		RawGraphEntry.TwoWordFactory factory = new RawGraphEntry.TwoWordFactory(input);
 
+		final Map<RawTag, IndexedClusterNode> nodesByRawTag = new HashMap<RawTag, IndexedClusterNode>();
+		final Multimap<Long, RawTag> multiVersionTags = ArrayListMultimap.create();
+
 		long entryIndex = -1L;
 		while (factory.hasMoreEntries()) {
 			RawGraphEntry.TwoWordEntry nodeEntry = factory.createEntry();
@@ -144,19 +164,62 @@ public class RawGraphTransformer {
 
 			AutonomousSoftwareDistribution cluster = ConfiguredSoftwareDistributions.getInstance().distributionsByUnit
 					.get(moduleInstance.unit);
-			ClusterModule clusterModule = dataByCluster.get(cluster).moduleList.establishModule(moduleInstance.unit,
+			ClusterModule clusterModule = establishNodeData(cluster).moduleList.establishModule(moduleInstance.unit,
 					moduleInstance.version);
-			graphWriters.establishClusterWriters(cluster, establishNodeData(cluster));
+			graphWriters.establishClusterWriters(cluster, dataByCluster.get(cluster));
 
 			ClusterBasicBlock node = new ClusterBasicBlock(clusterModule, relativeTag, tagVersion, nodeEntry.second,
 					nodeType);
 			RawClusterData nodeData = establishNodeData(cluster);
 			IndexedClusterNode nodeId = nodeData.addNode(node);
 
+			if (absoluteTag == 0x7228c507L)
+				toString();
+
+			if (!clusterModule.unit.equals(SoftwareDistributionUnit.UNKNOWN)) {
+				RawTag rawTag = new RawTag(absoluteTag, tagVersion);
+				nodesByRawTag.put(rawTag, nodeId);
+				if (tagVersion > 0)
+					multiVersionTags.put(absoluteTag, rawTag);
+			}
+			// if (tagVersion > 0)
+			// maximumVersion.put(new RawTag(nodeId), node.getInstanceId());
+
 			if ((dataByCluster.size() == 1) && (nodeData.size() == 1)) {
 				ClusterBoundaryNode entry = new ClusterBoundaryNode(1L, MetaNodeType.CLUSTER_ENTRY);
 				IndexedClusterNode entryId = nodeData.addNode(entry);
 				establishEdgeSet(cluster).add(new RawEdge(entryId, nodeId, EdgeType.CLUSTER_ENTRY, 0));
+			}
+		}
+
+		Set<ClusterModule> modules = new HashSet<ClusterModule>();
+		for (Long absoluteTag : multiVersionTags.keySet()) {
+			Collection<RawTag> versions = multiVersionTags.get(absoluteTag);
+			versions.add(new RawTag(absoluteTag, 0));
+
+			boolean hasCollision = false;
+			modules.clear();
+			for (RawTag version : versions) {
+				IndexedClusterNode node = nodesByRawTag.get(version);
+				if (modules.contains(node.node.getModule())) {
+					hasCollision = true;
+					break;
+				}
+				modules.add(node.node.getModule());
+			}
+
+			if (absoluteTag == 0x7228c507L)
+				toString();
+
+			if (hasCollision)
+				continue;
+
+			flattenedCollisions.add(absoluteTag);
+
+			for (RawTag version : versions) {
+				IndexedClusterNode node = nodesByRawTag.get(version);
+				RawClusterData nodeData = establishNodeData(node.cluster);
+				nodeData.replace(node, node.resetToVersionZero());
 			}
 		}
 	}
@@ -179,6 +242,10 @@ public class RawGraphTransformer {
 
 			long absoluteToTag = CrowdSafeTraceUtil.getTag(edgeEntry.second);
 			int toTagVersion = CrowdSafeTraceUtil.getTagVersion(edgeEntry.second);
+
+			if (absoluteToTag == 0x7228c507L)
+				toString();
+
 			IndexedClusterNode toNodeId = identifyNode(absoluteToTag, toTagVersion, entryIndex, streamType);
 
 			if (fromNodeId == null) {
@@ -187,14 +254,51 @@ public class RawGraphTransformer {
 			}
 
 			if (toNodeId == null) {
-				if (type != EdgeType.CALL_CONTINUATION)
+				if (type == EdgeType.CALL_CONTINUATION) {
+					if (toTagVersion > 0)
+						toNodeId = identifyNode(absoluteToTag, 0, entryIndex, streamType);
+					if (toNodeId == null)
+						continue;
+				} else {
 					Log.log("Error: missing 'to' node 0x%x-v%d", absoluteToTag, toTagVersion);
-
-				continue;
+				}
 			}
 
+			/**
+			 * <pre>
+			if (type == EdgeType.CALL_CONTINUATION) {
+				// if a later version of the `toNode` has been seen already, use that version
+				RawTag toTag = new RawTag(toNodeId);
+				Integer latestVersion = latestObservedVersion.get(toTag);
+				if ((latestVersion != null) && (toTagVersion < latestVersion))
+					toNodeId = identifyNode(absoluteToTag, latestVersion, entryIndex, streamType);
+			}
+			 */
+
 			if (fromNodeId.cluster == toNodeId.cluster) {
-				establishEdgeSet(fromNodeId.cluster).add(new RawEdge(fromNodeId, toNodeId, type, ordinal));
+				RawEdge edge = new RawEdge(fromNodeId, toNodeId, type, ordinal);
+				establishEdgeSet(fromNodeId.cluster).add(edge);
+
+				/**
+				 * <pre>
+				if (type == EdgeType.CALL_CONTINUATION) {
+					// if later versions exist for `edge.toNode`, pend it as having an ambiguous `toNode.version`
+					RawTag toTag = new RawTag(toNodeId);
+					Integer maxVersion = maximumVersion.get(toTag);
+
+					if (absoluteToTag == 0x7228b6faL)
+						toString();
+
+					if ((maxVersion != null) && (toTagVersion < maxVersion))
+						pendingCallContinuations.put(toTag, edge);
+				}
+
+				// if `edge` follows a CC having an ambiguous `toNode` version, resolve it as `edge.fromNode`
+				RawEdge continuation = pendingCallContinuations.remove(new RawTag(fromNodeId));
+				if (continuation != null)
+					if (continuation.getToNode().node.getInstanceId() == (fromNodeId.node.getInstanceId() - 1))
+						continuation.setToNode(fromNodeId);
+				 */
 			} else {
 				throw new IllegalStateException(String.format(
 						"Intra-module edge from %s to %s crosses a cluster boundary!", fromNodeId.node, toNodeId.node));
@@ -271,6 +375,8 @@ public class RawGraphTransformer {
 
 		ClusterModule clusterModule = dataByCluster.get(cluster).moduleList.getModule(moduleInstance.unit,
 				moduleInstance.version);
+		if ((tagVersion > 0) && (flattenedCollisions.contains(absoluteTag)))
+			tagVersion = 0;
 		ClusterBasicBlock.Key key = new ClusterBasicBlock.Key(clusterModule,
 				(int) (absoluteTag - moduleInstance.start), tagVersion);
 		return dataByCluster.get(cluster).getNode(key);

@@ -23,7 +23,7 @@ public class RawClusterData implements ClusterDataWriter.ClusterData<IndexedClus
 	final ClusterModuleList moduleList = new ClusterModuleList();
 	private final List<IndexedClusterNode> nodeList = new ArrayList<IndexedClusterNode>();
 	private final Map<IndexedClusterNode, Integer> nodeIndexMap = new HashMap<IndexedClusterNode, Integer>();
-
+	
 	RawClusterData(AutonomousSoftwareDistribution cluster) {
 		this.cluster = cluster;
 	}
@@ -57,6 +57,12 @@ public class RawClusterData implements ClusterDataWriter.ClusterData<IndexedClus
 				nodesByKey.put(node.getKey(), rawNode);
 		}
 		return rawNode;
+	}
+	
+	void replace(IndexedClusterNode original, IndexedClusterNode replacement) {
+		nodesByKey.put(replacement.node.getKey(), replacement);
+		nodeList.set(replacement.index, replacement);
+		nodeIndexMap.put(replacement, replacement.index);
 	}
 	
 	@Override

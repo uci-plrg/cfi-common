@@ -43,6 +43,11 @@ public class ClusterBoundaryNode extends ClusterNode<ClusterBoundaryNode.Key> {
 				return false;
 			return true;
 		}
+
+		@Override
+		public String toString() {
+			return String.format("%s(0x%x)", type, hash);
+		}
 	}
 
 	public ClusterBoundaryNode(long hash, MetaNodeType type) {
@@ -63,7 +68,7 @@ public class ClusterBoundaryNode extends ClusterNode<ClusterBoundaryNode.Key> {
 	public int getRelativeTag() {
 		return 0;
 	}
-	
+
 	@Override
 	public int getInstanceId() {
 		return 0;

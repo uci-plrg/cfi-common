@@ -4,6 +4,7 @@ import edu.uci.eecs.crowdsafe.common.data.dist.AutonomousSoftwareDistribution;
 import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareModule;
 import edu.uci.eecs.crowdsafe.common.data.graph.MetaNodeType;
 import edu.uci.eecs.crowdsafe.common.data.graph.NodeIdentifier;
+import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterBasicBlock;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterNode;
 
 public class IndexedClusterNode implements NodeIdentifier {
@@ -27,7 +28,7 @@ public class IndexedClusterNode implements NodeIdentifier {
 	public int getRelativeTag() {
 		return node.getRelativeTag();
 	}
-	
+
 	@Override
 	public int getInstanceId() {
 		return node.getInstanceId();
@@ -41,6 +42,11 @@ public class IndexedClusterNode implements NodeIdentifier {
 	@Override
 	public MetaNodeType getType() {
 		return node.getType();
+	}
+
+	IndexedClusterNode resetToVersionZero() {
+		return new IndexedClusterNode(cluster, new ClusterBasicBlock(node.getModule(), node.getRelativeTag(), 0,
+				node.getHash(), node.getType()), index);
 	}
 
 	@Override

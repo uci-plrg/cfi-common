@@ -65,12 +65,6 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 		return unreachableNodes;
 	}
 
-	public void removeUnreachableNodes(Set<? extends Node<?>> removals) {
-		for (Node<?> removal : removals)
-			if (unreachableNodes.contains(removal))
-				graphData.nodesByKey.remove(removal.getKey());
-	}
-
 	public Collection<Long> getEntryHashes() {
 		return entryNodes.keySet();
 	}
@@ -156,6 +150,9 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 				edgeList.release();
 			}
 
+			if (node.getRelativeTag() == 0x55124L)
+				toString();
+
 			Edge<EdgeEndpointType> continuationEdge = node.getCallContinuation();
 			if (continuationEdge != null) {
 				EdgeEndpointType continuation = continuationEdge.getToNode();
@@ -184,7 +181,13 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 				missedEntries.add(node);
 		}
 
+		int limitCounter = 0;
 		for (EdgeEndpointType node : missedEntries) {
+			if (++limitCounter == CrowdSafeDebug.MAX_UNREACHABLE_NODE_REPORT) {
+				Log.log("\t...");
+				break;
+			}
+
 			if (node.hasIncomingEdges()) {
 				for (Edge<EdgeEndpointType> edge : node.getIncomingEdges()) {
 					Log.log("\tMissed incoming edge %s", edge);

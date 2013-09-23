@@ -7,6 +7,7 @@ import edu.uci.eecs.crowdsafe.common.data.graph.Edge;
 import edu.uci.eecs.crowdsafe.common.data.graph.EdgeType;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterNode;
 import edu.uci.eecs.crowdsafe.common.io.LittleEndianInputStream;
+import edu.uci.eecs.crowdsafe.common.log.Log;
 
 public class ClusterGraphEdgeFactory {
 
@@ -16,7 +17,7 @@ public class ClusterGraphEdgeFactory {
 		CLUSTER_EXIT;
 	}
 
-	private static final int ENTRY_BYTE_COUNT = 0x10;
+	private static final int ENTRY_BYTE_COUNT = 0x8;
 
 	private final List<ClusterNode<?>> nodeList;
 	private final LittleEndianInputStream input;
@@ -36,9 +37,12 @@ public class ClusterGraphEdgeFactory {
 		int toNodeIndex = (int) ((first >> 0x1cL) & 0xfffffffL);
 		EdgeType type = EdgeType.values()[(int) ((first >> 0x38L) & 0xfL)];
 		int ordinal = (int) ((first >> 0x3cL) & 0xfL);
-
+		
 		ClusterNode<?> fromNode = nodeList.get(fromNodeIndex);
 		ClusterNode<?> toNode = nodeList.get(toNodeIndex);
+
+		if (toNodeIndex == 5)
+			toString();
 
 		Edge<ClusterNode<?>> edge = new Edge<ClusterNode<?>>(fromNode, toNode, type, ordinal);
 		fromNode.addOutgoingEdge(edge);
@@ -47,6 +51,9 @@ public class ClusterGraphEdgeFactory {
 	}
 
 	void close() throws IOException {
+		if (input.ready())
+			Log.log("Warning: input stream %s has %d bytes remaining.", input.description, input.available());
+		
 		input.close();
 	}
 }

@@ -25,7 +25,8 @@ public class ExecutionTraceDirectory implements ExecutionTraceDataSource {
 		}
 	}
 
-	private static final EnumSet<ExecutionTraceStreamType> ALL_STREAM_TYPES = EnumSet.allOf(ExecutionTraceStreamType.class);
+	private static final EnumSet<ExecutionTraceStreamType> ALL_STREAM_TYPES = EnumSet
+			.allOf(ExecutionTraceStreamType.class);
 
 	private static final FilePatterns FILE_PATTERNS = new FilePatterns();
 
@@ -38,8 +39,16 @@ public class ExecutionTraceDirectory implements ExecutionTraceDataSource {
 		this(dir, ALL_STREAM_TYPES);
 	}
 
-	public ExecutionTraceDirectory(File dir, Set<ExecutionTraceStreamType> streamTypes)
-			throws TraceDataSourceException {
+	public ExecutionTraceDirectory(File dir, Set<ExecutionTraceStreamType> streamTypes) throws TraceDataSourceException {
+		if (!(dir.exists() && dir.isDirectory())) {
+			if (dir.isDirectory())
+				throw new IllegalArgumentException(String.format("Source directory %s does not exist!",
+						dir.getAbsolutePath()));
+			else
+				throw new IllegalArgumentException(String.format("Source path %s is not a directory!",
+						dir.getAbsolutePath()));
+		}
+		
 		for (File file : dir.listFiles()) {
 			if (file.isDirectory())
 				continue;
@@ -58,8 +67,8 @@ public class ExecutionTraceDirectory implements ExecutionTraceDataSource {
 		if (files.size() != streamTypes.size()) {
 			Set<ExecutionTraceStreamType> requiredTypes = EnumSet.copyOf(streamTypes);
 			requiredTypes.removeAll(files.keySet());
-			throw new TraceDataSourceException(String.format(
-					"Required data files are missing from directory %s: %s", dir.getAbsolutePath(), requiredTypes));
+			throw new TraceDataSourceException(String.format("Required data files are missing from directory %s: %s",
+					dir.getAbsolutePath(), requiredTypes));
 		}
 
 		ExecutionTraceStreamType anyType = files.keySet().iterator().next();

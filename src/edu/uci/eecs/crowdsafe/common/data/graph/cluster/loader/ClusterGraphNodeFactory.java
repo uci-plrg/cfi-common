@@ -2,6 +2,7 @@ package edu.uci.eecs.crowdsafe.common.data.graph.cluster.loader;
 
 import java.io.IOException;
 
+import edu.uci.eecs.crowdsafe.common.data.graph.GraphLoadEventListener;
 import edu.uci.eecs.crowdsafe.common.data.graph.MetaNodeType;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterBasicBlock;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterBoundaryNode;
@@ -9,6 +10,7 @@ import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterModule;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterModuleList;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterNode;
 import edu.uci.eecs.crowdsafe.common.io.LittleEndianInputStream;
+import edu.uci.eecs.crowdsafe.common.log.Log;
 
 public class ClusterGraphNodeFactory {
 
@@ -16,10 +18,13 @@ public class ClusterGraphNodeFactory {
 
 	private final ClusterModuleList modules;
 	private final LittleEndianInputStream input;
-	
-	ClusterGraphNodeFactory(ClusterModuleList modules, LittleEndianInputStream input) {
+
+	private final GraphLoadEventListener listener;
+
+	ClusterGraphNodeFactory(ClusterModuleList modules, LittleEndianInputStream input, GraphLoadEventListener listener) {
 		this.input = input;
 		this.modules = modules;
+		this.listener = listener;
 	}
 
 	boolean ready() throws IOException {
@@ -40,16 +45,27 @@ public class ClusterGraphNodeFactory {
 
 		long hash = input.readLong();
 
+		ClusterNode<?> node = null;
+
 		switch (type) {
 			case CLUSTER_ENTRY:
 			case CLUSTER_EXIT:
-				return new ClusterBoundaryNode(hash, type);
+				node = new ClusterBoundaryNode(hash, type);
+				break;
+			default:
+				node = new ClusterBasicBlock(module, relativeTag, instanceId, hash, type);
 		}
 
-		return new ClusterBasicBlock(module, relativeTag, instanceId, hash, type);
+		if (listener != null)
+			listener.nodeCreation(node);
+
+		return node;
 	}
 
 	void close() throws IOException {
+		if (input.ready())
+			Log.log("Warning: input stream %s has %d bytes remaining.", input.description, input.available());
+
 		input.close();
 	}
 }

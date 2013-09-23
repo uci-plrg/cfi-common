@@ -12,6 +12,7 @@ public class GraphData<NodeType extends Node<NodeType>> {
 
 	public final NodeHashMap<NodeType> nodesByHash = new NodeHashMap<NodeType>();
 
+	// TODO: it would be ideal for this to become a read-only map after the graph is built
 	final Map<Node.Key, NodeType> nodesByKey = new HashMap<Node.Key, NodeType>();
 
 	public boolean HACK_containsEquivalent(Node<?> node) {
