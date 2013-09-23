@@ -4,8 +4,8 @@ import edu.uci.eecs.crowdsafe.common.data.graph.EdgeType;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.writer.ClusterDataWriter;
 
 public class RawEdge implements ClusterDataWriter.Edge<IndexedClusterNode> {
-	private IndexedClusterNode fromNode;
-	private IndexedClusterNode toNode;
+	public final IndexedClusterNode fromNode;
+	public final IndexedClusterNode toNode;
 	public final EdgeType type;
 	public final int ordinal;
 
@@ -34,14 +34,6 @@ public class RawEdge implements ClusterDataWriter.Edge<IndexedClusterNode> {
 	@Override
 	public int getOrdinal() {
 		return ordinal;
-	}
-
-	public void setFromNode(IndexedClusterNode fromNode) {
-		this.fromNode = fromNode;
-	}
-
-	public void setToNode(IndexedClusterNode toNode) {
-		this.toNode = toNode;
 	}
 
 	@Override

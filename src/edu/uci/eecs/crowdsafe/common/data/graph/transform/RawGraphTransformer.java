@@ -60,11 +60,6 @@ public class RawGraphTransformer {
 
 	private final Set<Long> flattenedCollisions = new HashSet<Long>();
 
-	// for resolving tag versions on call continuation targets
-	// private final Map<RawTag, Integer> latestObservedVersion = new HashMap<RawTag, Integer>();
-	// private final Map<RawTag, Integer> maximumVersion = new HashMap<RawTag, Integer>();
-	// private final Map<RawTag, RawEdge> pendingCallContinuations = new HashMap<RawTag, RawEdge>();
-
 	public RawGraphTransformer(ArgumentStack args) {
 		this.args = args;
 
@@ -173,17 +168,12 @@ public class RawGraphTransformer {
 			RawClusterData nodeData = establishNodeData(cluster);
 			IndexedClusterNode nodeId = nodeData.addNode(node);
 
-			if (absoluteTag == 0x7228c507L)
-				toString();
-
 			if (!clusterModule.unit.equals(SoftwareDistributionUnit.UNKNOWN)) {
 				RawTag rawTag = new RawTag(absoluteTag, tagVersion);
 				nodesByRawTag.put(rawTag, nodeId);
 				if (tagVersion > 0)
 					multiVersionTags.put(absoluteTag, rawTag);
 			}
-			// if (tagVersion > 0)
-			// maximumVersion.put(new RawTag(nodeId), node.getInstanceId());
 
 			if ((dataByCluster.size() == 1) && (nodeData.size() == 1)) {
 				ClusterBoundaryNode entry = new ClusterBoundaryNode(1L, MetaNodeType.CLUSTER_ENTRY);
@@ -207,9 +197,6 @@ public class RawGraphTransformer {
 				}
 				modules.add(node.node.getModule());
 			}
-
-			if (absoluteTag == 0x7228c507L)
-				toString();
 
 			if (hasCollision)
 				continue;
@@ -243,9 +230,6 @@ public class RawGraphTransformer {
 			long absoluteToTag = CrowdSafeTraceUtil.getTag(edgeEntry.second);
 			int toTagVersion = CrowdSafeTraceUtil.getTagVersion(edgeEntry.second);
 
-			if (absoluteToTag == 0x7228c507L)
-				toString();
-
 			IndexedClusterNode toNodeId = identifyNode(absoluteToTag, toTagVersion, entryIndex, streamType);
 
 			if (fromNodeId == null) {
@@ -264,41 +248,9 @@ public class RawGraphTransformer {
 				}
 			}
 
-			/**
-			 * <pre>
-			if (type == EdgeType.CALL_CONTINUATION) {
-				// if a later version of the `toNode` has been seen already, use that version
-				RawTag toTag = new RawTag(toNodeId);
-				Integer latestVersion = latestObservedVersion.get(toTag);
-				if ((latestVersion != null) && (toTagVersion < latestVersion))
-					toNodeId = identifyNode(absoluteToTag, latestVersion, entryIndex, streamType);
-			}
-			 */
-
 			if (fromNodeId.cluster == toNodeId.cluster) {
 				RawEdge edge = new RawEdge(fromNodeId, toNodeId, type, ordinal);
 				establishEdgeSet(fromNodeId.cluster).add(edge);
-
-				/**
-				 * <pre>
-				if (type == EdgeType.CALL_CONTINUATION) {
-					// if later versions exist for `edge.toNode`, pend it as having an ambiguous `toNode.version`
-					RawTag toTag = new RawTag(toNodeId);
-					Integer maxVersion = maximumVersion.get(toTag);
-
-					if (absoluteToTag == 0x7228b6faL)
-						toString();
-
-					if ((maxVersion != null) && (toTagVersion < maxVersion))
-						pendingCallContinuations.put(toTag, edge);
-				}
-
-				// if `edge` follows a CC having an ambiguous `toNode` version, resolve it as `edge.fromNode`
-				RawEdge continuation = pendingCallContinuations.remove(new RawTag(fromNodeId));
-				if (continuation != null)
-					if (continuation.getToNode().node.getInstanceId() == (fromNodeId.node.getInstanceId() - 1))
-						continuation.setToNode(fromNodeId);
-				 */
 			} else {
 				throw new IllegalStateException(String.format(
 						"Intra-module edge from %s to %s crosses a cluster boundary!", fromNodeId.node, toNodeId.node));

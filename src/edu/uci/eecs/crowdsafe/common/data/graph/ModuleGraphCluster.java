@@ -150,9 +150,6 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 				edgeList.release();
 			}
 
-			if (node.getRelativeTag() == 0x55124L)
-				toString();
-
 			Edge<EdgeEndpointType> continuationEdge = node.getCallContinuation();
 			if (continuationEdge != null) {
 				EdgeEndpointType continuation = continuationEdge.getToNode();
