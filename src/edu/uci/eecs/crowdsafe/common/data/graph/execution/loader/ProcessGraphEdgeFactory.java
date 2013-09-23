@@ -7,10 +7,10 @@ import edu.uci.eecs.crowdsafe.common.data.graph.EdgeType;
 import edu.uci.eecs.crowdsafe.common.data.graph.GraphLoadEventListener.LoadTarget;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.ExecutionNode;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.ModuleInstance;
-import edu.uci.eecs.crowdsafe.common.datasource.execution.ExecutionTraceStreamType;
 import edu.uci.eecs.crowdsafe.common.exception.InvalidGraphException;
 import edu.uci.eecs.crowdsafe.common.exception.MultipleEdgeException;
 import edu.uci.eecs.crowdsafe.common.io.LittleEndianInputStream;
+import edu.uci.eecs.crowdsafe.common.io.execution.ExecutionTraceStreamType;
 import edu.uci.eecs.crowdsafe.common.log.Log;
 import edu.uci.eecs.crowdsafe.common.util.CrowdSafeTraceUtil;
 

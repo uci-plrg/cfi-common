@@ -11,8 +11,8 @@ import edu.uci.eecs.crowdsafe.common.data.dist.ConfiguredSoftwareDistributions;
 import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareDistributionUnit;
 import edu.uci.eecs.crowdsafe.common.data.graph.ModuleGraphCluster;
 import edu.uci.eecs.crowdsafe.common.data.results.Graph;
-import edu.uci.eecs.crowdsafe.common.datasource.execution.ExecutionTraceDataSource;
-import edu.uci.eecs.crowdsafe.common.datasource.execution.ExecutionTraceStreamType;
+import edu.uci.eecs.crowdsafe.common.io.execution.ExecutionTraceDataSource;
+import edu.uci.eecs.crowdsafe.common.io.execution.ExecutionTraceStreamType;
 
 /**
  * <p>

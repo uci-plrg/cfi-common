@@ -1,4 +1,4 @@
-package edu.uci.eecs.crowdsafe.common.datasource.execution;
+package edu.uci.eecs.crowdsafe.common.io.execution;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,8 +10,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import edu.uci.eecs.crowdsafe.common.datasource.TraceDataSourceException;
 import edu.uci.eecs.crowdsafe.common.io.LittleEndianInputStream;
+import edu.uci.eecs.crowdsafe.common.io.TraceDataSourceException;
 
 public class ExecutionTraceDirectory implements ExecutionTraceDataSource {
 	private static class FilePatterns {

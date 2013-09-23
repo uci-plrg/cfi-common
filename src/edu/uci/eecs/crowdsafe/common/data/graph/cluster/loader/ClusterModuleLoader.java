@@ -8,8 +8,8 @@ import edu.uci.eecs.crowdsafe.common.data.dist.AutonomousSoftwareDistribution;
 import edu.uci.eecs.crowdsafe.common.data.dist.ConfiguredSoftwareDistributions;
 import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareDistributionUnit;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterModuleList;
-import edu.uci.eecs.crowdsafe.common.datasource.cluster.ClusterTraceDataSource;
-import edu.uci.eecs.crowdsafe.common.datasource.cluster.ClusterTraceStreamType;
+import edu.uci.eecs.crowdsafe.common.io.cluster.ClusterTraceDataSource;
+import edu.uci.eecs.crowdsafe.common.io.cluster.ClusterTraceStreamType;
 
 public class ClusterModuleLoader {
 

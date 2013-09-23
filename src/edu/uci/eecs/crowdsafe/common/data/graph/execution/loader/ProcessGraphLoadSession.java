@@ -15,10 +15,10 @@ import edu.uci.eecs.crowdsafe.common.data.graph.ModuleGraphCluster;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.ExecutionNode;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.ProcessExecutionGraph;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.ProcessExecutionModuleSet;
-import edu.uci.eecs.crowdsafe.common.datasource.execution.ExecutionTraceDataSource;
-import edu.uci.eecs.crowdsafe.common.datasource.execution.ExecutionTraceStreamType;
 import edu.uci.eecs.crowdsafe.common.exception.InvalidGraphException;
 import edu.uci.eecs.crowdsafe.common.exception.InvalidTagException;
+import edu.uci.eecs.crowdsafe.common.io.execution.ExecutionTraceDataSource;
+import edu.uci.eecs.crowdsafe.common.io.execution.ExecutionTraceStreamType;
 
 public class ProcessGraphLoadSession {
 

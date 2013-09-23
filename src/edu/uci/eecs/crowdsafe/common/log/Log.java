@@ -89,6 +89,22 @@ public class Log {
 		}
 	}
 
+	public static void log(Throwable throwable) {
+		if (getOutputs().isEmpty()) {
+			System.out.println("Warning: attempt to log without any outputs configured.");
+			return;
+		}
+
+		try {
+			for (PrintWriter output : getOutputs()) {
+				throwable.printStackTrace(output);
+				output.flush();
+			}
+		} catch (Throwable t) {
+			throw new OutputException(t);
+		}
+	}
+
 	public static void sharedLog(String format, Object... args) {
 		if (sharedOutputs.isEmpty()) {
 			System.out.println("Warning: attempt to log without any outputs configured.");
@@ -106,14 +122,14 @@ public class Log {
 		}
 	}
 
-	public static void log(Throwable throwable) {
-		if (getOutputs().isEmpty()) {
+	public static void sharedLog(Throwable throwable) {
+		if (sharedOutputs.isEmpty()) {
 			System.out.println("Warning: attempt to log without any outputs configured.");
 			return;
 		}
 
 		try {
-			for (PrintWriter output : getOutputs()) {
+			for (PrintWriter output : sharedOutputs) {
 				throwable.printStackTrace(output);
 				output.flush();
 			}
@@ -122,6 +138,7 @@ public class Log {
 		}
 	}
 
+	
 	public static void closeOutputs() {
 		try {
 			for (PrintWriter output : getOutputs()) {

@@ -13,6 +13,8 @@ import edu.uci.eecs.crowdsafe.common.data.graph.Edge;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterGraph;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterModule;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterNode;
+import edu.uci.eecs.crowdsafe.common.io.cluster.ClusterTraceDataSink;
+import edu.uci.eecs.crowdsafe.common.io.cluster.ClusterTraceDirectory;
 
 public class ClusterGraphWriter implements ClusterDataWriter.ClusterData<ClusterNode<?>> {
 
@@ -23,10 +25,10 @@ public class ClusterGraphWriter implements ClusterDataWriter.ClusterData<Cluster
 
 	private final ClusterDataWriter<ClusterNode<?>> dataWriter;
 
-	public ClusterGraphWriter(ClusterGraph graph, File outputDir, String name) throws IOException {
+	public ClusterGraphWriter(ClusterGraph graph, ClusterTraceDataSink dataSink) throws IOException {
 		this.graph = graph;
 
-		dataWriter = new ClusterDataWriter(this, outputDir, name);
+		dataWriter = new ClusterDataWriter(this, dataSink);
 	}
 
 	public void writeGraph() throws IOException {

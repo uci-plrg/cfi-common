@@ -8,7 +8,7 @@ import edu.uci.eecs.crowdsafe.common.data.graph.MetaNodeType;
 import edu.uci.eecs.crowdsafe.common.data.graph.ModuleGraph;
 import edu.uci.eecs.crowdsafe.common.data.graph.ModuleGraphCluster;
 import edu.uci.eecs.crowdsafe.common.data.results.Graph;
-import edu.uci.eecs.crowdsafe.common.datasource.cluster.ClusterTraceStreamType;
+import edu.uci.eecs.crowdsafe.common.io.cluster.ClusterTraceStreamType;
 
 public class ClusterGraph extends ModuleGraphCluster<ClusterNode<?>> {
 

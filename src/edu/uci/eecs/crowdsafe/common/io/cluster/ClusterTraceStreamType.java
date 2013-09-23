@@ -1,4 +1,4 @@
-package edu.uci.eecs.crowdsafe.common.datasource.cluster;
+package edu.uci.eecs.crowdsafe.common.io.cluster;
 
 public enum ClusterTraceStreamType {
 	GRAPH_NODE("graph-node", "dat", 2),

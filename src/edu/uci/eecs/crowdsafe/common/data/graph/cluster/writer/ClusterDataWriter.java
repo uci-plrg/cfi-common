@@ -2,8 +2,8 @@ package edu.uci.eecs.crowdsafe.common.data.graph.cluster.writer;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,8 +12,10 @@ import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareModule;
 import edu.uci.eecs.crowdsafe.common.data.graph.EdgeType;
 import edu.uci.eecs.crowdsafe.common.data.graph.NodeIdentifier;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterBoundaryNode;
-import edu.uci.eecs.crowdsafe.common.datasource.cluster.ClusterTraceStreamType;
 import edu.uci.eecs.crowdsafe.common.io.LittleEndianOutputStream;
+import edu.uci.eecs.crowdsafe.common.io.cluster.ClusterTraceDataSink;
+import edu.uci.eecs.crowdsafe.common.io.cluster.ClusterTraceDirectory;
+import edu.uci.eecs.crowdsafe.common.io.cluster.ClusterTraceStreamType;
 
 public class ClusterDataWriter<NodeType extends NodeIdentifier> {
 
@@ -38,22 +40,22 @@ public class ClusterDataWriter<NodeType extends NodeIdentifier> {
 	}
 
 	public static class Directory<NodeType extends NodeIdentifier> {
-		private final File directory;
-		private final String processName;
+		private final ClusterTraceDataSink dataSink;
+		private final String filenameFormat;
 
 		private final Map<AutonomousSoftwareDistribution, ClusterDataWriter<NodeType>> outputsByCluster = new HashMap<AutonomousSoftwareDistribution, ClusterDataWriter<NodeType>>();
 
 		public Directory(File directory, String processName) {
-			this.directory = directory;
-			this.processName = processName;
+			dataSink = new ClusterTraceDirectory(directory);
+			filenameFormat = String.format("%s.%%s.%%s.%%s", processName);
 		}
 
-		public void establishClusterWriters(AutonomousSoftwareDistribution cluster, ClusterData<NodeType> data)
-				throws IOException {
-			ClusterDataWriter<NodeType> writer = getWriter(cluster);
+		public void establishClusterWriters(ClusterData<NodeType> data) throws IOException {
+			ClusterDataWriter<NodeType> writer = getWriter(data.getCluster());
 			if (writer == null) {
-				writer = new ClusterDataWriter<NodeType>(data, directory, processName);
-				outputsByCluster.put(cluster, writer);
+				dataSink.addCluster(data.getCluster(), filenameFormat);
+				writer = new ClusterDataWriter<NodeType>(data, dataSink);
+				outputsByCluster.put(data.getCluster(), writer);
 			}
 		}
 
@@ -74,23 +76,13 @@ public class ClusterDataWriter<NodeType extends NodeIdentifier> {
 
 	private final ClusterData<NodeType> data;
 
-	ClusterDataWriter(ClusterData<NodeType> data, File outputDir, String processName) throws IOException {
+	ClusterDataWriter(ClusterData<NodeType> data, ClusterTraceDataSink dataSink) throws IOException {
 		this.data = data;
 
-		String outputFilename = String.format("%s.%s.%s.%s", processName, data.getCluster().id,
-				ClusterTraceStreamType.GRAPH_NODE.id, ClusterTraceStreamType.GRAPH_NODE.extension);
-		File outputFile = new File(outputDir, outputFilename);
-		nodeStream = new LittleEndianOutputStream(outputFile);
-
-		outputFilename = String.format("%s.%s.%s.%s", processName, data.getCluster().id,
-				ClusterTraceStreamType.GRAPH_EDGE.id, ClusterTraceStreamType.GRAPH_EDGE.extension);
-		outputFile = new File(outputDir, outputFilename);
-		edgeStream = new LittleEndianOutputStream(outputFile);
-
-		outputFilename = String.format("%s.%s.%s.%s", processName, data.getCluster().id,
-				ClusterTraceStreamType.MODULE.id, ClusterTraceStreamType.MODULE.extension);
-		outputFile = new File(outputDir, outputFilename);
-		moduleWriter = new BufferedWriter(new FileWriter(outputFile));
+		nodeStream = dataSink.getLittleEndianOutputStream(data.getCluster(), ClusterTraceStreamType.GRAPH_NODE);
+		edgeStream = dataSink.getLittleEndianOutputStream(data.getCluster(), ClusterTraceStreamType.GRAPH_EDGE);
+		moduleWriter = new BufferedWriter(new OutputStreamWriter(dataSink.getDataOutputStream(data.getCluster(),
+				ClusterTraceStreamType.MODULE)));
 	}
 
 	public void writeNode(NodeType node) throws IOException {

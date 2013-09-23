@@ -28,11 +28,11 @@ import edu.uci.eecs.crowdsafe.common.data.graph.execution.ModuleInstance;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.ProcessExecutionGraph;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.ProcessExecutionModuleSet;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.loader.ProcessModuleLoader;
-import edu.uci.eecs.crowdsafe.common.datasource.execution.ExecutionTraceDataSource;
-import edu.uci.eecs.crowdsafe.common.datasource.execution.ExecutionTraceDirectory;
-import edu.uci.eecs.crowdsafe.common.datasource.execution.ExecutionTraceStreamType;
 import edu.uci.eecs.crowdsafe.common.io.LittleEndianInputStream;
 import edu.uci.eecs.crowdsafe.common.io.LittleEndianOutputStream;
+import edu.uci.eecs.crowdsafe.common.io.execution.ExecutionTraceDataSource;
+import edu.uci.eecs.crowdsafe.common.io.execution.ExecutionTraceDirectory;
+import edu.uci.eecs.crowdsafe.common.io.execution.ExecutionTraceStreamType;
 import edu.uci.eecs.crowdsafe.common.log.Log;
 import edu.uci.eecs.crowdsafe.common.util.ArgumentStack;
 import edu.uci.eecs.crowdsafe.common.util.CrowdSafeTraceUtil;
@@ -161,7 +161,7 @@ public class RawGraphTransformer {
 					.get(moduleInstance.unit);
 			ClusterModule clusterModule = establishNodeData(cluster).moduleList.establishModule(moduleInstance.unit,
 					moduleInstance.version);
-			graphWriters.establishClusterWriters(cluster, dataByCluster.get(cluster));
+			graphWriters.establishClusterWriters(dataByCluster.get(cluster));
 
 			ClusterBasicBlock node = new ClusterBasicBlock(clusterModule, relativeTag, tagVersion, nodeEntry.second,
 					nodeType);
@@ -245,6 +245,7 @@ public class RawGraphTransformer {
 						continue;
 				} else {
 					Log.log("Error: missing 'to' node 0x%x-v%d", absoluteToTag, toTagVersion);
+					continue;
 				}
 			}
 

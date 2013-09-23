@@ -1,4 +1,4 @@
-package edu.uci.eecs.crowdsafe.common.datasource.execution;
+package edu.uci.eecs.crowdsafe.common.io.execution;
 
 public enum ExecutionTraceStreamType {
 	BLOCK_HASH("block-hash", 1),

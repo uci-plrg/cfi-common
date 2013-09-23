@@ -12,10 +12,10 @@ import edu.uci.eecs.crowdsafe.common.data.dist.ConfiguredSoftwareDistributions;
 import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareDistributionUnit;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.ModuleInstance;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.ProcessExecutionModuleSet;
-import edu.uci.eecs.crowdsafe.common.datasource.execution.ExecutionTraceDataSource;
-import edu.uci.eecs.crowdsafe.common.datasource.execution.ExecutionTraceStreamType;
 import edu.uci.eecs.crowdsafe.common.exception.InvalidGraphException;
 import edu.uci.eecs.crowdsafe.common.exception.OverlapModuleException;
+import edu.uci.eecs.crowdsafe.common.io.execution.ExecutionTraceDataSource;
+import edu.uci.eecs.crowdsafe.common.io.execution.ExecutionTraceStreamType;
 
 public class ProcessModuleLoader {
 

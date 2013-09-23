@@ -8,7 +8,7 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 
 import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareDistributionUnit;
-import edu.uci.eecs.crowdsafe.common.datasource.execution.ExecutionTraceStreamType;
+import edu.uci.eecs.crowdsafe.common.io.execution.ExecutionTraceStreamType;
 
 public class ProcessExecutionModuleSet {
 

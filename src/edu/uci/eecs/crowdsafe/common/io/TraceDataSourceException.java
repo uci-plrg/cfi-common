@@ -1,4 +1,4 @@
-package edu.uci.eecs.crowdsafe.common.datasource;
+package edu.uci.eecs.crowdsafe.common.io;
 
 public class TraceDataSourceException extends RuntimeException {
 	public TraceDataSourceException(String message) {

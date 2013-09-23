@@ -13,10 +13,10 @@ import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterModuleList;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterNode;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.ExecutionNode;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.ProcessExecutionModuleSet;
-import edu.uci.eecs.crowdsafe.common.datasource.cluster.ClusterTraceDataSource;
-import edu.uci.eecs.crowdsafe.common.datasource.cluster.ClusterTraceStreamType;
-import edu.uci.eecs.crowdsafe.common.datasource.execution.ExecutionTraceDataSource;
 import edu.uci.eecs.crowdsafe.common.exception.InvalidGraphException;
+import edu.uci.eecs.crowdsafe.common.io.cluster.ClusterTraceDataSource;
+import edu.uci.eecs.crowdsafe.common.io.cluster.ClusterTraceStreamType;
+import edu.uci.eecs.crowdsafe.common.io.execution.ExecutionTraceDataSource;
 import edu.uci.eecs.crowdsafe.common.log.Log;
 
 public class ClusterGraphLoadSession {
@@ -54,6 +54,9 @@ public class ClusterGraphLoadSession {
 
 	public ModuleGraphCluster<ClusterNode<?>> loadClusterGraph(AutonomousSoftwareDistribution cluster,
 			GraphLoadEventListener listener) throws IOException {
+		if (!dataSource.getReprsentedClusters().contains(cluster))
+			return null;
+		
 		GraphLoader graphLoader = new GraphLoader(cluster, listener);
 		return graphLoader.loadGraph();
 	}
