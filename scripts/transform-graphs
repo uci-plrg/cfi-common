@@ -1,0 +1,39 @@
+#!/bin/bash
+
+. $csc/scripts/cs-common
+
+function usage() {
+  echo "transform-graphs [ -l <log-file> ]"
+  echo "\t-o <output-base-dir> <run-dir> [ <run-dir> ... ]"
+}
+
+check_help $1 usage
+
+while getopts "l:o:" option
+do
+  case $option in
+    o ) output_basedir=$OPTARG;;
+    l ) log_option="-l "$OPTARG;;
+    * ) usage; exit;;
+  esac
+done
+shift $((OPTIND-1))
+
+local_dir=$(pwd)
+[ -z "$log_option" ] && log_option="-l transform-graphs.log"
+
+for f in $@
+do
+  if [ ! -z $output_basedir ] 
+  then
+    output_dir=$output_basedir/${f/$local_dir}
+    mkdir -p $output_dir
+    output_option="-o "$output_dir
+    input="-i "$f
+  else
+    input=$f
+  fi
+
+  ./transform-graph $log_option $input $output_option
+done
+
