@@ -1,6 +1,5 @@
 package edu.uci.eecs.crowdsafe.common.data.graph.cluster.writer;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,7 +13,6 @@ import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterGraph;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterModule;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterNode;
 import edu.uci.eecs.crowdsafe.common.io.cluster.ClusterTraceDataSink;
-import edu.uci.eecs.crowdsafe.common.io.cluster.ClusterTraceDirectory;
 
 public class ClusterGraphWriter implements ClusterDataWriter.ClusterData<ClusterNode<?>> {
 
@@ -32,7 +30,7 @@ public class ClusterGraphWriter implements ClusterDataWriter.ClusterData<Cluster
 	}
 
 	public void writeGraph() throws IOException {
-		for (ClusterNode<?> node : graph.getAllNodes()) {
+		for (ClusterNode<?> node : graph.graph.getAllNodes()) {
 			nodeIndexMap.put(node, nodeIndexMap.size());
 			dataWriter.writeNode(node);
 
@@ -52,7 +50,7 @@ public class ClusterGraphWriter implements ClusterDataWriter.ClusterData<Cluster
 
 	@Override
 	public AutonomousSoftwareDistribution getCluster() {
-		return graph.cluster;
+		return graph.graph.cluster;
 	}
 
 	@Override

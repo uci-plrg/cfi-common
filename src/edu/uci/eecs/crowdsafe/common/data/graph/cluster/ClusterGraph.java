@@ -10,24 +10,25 @@ import edu.uci.eecs.crowdsafe.common.data.graph.ModuleGraphCluster;
 import edu.uci.eecs.crowdsafe.common.data.results.Graph;
 import edu.uci.eecs.crowdsafe.common.io.cluster.ClusterTraceStreamType;
 
-public class ClusterGraph extends ModuleGraphCluster<ClusterNode<?>> {
+public class ClusterGraph {
 
 	public static EnumSet<ClusterTraceStreamType> CLUSTER_GRAPH_STREAM_TYPES = EnumSet
 			.allOf(ClusterTraceStreamType.class);
 
+	public final ModuleGraphCluster<ClusterNode<?>> graph;
 	public final ClusterModuleList moduleList;
 
 	public ClusterGraph(AutonomousSoftwareDistribution cluster) {
-		super(cluster);
+		graph = new ModuleGraphCluster<ClusterNode<?>>(cluster);
 		moduleList = new ClusterModuleList();
 	}
 
 	public ClusterGraph(AutonomousSoftwareDistribution cluster, ClusterModuleList moduleList) {
-		super(cluster);
+		graph = new ModuleGraphCluster<ClusterNode<?>>(cluster);
 		this.moduleList = moduleList;
 
 		for (ClusterModule module : moduleList.getModules()) {
-			addModule(new ModuleGraph(module.unit, module.version));
+			graph.addModule(new ModuleGraph(module.unit, module.version));
 		}
 	}
 
@@ -35,33 +36,33 @@ public class ClusterGraph extends ModuleGraphCluster<ClusterNode<?>> {
 		switch (type) {
 			case CLUSTER_ENTRY:
 				ClusterBoundaryNode.Key entryKey = new ClusterBoundaryNode.Key(hash, type);
-				ClusterNode<?> entry = getNode(entryKey);
+				ClusterNode<?> entry = graph.getNode(entryKey);
 				if (entry == null) {
 					entry = new ClusterBoundaryNode(hash, type);
-					addClusterEntryNode(entry);
-					addNode(entry);
+					graph.addClusterEntryNode(entry);
+					graph.addNode(entry);
 				}
 				return entry;
 			case CLUSTER_EXIT:
 				ClusterBoundaryNode.Key exitKey = new ClusterBoundaryNode.Key(hash, type);
-				ClusterNode<?> exit = getNode(exitKey);
+				ClusterNode<?> exit = graph.getNode(exitKey);
 				if (exit == null) {
 					exit = new ClusterBoundaryNode(hash, type);
-					addNode(exit);
+					graph.addNode(exit);
 				}
 				return exit;
 		}
 
 		ClusterModule mergedModule = moduleList.establishModule(module.unit, module.version);
-		if (getModuleGraph(module.unit) == null)
-			addModule(new ModuleGraph(module.unit, module.version));
-		
+		if (graph.getModuleGraph(module.unit) == null)
+			graph.addModule(new ModuleGraph(module.unit, module.version));
+
 		ClusterBasicBlock.Key key = new ClusterBasicBlock.Key(mergedModule, relativeTag, 0);
-		while (hasNode(key))
+		while (graph.hasNode(key))
 			key = new ClusterBasicBlock.Key(mergedModule, relativeTag, key.instanceId + 1);
 
 		ClusterBasicBlock node = new ClusterBasicBlock(key, hash, type);
-		addNode(node);
+		graph.addNode(node);
 		return node;
 	}
 

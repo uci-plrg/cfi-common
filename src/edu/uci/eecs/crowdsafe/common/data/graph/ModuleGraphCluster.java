@@ -60,6 +60,19 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 	public Collection<ModuleGraph> getGraphs() {
 		return graphs.values();
 	}
+	
+	public boolean isCompatible(ModuleGraphCluster<?> other) {
+		if (!cluster.equals(other.cluster))
+			return false;
+		
+		for (ModuleGraph module : graphs.values()) {
+			ModuleGraph otherModule = other.graphs.get(module);
+			if ((otherModule != null) && !otherModule.version.equals(module.version))
+				return false;
+		}
+		
+		return true;
+	}
 
 	public Set<EdgeEndpointType> getUnreachableNodes() {
 		return unreachableNodes;

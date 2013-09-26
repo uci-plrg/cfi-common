@@ -66,7 +66,7 @@ public class ClusterGraphLoadSession {
 
 		final GraphLoadEventListener listener;
 
-		ClusterGraph graph;
+		ClusterGraph builder;
 		final List<ClusterNode<?>> nodeList = new ArrayList<ClusterNode<?>>();
 
 		GraphLoader(AutonomousSoftwareDistribution cluster, GraphLoadEventListener listener) {
@@ -78,7 +78,7 @@ public class ClusterGraphLoadSession {
 			long start = System.currentTimeMillis();
 
 			ClusterModuleList modules = moduleLoader.loadModules(cluster, dataSource);
-			graph = new ClusterGraph(cluster, modules);
+			builder = new ClusterGraph(cluster, modules);
 
 			try {
 				loadGraphNodes(modules);
@@ -91,8 +91,8 @@ public class ClusterGraphLoadSession {
 
 			Log.log("Cluster %s loaded in %f seconds.", cluster.name, (System.currentTimeMillis() - start) / 1000.);
 
-			graph.findUnreachableNodes();
-			return graph;
+			builder.graph.findUnreachableNodes();
+			return builder.graph;
 		}
 
 		private void loadGraphNodes(ClusterModuleList modules) throws IOException {
@@ -102,11 +102,11 @@ public class ClusterGraphLoadSession {
 				while (nodeFactory.ready()) {
 					ClusterNode<?> node = nodeFactory.createNode();
 
-					graph.addNode(node);
+					builder.graph.addNode(node);
 					nodeList.add(node);
 
 					if (listener != null)
-						listener.graphAddition(node, graph);
+						listener.graphAddition(node, builder.graph);
 				}
 			} finally {
 				nodeFactory.close();
