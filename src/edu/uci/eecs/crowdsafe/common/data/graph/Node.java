@@ -1,6 +1,5 @@
 package edu.uci.eecs.crowdsafe.common.data.graph;
 
-
 public abstract class Node<EdgeEndpointType extends Node<EdgeEndpointType>> implements NodeIdentifier,
 		NodeList<EdgeEndpointType> {
 
@@ -36,6 +35,10 @@ public abstract class Node<EdgeEndpointType extends Node<EdgeEndpointType>> impl
 
 	public int getOutgoingOrdinalCount() {
 		return edges.getOrdinalCount(EdgeSet.Direction.OUTGOING);
+	}
+
+	public EdgeType getOrdinalEdgeType(int ordinal) {
+		return edges.getOrdinalEdgeType(ordinal);
 	}
 
 	/**

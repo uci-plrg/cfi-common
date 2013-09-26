@@ -38,6 +38,10 @@ public class EdgeSet<EdgeEndpointType extends Node<EdgeEndpointType>> {
 
 	Edge<EdgeEndpointType> callContinuation;
 
+	public EdgeType getOrdinalEdgeType(int ordinal) {
+		return outgoingOrdinals.get(ordinal).type;
+	}
+	
 	// 15% hot during load!
 	public void addEdge(Direction direction, Edge<EdgeEndpointType> edge) {
 		if ((direction == Direction.OUTGOING) && (edge.getEdgeType() == EdgeType.CALL_CONTINUATION)) {
@@ -159,6 +163,11 @@ public class EdgeSet<EdgeEndpointType extends Node<EdgeEndpointType>> {
 	}
 
 	public boolean checkOutgoingEdgeCompatibility(EdgeSet<?> other) {
+		if ((callContinuation == null) != (other.callContinuation == null))
+			return false;
+		if ((callContinuation != null) && (callContinuation.getOrdinal() != other.callContinuation.getOrdinal()))
+			return false;
+
 		int max = Math.min(outgoingOrdinals.size(), other.outgoingOrdinals.size());
 		for (int i = 0; i < max; i++) {
 			OutgoingOrdinal myOrdinal = outgoingOrdinals.get(i);
