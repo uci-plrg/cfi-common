@@ -26,7 +26,7 @@ public class ClusterGraphWriter implements ClusterDataWriter.ClusterData<Cluster
 	public ClusterGraphWriter(ClusterGraph graph, ClusterTraceDataSink dataSink) throws IOException {
 		this.graph = graph;
 
-		dataWriter = new ClusterDataWriter(this, dataSink);
+		dataWriter = new ClusterDataWriter<ClusterNode<?>>(this, dataSink);
 	}
 
 	public void writeGraph() throws IOException {
@@ -44,7 +44,7 @@ public class ClusterGraphWriter implements ClusterDataWriter.ClusterData<Cluster
 		}
 
 		dataWriter.writeModules();
-		
+
 		dataWriter.flush();
 	}
 

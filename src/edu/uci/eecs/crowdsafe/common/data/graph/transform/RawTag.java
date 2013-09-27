@@ -1,7 +1,5 @@
 package edu.uci.eecs.crowdsafe.common.data.graph.transform;
 
-import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterModule;
-
 class RawTag {
 	final long absoluteTag;
 	final int version;

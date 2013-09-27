@@ -34,6 +34,6 @@ do
     input=$f
   fi
 
-  ./transform-graph $log_option $input $output_option
+  transform-graph $log_option $input $output_option
 done
 

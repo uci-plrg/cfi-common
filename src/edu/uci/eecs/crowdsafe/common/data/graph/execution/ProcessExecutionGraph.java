@@ -91,8 +91,7 @@ public class ProcessExecutionGraph {
 		ModuleGraphCluster<ExecutionNode> cluster = moduleGraphsBySoftwareUnit.get(softwareUnit);
 		if (cluster != null)
 			return cluster;
-		return moduleGraphs.get(ConfiguredSoftwareDistributions.getInstance().distributions
-				.get(ConfiguredSoftwareDistributions.MAIN_PROGRAM));
+		return moduleGraphs.get(ConfiguredSoftwareDistributions.MAIN_PROGRAM);
 	}
 
 	public Collection<AutonomousSoftwareDistribution> getRepresentedClusters() {

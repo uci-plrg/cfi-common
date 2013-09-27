@@ -17,14 +17,14 @@ public class OptionArgumentMap {
 		}
 
 		public abstract boolean hasValue();
-		
+
 		public abstract Type getValue();
 
 		void validate() {
 			if (isRequired && (getValue() == null))
 				throw new IllegalStateException("Option '" + id + "' is required!");
 		}
-		
+
 	}
 
 	public static class StringOption extends Option<String> {
@@ -40,10 +40,10 @@ public class OptionArgumentMap {
 
 		public StringOption(Character id, String defaultValue) {
 			super(id, false);
-			
+
 			this.value = defaultValue;
 		}
-		
+
 		@Override
 		public boolean hasValue() {
 			return (value != null);
@@ -65,7 +65,12 @@ public class OptionArgumentMap {
 		public BooleanOption(Character id, boolean isRequired) {
 			super(id, isRequired);
 		}
-		
+
+		public BooleanOption(Character id, boolean isRequired, boolean defaultValue) {
+			super(id, isRequired);
+			value = defaultValue;
+		}
+
 		@Override
 		public boolean hasValue() {
 			return value;
@@ -95,6 +100,13 @@ public class OptionArgumentMap {
 
 	public static BooleanOption createBooleanOption(char c, boolean isRequired) {
 		return new BooleanOption(c, isRequired);
+	}
+
+	public static BooleanOption createBooleanOption(char c, boolean isRequired, boolean defaultValue) {
+		if (isRequired)
+			throw new IllegalArgumentException(
+					"Cannot require an option and also provide a default value. Parameter exists only for disambiguation.");
+		return new BooleanOption(c, isRequired, defaultValue);
 	}
 
 	public static void populateOptions(ArgumentStack args, Option<?>... options) {

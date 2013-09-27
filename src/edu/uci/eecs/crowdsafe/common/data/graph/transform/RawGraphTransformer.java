@@ -44,6 +44,8 @@ public class RawGraphTransformer {
 	private static final OptionArgumentMap.StringOption logOption = OptionArgumentMap.createStringOption('l');
 	private static final OptionArgumentMap.StringOption inputOption = OptionArgumentMap.createStringOption('i');
 	private static final OptionArgumentMap.StringOption outputOption = OptionArgumentMap.createStringOption('o');
+	private static final OptionArgumentMap.BooleanOption unitClusterOption = OptionArgumentMap.createBooleanOption('u',
+			false, true);
 
 	private final ArgumentStack args;
 
@@ -63,7 +65,7 @@ public class RawGraphTransformer {
 	public RawGraphTransformer(ArgumentStack args) {
 		this.args = args;
 
-		OptionArgumentMap.populateOptions(args, verboseOption, logOption, inputOption, outputOption);
+		OptionArgumentMap.populateOptions(args, verboseOption, logOption, inputOption, outputOption, unitClusterOption);
 	}
 
 	private void run() {
@@ -91,7 +93,13 @@ public class RawGraphTransformer {
 			}
 
 			CrowdSafeConfiguration.initialize(EnumSet.of(CrowdSafeConfiguration.Environment.CROWD_SAFE_COMMON_DIR));
-			ConfiguredSoftwareDistributions.initialize();
+
+			ConfiguredSoftwareDistributions.ClusterMode clusterMode;
+			if (unitClusterOption.hasValue())
+				clusterMode = ConfiguredSoftwareDistributions.ClusterMode.UNIT;
+			else
+				clusterMode = ConfiguredSoftwareDistributions.ClusterMode.GROUP;
+			ConfiguredSoftwareDistributions.initialize(clusterMode);
 
 			for (String inputPath : pathList) {
 				File runDir = new File(inputPath);

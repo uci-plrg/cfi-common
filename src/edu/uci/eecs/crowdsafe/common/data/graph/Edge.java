@@ -3,13 +3,13 @@ package edu.uci.eecs.crowdsafe.common.data.graph;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.writer.ClusterDataWriter;
 
 public class Edge<EndpointType extends Node<?>> implements ClusterDataWriter.Edge<EndpointType> {
-	private EndpointType toNode;
+	private final EndpointType toNode;
 	private EdgeType edgeType;
 	private int ordinal;
 
 	// Add this filed for debugging reason, cause it provides
 	// more information when debugging
-	private EndpointType fromNode;
+	private final EndpointType fromNode;
 
 	public Edge(EndpointType fromNode, EndpointType toNode, EdgeType edgeType, int ordinal) {
 		if (fromNode == null)
@@ -51,6 +51,21 @@ public class Edge<EndpointType extends Node<?>> implements ClusterDataWriter.Edg
 	@Override
 	public int getOrdinal() {
 		return ordinal;
+	}
+
+	public boolean isModuleRelativeEquivalent(Edge<?> other) {
+		if (other == null)
+			return false;
+		if (!fromNode.isModuleRelativeEquivalent(other.fromNode))
+			return false;
+		if (!toNode.isModuleRelativeEquivalent(other.toNode))
+			return false;
+		if (edgeType != other.edgeType)
+			return false;
+		if (ordinal != other.ordinal)
+			return false;
+
+		return true;
 	}
 
 	@Override

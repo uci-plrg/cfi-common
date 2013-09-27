@@ -18,6 +18,15 @@ public class ClusterGraph {
 	public final ModuleGraphCluster<ClusterNode<?>> graph;
 	public final ClusterModuleList moduleList;
 
+	public ClusterGraph(ModuleGraphCluster<ClusterNode<?>> graph) {
+		this.graph = graph;
+
+		moduleList = new ClusterModuleList();
+		for (ModuleGraph module : graph.getGraphs()) {
+			moduleList.addModule(module.softwareUnit, module.version);
+		}
+	}
+
 	public ClusterGraph(AutonomousSoftwareDistribution cluster) {
 		graph = new ModuleGraphCluster<ClusterNode<?>>(cluster);
 		moduleList = new ClusterModuleList();

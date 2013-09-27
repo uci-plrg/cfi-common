@@ -108,6 +108,20 @@ public class OrdinalEdgeList<EdgeEndpointType extends Node<EdgeEndpointType>> ex
 
 	private final IndexingIterator iterator = new IndexingIterator();
 
+	public boolean containsModuleRelativeEquivalent(Edge<?> edge) {
+		if (edge == null)
+			return false;
+		if (edge instanceof Edge) {
+			if (includeCallContinuation && data.callContinuation.isModuleRelativeEquivalent(edge))
+				return true;
+			for (int i = start; i < end; i++) {
+				if (data.edges.get(i).isModuleRelativeEquivalent(edge))
+					return true;
+			}
+		}
+		return false;
+	}
+
 	@Override
 	public boolean contains(Object o) {
 		if (o == null)

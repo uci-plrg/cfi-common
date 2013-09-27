@@ -65,3 +65,6 @@ then
   append_jars $cs_jar_dir
 fi
 
+shopt -s expand_aliases
+alias echo="echo -e"
+
