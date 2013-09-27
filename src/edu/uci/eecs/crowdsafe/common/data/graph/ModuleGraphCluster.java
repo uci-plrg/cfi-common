@@ -13,6 +13,7 @@ import edu.uci.eecs.crowdsafe.common.data.dist.AutonomousSoftwareDistribution;
 import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareDistributionUnit;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.ExecutionNode;
 import edu.uci.eecs.crowdsafe.common.data.results.Graph;
+import edu.uci.eecs.crowdsafe.common.data.results.NodeResultsFactory;
 import edu.uci.eecs.crowdsafe.common.log.Log;
 import edu.uci.eecs.crowdsafe.common.util.CrowdSafeCollections;
 import edu.uci.eecs.crowdsafe.common.util.CrowdSafeDebug;
@@ -60,17 +61,17 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 	public Collection<ModuleGraph> getGraphs() {
 		return graphs.values();
 	}
-	
+
 	public boolean isCompatible(ModuleGraphCluster<?> other) {
 		if (!cluster.equals(other.cluster))
 			return false;
-		
+
 		for (ModuleGraph module : graphs.values()) {
 			ModuleGraph otherModule = other.graphs.get(module);
 			if ((otherModule != null) && !otherModule.version.equals(module.version))
 				return false;
 		}
-		
+
 		return true;
 	}
 
@@ -215,6 +216,7 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 		Graph.UnreachableNode.Builder unreachableBuilder = Graph.UnreachableNode.newBuilder();
 		Graph.Node.Builder nodeBuilder = Graph.Node.newBuilder();
 		Graph.Edge.Builder edgeBuilder = Graph.Edge.newBuilder();
+		NodeResultsFactory nodeFactory = new NodeResultsFactory(moduleBuilder, nodeBuilder);
 
 		int clusterNodeCount = getNodeCount();
 
@@ -234,14 +236,7 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 		Set<EdgeEndpointType> unreachableNodes = getUnreachableNodes();
 		if (!unreachableNodes.isEmpty()) {
 			for (Node<?> unreachableNode : unreachableNodes) {
-				moduleBuilder.setName(unreachableNode.getModule().unit.filename);
-				moduleBuilder.setVersion(unreachableNode.getModule().version);
-				nodeBuilder.clear().setModule(moduleBuilder.build());
-				nodeBuilder.setRelativeTag((int) unreachableNode.getRelativeTag());
-				if (unreachableNode instanceof ExecutionNode)
-					nodeBuilder.setTagVersion(((ExecutionNode) unreachableNode).getInstanceId());
-				nodeBuilder.setHashcode(unreachableNode.getHash());
-				unreachableBuilder.clear().setNode(nodeBuilder.build());
+				unreachableBuilder.clear().setNode(nodeFactory.buildNode(unreachableNode));
 				unreachableBuilder.setIsEntryPoint(true);
 
 				OrdinalEdgeList<?> edgeList = unreachableNode.getIncomingEdges();
@@ -254,6 +249,7 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 								moduleBuilder.setName(incoming.getFromNode().getModule().unit.filename);
 								moduleBuilder.setVersion(incoming.getFromNode().getModule().version);
 								nodeBuilder.setModule(moduleBuilder.build());
+								// TODO: what node is it?? from the factory, earlier??
 								edgeBuilder.clear().setFromNode(nodeBuilder.build());
 								edgeBuilder.setToNode(unreachableBuilder.getNode());
 								edgeBuilder.setType(incoming.getEdgeType().mapToResultType());

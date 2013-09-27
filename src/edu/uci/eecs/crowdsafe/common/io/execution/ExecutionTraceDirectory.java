@@ -48,7 +48,7 @@ public class ExecutionTraceDirectory implements ExecutionTraceDataSource {
 				throw new IllegalArgumentException(String.format("Source path %s is not a directory!",
 						dir.getAbsolutePath()));
 		}
-		
+
 		for (File file : dir.listFiles()) {
 			if (file.isDirectory())
 				continue;
@@ -73,7 +73,7 @@ public class ExecutionTraceDirectory implements ExecutionTraceDataSource {
 
 		ExecutionTraceStreamType anyType = files.keySet().iterator().next();
 		String runSignature = files.get(anyType).getName();
-		processName = runSignature.substring(0, runSignature.indexOf(anyType.id) - 1);
+		processName = runSignature.substring(0, runSignature.indexOf(anyType.id) - 1).replace('.', '-');
 		runSignature = runSignature.substring(runSignature.indexOf('.', runSignature.indexOf(anyType.id)));
 
 		int lastDash = runSignature.lastIndexOf('-');

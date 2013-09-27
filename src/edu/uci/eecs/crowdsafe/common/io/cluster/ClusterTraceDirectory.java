@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumMap;
@@ -18,6 +19,7 @@ import java.util.regex.Pattern;
 
 import edu.uci.eecs.crowdsafe.common.data.dist.AutonomousSoftwareDistribution;
 import edu.uci.eecs.crowdsafe.common.data.dist.ConfiguredSoftwareDistributions;
+import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareDistributionUnit;
 import edu.uci.eecs.crowdsafe.common.io.LittleEndianInputStream;
 import edu.uci.eecs.crowdsafe.common.io.LittleEndianOutputStream;
 import edu.uci.eecs.crowdsafe.common.io.TraceDataSourceException;
@@ -32,6 +34,9 @@ public class ClusterTraceDirectory implements ClusterTraceDataSource, ClusterTra
 	private final File directory;
 	private final Set<ClusterTraceStreamType> streamTypes;
 
+	private final Map<ClusterTraceStreamType, Pattern> filePatterns = new EnumMap<ClusterTraceStreamType, Pattern>(
+			ClusterTraceStreamType.class);
+
 	public ClusterTraceDirectory(File dir) throws TraceDataSourceException {
 		this(dir, ALL_STREAM_TYPES);
 	}
@@ -44,37 +49,47 @@ public class ClusterTraceDirectory implements ClusterTraceDataSource, ClusterTra
 
 	public ClusterTraceDirectory loadExistingFiles() {
 		File[] ls = directory.listFiles();
-		for (AutonomousSoftwareDistribution cluster : ConfiguredSoftwareDistributions.getInstance().distributions
-				.values()) {
 
-			Map<ClusterTraceStreamType, File> files = null;
+		String processName = ls[0].getName().substring(0, ls[0].getName().indexOf('.'));
+		for (ClusterTraceStreamType streamType : streamTypes) {
+			filePatterns.put(streamType, Pattern.compile(String.format("%s\\.(.*)\\.%s\\.%s", processName,
+					streamType.id, streamType.extension)));
+		}
 
-			for (File file : ls) {
-				if (file.isDirectory())
-					continue;
+		for (File file : ls) {
+			if (file.isDirectory())
+				continue;
 
-				for (ClusterTraceStreamType streamType : streamTypes) {
-					if (matches(file.getName(), cluster, streamType)) {
-						if (files == null) {
-							files = new EnumMap<ClusterTraceStreamType, File>(ClusterTraceStreamType.class);
-							filesByCluster.put(cluster, files);
-						}
-						if (files.containsKey(streamType))
-							throw new TraceDataSourceException(String.format(
-									"Directory %s contains multiple files of type %s for cluster %s: %s and %s",
-									directory.getAbsolutePath(), streamType, cluster.name, file.getName(),
-									files.get(streamType).getName()));
-						files.put(streamType, file);
+			for (ClusterTraceStreamType streamType : streamTypes) {
+				Matcher matcher = filePatterns.get(streamType).matcher(file.getName());
+				if (matcher.matches()) {
+					SoftwareDistributionUnit unit = ConfiguredSoftwareDistributions.getInstance().establishUnit(
+							matcher.group(1));
+					AutonomousSoftwareDistribution cluster = ConfiguredSoftwareDistributions.getInstance().distributionsByUnit
+							.get(unit);
+					Map<ClusterTraceStreamType, File> files = filesByCluster.get(cluster);
+					if (files == null) {
+						files = new EnumMap<ClusterTraceStreamType, File>(ClusterTraceStreamType.class);
+						filesByCluster.put(cluster, files);
 					}
+					if (files.containsKey(streamType))
+						throw new TraceDataSourceException(String.format(
+								"Directory %s contains multiple files of type %s for cluster %s: %s and %s",
+								directory.getAbsolutePath(), streamType, cluster.name, file.getName(),
+								files.get(streamType).getName()));
+					files.put(streamType, file);
 				}
 			}
+		}
 
-			if ((files != null) && (files.size() < ALL_STREAM_TYPES.size())) {
+		for (Map.Entry<AutonomousSoftwareDistribution, Map<ClusterTraceStreamType, File>> files : new ArrayList<Map.Entry<AutonomousSoftwareDistribution, Map<ClusterTraceStreamType, File>>>(
+				filesByCluster.entrySet())) {
+			if (files.getValue().size() < ALL_STREAM_TYPES.size()) {
 				Set<ClusterTraceStreamType> requiredTypes = EnumSet.copyOf(streamTypes);
-				requiredTypes.removeAll(files.keySet());
+				requiredTypes.removeAll(files.getValue().keySet());
 				Log.log("Directory %s contains some but not all files for cluster %s.\n\tMissing types are %s.\n\tSkipping this cluster.",
-						directory.getAbsolutePath(), cluster.name, requiredTypes);
-				filesByCluster.remove(cluster);
+						directory.getAbsolutePath(), files.getKey().name, requiredTypes);
+				filesByCluster.remove(files.getKey());
 			}
 		}
 
@@ -118,7 +133,7 @@ public class ClusterTraceDirectory implements ClusterTraceDataSource, ClusterTra
 			throws IOException {
 		if (!filesByCluster.containsKey(cluster))
 			return null;
-		
+
 		return new FileInputStream(filesByCluster.get(cluster).get(streamType));
 	}
 
@@ -127,7 +142,7 @@ public class ClusterTraceDirectory implements ClusterTraceDataSource, ClusterTra
 			ClusterTraceStreamType streamType) throws IOException {
 		if (!filesByCluster.containsKey(cluster))
 			return null;
-		
+
 		File file = filesByCluster.get(cluster).get(streamType);
 		return new LittleEndianInputStream(new FileInputStream(file), "file:" + file.getAbsolutePath());
 	}
