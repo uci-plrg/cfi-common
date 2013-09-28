@@ -41,7 +41,7 @@ public class EdgeSet<EdgeEndpointType extends Node<EdgeEndpointType>> {
 	public EdgeType getOrdinalEdgeType(int ordinal) {
 		return outgoingOrdinals.get(ordinal).type;
 	}
-	
+
 	// 15% hot during load!
 	public void addEdge(Direction direction, Edge<EdgeEndpointType> edge) {
 		if ((direction == Direction.OUTGOING) && (edge.getEdgeType() == EdgeType.CALL_CONTINUATION)) {
@@ -163,11 +163,6 @@ public class EdgeSet<EdgeEndpointType extends Node<EdgeEndpointType>> {
 	}
 
 	public boolean checkOutgoingEdgeCompatibility(EdgeSet<?> other) {
-		if ((callContinuation == null) != (other.callContinuation == null))
-			return false;
-		if ((callContinuation != null) && (callContinuation.getOrdinal() != other.callContinuation.getOrdinal()))
-			return false;
-
 		int max = Math.min(outgoingOrdinals.size(), other.outgoingOrdinals.size());
 		for (int i = 0; i < max; i++) {
 			OutgoingOrdinal myOrdinal = outgoingOrdinals.get(i);
@@ -177,6 +172,20 @@ public class EdgeSet<EdgeEndpointType extends Node<EdgeEndpointType>> {
 			if (myOrdinal.type != otherOrdinal.type)
 				return false;
 		}
+
+		if ((callContinuation == null) != (other.callContinuation == null)) {
+			OutgoingOrdinal lastOutgoing = outgoingOrdinals.get(outgoingOrdinals.size() - 1);
+			switch (lastOutgoing.type) {
+				case DIRECT:
+				case INDIRECT:
+					// tolerate this--maybe the CC was never reached
+					break;
+				default:
+					return false;
+			}
+		} else if ((callContinuation != null) && (callContinuation.getOrdinal() != other.callContinuation.getOrdinal()))
+			return false;
+
 		return true;
 	}
 }

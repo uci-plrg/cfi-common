@@ -20,7 +20,7 @@ public class SoftwareDistributionUnit {
 	}
 	
 	public boolean isDynamic() {
-		return (this == UNKNOWN) || filename.endsWith(".cpl");
+		return (this.equals(UNKNOWN) || filename.endsWith(".cpl"));
 	}
 
 	@Override
