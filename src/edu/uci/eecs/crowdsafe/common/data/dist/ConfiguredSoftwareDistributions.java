@@ -99,6 +99,15 @@ public class ConfiguredSoftwareDistributions {
 		}
 	}
 
+	public synchronized AutonomousSoftwareDistribution establishCluster(String name) {
+		AutonomousSoftwareDistribution cluster = distributions.get(name);
+		if (cluster == null) {
+			cluster = new AutonomousSoftwareDistribution(name, name);
+			distributions.put(name, cluster);
+		}
+		return cluster;
+	}
+
 	public synchronized SoftwareDistributionUnit establishUnit(String name) {
 		SoftwareDistributionUnit existing = unitsByName.get(name);
 		if (existing == null)
@@ -111,7 +120,7 @@ public class ConfiguredSoftwareDistributions {
 			if (name.endsWith(".exe"))
 				unitCluster = MAIN_PROGRAM;
 			else
-				unitCluster = new AutonomousSoftwareDistribution(name, name);
+				unitCluster = establishCluster(name);
 
 			SoftwareDistributionUnit unit = new SoftwareDistributionUnit(name);
 			unitsByName.put(unit.name, unit);

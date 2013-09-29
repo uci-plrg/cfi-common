@@ -45,7 +45,7 @@ public class RawGraphTransformer {
 	private static final OptionArgumentMap.StringOption inputOption = OptionArgumentMap.createStringOption('i');
 	private static final OptionArgumentMap.StringOption outputOption = OptionArgumentMap.createStringOption('o');
 	private static final OptionArgumentMap.BooleanOption unitClusterOption = OptionArgumentMap.createBooleanOption('u',
-			false, true);
+			true);
 
 	private final ArgumentStack args;
 

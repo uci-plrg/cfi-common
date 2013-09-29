@@ -52,11 +52,16 @@ public class ClusterGraphLoadSession {
 		 */
 	}
 
+	public ModuleGraphCluster<ClusterNode<?>> loadClusterGraph(AutonomousSoftwareDistribution cluster)
+			throws IOException {
+		return loadClusterGraph(cluster, null);
+	}
+
 	public ModuleGraphCluster<ClusterNode<?>> loadClusterGraph(AutonomousSoftwareDistribution cluster,
 			GraphLoadEventListener listener) throws IOException {
 		if (!dataSource.getReprsentedClusters().contains(cluster))
 			return null;
-		
+
 		GraphLoader graphLoader = new GraphLoader(cluster, listener);
 		return graphLoader.loadGraph();
 	}

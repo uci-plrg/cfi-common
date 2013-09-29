@@ -7,13 +7,18 @@ import java.util.Map;
 
 public class OptionArgumentMap {
 
+	public enum OptionMode {
+		OPTIONAL,
+		REQUIRED;
+	}
+
 	public static abstract class Option<Type> {
 		public final Character id;
-		final boolean isRequired;
+		final OptionMode mode;
 
-		Option(Character id, boolean isRequired) {
+		Option(Character id, OptionMode mode) {
 			this.id = id;
-			this.isRequired = isRequired;
+			this.mode = mode;
 		}
 
 		public abstract boolean hasValue();
@@ -21,7 +26,7 @@ public class OptionArgumentMap {
 		public abstract Type getValue();
 
 		void validate() {
-			if (isRequired && (getValue() == null))
+			if ((mode == OptionMode.REQUIRED) && (getValue() == null))
 				throw new IllegalStateException("Option '" + id + "' is required!");
 		}
 
@@ -31,15 +36,15 @@ public class OptionArgumentMap {
 		String value = null;
 
 		public StringOption(Character id) {
-			super(id, false);
+			super(id, OptionMode.OPTIONAL);
 		}
 
-		public StringOption(Character id, boolean isRequired) {
-			super(id, isRequired);
+		public StringOption(Character id, OptionMode mode) {
+			super(id, mode);
 		}
 
 		public StringOption(Character id, String defaultValue) {
-			super(id, false);
+			super(id, OptionMode.OPTIONAL);
 
 			this.value = defaultValue;
 		}
@@ -59,15 +64,15 @@ public class OptionArgumentMap {
 		Boolean value = false;
 
 		public BooleanOption(Character id) {
-			super(id, false);
+			super(id, OptionMode.OPTIONAL);
 		}
 
-		public BooleanOption(Character id, boolean isRequired) {
-			super(id, isRequired);
+		public BooleanOption(Character id, OptionMode mode) {
+			super(id, mode);
 		}
 
-		public BooleanOption(Character id, boolean isRequired, boolean defaultValue) {
-			super(id, isRequired);
+		public BooleanOption(Character id, boolean defaultValue) {
+			super(id, OptionMode.OPTIONAL);
 			value = defaultValue;
 		}
 
@@ -86,8 +91,8 @@ public class OptionArgumentMap {
 		return new StringOption(c);
 	}
 
-	public static StringOption createStringOption(char c, boolean isRequired) {
-		return new StringOption(c, isRequired);
+	public static StringOption createStringOption(char c, OptionMode mode) {
+		return new StringOption(c, mode);
 	}
 
 	public static StringOption createStringOption(char c, String defaultValue) {
@@ -98,15 +103,12 @@ public class OptionArgumentMap {
 		return new BooleanOption(c);
 	}
 
-	public static BooleanOption createBooleanOption(char c, boolean isRequired) {
-		return new BooleanOption(c, isRequired);
+	public static BooleanOption createBooleanOption(char c, OptionMode mode) {
+		return new BooleanOption(c, mode);
 	}
 
-	public static BooleanOption createBooleanOption(char c, boolean isRequired, boolean defaultValue) {
-		if (isRequired)
-			throw new IllegalArgumentException(
-					"Cannot require an option and also provide a default value. Parameter exists only for disambiguation.");
-		return new BooleanOption(c, isRequired, defaultValue);
+	public static BooleanOption createBooleanOption(char c, boolean defaultValue) {
+		return new BooleanOption(c, defaultValue);
 	}
 
 	public static void populateOptions(ArgumentStack args, Option<?>... options) {
