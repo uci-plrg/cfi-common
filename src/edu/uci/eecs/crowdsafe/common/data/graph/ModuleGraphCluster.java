@@ -2,6 +2,7 @@ package edu.uci.eecs.crowdsafe.common.data.graph;
 
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -11,12 +12,12 @@ import java.util.Set;
 
 import edu.uci.eecs.crowdsafe.common.data.dist.AutonomousSoftwareDistribution;
 import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareDistributionUnit;
-import edu.uci.eecs.crowdsafe.common.data.graph.execution.ExecutionNode;
 import edu.uci.eecs.crowdsafe.common.data.results.Graph;
 import edu.uci.eecs.crowdsafe.common.data.results.NodeResultsFactory;
 import edu.uci.eecs.crowdsafe.common.log.Log;
 import edu.uci.eecs.crowdsafe.common.util.CrowdSafeCollections;
 import edu.uci.eecs.crowdsafe.common.util.CrowdSafeDebug;
+import edu.uci.eecs.crowdsafe.common.util.MutableInteger;
 
 public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>> {
 
@@ -37,7 +38,12 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 	protected final GraphData<EdgeEndpointType> graphData;
 
 	private final Map<SoftwareDistributionUnit, ModuleGraph> graphs = new HashMap<SoftwareDistributionUnit, ModuleGraph>();
+
 	private final Set<EdgeEndpointType> unreachableNodes = new HashSet<EdgeEndpointType>();
+	private final Map<EdgeType, MutableInteger> intraModuleEdgeTypeCounts = new EnumMap<EdgeType, MutableInteger>(
+			EdgeType.class);
+	private final Map<EdgeType, MutableInteger> interModuleEdgeTypeCounts = new EnumMap<EdgeType, MutableInteger>(
+			EdgeType.class);
 
 	private int executableNodeCount = 0;
 
@@ -139,9 +145,17 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 		}
 	}
 
-	public void findUnreachableNodes() {
+	public void analyzeGraph() {
 		unreachableNodes.clear();
 		unreachableNodes.addAll(graphData.nodesByKey.values());
+
+		intraModuleEdgeTypeCounts.clear();
+		interModuleEdgeTypeCounts.clear();
+		for (EdgeType type : EdgeType.values()) {
+			intraModuleEdgeTypeCounts.put(type, new MutableInteger(0));
+			interModuleEdgeTypeCounts.put(type, new MutableInteger(0));
+		}
+
 		Set<EdgeEndpointType> visitedNodes = new HashSet<EdgeEndpointType>();
 		Queue<EdgeEndpointType> bfsQueue = new LinkedList<EdgeEndpointType>();
 		bfsQueue.addAll(entryNodes.values());
@@ -159,6 +173,10 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 						bfsQueue.add(neighbor);
 						visitedNodes.add(neighbor);
 					}
+					if (neighbor.getType() == MetaNodeType.CLUSTER_EXIT)
+						interModuleEdgeTypeCounts.get(edge.getEdgeType()).increment();
+					else
+						intraModuleEdgeTypeCounts.get(edge.getEdgeType()).increment();
 				}
 			} finally {
 				edgeList.release();
@@ -171,6 +189,7 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 					bfsQueue.add(continuation);
 					visitedNodes.add(continuation);
 				}
+				intraModuleEdgeTypeCounts.get(continuationEdge.getEdgeType()).increment();
 			}
 		}
 
@@ -216,6 +235,7 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 		Graph.UnreachableNode.Builder unreachableBuilder = Graph.UnreachableNode.newBuilder();
 		Graph.Node.Builder nodeBuilder = Graph.Node.newBuilder();
 		Graph.Edge.Builder edgeBuilder = Graph.Edge.newBuilder();
+		Graph.EdgeTypeCount.Builder edgeTypeCountBuilder = Graph.EdgeTypeCount.newBuilder();
 		NodeResultsFactory nodeFactory = new NodeResultsFactory(moduleBuilder, nodeBuilder);
 
 		int clusterNodeCount = getNodeCount();
@@ -263,6 +283,18 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 				clusterBuilder.addUnreachable(unreachableBuilder.build());
 			}
 		}
+
+		for (EdgeType type : EdgeType.values()) {
+			edgeTypeCountBuilder.clear().setType(type.mapToResultType());
+			edgeTypeCountBuilder.setCount(interModuleEdgeTypeCounts.get(type).getVal());
+			clusterBuilder.addInterModuleEdgeCount(edgeTypeCountBuilder.build());
+		}
+		for (EdgeType type : EdgeType.values()) {
+			edgeTypeCountBuilder.clear().setType(type.mapToResultType());
+			edgeTypeCountBuilder.setCount(intraModuleEdgeTypeCounts.get(type).getVal());
+			clusterBuilder.addIntraModuleEdgeCount(edgeTypeCountBuilder.build());
+		}
+
 		return clusterBuilder.build();
 	}
 

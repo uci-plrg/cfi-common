@@ -50,6 +50,10 @@ public class ClusterTraceDirectory implements ClusterTraceDataSource, ClusterTra
 	public ClusterTraceDirectory loadExistingFiles() {
 		File[] ls = directory.listFiles();
 
+		if ((ls == null) || (ls.length == 0)) {
+			throw new IllegalStateException(String.format("No files in run directory %s", directory.getAbsolutePath()));
+		}
+
 		String processName = ls[0].getName().substring(0, ls[0].getName().indexOf('.'));
 		for (ClusterTraceStreamType streamType : streamTypes) {
 			filePatterns.put(streamType, Pattern.compile(String.format("%s\\.(.*)\\.%s\\.%s", processName,

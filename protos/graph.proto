@@ -16,6 +16,8 @@ message Cluster {
   optional int32 entry_point_count = 4;
   repeated ModuleInstance module = 5;
   repeated UnreachableNode unreachable = 6;
+  repeated EdgeTypeCount intra_module_edge_count = 7;
+  repeated EdgeTypeCount inter_module_edge_count = 8;
 }
 
 message Module {
@@ -55,3 +57,8 @@ message UnreachableNode {
   optional bool is_entry_point = 3;
 }
 
+message EdgeTypeCount {
+  optional EdgeType type = 1;
+  optional int32 count = 2;
+}
+  

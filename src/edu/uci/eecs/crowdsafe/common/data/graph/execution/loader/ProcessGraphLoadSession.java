@@ -79,7 +79,7 @@ public class ProcessGraphLoadSession {
 			for (AutonomousSoftwareDistribution cluster : graph.getRepresentedClusters()) {
 				ModuleGraphCluster<ExecutionNode> clusterGraph = graph.getModuleGraphCluster(cluster);
 				clusterGraph.getGraphData().validate();
-				clusterGraph.findUnreachableNodes();
+				clusterGraph.analyzeGraph();
 			}
 
 			return graph;

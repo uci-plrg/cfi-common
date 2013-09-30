@@ -32,7 +32,7 @@ public final class Graph {
     /**
      * <code>MODULE_ENTRY = 4;</code>
      */
-    CLUSTER_ENTRY(4, 4),
+    MODULE_ENTRY(4, 4),
     ;
 
     /**
@@ -65,7 +65,7 @@ public final class Graph {
         case 1: return DIRECT;
         case 2: return CALL_CONTINUATION;
         case 3: return UNEXPECTED_RETURN;
-        case 4: return CLUSTER_ENTRY;
+        case 4: return MODULE_ENTRY;
         default: return null;
       }
     }
@@ -1128,6 +1128,56 @@ public final class Graph {
      */
     edu.uci.eecs.crowdsafe.common.data.results.Graph.UnreachableNodeOrBuilder getUnreachableOrBuilder(
         int index);
+
+    // repeated .crowd_safe_data_analysis.EdgeTypeCount intra_module_edge_count = 7;
+    /**
+     * <code>repeated .crowd_safe_data_analysis.EdgeTypeCount intra_module_edge_count = 7;</code>
+     */
+    java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount> 
+        getIntraModuleEdgeCountList();
+    /**
+     * <code>repeated .crowd_safe_data_analysis.EdgeTypeCount intra_module_edge_count = 7;</code>
+     */
+    edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount getIntraModuleEdgeCount(int index);
+    /**
+     * <code>repeated .crowd_safe_data_analysis.EdgeTypeCount intra_module_edge_count = 7;</code>
+     */
+    int getIntraModuleEdgeCountCount();
+    /**
+     * <code>repeated .crowd_safe_data_analysis.EdgeTypeCount intra_module_edge_count = 7;</code>
+     */
+    java.util.List<? extends edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCountOrBuilder> 
+        getIntraModuleEdgeCountOrBuilderList();
+    /**
+     * <code>repeated .crowd_safe_data_analysis.EdgeTypeCount intra_module_edge_count = 7;</code>
+     */
+    edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCountOrBuilder getIntraModuleEdgeCountOrBuilder(
+        int index);
+
+    // repeated .crowd_safe_data_analysis.EdgeTypeCount inter_module_edge_count = 8;
+    /**
+     * <code>repeated .crowd_safe_data_analysis.EdgeTypeCount inter_module_edge_count = 8;</code>
+     */
+    java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount> 
+        getInterModuleEdgeCountList();
+    /**
+     * <code>repeated .crowd_safe_data_analysis.EdgeTypeCount inter_module_edge_count = 8;</code>
+     */
+    edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount getInterModuleEdgeCount(int index);
+    /**
+     * <code>repeated .crowd_safe_data_analysis.EdgeTypeCount inter_module_edge_count = 8;</code>
+     */
+    int getInterModuleEdgeCountCount();
+    /**
+     * <code>repeated .crowd_safe_data_analysis.EdgeTypeCount inter_module_edge_count = 8;</code>
+     */
+    java.util.List<? extends edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCountOrBuilder> 
+        getInterModuleEdgeCountOrBuilderList();
+    /**
+     * <code>repeated .crowd_safe_data_analysis.EdgeTypeCount inter_module_edge_count = 8;</code>
+     */
+    edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCountOrBuilder getInterModuleEdgeCountOrBuilder(
+        int index);
   }
   /**
    * Protobuf type {@code crowd_safe_data_analysis.Cluster}
@@ -1216,6 +1266,22 @@ public final class Graph {
               unreachable_.add(input.readMessage(edu.uci.eecs.crowdsafe.common.data.results.Graph.UnreachableNode.PARSER, extensionRegistry));
               break;
             }
+            case 58: {
+              if (!((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
+                intraModuleEdgeCount_ = new java.util.ArrayList<edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount>();
+                mutable_bitField0_ |= 0x00000040;
+              }
+              intraModuleEdgeCount_.add(input.readMessage(edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount.PARSER, extensionRegistry));
+              break;
+            }
+            case 66: {
+              if (!((mutable_bitField0_ & 0x00000080) == 0x00000080)) {
+                interModuleEdgeCount_ = new java.util.ArrayList<edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount>();
+                mutable_bitField0_ |= 0x00000080;
+              }
+              interModuleEdgeCount_.add(input.readMessage(edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount.PARSER, extensionRegistry));
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -1229,6 +1295,12 @@ public final class Graph {
         }
         if (((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
           unreachable_ = java.util.Collections.unmodifiableList(unreachable_);
+        }
+        if (((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
+          intraModuleEdgeCount_ = java.util.Collections.unmodifiableList(intraModuleEdgeCount_);
+        }
+        if (((mutable_bitField0_ & 0x00000080) == 0x00000080)) {
+          interModuleEdgeCount_ = java.util.Collections.unmodifiableList(interModuleEdgeCount_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -1425,6 +1497,78 @@ public final class Graph {
       return unreachable_.get(index);
     }
 
+    // repeated .crowd_safe_data_analysis.EdgeTypeCount intra_module_edge_count = 7;
+    public static final int INTRA_MODULE_EDGE_COUNT_FIELD_NUMBER = 7;
+    private java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount> intraModuleEdgeCount_;
+    /**
+     * <code>repeated .crowd_safe_data_analysis.EdgeTypeCount intra_module_edge_count = 7;</code>
+     */
+    public java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount> getIntraModuleEdgeCountList() {
+      return intraModuleEdgeCount_;
+    }
+    /**
+     * <code>repeated .crowd_safe_data_analysis.EdgeTypeCount intra_module_edge_count = 7;</code>
+     */
+    public java.util.List<? extends edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCountOrBuilder> 
+        getIntraModuleEdgeCountOrBuilderList() {
+      return intraModuleEdgeCount_;
+    }
+    /**
+     * <code>repeated .crowd_safe_data_analysis.EdgeTypeCount intra_module_edge_count = 7;</code>
+     */
+    public int getIntraModuleEdgeCountCount() {
+      return intraModuleEdgeCount_.size();
+    }
+    /**
+     * <code>repeated .crowd_safe_data_analysis.EdgeTypeCount intra_module_edge_count = 7;</code>
+     */
+    public edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount getIntraModuleEdgeCount(int index) {
+      return intraModuleEdgeCount_.get(index);
+    }
+    /**
+     * <code>repeated .crowd_safe_data_analysis.EdgeTypeCount intra_module_edge_count = 7;</code>
+     */
+    public edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCountOrBuilder getIntraModuleEdgeCountOrBuilder(
+        int index) {
+      return intraModuleEdgeCount_.get(index);
+    }
+
+    // repeated .crowd_safe_data_analysis.EdgeTypeCount inter_module_edge_count = 8;
+    public static final int INTER_MODULE_EDGE_COUNT_FIELD_NUMBER = 8;
+    private java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount> interModuleEdgeCount_;
+    /**
+     * <code>repeated .crowd_safe_data_analysis.EdgeTypeCount inter_module_edge_count = 8;</code>
+     */
+    public java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount> getInterModuleEdgeCountList() {
+      return interModuleEdgeCount_;
+    }
+    /**
+     * <code>repeated .crowd_safe_data_analysis.EdgeTypeCount inter_module_edge_count = 8;</code>
+     */
+    public java.util.List<? extends edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCountOrBuilder> 
+        getInterModuleEdgeCountOrBuilderList() {
+      return interModuleEdgeCount_;
+    }
+    /**
+     * <code>repeated .crowd_safe_data_analysis.EdgeTypeCount inter_module_edge_count = 8;</code>
+     */
+    public int getInterModuleEdgeCountCount() {
+      return interModuleEdgeCount_.size();
+    }
+    /**
+     * <code>repeated .crowd_safe_data_analysis.EdgeTypeCount inter_module_edge_count = 8;</code>
+     */
+    public edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount getInterModuleEdgeCount(int index) {
+      return interModuleEdgeCount_.get(index);
+    }
+    /**
+     * <code>repeated .crowd_safe_data_analysis.EdgeTypeCount inter_module_edge_count = 8;</code>
+     */
+    public edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCountOrBuilder getInterModuleEdgeCountOrBuilder(
+        int index) {
+      return interModuleEdgeCount_.get(index);
+    }
+
     private void initFields() {
       distributionName_ = "";
       nodeCount_ = 0;
@@ -1432,6 +1576,8 @@ public final class Graph {
       entryPointCount_ = 0;
       module_ = java.util.Collections.emptyList();
       unreachable_ = java.util.Collections.emptyList();
+      intraModuleEdgeCount_ = java.util.Collections.emptyList();
+      interModuleEdgeCount_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1462,6 +1608,12 @@ public final class Graph {
       }
       for (int i = 0; i < unreachable_.size(); i++) {
         output.writeMessage(6, unreachable_.get(i));
+      }
+      for (int i = 0; i < intraModuleEdgeCount_.size(); i++) {
+        output.writeMessage(7, intraModuleEdgeCount_.get(i));
+      }
+      for (int i = 0; i < interModuleEdgeCount_.size(); i++) {
+        output.writeMessage(8, interModuleEdgeCount_.get(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -1495,6 +1647,14 @@ public final class Graph {
       for (int i = 0; i < unreachable_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(6, unreachable_.get(i));
+      }
+      for (int i = 0; i < intraModuleEdgeCount_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(7, intraModuleEdgeCount_.get(i));
+      }
+      for (int i = 0; i < interModuleEdgeCount_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(8, interModuleEdgeCount_.get(i));
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1606,6 +1766,8 @@ public final class Graph {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
           getModuleFieldBuilder();
           getUnreachableFieldBuilder();
+          getIntraModuleEdgeCountFieldBuilder();
+          getInterModuleEdgeCountFieldBuilder();
         }
       }
       private static Builder create() {
@@ -1633,6 +1795,18 @@ public final class Graph {
           bitField0_ = (bitField0_ & ~0x00000020);
         } else {
           unreachableBuilder_.clear();
+        }
+        if (intraModuleEdgeCountBuilder_ == null) {
+          intraModuleEdgeCount_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000040);
+        } else {
+          intraModuleEdgeCountBuilder_.clear();
+        }
+        if (interModuleEdgeCountBuilder_ == null) {
+          interModuleEdgeCount_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000080);
+        } else {
+          interModuleEdgeCountBuilder_.clear();
         }
         return this;
       }
@@ -1695,6 +1869,24 @@ public final class Graph {
           result.unreachable_ = unreachable_;
         } else {
           result.unreachable_ = unreachableBuilder_.build();
+        }
+        if (intraModuleEdgeCountBuilder_ == null) {
+          if (((bitField0_ & 0x00000040) == 0x00000040)) {
+            intraModuleEdgeCount_ = java.util.Collections.unmodifiableList(intraModuleEdgeCount_);
+            bitField0_ = (bitField0_ & ~0x00000040);
+          }
+          result.intraModuleEdgeCount_ = intraModuleEdgeCount_;
+        } else {
+          result.intraModuleEdgeCount_ = intraModuleEdgeCountBuilder_.build();
+        }
+        if (interModuleEdgeCountBuilder_ == null) {
+          if (((bitField0_ & 0x00000080) == 0x00000080)) {
+            interModuleEdgeCount_ = java.util.Collections.unmodifiableList(interModuleEdgeCount_);
+            bitField0_ = (bitField0_ & ~0x00000080);
+          }
+          result.interModuleEdgeCount_ = interModuleEdgeCount_;
+        } else {
+          result.interModuleEdgeCount_ = interModuleEdgeCountBuilder_.build();
         }
         result.bitField0_ = to_bitField0_;
         onBuilt();
@@ -1775,6 +1967,58 @@ public final class Graph {
                    getUnreachableFieldBuilder() : null;
             } else {
               unreachableBuilder_.addAllMessages(other.unreachable_);
+            }
+          }
+        }
+        if (intraModuleEdgeCountBuilder_ == null) {
+          if (!other.intraModuleEdgeCount_.isEmpty()) {
+            if (intraModuleEdgeCount_.isEmpty()) {
+              intraModuleEdgeCount_ = other.intraModuleEdgeCount_;
+              bitField0_ = (bitField0_ & ~0x00000040);
+            } else {
+              ensureIntraModuleEdgeCountIsMutable();
+              intraModuleEdgeCount_.addAll(other.intraModuleEdgeCount_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.intraModuleEdgeCount_.isEmpty()) {
+            if (intraModuleEdgeCountBuilder_.isEmpty()) {
+              intraModuleEdgeCountBuilder_.dispose();
+              intraModuleEdgeCountBuilder_ = null;
+              intraModuleEdgeCount_ = other.intraModuleEdgeCount_;
+              bitField0_ = (bitField0_ & ~0x00000040);
+              intraModuleEdgeCountBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getIntraModuleEdgeCountFieldBuilder() : null;
+            } else {
+              intraModuleEdgeCountBuilder_.addAllMessages(other.intraModuleEdgeCount_);
+            }
+          }
+        }
+        if (interModuleEdgeCountBuilder_ == null) {
+          if (!other.interModuleEdgeCount_.isEmpty()) {
+            if (interModuleEdgeCount_.isEmpty()) {
+              interModuleEdgeCount_ = other.interModuleEdgeCount_;
+              bitField0_ = (bitField0_ & ~0x00000080);
+            } else {
+              ensureInterModuleEdgeCountIsMutable();
+              interModuleEdgeCount_.addAll(other.interModuleEdgeCount_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.interModuleEdgeCount_.isEmpty()) {
+            if (interModuleEdgeCountBuilder_.isEmpty()) {
+              interModuleEdgeCountBuilder_.dispose();
+              interModuleEdgeCountBuilder_ = null;
+              interModuleEdgeCount_ = other.interModuleEdgeCount_;
+              bitField0_ = (bitField0_ & ~0x00000080);
+              interModuleEdgeCountBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getInterModuleEdgeCountFieldBuilder() : null;
+            } else {
+              interModuleEdgeCountBuilder_.addAllMessages(other.interModuleEdgeCount_);
             }
           }
         }
@@ -2456,6 +2700,486 @@ public final class Graph {
           unreachable_ = null;
         }
         return unreachableBuilder_;
+      }
+
+      // repeated .crowd_safe_data_analysis.EdgeTypeCount intra_module_edge_count = 7;
+      private java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount> intraModuleEdgeCount_ =
+        java.util.Collections.emptyList();
+      private void ensureIntraModuleEdgeCountIsMutable() {
+        if (!((bitField0_ & 0x00000040) == 0x00000040)) {
+          intraModuleEdgeCount_ = new java.util.ArrayList<edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount>(intraModuleEdgeCount_);
+          bitField0_ |= 0x00000040;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount, edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount.Builder, edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCountOrBuilder> intraModuleEdgeCountBuilder_;
+
+      /**
+       * <code>repeated .crowd_safe_data_analysis.EdgeTypeCount intra_module_edge_count = 7;</code>
+       */
+      public java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount> getIntraModuleEdgeCountList() {
+        if (intraModuleEdgeCountBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(intraModuleEdgeCount_);
+        } else {
+          return intraModuleEdgeCountBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.EdgeTypeCount intra_module_edge_count = 7;</code>
+       */
+      public int getIntraModuleEdgeCountCount() {
+        if (intraModuleEdgeCountBuilder_ == null) {
+          return intraModuleEdgeCount_.size();
+        } else {
+          return intraModuleEdgeCountBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.EdgeTypeCount intra_module_edge_count = 7;</code>
+       */
+      public edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount getIntraModuleEdgeCount(int index) {
+        if (intraModuleEdgeCountBuilder_ == null) {
+          return intraModuleEdgeCount_.get(index);
+        } else {
+          return intraModuleEdgeCountBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.EdgeTypeCount intra_module_edge_count = 7;</code>
+       */
+      public Builder setIntraModuleEdgeCount(
+          int index, edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount value) {
+        if (intraModuleEdgeCountBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureIntraModuleEdgeCountIsMutable();
+          intraModuleEdgeCount_.set(index, value);
+          onChanged();
+        } else {
+          intraModuleEdgeCountBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.EdgeTypeCount intra_module_edge_count = 7;</code>
+       */
+      public Builder setIntraModuleEdgeCount(
+          int index, edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount.Builder builderForValue) {
+        if (intraModuleEdgeCountBuilder_ == null) {
+          ensureIntraModuleEdgeCountIsMutable();
+          intraModuleEdgeCount_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          intraModuleEdgeCountBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.EdgeTypeCount intra_module_edge_count = 7;</code>
+       */
+      public Builder addIntraModuleEdgeCount(edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount value) {
+        if (intraModuleEdgeCountBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureIntraModuleEdgeCountIsMutable();
+          intraModuleEdgeCount_.add(value);
+          onChanged();
+        } else {
+          intraModuleEdgeCountBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.EdgeTypeCount intra_module_edge_count = 7;</code>
+       */
+      public Builder addIntraModuleEdgeCount(
+          int index, edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount value) {
+        if (intraModuleEdgeCountBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureIntraModuleEdgeCountIsMutable();
+          intraModuleEdgeCount_.add(index, value);
+          onChanged();
+        } else {
+          intraModuleEdgeCountBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.EdgeTypeCount intra_module_edge_count = 7;</code>
+       */
+      public Builder addIntraModuleEdgeCount(
+          edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount.Builder builderForValue) {
+        if (intraModuleEdgeCountBuilder_ == null) {
+          ensureIntraModuleEdgeCountIsMutable();
+          intraModuleEdgeCount_.add(builderForValue.build());
+          onChanged();
+        } else {
+          intraModuleEdgeCountBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.EdgeTypeCount intra_module_edge_count = 7;</code>
+       */
+      public Builder addIntraModuleEdgeCount(
+          int index, edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount.Builder builderForValue) {
+        if (intraModuleEdgeCountBuilder_ == null) {
+          ensureIntraModuleEdgeCountIsMutable();
+          intraModuleEdgeCount_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          intraModuleEdgeCountBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.EdgeTypeCount intra_module_edge_count = 7;</code>
+       */
+      public Builder addAllIntraModuleEdgeCount(
+          java.lang.Iterable<? extends edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount> values) {
+        if (intraModuleEdgeCountBuilder_ == null) {
+          ensureIntraModuleEdgeCountIsMutable();
+          super.addAll(values, intraModuleEdgeCount_);
+          onChanged();
+        } else {
+          intraModuleEdgeCountBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.EdgeTypeCount intra_module_edge_count = 7;</code>
+       */
+      public Builder clearIntraModuleEdgeCount() {
+        if (intraModuleEdgeCountBuilder_ == null) {
+          intraModuleEdgeCount_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000040);
+          onChanged();
+        } else {
+          intraModuleEdgeCountBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.EdgeTypeCount intra_module_edge_count = 7;</code>
+       */
+      public Builder removeIntraModuleEdgeCount(int index) {
+        if (intraModuleEdgeCountBuilder_ == null) {
+          ensureIntraModuleEdgeCountIsMutable();
+          intraModuleEdgeCount_.remove(index);
+          onChanged();
+        } else {
+          intraModuleEdgeCountBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.EdgeTypeCount intra_module_edge_count = 7;</code>
+       */
+      public edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount.Builder getIntraModuleEdgeCountBuilder(
+          int index) {
+        return getIntraModuleEdgeCountFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.EdgeTypeCount intra_module_edge_count = 7;</code>
+       */
+      public edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCountOrBuilder getIntraModuleEdgeCountOrBuilder(
+          int index) {
+        if (intraModuleEdgeCountBuilder_ == null) {
+          return intraModuleEdgeCount_.get(index);  } else {
+          return intraModuleEdgeCountBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.EdgeTypeCount intra_module_edge_count = 7;</code>
+       */
+      public java.util.List<? extends edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCountOrBuilder> 
+           getIntraModuleEdgeCountOrBuilderList() {
+        if (intraModuleEdgeCountBuilder_ != null) {
+          return intraModuleEdgeCountBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(intraModuleEdgeCount_);
+        }
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.EdgeTypeCount intra_module_edge_count = 7;</code>
+       */
+      public edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount.Builder addIntraModuleEdgeCountBuilder() {
+        return getIntraModuleEdgeCountFieldBuilder().addBuilder(
+            edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.EdgeTypeCount intra_module_edge_count = 7;</code>
+       */
+      public edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount.Builder addIntraModuleEdgeCountBuilder(
+          int index) {
+        return getIntraModuleEdgeCountFieldBuilder().addBuilder(
+            index, edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.EdgeTypeCount intra_module_edge_count = 7;</code>
+       */
+      public java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount.Builder> 
+           getIntraModuleEdgeCountBuilderList() {
+        return getIntraModuleEdgeCountFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount, edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount.Builder, edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCountOrBuilder> 
+          getIntraModuleEdgeCountFieldBuilder() {
+        if (intraModuleEdgeCountBuilder_ == null) {
+          intraModuleEdgeCountBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount, edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount.Builder, edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCountOrBuilder>(
+                  intraModuleEdgeCount_,
+                  ((bitField0_ & 0x00000040) == 0x00000040),
+                  getParentForChildren(),
+                  isClean());
+          intraModuleEdgeCount_ = null;
+        }
+        return intraModuleEdgeCountBuilder_;
+      }
+
+      // repeated .crowd_safe_data_analysis.EdgeTypeCount inter_module_edge_count = 8;
+      private java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount> interModuleEdgeCount_ =
+        java.util.Collections.emptyList();
+      private void ensureInterModuleEdgeCountIsMutable() {
+        if (!((bitField0_ & 0x00000080) == 0x00000080)) {
+          interModuleEdgeCount_ = new java.util.ArrayList<edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount>(interModuleEdgeCount_);
+          bitField0_ |= 0x00000080;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount, edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount.Builder, edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCountOrBuilder> interModuleEdgeCountBuilder_;
+
+      /**
+       * <code>repeated .crowd_safe_data_analysis.EdgeTypeCount inter_module_edge_count = 8;</code>
+       */
+      public java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount> getInterModuleEdgeCountList() {
+        if (interModuleEdgeCountBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(interModuleEdgeCount_);
+        } else {
+          return interModuleEdgeCountBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.EdgeTypeCount inter_module_edge_count = 8;</code>
+       */
+      public int getInterModuleEdgeCountCount() {
+        if (interModuleEdgeCountBuilder_ == null) {
+          return interModuleEdgeCount_.size();
+        } else {
+          return interModuleEdgeCountBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.EdgeTypeCount inter_module_edge_count = 8;</code>
+       */
+      public edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount getInterModuleEdgeCount(int index) {
+        if (interModuleEdgeCountBuilder_ == null) {
+          return interModuleEdgeCount_.get(index);
+        } else {
+          return interModuleEdgeCountBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.EdgeTypeCount inter_module_edge_count = 8;</code>
+       */
+      public Builder setInterModuleEdgeCount(
+          int index, edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount value) {
+        if (interModuleEdgeCountBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureInterModuleEdgeCountIsMutable();
+          interModuleEdgeCount_.set(index, value);
+          onChanged();
+        } else {
+          interModuleEdgeCountBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.EdgeTypeCount inter_module_edge_count = 8;</code>
+       */
+      public Builder setInterModuleEdgeCount(
+          int index, edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount.Builder builderForValue) {
+        if (interModuleEdgeCountBuilder_ == null) {
+          ensureInterModuleEdgeCountIsMutable();
+          interModuleEdgeCount_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          interModuleEdgeCountBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.EdgeTypeCount inter_module_edge_count = 8;</code>
+       */
+      public Builder addInterModuleEdgeCount(edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount value) {
+        if (interModuleEdgeCountBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureInterModuleEdgeCountIsMutable();
+          interModuleEdgeCount_.add(value);
+          onChanged();
+        } else {
+          interModuleEdgeCountBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.EdgeTypeCount inter_module_edge_count = 8;</code>
+       */
+      public Builder addInterModuleEdgeCount(
+          int index, edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount value) {
+        if (interModuleEdgeCountBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureInterModuleEdgeCountIsMutable();
+          interModuleEdgeCount_.add(index, value);
+          onChanged();
+        } else {
+          interModuleEdgeCountBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.EdgeTypeCount inter_module_edge_count = 8;</code>
+       */
+      public Builder addInterModuleEdgeCount(
+          edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount.Builder builderForValue) {
+        if (interModuleEdgeCountBuilder_ == null) {
+          ensureInterModuleEdgeCountIsMutable();
+          interModuleEdgeCount_.add(builderForValue.build());
+          onChanged();
+        } else {
+          interModuleEdgeCountBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.EdgeTypeCount inter_module_edge_count = 8;</code>
+       */
+      public Builder addInterModuleEdgeCount(
+          int index, edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount.Builder builderForValue) {
+        if (interModuleEdgeCountBuilder_ == null) {
+          ensureInterModuleEdgeCountIsMutable();
+          interModuleEdgeCount_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          interModuleEdgeCountBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.EdgeTypeCount inter_module_edge_count = 8;</code>
+       */
+      public Builder addAllInterModuleEdgeCount(
+          java.lang.Iterable<? extends edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount> values) {
+        if (interModuleEdgeCountBuilder_ == null) {
+          ensureInterModuleEdgeCountIsMutable();
+          super.addAll(values, interModuleEdgeCount_);
+          onChanged();
+        } else {
+          interModuleEdgeCountBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.EdgeTypeCount inter_module_edge_count = 8;</code>
+       */
+      public Builder clearInterModuleEdgeCount() {
+        if (interModuleEdgeCountBuilder_ == null) {
+          interModuleEdgeCount_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000080);
+          onChanged();
+        } else {
+          interModuleEdgeCountBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.EdgeTypeCount inter_module_edge_count = 8;</code>
+       */
+      public Builder removeInterModuleEdgeCount(int index) {
+        if (interModuleEdgeCountBuilder_ == null) {
+          ensureInterModuleEdgeCountIsMutable();
+          interModuleEdgeCount_.remove(index);
+          onChanged();
+        } else {
+          interModuleEdgeCountBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.EdgeTypeCount inter_module_edge_count = 8;</code>
+       */
+      public edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount.Builder getInterModuleEdgeCountBuilder(
+          int index) {
+        return getInterModuleEdgeCountFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.EdgeTypeCount inter_module_edge_count = 8;</code>
+       */
+      public edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCountOrBuilder getInterModuleEdgeCountOrBuilder(
+          int index) {
+        if (interModuleEdgeCountBuilder_ == null) {
+          return interModuleEdgeCount_.get(index);  } else {
+          return interModuleEdgeCountBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.EdgeTypeCount inter_module_edge_count = 8;</code>
+       */
+      public java.util.List<? extends edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCountOrBuilder> 
+           getInterModuleEdgeCountOrBuilderList() {
+        if (interModuleEdgeCountBuilder_ != null) {
+          return interModuleEdgeCountBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(interModuleEdgeCount_);
+        }
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.EdgeTypeCount inter_module_edge_count = 8;</code>
+       */
+      public edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount.Builder addInterModuleEdgeCountBuilder() {
+        return getInterModuleEdgeCountFieldBuilder().addBuilder(
+            edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.EdgeTypeCount inter_module_edge_count = 8;</code>
+       */
+      public edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount.Builder addInterModuleEdgeCountBuilder(
+          int index) {
+        return getInterModuleEdgeCountFieldBuilder().addBuilder(
+            index, edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.EdgeTypeCount inter_module_edge_count = 8;</code>
+       */
+      public java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount.Builder> 
+           getInterModuleEdgeCountBuilderList() {
+        return getInterModuleEdgeCountFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount, edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount.Builder, edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCountOrBuilder> 
+          getInterModuleEdgeCountFieldBuilder() {
+        if (interModuleEdgeCountBuilder_ == null) {
+          interModuleEdgeCountBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount, edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount.Builder, edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCountOrBuilder>(
+                  interModuleEdgeCount_,
+                  ((bitField0_ & 0x00000080) == 0x00000080),
+                  getParentForChildren(),
+                  isClean());
+          interModuleEdgeCount_ = null;
+        }
+        return interModuleEdgeCountBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:crowd_safe_data_analysis.Cluster)
@@ -6173,6 +6897,492 @@ public final class Graph {
     // @@protoc_insertion_point(class_scope:crowd_safe_data_analysis.UnreachableNode)
   }
 
+  public interface EdgeTypeCountOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // optional .crowd_safe_data_analysis.EdgeType type = 1;
+    /**
+     * <code>optional .crowd_safe_data_analysis.EdgeType type = 1;</code>
+     */
+    boolean hasType();
+    /**
+     * <code>optional .crowd_safe_data_analysis.EdgeType type = 1;</code>
+     */
+    edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeType getType();
+
+    // optional int32 count = 2;
+    /**
+     * <code>optional int32 count = 2;</code>
+     */
+    boolean hasCount();
+    /**
+     * <code>optional int32 count = 2;</code>
+     */
+    int getCount();
+  }
+  /**
+   * Protobuf type {@code crowd_safe_data_analysis.EdgeTypeCount}
+   */
+  public static final class EdgeTypeCount extends
+      com.google.protobuf.GeneratedMessage
+      implements EdgeTypeCountOrBuilder {
+    // Use EdgeTypeCount.newBuilder() to construct.
+    private EdgeTypeCount(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private EdgeTypeCount(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final EdgeTypeCount defaultInstance;
+    public static EdgeTypeCount getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public EdgeTypeCount getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private EdgeTypeCount(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              int rawValue = input.readEnum();
+              edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeType value = edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeType.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(1, rawValue);
+              } else {
+                bitField0_ |= 0x00000001;
+                type_ = value;
+              }
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              count_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return edu.uci.eecs.crowdsafe.common.data.results.Graph.internal_static_crowd_safe_data_analysis_EdgeTypeCount_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return edu.uci.eecs.crowdsafe.common.data.results.Graph.internal_static_crowd_safe_data_analysis_EdgeTypeCount_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount.class, edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<EdgeTypeCount> PARSER =
+        new com.google.protobuf.AbstractParser<EdgeTypeCount>() {
+      public EdgeTypeCount parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new EdgeTypeCount(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<EdgeTypeCount> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // optional .crowd_safe_data_analysis.EdgeType type = 1;
+    public static final int TYPE_FIELD_NUMBER = 1;
+    private edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeType type_;
+    /**
+     * <code>optional .crowd_safe_data_analysis.EdgeType type = 1;</code>
+     */
+    public boolean hasType() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>optional .crowd_safe_data_analysis.EdgeType type = 1;</code>
+     */
+    public edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeType getType() {
+      return type_;
+    }
+
+    // optional int32 count = 2;
+    public static final int COUNT_FIELD_NUMBER = 2;
+    private int count_;
+    /**
+     * <code>optional int32 count = 2;</code>
+     */
+    public boolean hasCount() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional int32 count = 2;</code>
+     */
+    public int getCount() {
+      return count_;
+    }
+
+    private void initFields() {
+      type_ = edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeType.INDIRECT;
+      count_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeEnum(1, type_.getNumber());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, count_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(1, type_.getNumber());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, count_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code crowd_safe_data_analysis.EdgeTypeCount}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCountOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return edu.uci.eecs.crowdsafe.common.data.results.Graph.internal_static_crowd_safe_data_analysis_EdgeTypeCount_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return edu.uci.eecs.crowdsafe.common.data.results.Graph.internal_static_crowd_safe_data_analysis_EdgeTypeCount_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount.class, edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount.Builder.class);
+      }
+
+      // Construct using edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        type_ = edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeType.INDIRECT;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        count_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return edu.uci.eecs.crowdsafe.common.data.results.Graph.internal_static_crowd_safe_data_analysis_EdgeTypeCount_descriptor;
+      }
+
+      public edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount getDefaultInstanceForType() {
+        return edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount.getDefaultInstance();
+      }
+
+      public edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount build() {
+        edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount buildPartial() {
+        edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount result = new edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.type_ = type_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.count_ = count_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount) {
+          return mergeFrom((edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount other) {
+        if (other == edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount.getDefaultInstance()) return this;
+        if (other.hasType()) {
+          setType(other.getType());
+        }
+        if (other.hasCount()) {
+          setCount(other.getCount());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // optional .crowd_safe_data_analysis.EdgeType type = 1;
+      private edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeType type_ = edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeType.INDIRECT;
+      /**
+       * <code>optional .crowd_safe_data_analysis.EdgeType type = 1;</code>
+       */
+      public boolean hasType() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>optional .crowd_safe_data_analysis.EdgeType type = 1;</code>
+       */
+      public edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeType getType() {
+        return type_;
+      }
+      /**
+       * <code>optional .crowd_safe_data_analysis.EdgeType type = 1;</code>
+       */
+      public Builder setType(edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeType value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000001;
+        type_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional .crowd_safe_data_analysis.EdgeType type = 1;</code>
+       */
+      public Builder clearType() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        type_ = edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeType.INDIRECT;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 count = 2;
+      private int count_ ;
+      /**
+       * <code>optional int32 count = 2;</code>
+       */
+      public boolean hasCount() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional int32 count = 2;</code>
+       */
+      public int getCount() {
+        return count_;
+      }
+      /**
+       * <code>optional int32 count = 2;</code>
+       */
+      public Builder setCount(int value) {
+        bitField0_ |= 0x00000002;
+        count_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 count = 2;</code>
+       */
+      public Builder clearCount() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        count_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:crowd_safe_data_analysis.EdgeTypeCount)
+    }
+
+    static {
+      defaultInstance = new EdgeTypeCount(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:crowd_safe_data_analysis.EdgeTypeCount)
+  }
+
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_crowd_safe_data_analysis_Process_descriptor;
   private static
@@ -6208,6 +7418,11 @@ public final class Graph {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_crowd_safe_data_analysis_UnreachableNode_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_crowd_safe_data_analysis_EdgeTypeCount_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_crowd_safe_data_analysis_EdgeTypeCount_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -6220,31 +7435,36 @@ public final class Graph {
       "\n\013graph.proto\022\030crowd_safe_data_analysis\"" +
       "W\n\007Process\022\n\n\002id\030\001 \001(\005\022\014\n\004name\030\002 \001(\t\0222\n\007" +
       "cluster\030\003 \003(\0132!.crowd_safe_data_analysis" +
-      ".Cluster\"\354\001\n\007Cluster\022\031\n\021distribution_nam" +
+      ".Cluster\"\200\003\n\007Cluster\022\031\n\021distribution_nam" +
       "e\030\001 \001(\t\022\022\n\nnode_count\030\002 \001(\005\022\035\n\025executabl" +
       "e_node_count\030\003 \001(\005\022\031\n\021entry_point_count\030" +
       "\004 \001(\005\0228\n\006module\030\005 \003(\0132(.crowd_safe_data_" +
       "analysis.ModuleInstance\022>\n\013unreachable\030\006" +
       " \003(\0132).crowd_safe_data_analysis.Unreacha" +
-      "bleNode\"\'\n\006Module\022\014\n\004name\030\001 \001(\t\022\017\n\007versi",
-      "on\030\002 \001(\t\"V\n\016ModuleInstance\0220\n\006module\030\001 \001" +
-      "(\0132 .crowd_safe_data_analysis.Module\022\022\n\n" +
-      "node_count\030\002 \001(\005\"u\n\004Node\0220\n\006module\030\001 \001(\013" +
-      "2 .crowd_safe_data_analysis.Module\022\024\n\014re" +
-      "lative_tag\030\002 \001(\005\022\023\n\013tag_version\030\003 \001(\005\022\020\n" +
-      "\010hashcode\030\004 \001(\003\"\234\001\n\004Edge\0221\n\tfrom_node\030\001 " +
-      "\001(\0132\036.crowd_safe_data_analysis.Node\022/\n\007t" +
-      "o_node\030\002 \001(\0132\036.crowd_safe_data_analysis." +
-      "Node\0220\n\004type\030\003 \001(\0162\".crowd_safe_data_ana" +
-      "lysis.EdgeType\"\225\001\n\017UnreachableNode\022,\n\004no",
-      "de\030\001 \001(\0132\036.crowd_safe_data_analysis.Node" +
-      "\022<\n\024missed_incoming_edge\030\002 \003(\0132\036.crowd_s" +
-      "afe_data_analysis.Edge\022\026\n\016is_entry_point" +
-      "\030\003 \001(\010*d\n\010EdgeType\022\014\n\010INDIRECT\020\000\022\n\n\006DIRE" +
-      "CT\020\001\022\025\n\021CALL_CONTINUATION\020\002\022\025\n\021UNEXPECTE" +
-      "D_RETURN\020\003\022\020\n\014MODULE_ENTRY\020\004B3\n*edu.uci." +
-      "eecs.crowdsafe.common.data.resultsB\005Grap" +
-      "h"
+      "bleNode\022H\n\027intra_module_edge_count\030\007 \003(\013",
+      "2\'.crowd_safe_data_analysis.EdgeTypeCoun" +
+      "t\022H\n\027inter_module_edge_count\030\010 \003(\0132\'.cro" +
+      "wd_safe_data_analysis.EdgeTypeCount\"\'\n\006M" +
+      "odule\022\014\n\004name\030\001 \001(\t\022\017\n\007version\030\002 \001(\t\"V\n\016" +
+      "ModuleInstance\0220\n\006module\030\001 \001(\0132 .crowd_s" +
+      "afe_data_analysis.Module\022\022\n\nnode_count\030\002" +
+      " \001(\005\"u\n\004Node\0220\n\006module\030\001 \001(\0132 .crowd_saf" +
+      "e_data_analysis.Module\022\024\n\014relative_tag\030\002" +
+      " \001(\005\022\023\n\013tag_version\030\003 \001(\005\022\020\n\010hashcode\030\004 " +
+      "\001(\003\"\234\001\n\004Edge\0221\n\tfrom_node\030\001 \001(\0132\036.crowd_",
+      "safe_data_analysis.Node\022/\n\007to_node\030\002 \001(\013" +
+      "2\036.crowd_safe_data_analysis.Node\0220\n\004type" +
+      "\030\003 \001(\0162\".crowd_safe_data_analysis.EdgeTy" +
+      "pe\"\225\001\n\017UnreachableNode\022,\n\004node\030\001 \001(\0132\036.c" +
+      "rowd_safe_data_analysis.Node\022<\n\024missed_i" +
+      "ncoming_edge\030\002 \003(\0132\036.crowd_safe_data_ana" +
+      "lysis.Edge\022\026\n\016is_entry_point\030\003 \001(\010\"P\n\rEd" +
+      "geTypeCount\0220\n\004type\030\001 \001(\0162\".crowd_safe_d" +
+      "ata_analysis.EdgeType\022\r\n\005count\030\002 \001(\005*d\n\010" +
+      "EdgeType\022\014\n\010INDIRECT\020\000\022\n\n\006DIRECT\020\001\022\025\n\021CA",
+      "LL_CONTINUATION\020\002\022\025\n\021UNEXPECTED_RETURN\020\003" +
+      "\022\020\n\014MODULE_ENTRY\020\004B3\n*edu.uci.eecs.crowd" +
+      "safe.common.data.resultsB\005Graph"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -6262,7 +7482,7 @@ public final class Graph {
           internal_static_crowd_safe_data_analysis_Cluster_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_crowd_safe_data_analysis_Cluster_descriptor,
-              new java.lang.String[] { "DistributionName", "NodeCount", "ExecutableNodeCount", "EntryPointCount", "Module", "Unreachable", });
+              new java.lang.String[] { "DistributionName", "NodeCount", "ExecutableNodeCount", "EntryPointCount", "Module", "Unreachable", "IntraModuleEdgeCount", "InterModuleEdgeCount", });
           internal_static_crowd_safe_data_analysis_Module_descriptor =
             getDescriptor().getMessageTypes().get(2);
           internal_static_crowd_safe_data_analysis_Module_fieldAccessorTable = new
@@ -6293,6 +7513,12 @@ public final class Graph {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_crowd_safe_data_analysis_UnreachableNode_descriptor,
               new java.lang.String[] { "Node", "MissedIncomingEdge", "IsEntryPoint", });
+          internal_static_crowd_safe_data_analysis_EdgeTypeCount_descriptor =
+            getDescriptor().getMessageTypes().get(7);
+          internal_static_crowd_safe_data_analysis_EdgeTypeCount_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_crowd_safe_data_analysis_EdgeTypeCount_descriptor,
+              new java.lang.String[] { "Type", "Count", });
           return null;
         }
       };

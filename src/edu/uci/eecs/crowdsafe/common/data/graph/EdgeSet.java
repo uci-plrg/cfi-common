@@ -163,8 +163,8 @@ public class EdgeSet<EdgeEndpointType extends Node<EdgeEndpointType>> {
 	}
 
 	public boolean checkOutgoingEdgeCompatibility(EdgeSet<?> other) {
-		int max = Math.min(outgoingOrdinals.size(), other.outgoingOrdinals.size());
-		for (int i = 0; i < max; i++) {
+		int maxCommonOrdinal = Math.min(outgoingOrdinals.size(), other.outgoingOrdinals.size());
+		for (int i = 0; i < maxCommonOrdinal; i++) {
 			OutgoingOrdinal myOrdinal = outgoingOrdinals.get(i);
 			OutgoingOrdinal otherOrdinal = other.outgoingOrdinals.get(i);
 			if ((myOrdinal.type == null) || (otherOrdinal.type == null))
@@ -174,6 +174,8 @@ public class EdgeSet<EdgeEndpointType extends Node<EdgeEndpointType>> {
 		}
 
 		if ((callContinuation == null) != (other.callContinuation == null)) {
+			if (maxCommonOrdinal == 0)
+				return false;
 			OutgoingOrdinal lastOutgoing = outgoingOrdinals.get(outgoingOrdinals.size() - 1);
 			switch (lastOutgoing.type) {
 				case DIRECT:

@@ -18,7 +18,7 @@ public enum EdgeType {
 			case INDIRECT:
 				return Graph.EdgeType.INDIRECT;
 			case CLUSTER_ENTRY:
-				return Graph.EdgeType.CLUSTER_ENTRY;
+				return Graph.EdgeType.MODULE_ENTRY;
 			case UNEXPECTED_RETURN:
 				return Graph.EdgeType.UNEXPECTED_RETURN;
 		}

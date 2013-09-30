@@ -48,11 +48,14 @@ public class Log {
 		}
 	}
 
-	public static void addThreadOutput(File file) throws FileNotFoundException {
+	public static synchronized void addThreadOutput(File file) throws FileNotFoundException {
 		if (threadLog == null) {
 			threadLog = new ThreadLog();
 		}
 		threadLog.get().outputs.add(new PrintWriter(file));
+
+		// System.out.println(String.format("Adding output to %s on thread %s", file.getName(), Thread.currentThread()
+		// .getName()));
 	}
 
 	public static void clearOutputs() {
@@ -62,6 +65,8 @@ public class Log {
 	public static void clearThreadOutputs() {
 		if (threadLog != null)
 			threadLog.get().outputs.clear();
+
+		// System.out.println(String.format("Clearing thread output on thread %s", Thread.currentThread().getName()));
 	}
 
 	public static void log() {
@@ -74,7 +79,7 @@ public class Log {
 
 	public static void log(String format, Object... args) {
 		if (getOutputs().isEmpty()) {
-			System.out.println("Warning: attempt to log without any outputs configured.");
+			warnNoOutputs();
 			return;
 		}
 
@@ -91,7 +96,7 @@ public class Log {
 
 	public static void log(Throwable throwable) {
 		if (getOutputs().isEmpty()) {
-			System.out.println("Warning: attempt to log without any outputs configured.");
+			warnNoOutputs();
 			return;
 		}
 
@@ -107,7 +112,7 @@ public class Log {
 
 	public static void sharedLog(String format, Object... args) {
 		if (sharedOutputs.isEmpty()) {
-			System.out.println("Warning: attempt to log without any outputs configured.");
+			warnNoOutputs();
 			return;
 		}
 
@@ -124,7 +129,7 @@ public class Log {
 
 	public static void sharedLog(Throwable throwable) {
 		if (sharedOutputs.isEmpty()) {
-			System.out.println("Warning: attempt to log without any outputs configured.");
+			warnNoOutputs();
 			return;
 		}
 
@@ -138,7 +143,6 @@ public class Log {
 		}
 	}
 
-	
 	public static void closeOutputs() {
 		try {
 			for (PrintWriter output : getOutputs()) {
@@ -155,5 +159,12 @@ public class Log {
 		} else {
 			return threadLog.get().outputs;
 		}
+	}
+
+	private static void warnNoOutputs() {
+		System.out.println(String.format(
+				"Warning: attempt to log without any outputs configured on thread %s. In shared list? %b.", Thread
+						.currentThread().getName(), sharedLogThreads.contains(Thread.currentThread())));
+		Thread.dumpStack();
 	}
 }

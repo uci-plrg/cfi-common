@@ -96,7 +96,7 @@ public class ClusterGraphLoadSession {
 
 			Log.log("Cluster %s loaded in %f seconds.", cluster.name, (System.currentTimeMillis() - start) / 1000.);
 
-			builder.graph.findUnreachableNodes();
+			builder.graph.analyzeGraph();
 			return builder.graph;
 		}
 
