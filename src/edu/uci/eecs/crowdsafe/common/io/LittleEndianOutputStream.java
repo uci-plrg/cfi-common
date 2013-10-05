@@ -26,6 +26,18 @@ public class LittleEndianOutputStream {
 		this.description = "file:" + file.getAbsolutePath();
 	}
 
+	public void writeInt(long data) throws IOException {
+		if (byteIndex == BUFFER_SIZE) {
+			output.write(buffer);
+			byteIndex = 0;
+		}
+
+		buffer[byteIndex++] = (byte) (data);
+		buffer[byteIndex++] = (byte) (data >> 0x8);
+		buffer[byteIndex++] = (byte) (data >> 0x10);
+		buffer[byteIndex++] = (byte) (data >> 0x18);
+	}
+
 	public void writeLong(long data) throws IOException {
 		if (byteIndex == BUFFER_SIZE) {
 			output.write(buffer);

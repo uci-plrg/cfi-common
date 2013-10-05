@@ -286,6 +286,9 @@ public class RawGraphTransformer {
 			int toTagVersion = CrowdSafeTraceUtil.getTagVersion(edgeEntry.second);
 			IndexedClusterNode toNodeId = identifyNode(absoluteToTag, toTagVersion, entryIndex, streamType);
 
+			long hash = Math.abs(edgeEntry.third);
+			boolean isCallback = (edgeEntry.third < 0);
+
 			if (fromNodeId == null) {
 				Log.log("Error: missing 'from' node 0x%x-v%d", absoluteFromTag, fromTagVersion);
 				continue;
@@ -299,11 +302,11 @@ public class RawGraphTransformer {
 			if (fromNodeId.cluster == toNodeId.cluster) {
 				establishEdgeSet(fromNodeId.cluster).add(new RawEdge(fromNodeId, toNodeId, type, ordinal));
 			} else {
-				ClusterBoundaryNode entry = new ClusterBoundaryNode(edgeEntry.third, MetaNodeType.CLUSTER_ENTRY);
+				ClusterBoundaryNode entry = new ClusterBoundaryNode(hash, MetaNodeType.CLUSTER_ENTRY, isCallback);
 				IndexedClusterNode entryId = dataByCluster.get(toNodeId.cluster).addNode(entry);
 				establishEdgeSet(toNodeId.cluster).add(new RawEdge(entryId, toNodeId, EdgeType.CLUSTER_ENTRY, 0));
 
-				ClusterBoundaryNode exit = new ClusterBoundaryNode(edgeEntry.third, MetaNodeType.CLUSTER_EXIT);
+				ClusterBoundaryNode exit = new ClusterBoundaryNode(hash, MetaNodeType.CLUSTER_EXIT, isCallback);
 				IndexedClusterNode exitId = dataByCluster.get(fromNodeId.cluster).addNode(exit);
 				establishEdgeSet(fromNodeId.cluster).add(new RawEdge(fromNodeId, exitId, type, ordinal));
 			}
@@ -348,6 +351,8 @@ public class RawGraphTransformer {
 			ClusterDataWriter<IndexedClusterNode> writer = graphWriters.getWriter(cluster);
 			for (IndexedClusterNode node : dataByCluster.get(cluster).getSortedNodeList()) {
 				writer.writeNode(node);
+				if (node.isCallback())
+					writer.writeCallback(node);
 			}
 		}
 	}

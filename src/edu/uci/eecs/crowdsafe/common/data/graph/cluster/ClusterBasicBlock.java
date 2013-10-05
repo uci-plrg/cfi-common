@@ -99,6 +99,11 @@ public class ClusterBasicBlock extends ClusterNode<ClusterBasicBlock.Key> {
 	}
 	
 	@Override
+	public boolean isCallback() {
+		return false;
+	}
+	
+	@Override
 	public boolean isModuleRelativeEquivalent(Node<?> other) {
 		if (!(other instanceof ClusterBasicBlock))
 			return super.isModuleRelativeEquivalent(other);

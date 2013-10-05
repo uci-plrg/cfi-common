@@ -92,7 +92,7 @@ public class ProcessGraphLoadSession {
 				if (nodeFactory.ready()) {
 					ExecutionNode node = nodeFactory.createNode();
 					addNodeToGraph(node);
-					createEntryPoint(node);
+					createProcessEntryPoint(node);
 				}
 
 				while (nodeFactory.ready()) {
@@ -135,9 +135,9 @@ public class ProcessGraphLoadSession {
 				listener.graphAddition(node, moduleCluster);
 		}
 
-		private void createEntryPoint(ExecutionNode node) {
+		private void createProcessEntryPoint(ExecutionNode node) {
 			ExecutionNode entryNode = new ExecutionNode(node.getModule(), MetaNodeType.CLUSTER_ENTRY, 0L, 0, 1L,
-					node.getTimestamp());
+					node.getTimestamp(), false);
 			graph.getModuleGraphCluster(node.getModule().unit).addClusterEntryNode(entryNode);
 			Edge<ExecutionNode> clusterEntryEdge = new Edge<ExecutionNode>(entryNode, node, EdgeType.CLUSTER_ENTRY, 0);
 			entryNode.addOutgoingEdge(clusterEntryEdge);

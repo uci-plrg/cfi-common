@@ -41,10 +41,11 @@ public class ClusterGraph {
 		}
 	}
 
-	public ClusterNode<?> addNode(long hash, SoftwareModule module, int relativeTag, MetaNodeType type) {
+	public ClusterNode<?> addNode(long hash, SoftwareModule module, int relativeTag, MetaNodeType type,
+			boolean isCallback) {
 		switch (type) {
 			case CLUSTER_ENTRY:
-				ClusterBoundaryNode.Key entryKey = new ClusterBoundaryNode.Key(hash, type);
+				ClusterBoundaryNode.Key entryKey = new ClusterBoundaryNode.Key(hash, type, isCallback);
 				ClusterNode<?> entry = graph.getNode(entryKey);
 				if (entry == null) {
 					entry = new ClusterBoundaryNode(hash, type);
@@ -53,7 +54,7 @@ public class ClusterGraph {
 				}
 				return entry;
 			case CLUSTER_EXIT:
-				ClusterBoundaryNode.Key exitKey = new ClusterBoundaryNode.Key(hash, type);
+				ClusterBoundaryNode.Key exitKey = new ClusterBoundaryNode.Key(hash, type, isCallback);
 				ClusterNode<?> exit = graph.getNode(exitKey);
 				if (exit == null) {
 					exit = new ClusterBoundaryNode(hash, type);

@@ -59,7 +59,7 @@ public class ProcessGraphNodeFactory {
 		MetaNodeType metaNodeType = CrowdSafeTraceUtil.getNodeMetaType(tagOriginal);
 		module = modules.getModule(tag, blockIndex, ExecutionTraceStreamType.GRAPH_NODE);
 
-		return new ExecutionNode(module, metaNodeType, tag, versionNumber, hash, blockIndex);
+		return new ExecutionNode(module, metaNodeType, tag, versionNumber, hash, blockIndex, false);
 	}
 
 	void close() throws IOException {

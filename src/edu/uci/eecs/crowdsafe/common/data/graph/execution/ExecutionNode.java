@@ -82,8 +82,10 @@ public class ExecutionNode extends Node<ExecutionNode> {
 
 	private final MetaNodeType metaNodeType;
 
+	private final boolean isCallback;
+
 	public ExecutionNode(ModuleInstance module, MetaNodeType metaNodeType, long tag, int tagVersion, long hash,
-			long timestamp) {
+			long timestamp, boolean isCallback) {
 		Key key;
 		switch (metaNodeType) {
 			case CLUSTER_ENTRY:
@@ -97,6 +99,7 @@ public class ExecutionNode extends Node<ExecutionNode> {
 		this.metaNodeType = metaNodeType;
 		this.hash = hash;
 		this.timestamp = timestamp;
+		this.isCallback = isCallback;
 	}
 
 	@Override
@@ -157,7 +160,7 @@ public class ExecutionNode extends Node<ExecutionNode> {
 
 	public ExecutionNode changeHashCode(long newHash) {
 		return new ExecutionNode(key.module, metaNodeType, key.module.start + key.relativeTag, key.version, newHash,
-				timestamp);
+				timestamp, isCallback);
 	}
 
 	public void addIncomingEdge(Edge<ExecutionNode> e) {
@@ -174,6 +177,11 @@ public class ExecutionNode extends Node<ExecutionNode> {
 
 	public long getHash() {
 		return hash;
+	}
+
+	@Override
+	public boolean isCallback() {
+		return isCallback;
 	}
 
 	/**
