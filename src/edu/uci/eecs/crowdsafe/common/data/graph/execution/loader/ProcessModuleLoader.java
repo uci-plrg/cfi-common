@@ -76,9 +76,9 @@ public class ProcessModuleLoader {
 	}
 
 	private static final Pattern LOAD_PARSER = Pattern
-			.compile("\\(([0-9]+),([0-9]+),([0-9]+)\\) Loaded module ([a-zA-Z_0-9<>\\-\\.\\+]+): 0x([0-9A-Fa-f]+) - 0x([0-9A-Fa-f]+)");
+			.compile("\\(([0-9]+),([0-9]+),([0-9]+)\\) Loaded module ([a-zA-Z_0-9~<>\\-\\.\\+]+): 0x([0-9A-Fa-f]+) - 0x([0-9A-Fa-f]+)");
 	private static final Pattern UNLOAD_PARSER = Pattern
-			.compile("\\(([0-9]+),([0-9]+),([0-9]+)\\) Unloaded module ([a-zA-Z_0-9<>\\-\\.\\+]+): 0x([0-9A-Fa-f]+) - 0x([0-9A-Fa-f]+)");
+			.compile("\\(([0-9]+),([0-9]+),([0-9]+)\\) Unloaded module ([a-zA-Z_0-9~<>\\-\\.\\+]+): 0x([0-9A-Fa-f]+) - 0x([0-9A-Fa-f]+)");
 
 	private final Map<PendingModuleKey, PendingModule> pendingModules = new HashMap<PendingModuleKey, PendingModule>();
 

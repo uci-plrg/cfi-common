@@ -3,6 +3,8 @@ package edu.uci.eecs.crowdsafe.common.data.graph;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.uci.eecs.crowdsafe.common.log.Log;
+
 /**
  * <pre>
  * Warning: only the iterator is threadsafe. Concurrent modifications to the list will corrupt the data structure! 
@@ -47,7 +49,8 @@ public class EdgeSet<EdgeEndpointType extends Node<EdgeEndpointType>> {
 		if ((direction == Direction.OUTGOING) && (edge.getEdgeType() == EdgeType.CALL_CONTINUATION)) {
 			if (callContinuation != null) {
 				if (!callContinuation.equals(edge)) {
-					throw new IllegalStateException("Cannot add multiple call continuation edges!");
+					Log.log("Error: attempt to add multiple call continuation edges to node %s!", edge.getFromNode());
+					return;
 				}
 			} else {
 				callContinuation = edge;

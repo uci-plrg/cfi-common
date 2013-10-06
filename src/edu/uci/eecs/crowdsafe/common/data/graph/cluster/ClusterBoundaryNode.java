@@ -14,12 +14,9 @@ public class ClusterBoundaryNode extends ClusterNode<ClusterBoundaryNode.Key> {
 
 		private final MetaNodeType type;
 
-		private final boolean isCallback;
-
-		Key(long hash, MetaNodeType type, boolean isCallback) {
+		Key(long hash, MetaNodeType type) {
 			this.hash = hash;
 			this.type = type;
-			this.isCallback = isCallback;
 		}
 
 		@Override
@@ -27,7 +24,6 @@ public class ClusterBoundaryNode extends ClusterNode<ClusterBoundaryNode.Key> {
 			final int prime = 31;
 			int result = 1;
 			result = prime * result + (int) (hash ^ (hash >>> 32));
-			result = prime * result + (isCallback ? 1231 : 1237);
 			result = prime * result + ((type == null) ? 0 : type.hashCode());
 			return result;
 		}
@@ -43,8 +39,6 @@ public class ClusterBoundaryNode extends ClusterNode<ClusterBoundaryNode.Key> {
 			Key other = (Key) obj;
 			if (hash != other.hash)
 				return false;
-			if (isCallback != other.isCallback)
-				return false;
 			if (type != other.type)
 				return false;
 			return true;
@@ -57,11 +51,7 @@ public class ClusterBoundaryNode extends ClusterNode<ClusterBoundaryNode.Key> {
 	}
 
 	public ClusterBoundaryNode(long hash, MetaNodeType type) {
-		this(hash, type, false);
-	}
-
-	public ClusterBoundaryNode(long hash, MetaNodeType type, boolean isCallback) {
-		super(new Key(hash, type, isCallback));
+		super(new Key(hash, type));
 
 		if ((type != MetaNodeType.CLUSTER_ENTRY) && (type != MetaNodeType.CLUSTER_EXIT))
 			throw new IllegalArgumentException(String.format(
@@ -93,10 +83,10 @@ public class ClusterBoundaryNode extends ClusterNode<ClusterBoundaryNode.Key> {
 	public MetaNodeType getType() {
 		return key.type;
 	}
-	
+
 	@Override
 	public boolean isCallback() {
-		return key.isCallback;
+		return key.hash < 0L;
 	}
 
 	public String identify() {

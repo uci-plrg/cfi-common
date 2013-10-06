@@ -14,6 +14,7 @@ message Cluster {
   optional int32 node_count = 2;
   optional int32 executable_node_count = 3;
   optional int32 entry_point_count = 4;
+  optional int32 callback_entry_count = 9;
   repeated ModuleInstance module = 5;
   repeated UnreachableNode unreachable = 6;
   repeated EdgeTypeCount intra_module_edge_count = 7;

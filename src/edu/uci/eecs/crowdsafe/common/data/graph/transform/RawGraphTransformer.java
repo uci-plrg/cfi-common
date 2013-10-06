@@ -286,8 +286,7 @@ public class RawGraphTransformer {
 			int toTagVersion = CrowdSafeTraceUtil.getTagVersion(edgeEntry.second);
 			IndexedClusterNode toNodeId = identifyNode(absoluteToTag, toTagVersion, entryIndex, streamType);
 
-			long hash = Math.abs(edgeEntry.third);
-			boolean isCallback = (edgeEntry.third < 0);
+			long hash = edgeEntry.third;
 
 			if (fromNodeId == null) {
 				Log.log("Error: missing 'from' node 0x%x-v%d", absoluteFromTag, fromTagVersion);
@@ -302,11 +301,11 @@ public class RawGraphTransformer {
 			if (fromNodeId.cluster == toNodeId.cluster) {
 				establishEdgeSet(fromNodeId.cluster).add(new RawEdge(fromNodeId, toNodeId, type, ordinal));
 			} else {
-				ClusterBoundaryNode entry = new ClusterBoundaryNode(hash, MetaNodeType.CLUSTER_ENTRY, isCallback);
+				ClusterBoundaryNode entry = new ClusterBoundaryNode(hash, MetaNodeType.CLUSTER_ENTRY);
 				IndexedClusterNode entryId = dataByCluster.get(toNodeId.cluster).addNode(entry);
 				establishEdgeSet(toNodeId.cluster).add(new RawEdge(entryId, toNodeId, EdgeType.CLUSTER_ENTRY, 0));
 
-				ClusterBoundaryNode exit = new ClusterBoundaryNode(hash, MetaNodeType.CLUSTER_EXIT, isCallback);
+				ClusterBoundaryNode exit = new ClusterBoundaryNode(hash, MetaNodeType.CLUSTER_EXIT);
 				IndexedClusterNode exitId = dataByCluster.get(fromNodeId.cluster).addNode(exit);
 				establishEdgeSet(fromNodeId.cluster).add(new RawEdge(fromNodeId, exitId, type, ordinal));
 			}
