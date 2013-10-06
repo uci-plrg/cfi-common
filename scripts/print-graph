@@ -3,7 +3,7 @@
 . $csc/scripts/cs-common
 
 function usage() {
-  echo "print-graph -o <output-file> { c: | e: }<run-dir>"
+  echo "print-graph { c: | e: }<run-dir>"
 }
 
 check_help $1 usage
@@ -12,6 +12,12 @@ append_classpath "CROWD_SAFE_COMMON_DIR"
 
 main_class="edu.uci.eecs.crowdsafe.common.main.GraphSummaryPrinter"
 
+run_dir=$1
+
+[ -z $run_dir ] && usage && exit
+
+output_file=$run_dir"/graph-summary.log"
+
 #echo "java -cp $cp $main_class $@"
-java -cp $cp $main_class $@
+java -cp $cp $main_class -o $output_file c:$run_dir
 
