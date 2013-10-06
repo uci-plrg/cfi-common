@@ -276,7 +276,6 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 								moduleBuilder.setName(incoming.getFromNode().getModule().unit.filename);
 								moduleBuilder.setVersion(incoming.getFromNode().getModule().version);
 								nodeBuilder.setModule(moduleBuilder.build());
-								// TODO: what node is it?? from the factory, earlier??
 								edgeBuilder.clear().setFromNode(nodeBuilder.build());
 								edgeBuilder.setToNode(unreachableBuilder.getNode());
 								edgeBuilder.setType(incoming.getEdgeType().mapToResultType());

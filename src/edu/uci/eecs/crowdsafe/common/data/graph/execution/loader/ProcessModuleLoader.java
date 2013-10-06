@@ -109,6 +109,10 @@ public class ProcessModuleLoader {
 
 				PendingModule pending = pendingModules.remove(new PendingModuleKey(matcher.group(4).toLowerCase(), Long
 						.parseLong(matcher.group(5), 16)));
+        if (pending == null)
+          throw new InvalidGraphException(String.format("Cannot unload module %s, there is no such module.", 
+            matcher.group(4).toLowerCase()));
+        
 				long blockUnloadTime = Long.parseLong(matcher.group(1));
 				long edgeUnloadTime = Long.parseLong(matcher.group(2));
 				long crossModuleEdgeUnloadTime = Long.parseLong(matcher.group(3));
