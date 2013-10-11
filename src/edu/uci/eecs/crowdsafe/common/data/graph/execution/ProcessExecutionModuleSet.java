@@ -7,12 +7,15 @@ import java.util.List;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 
-import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareDistributionUnit;
+import edu.uci.eecs.crowdsafe.common.data.dist.ConfiguredSoftwareDistributions;
+import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareModule;
+import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareUnit;
+import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterModule;
 import edu.uci.eecs.crowdsafe.common.io.execution.ExecutionTraceStreamType;
 
 public class ProcessExecutionModuleSet {
 
-	private final Multimap<SoftwareDistributionUnit, ModuleInstance> instancesByUnit = ArrayListMultimap.create();
+	private final Multimap<SoftwareUnit, ModuleInstance> instancesByUnit = ArrayListMultimap.create();
 	private ModuleInstance modules[] = null;
 
 	public void add(ModuleInstance module) {
@@ -21,12 +24,14 @@ public class ProcessExecutionModuleSet {
 		instancesByUnit.put(module.unit, module);
 	}
 
-	public Collection<ModuleInstance> getUnitInstances(SoftwareDistributionUnit unit) {
+	public Collection<ModuleInstance> getUnitInstances(SoftwareUnit unit) {
 		return instancesByUnit.get(unit);
 	}
 
 	public void freeze() {
-		List<ModuleInstance> instances = new ArrayList<ModuleInstance>(instancesByUnit.values());
+		List<ModuleInstance> instances = new ArrayList<ModuleInstance>();
+		instances.add(ModuleInstance.DYNAMORIO);
+		instances.addAll(instancesByUnit.values());
 		modules = instances.toArray(new ModuleInstance[] {});
 	}
 
@@ -45,38 +50,37 @@ public class ProcessExecutionModuleSet {
 	}
 
 	public ModuleInstance getModule(long tag, long streamIndex, ExecutionTraceStreamType streamType) {
-		ModuleInstance activeModule = ModuleInstance.UNKNOWN;
 		switch (streamType) {
 			case GRAPH_NODE:
-				for (int i = 0; i < modules.length; i++) {
+				for (int i = modules.length - 1; i >= 0; i--) {
 					ModuleInstance instance = modules[i];
 					if ((tag >= instance.start) && (tag <= instance.end)
 							&& (streamIndex >= instance.blockSpan.loadTimestamp)
 							&& (streamIndex < instance.blockSpan.unloadTimestamp))
-						activeModule = instance;
+						return instance;
 				}
 				break;
 			case GRAPH_EDGE:
-				for (int i = 0; i < modules.length; i++) {
+				for (int i = modules.length - 1; i >= 0; i--) {
 					ModuleInstance instance = modules[i];
 					if ((tag >= instance.start) && (tag <= instance.end)
 							&& (streamIndex >= instance.edgeSpan.loadTimestamp)
 							&& (streamIndex < instance.edgeSpan.unloadTimestamp))
-						activeModule = instance;
+						return instance;
 				}
 				break;
 			case CROSS_MODULE_EDGE:
-				for (int i = 0; i < modules.length; i++) {
+				for (int i = modules.length - 1; i >= 0; i--) {
 					ModuleInstance instance = modules[i];
 					if ((tag >= instance.start) && (tag <= instance.end)
 							&& (streamIndex >= instance.crossModuleEdgeSpan.loadTimestamp)
 							&& (streamIndex < instance.crossModuleEdgeSpan.unloadTimestamp))
-						activeModule = instance;
+						return instance;
 				}
 				break;
 			default:
 				throw new IllegalArgumentException("Cannot identify modules for stream type " + streamType);
 		}
-		return activeModule;
+		throw new IllegalStateException("Failed to identify the module for tag " + tag);
 	}
 }

@@ -1,12 +1,12 @@
 package edu.uci.eecs.crowdsafe.common.data.graph.execution;
 
-import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareDistributionUnit;
+import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareUnit;
 import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareModule;
 
 // TODO: check the usage of ModuleInstance hashcode/equals: maybe use alternate key for equivocating all instances of the same software unit?
 public class ModuleInstance extends SoftwareModule {
-	public static ModuleInstance UNKNOWN = new ModuleInstance(SoftwareDistributionUnit.UNKNOWN, "", 0L, Long.MAX_VALUE,
-			0L, Long.MAX_VALUE, 0L, Long.MAX_VALUE, 0L, Long.MAX_VALUE);
+	public static ModuleInstance DYNAMORIO = new ModuleInstance(SoftwareUnit.DYNAMORIO, 0L, Long.MAX_VALUE, 0L,
+			Long.MAX_VALUE, 0L, Long.MAX_VALUE, 0L, Long.MAX_VALUE);
 
 	public static class Span {
 		public final long loadTimestamp;
@@ -33,10 +33,9 @@ public class ModuleInstance extends SoftwareModule {
 	public final Span edgeSpan;
 	public final Span crossModuleEdgeSpan;
 
-	public ModuleInstance(SoftwareDistributionUnit unit, String version, long start, long end, long blockLoadTime,
-			long blockUnloadTime, long edgeLoadTime, long edgeUnloadTime, long crossModuleEdgeLoadTime,
-			long crossModuleEdgeUnloadTime) {
-		super(unit, version);
+	public ModuleInstance(SoftwareUnit unit, long start, long end, long blockLoadTime, long blockUnloadTime,
+			long edgeLoadTime, long edgeUnloadTime, long crossModuleEdgeLoadTime, long crossModuleEdgeUnloadTime) {
+		super(unit);
 		this.start = start;
 		this.end = end;
 		this.blockSpan = new Span(blockLoadTime, blockUnloadTime);

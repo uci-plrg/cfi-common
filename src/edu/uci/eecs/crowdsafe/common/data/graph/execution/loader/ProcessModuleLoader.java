@@ -9,7 +9,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import edu.uci.eecs.crowdsafe.common.data.dist.ConfiguredSoftwareDistributions;
-import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareDistributionUnit;
+import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareModule;
+import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareUnit;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.ModuleInstance;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.ProcessExecutionModuleSet;
 import edu.uci.eecs.crowdsafe.common.exception.InvalidGraphException;
@@ -20,13 +21,11 @@ import edu.uci.eecs.crowdsafe.common.io.execution.ExecutionTraceStreamType;
 public class ProcessModuleLoader {
 
 	private static class PendingModuleKey {
-		final SoftwareDistributionUnit unit;
-		final String version; // not in hash key!
+		final SoftwareUnit unit;
 		final long startAddress;
 
-		PendingModuleKey(String moduleName, long startAddress) {
-			this.unit = ConfiguredSoftwareDistributions.getInstance().establishUnit(moduleName);
-			this.version = ConfiguredSoftwareDistributions.getVersion(moduleName);
+		PendingModuleKey(String unitName, long startAddress) {
+			this.unit = ConfiguredSoftwareDistributions.getInstance().establishUnitByName(unitName);
 			this.startAddress = startAddress;
 		}
 
@@ -34,8 +33,8 @@ public class ProcessModuleLoader {
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;
-			result = prime * result + ((unit == null) ? 0 : unit.name.hashCode());
 			result = prime * result + (int) (startAddress ^ (startAddress >>> 32));
+			result = prime * result + ((unit == null) ? 0 : unit.hashCode());
 			return result;
 		}
 
@@ -48,12 +47,12 @@ public class ProcessModuleLoader {
 			if (getClass() != obj.getClass())
 				return false;
 			PendingModuleKey other = (PendingModuleKey) obj;
+			if (startAddress != other.startAddress)
+				return false;
 			if (unit == null) {
 				if (other.unit != null)
 					return false;
-			} else if (!unit.name.equals(other.unit.name))
-				return false;
-			if (startAddress != other.startAddress)
+			} else if (!unit.equals(other.unit))
 				return false;
 			return true;
 		}
@@ -76,9 +75,9 @@ public class ProcessModuleLoader {
 	}
 
 	private static final Pattern LOAD_PARSER = Pattern
-			.compile("\\(([0-9]+),([0-9]+),([0-9]+)\\) Loaded module ([a-zA-Z_0-9~<>\\-\\.\\+]+): 0x([0-9A-Fa-f]+) - 0x([0-9A-Fa-f]+)");
+			.compile("\\(([0-9]+),([0-9]+),([0-9]+)\\) Loaded module ([a-zA-Z_0-9~|<>\\-\\.\\+]+): 0x([0-9A-Fa-f]+) - 0x([0-9A-Fa-f]+)");
 	private static final Pattern UNLOAD_PARSER = Pattern
-			.compile("\\(([0-9]+),([0-9]+),([0-9]+)\\) Unloaded module ([a-zA-Z_0-9~<>\\-\\.\\+]+): 0x([0-9A-Fa-f]+) - 0x([0-9A-Fa-f]+)");
+			.compile("\\(([0-9]+),([0-9]+),([0-9]+)\\) Unloaded module ([a-zA-Z_0-9~|<>\\-\\.\\+]+): 0x([0-9A-Fa-f]+) - 0x([0-9A-Fa-f]+)");
 
 	private final Map<PendingModuleKey, PendingModule> pendingModules = new HashMap<PendingModuleKey, PendingModule>();
 
@@ -109,23 +108,23 @@ public class ProcessModuleLoader {
 
 				PendingModule pending = pendingModules.remove(new PendingModuleKey(matcher.group(4).toLowerCase(), Long
 						.parseLong(matcher.group(5), 16)));
-        if (pending == null)
-          throw new InvalidGraphException(String.format("Cannot unload module %s, there is no such module.", 
-            matcher.group(4).toLowerCase()));
-        
+				if (pending == null)
+					throw new InvalidGraphException(String.format("Cannot unload module %s, there is no such module.",
+							matcher.group(4).toLowerCase()));
+
 				long blockUnloadTime = Long.parseLong(matcher.group(1));
 				long edgeUnloadTime = Long.parseLong(matcher.group(2));
 				long crossModuleEdgeUnloadTime = Long.parseLong(matcher.group(3));
 
-				modules.add(new ModuleInstance(pending.key.unit, pending.key.version, pending.key.startAddress,
-						pending.endAddress, pending.blockLoadTime, blockUnloadTime, pending.edgeLoadTime,
-						edgeUnloadTime, pending.crossModuleEdgeLoadTime, crossModuleEdgeUnloadTime));
+				modules.add(new ModuleInstance(pending.key.unit, pending.key.startAddress, pending.endAddress,
+						pending.blockLoadTime, blockUnloadTime, pending.edgeLoadTime, edgeUnloadTime,
+						pending.crossModuleEdgeLoadTime, crossModuleEdgeUnloadTime));
 			}
 		}
 
 		for (PendingModule pending : pendingModules.values()) {
-			modules.add(new ModuleInstance(pending.key.unit, pending.key.version, pending.key.startAddress,
-					pending.endAddress, pending.blockLoadTime, Long.MAX_VALUE, pending.edgeLoadTime, Long.MAX_VALUE,
+			modules.add(new ModuleInstance(pending.key.unit, pending.key.startAddress, pending.endAddress,
+					pending.blockLoadTime, Long.MAX_VALUE, pending.edgeLoadTime, Long.MAX_VALUE,
 					pending.crossModuleEdgeLoadTime, Long.MAX_VALUE));
 		}
 

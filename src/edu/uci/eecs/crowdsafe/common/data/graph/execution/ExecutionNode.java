@@ -123,7 +123,7 @@ public class ExecutionNode extends Node<ExecutionNode> {
 			return super.isModuleRelativeMismatch(other);
 
 		ExecutionNode n = (ExecutionNode) other;
-		if (key.module.unit.isDynamic() || n.key.module.unit.isDynamic())
+		if (key.module.unit.isDynamic || n.key.module.unit.isDynamic)
 			return false;
 
 		return !(key.relativeTag == n.key.relativeTag) && key.module.equals(n.key.module) && (getType() == n.getType())

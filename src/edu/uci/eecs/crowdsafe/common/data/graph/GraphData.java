@@ -16,7 +16,7 @@ public class GraphData<NodeType extends Node<NodeType>> {
 	final Map<Node.Key, NodeType> nodesByKey = new HashMap<Node.Key, NodeType>();
 
 	public boolean HACK_containsEquivalent(Node<?> node) {
-		if (node.getModule().unit.isDynamic())
+		if (node.getModule().unit.isDynamic)
 			return false;
 		if (nodesByKey.containsKey(node.getKey()))
 			return true;

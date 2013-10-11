@@ -1,26 +1,25 @@
 package edu.uci.eecs.crowdsafe.common.data.dist;
 
 public abstract class SoftwareModule {
-	
-	public final SoftwareDistributionUnit unit;
-	public final String version;
 
-	protected SoftwareModule(SoftwareDistributionUnit unit, String version) {
+	public static final String DYNAMORIO_MODULE_NAME = "|dynamorio|";
+	public static final String DYNAMIC_MODULE_NAME = "|dynamic|";
+
+	public static final String EMPTY_VERSION = "0-0-0";
+
+	public final SoftwareUnit unit;
+
+	protected SoftwareModule(SoftwareUnit unit) {
 		this.unit = unit;
-		this.version = version;
 	}
 
 	public boolean isEquivalent(SoftwareModule other) {
-		return unit.filename.equals(other.unit.filename) && version.equals(other.version) && !unit.isDynamic();
+		return unit.equals(other.unit) && !unit.isDynamic;
 	}
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((unit == null) ? 0 : unit.hashCode());
-		result = prime * result + ((version == null) ? 0 : version.hashCode());
-		return result;
+		return unit.hashCode();
 	}
 
 	@Override
@@ -34,13 +33,11 @@ public abstract class SoftwareModule {
 		SoftwareModule other = (SoftwareModule) obj;
 		if (!unit.equals(other.unit))
 			return false;
-		if (!version.equals(other.version))
-			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return unit.name + "-" + version;
+		return unit.toString();
 	}
 }

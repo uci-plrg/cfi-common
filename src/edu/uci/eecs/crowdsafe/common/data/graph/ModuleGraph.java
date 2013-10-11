@@ -1,6 +1,6 @@
 package edu.uci.eecs.crowdsafe.common.data.graph;
 
-import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareDistributionUnit;
+import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareUnit;
 
 /**
  * <p>
@@ -23,14 +23,12 @@ import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareDistributionUnit;
 
 // TODO: this class seems kind of pointless now
 public class ModuleGraph {
-	public final SoftwareDistributionUnit softwareUnit;
-	public final String version;
+	public final SoftwareUnit softwareUnit;
 
 	private int executableBlockCount = 0;
 
-	public ModuleGraph(SoftwareDistributionUnit softwareUnit, String version) {
+	public ModuleGraph(SoftwareUnit softwareUnit) {
 		this.softwareUnit = softwareUnit;
-		this.version = version;
 	}
 
 	void incrementExecutableBlockCount() {

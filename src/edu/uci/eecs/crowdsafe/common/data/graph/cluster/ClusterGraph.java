@@ -23,7 +23,7 @@ public class ClusterGraph {
 
 		moduleList = new ClusterModuleList();
 		for (ModuleGraph module : graph.getGraphs()) {
-			moduleList.addModule(module.softwareUnit, module.version);
+			moduleList.addModule(module.softwareUnit);
 		}
 	}
 
@@ -37,7 +37,7 @@ public class ClusterGraph {
 		this.moduleList = moduleList;
 
 		for (ClusterModule module : moduleList.getModules()) {
-			graph.addModule(new ModuleGraph(module.unit, module.version));
+			graph.addModule(new ModuleGraph(module.unit));
 		}
 	}
 
@@ -62,9 +62,9 @@ public class ClusterGraph {
 				return exit;
 		}
 
-		ClusterModule mergedModule = moduleList.establishModule(module.unit, module.version);
+		ClusterModule mergedModule = moduleList.establishModule(module.unit);
 		if (graph.getModuleGraph(module.unit) == null)
-			graph.addModule(new ModuleGraph(module.unit, module.version));
+			graph.addModule(new ModuleGraph(module.unit));
 
 		ClusterBasicBlock.Key key = new ClusterBasicBlock.Key(mergedModule, relativeTag, 0);
 		while (graph.hasNode(key))

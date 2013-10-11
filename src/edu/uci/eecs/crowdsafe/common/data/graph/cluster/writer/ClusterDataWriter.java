@@ -115,7 +115,7 @@ public class ClusterDataWriter<NodeType extends NodeIdentifier> {
 			if (module.equals(ClusterBoundaryNode.BOUNDARY_MODULE))
 				continue;
 
-			moduleWriter.write(String.format("%s-%s\n", module.unit.name, module.version));
+			moduleWriter.write(module.unit.name);
 		}
 	}
 

@@ -8,53 +8,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareDistributionUnit;
+import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareUnit;
 
 public class ClusterModuleList {
-
-	private static class ModuleKey {
-		SoftwareDistributionUnit unit;
-		String version;
-
-		public ModuleKey() {
-		}
-
-		ModuleKey(SoftwareDistributionUnit unit, String version) {
-			this.unit = unit;
-			this.version = version;
-		}
-
-		@Override
-		public int hashCode() {
-			final int prime = 31;
-			int result = 1;
-			result = prime * result + ((unit == null) ? 0 : unit.hashCode());
-			result = prime * result + ((version == null) ? 0 : version.hashCode());
-			return result;
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			ModuleKey other = (ModuleKey) obj;
-			if (unit == null) {
-				if (other.unit != null)
-					return false;
-			} else if (!unit.equals(other.unit))
-				return false;
-			if (version == null) {
-				if (other.version != null)
-					return false;
-			} else if (!version.equals(other.version))
-				return false;
-			return true;
-		}
-	}
 
 	private static class IdSorter implements Comparator<ClusterModule> {
 		static final IdSorter INSTANCE = new IdSorter();
@@ -65,35 +21,29 @@ public class ClusterModuleList {
 		}
 	}
 
-	private final Map<ModuleKey, ClusterModule> modules = new HashMap<ModuleKey, ClusterModule>();
+	private final Map<SoftwareUnit, ClusterModule> modules = new HashMap<SoftwareUnit, ClusterModule>();
 	private final List<ClusterModule> moduleList = new ArrayList<ClusterModule>();
 
-	private final ModuleKey lookupKey = new ModuleKey();
-
-	public ClusterModule addModule(SoftwareDistributionUnit unit, String version) {
+	public ClusterModule addModule(SoftwareUnit unit) {
 		if (unit.equals(ClusterBoundaryNode.BOUNDARY_MODULE.unit))
 			return ClusterBoundaryNode.BOUNDARY_MODULE; // placeholder only, not to be included in the list
 
-		ClusterModule module = new ClusterModule(moduleList.size(), unit, version);
+		ClusterModule module = new ClusterModule(moduleList.size(), unit);
 		moduleList.add(module);
-		modules.put(new ModuleKey(module.unit, module.version), module);
+		modules.put(module.unit, module);
 		return module;
 	}
 
-	public synchronized ClusterModule establishModule(SoftwareDistributionUnit unit, String version) {
-		lookupKey.unit = unit;
-		lookupKey.version = version;
-		ClusterModule module = modules.get(lookupKey);
+	public synchronized ClusterModule establishModule(SoftwareUnit unit) {
+		ClusterModule module = modules.get(unit);
 		if (module == null)
-			return addModule(unit, version);
+			return addModule(unit);
 		else
 			return module;
 	}
 
-	public synchronized ClusterModule getModule(SoftwareDistributionUnit unit, String version) {
-		lookupKey.unit = unit;
-		lookupKey.version = version;
-		return modules.get(lookupKey);
+	public synchronized ClusterModule getModule(SoftwareUnit unit) {
+		return modules.get(unit);
 	}
 
 	public List<ClusterModule> sortById() {

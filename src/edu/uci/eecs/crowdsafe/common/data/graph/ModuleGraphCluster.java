@@ -11,7 +11,7 @@ import java.util.Queue;
 import java.util.Set;
 
 import edu.uci.eecs.crowdsafe.common.data.dist.AutonomousSoftwareDistribution;
-import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareDistributionUnit;
+import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareUnit;
 import edu.uci.eecs.crowdsafe.common.data.results.Graph;
 import edu.uci.eecs.crowdsafe.common.data.results.NodeResultsFactory;
 import edu.uci.eecs.crowdsafe.common.log.Log;
@@ -37,7 +37,7 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 
 	protected final GraphData<EdgeEndpointType> graphData;
 
-	private final Map<SoftwareDistributionUnit, ModuleGraph> graphs = new HashMap<SoftwareDistributionUnit, ModuleGraph>();
+	private final Map<SoftwareUnit, ModuleGraph> graphs = new HashMap<SoftwareUnit, ModuleGraph>();
 
 	private final Set<EdgeEndpointType> unreachableNodes = new HashSet<EdgeEndpointType>();
 	private final Map<EdgeType, MutableInteger> intraModuleEdgeTypeCounts = new EnumMap<EdgeType, MutableInteger>(
@@ -57,7 +57,7 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 		return graphData;
 	}
 
-	public ModuleGraph getModuleGraph(SoftwareDistributionUnit softwareUnit) {
+	public ModuleGraph getModuleGraph(SoftwareUnit softwareUnit) {
 		return graphs.get(softwareUnit);
 	}
 
@@ -75,7 +75,7 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 
 		for (ModuleGraph module : graphs.values()) {
 			ModuleGraph otherModule = other.graphs.get(module);
-			if ((otherModule != null) && !otherModule.version.equals(module.version))
+			if (otherModule == null)
 				return false;
 		}
 
@@ -254,7 +254,7 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 
 		for (ModuleGraph moduleGraph : CrowdSafeCollections.createSortedCopy(getGraphs(), ModuleGraphSorter.INSTANCE)) {
 			moduleBuilder.clear().setName(moduleGraph.softwareUnit.filename);
-			moduleBuilder.setVersion(moduleGraph.version);
+			moduleBuilder.setVersion(moduleGraph.softwareUnit.version);
 			moduleInstanceBuilder.setModule(moduleBuilder.build());
 			moduleInstanceBuilder.setNodeCount(moduleGraph.getExecutableBlockCount());
 			clusterBuilder.addModule(moduleInstanceBuilder.build());
@@ -274,7 +274,7 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 								unreachableBuilder.setIsEntryPoint(false);
 							} else {
 								moduleBuilder.setName(incoming.getFromNode().getModule().unit.filename);
-								moduleBuilder.setVersion(incoming.getFromNode().getModule().version);
+								moduleBuilder.setVersion(incoming.getFromNode().getModule().unit.version);
 								nodeBuilder.setModule(moduleBuilder.build());
 								edgeBuilder.clear().setFromNode(nodeBuilder.build());
 								edgeBuilder.setToNode(unreachableBuilder.getNode());

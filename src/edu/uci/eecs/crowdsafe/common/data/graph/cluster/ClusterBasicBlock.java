@@ -50,7 +50,7 @@ public class ClusterBasicBlock extends ClusterNode<ClusterBasicBlock.Key> {
 
 		@Override
 		public String toString() {
-			return String.format("%s(0x%x-i%d)", module.unit.filename, relativeTag, instanceId);
+			return String.format("%s(0x%x-i%d)", module.unit.name, relativeTag, instanceId);
 		}
 	}
 
@@ -97,12 +97,12 @@ public class ClusterBasicBlock extends ClusterNode<ClusterBasicBlock.Key> {
 	public long getHash() {
 		return hash;
 	}
-	
+
 	@Override
 	public boolean isCallback() {
 		return false;
 	}
-	
+
 	@Override
 	public boolean isModuleRelativeEquivalent(Node<?> other) {
 		if (!(other instanceof ClusterBasicBlock))
@@ -119,12 +119,13 @@ public class ClusterBasicBlock extends ClusterNode<ClusterBasicBlock.Key> {
 			return super.isModuleRelativeMismatch(other);
 
 		ClusterBasicBlock n = (ClusterBasicBlock) other;
-		if (key.module.unit.isDynamic() || n.key.module.unit.isDynamic())
+		if (key.module.unit.isDynamic || n.key.module.unit.isDynamic)
 			return false;
 
 		return !(key.relativeTag == n.key.relativeTag) && key.module.equals(n.key.module) && (getType() == n.getType())
 				&& (getHash() == n.getHash());
 	}
+
 	public String identify() {
 		return String.format("%s(0x%x-i%d|0x%x)", key.module.unit.filename, key.relativeTag, key.instanceId, hash);
 	}

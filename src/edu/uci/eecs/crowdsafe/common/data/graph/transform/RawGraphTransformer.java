@@ -17,7 +17,7 @@ import com.google.common.collect.Multimap;
 import edu.uci.eecs.crowdsafe.common.config.CrowdSafeConfiguration;
 import edu.uci.eecs.crowdsafe.common.data.dist.AutonomousSoftwareDistribution;
 import edu.uci.eecs.crowdsafe.common.data.dist.ConfiguredSoftwareDistributions;
-import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareDistributionUnit;
+import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareUnit;
 import edu.uci.eecs.crowdsafe.common.data.graph.EdgeType;
 import edu.uci.eecs.crowdsafe.common.data.graph.MetaNodeType;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterBasicBlock;
@@ -60,7 +60,10 @@ public class RawGraphTransformer {
 	private final Map<AutonomousSoftwareDistribution, RawClusterData> dataByCluster = new HashMap<AutonomousSoftwareDistribution, RawClusterData>();
 	private final Map<AutonomousSoftwareDistribution, Set<RawEdge>> edgesByCluster = new HashMap<AutonomousSoftwareDistribution, Set<RawEdge>>();
 
+	private final Map<RawTag, IndexedClusterNode> nodesByRawTag = new HashMap<RawTag, IndexedClusterNode>();
 	private final Set<Long> flattenedCollisions = new HashSet<Long>();
+	private final Map<RawTag, Integer> fakeDynamicModuleTags = new HashMap<RawTag, Integer>();
+	private int fakeDynamicTagIndex = 0;
 
 	public RawGraphTransformer(ArgumentStack args) {
 		this.args = args;
@@ -70,7 +73,7 @@ public class RawGraphTransformer {
 
 	private void run() {
 		try {
-			if (verboseOption.getValue()) {
+			if (verboseOption.getValue() || (logOption.getValue() == null)) {
 				Log.addOutput(System.out);
 			}
 			if (logOption.getValue() != null) {
@@ -150,7 +153,6 @@ public class RawGraphTransformer {
 		LittleEndianInputStream input = dataSource.getLittleEndianInputStream(streamType);
 		RawGraphEntry.TwoWordFactory factory = new RawGraphEntry.TwoWordFactory(input);
 
-		final Map<RawTag, IndexedClusterNode> nodesByRawTag = new HashMap<RawTag, IndexedClusterNode>();
 		final Multimap<Long, RawTag> multiVersionTags = ArrayListMultimap.create();
 
 		long entryIndex = -1L;
@@ -163,25 +165,39 @@ public class RawGraphTransformer {
 			MetaNodeType nodeType = CrowdSafeTraceUtil.getNodeMetaType(nodeEntry.first);
 
 			ModuleInstance moduleInstance = executionModules.getModule(absoluteTag, entryIndex, streamType);
-			int relativeTag = (int) (absoluteTag - moduleInstance.start);
-
 			AutonomousSoftwareDistribution cluster = ConfiguredSoftwareDistributions.getInstance().distributionsByUnit
 					.get(moduleInstance.unit);
-			ClusterModule clusterModule = establishNodeData(cluster).moduleList.establishModule(moduleInstance.unit,
-					moduleInstance.version);
+			ClusterModule clusterModule = establishNodeData(cluster).moduleList.establishModule(moduleInstance.unit);
+
+			if (moduleInstance.unit.isDynamic)
+				Log.log("Dynamic node with absolute tag 0x%x in module instance %s and cluster module %s", absoluteTag,
+						moduleInstance, clusterModule);
+
 			graphWriters.establishClusterWriters(dataByCluster.get(cluster));
+
+			int relativeTag;
+			if ((moduleInstance.unit == SoftwareUnit.DYNAMORIO) || moduleInstance.unit.isDynamic) {
+				RawTag lookup = new RawTag(absoluteTag, tagVersion);
+				Integer tag = fakeDynamicModuleTags.get(lookup);
+				if (tag == null) {
+					tag = fakeDynamicTagIndex++;
+					fakeDynamicModuleTags.put(lookup, tag);
+					Log.log("mapping DR tag %x to fake tag %d", absoluteTag, tag);
+				}
+				relativeTag = tag;
+			} else {
+				relativeTag = (int) (absoluteTag - moduleInstance.start);
+			}
 
 			ClusterBasicBlock node = new ClusterBasicBlock(clusterModule, relativeTag, tagVersion, nodeEntry.second,
 					nodeType);
 			RawClusterData nodeData = establishNodeData(cluster);
 			IndexedClusterNode nodeId = nodeData.addNode(node);
 
-			if (!clusterModule.unit.equals(SoftwareDistributionUnit.UNKNOWN)) {
-				RawTag rawTag = new RawTag(absoluteTag, tagVersion);
-				nodesByRawTag.put(rawTag, nodeId);
-				if (tagVersion > 0)
-					multiVersionTags.put(absoluteTag, rawTag);
-			}
+			RawTag rawTag = new RawTag(absoluteTag, tagVersion);
+			nodesByRawTag.put(rawTag, nodeId);
+			if (tagVersion > 0)
+				multiVersionTags.put(absoluteTag, rawTag);
 
 			if ((dataByCluster.size() == 1) && (nodeData.size() == 1)) {
 				ClusterBoundaryNode entry = new ClusterBoundaryNode(1L, MetaNodeType.CLUSTER_ENTRY);
@@ -237,7 +253,6 @@ public class RawGraphTransformer {
 
 			long absoluteToTag = CrowdSafeTraceUtil.getTag(edgeEntry.second);
 			int toTagVersion = CrowdSafeTraceUtil.getTagVersion(edgeEntry.second);
-
 			IndexedClusterNode toNodeId = identifyNode(absoluteToTag, toTagVersion, entryIndex, streamType);
 
 			if (fromNodeId == null) {
@@ -278,9 +293,9 @@ public class RawGraphTransformer {
 
 			long absoluteFromTag = CrowdSafeTraceUtil.getTag(edgeEntry.first);
 			int fromTagVersion = CrowdSafeTraceUtil.getTagVersion(edgeEntry.first);
-			IndexedClusterNode fromNodeId = identifyNode(absoluteFromTag, fromTagVersion, entryIndex, streamType);
 			EdgeType type = CrowdSafeTraceUtil.getTagEdgeType(edgeEntry.first);
 			int ordinal = CrowdSafeTraceUtil.getEdgeOrdinal(edgeEntry.first);
+			IndexedClusterNode fromNodeId = identifyNode(absoluteFromTag, fromTagVersion, entryIndex, streamType);
 
 			long absoluteToTag = CrowdSafeTraceUtil.getTag(edgeEntry.second);
 			int toTagVersion = CrowdSafeTraceUtil.getTagVersion(edgeEntry.second);
@@ -333,16 +348,28 @@ public class RawGraphTransformer {
 	private IndexedClusterNode identifyNode(long absoluteTag, int tagVersion, long entryIndex,
 			ExecutionTraceStreamType streamType) {
 		ModuleInstance moduleInstance = executionModules.getModule(absoluteTag, entryIndex, streamType);
+
+		// if (moduleInstance.unit.isDynamic)
+		// System.out.println(String.format("Identify node for absolute tag 0x%x", absoluteTag));
+
 		AutonomousSoftwareDistribution cluster = ConfiguredSoftwareDistributions.getInstance().distributionsByUnit
 				.get(moduleInstance.unit);
+		ClusterModule clusterModule = dataByCluster.get(cluster).moduleList.getModule(moduleInstance.unit);
 
-		ClusterModule clusterModule = dataByCluster.get(cluster).moduleList.getModule(moduleInstance.unit,
-				moduleInstance.version);
+		if ((moduleInstance.unit == SoftwareUnit.DYNAMORIO) || moduleInstance.unit.isDynamic) {
+			IndexedClusterNode node = nodesByRawTag.get(new RawTag(absoluteTag, tagVersion));
+			if (node == null)
+				toString();
+			return node;
+		}
+
+		long tag = (absoluteTag - moduleInstance.start);
 		if ((tagVersion > 0) && (flattenedCollisions.contains(absoluteTag)))
 			tagVersion = 0;
-		ClusterBasicBlock.Key key = new ClusterBasicBlock.Key(clusterModule,
-				(int) (absoluteTag - moduleInstance.start), tagVersion);
-		return dataByCluster.get(cluster).getNode(key);
+
+		ClusterBasicBlock.Key key = new ClusterBasicBlock.Key(clusterModule, tag, tagVersion);
+		IndexedClusterNode node = dataByCluster.get(cluster).getNode(key);
+		return node;
 	}
 
 	private void writeNodes() throws IOException {

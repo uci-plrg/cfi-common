@@ -13,12 +13,12 @@ import java.util.Set;
 public class AutonomousSoftwareDistributionLoader {
 
 	public static AutonomousSoftwareDistribution loadDistribution(File configFile) throws IOException {
-		Set<SoftwareDistributionUnit> distUnits = new HashSet<SoftwareDistributionUnit>();
+		Set<SoftwareUnit> distUnits = new HashSet<SoftwareUnit>();
 		BufferedReader reader = new BufferedReader(new FileReader(configFile));
 		try {
 			String line;
 			while ((line = reader.readLine()) != null) {
-				distUnits.add(new SoftwareDistributionUnit(line.toLowerCase()));
+				distUnits.add(new SoftwareUnit(line.toLowerCase()));
 			}
 		} finally {
 			reader.close();
@@ -34,7 +34,7 @@ public class AutonomousSoftwareDistributionLoader {
 		try {
 			String line;
 			while ((line = reader.readLine()) != null) {
-				SoftwareDistributionUnit unit = new SoftwareDistributionUnit(line.toLowerCase());
+				SoftwareUnit unit = new SoftwareUnit(line.toLowerCase());
 				singletons.add(new AutonomousSoftwareDistribution(unit.name, Collections.singleton(unit)));
 			}
 		} finally {

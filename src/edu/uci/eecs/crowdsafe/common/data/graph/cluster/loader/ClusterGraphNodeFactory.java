@@ -38,7 +38,7 @@ public class ClusterGraphNodeFactory {
 		int instanceId = (int) ((first >> 0x28) & 0xffL);
 
 		if (((int) ((first >> 0x30) & 0xffL)) > MetaNodeType.values().length)
-			toString();
+			System.out.println(String.format("Parse fail: %x", first));
 
 		MetaNodeType type = MetaNodeType.values()[(int) ((first >> 0x30) & 0xffL)];
 		ClusterModule module = modules.getModule(moduleIndex);

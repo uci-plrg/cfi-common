@@ -1,6 +1,6 @@
 package edu.uci.eecs.crowdsafe.common.data.graph.cluster;
 
-import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareDistributionUnit;
+import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareUnit;
 import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareModule;
 
 /**
@@ -12,8 +12,8 @@ public class ClusterModule extends SoftwareModule {
 
 	public final int id;
 
-	ClusterModule(int id, SoftwareDistributionUnit unit, String version) {
-		super(unit, version);
+	public ClusterModule(int id, SoftwareUnit unit) {
+		super(unit);
 
 		this.id = id;
 	}

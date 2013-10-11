@@ -7,15 +7,15 @@ import java.util.Set;
 public class AutonomousSoftwareDistribution {
 	public final String name;
 	public final String id;
-	public final Set<SoftwareDistributionUnit> distributionUnits;
+	public final Set<SoftwareUnit> distributionUnits;
 
 	AutonomousSoftwareDistribution(String name, String id) {
 		this.name = name;
 		this.id = id;
-		distributionUnits = new HashSet<SoftwareDistributionUnit>();
+		distributionUnits = new HashSet<SoftwareUnit>();
 	}
 
-	AutonomousSoftwareDistribution(String name, Set<SoftwareDistributionUnit> distributionUnits) {
+	AutonomousSoftwareDistribution(String name, Set<SoftwareUnit> distributionUnits) {
 		this.name = this.id = name;
 		this.distributionUnits = Collections.unmodifiableSet(distributionUnits);
 	}

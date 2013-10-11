@@ -32,20 +32,6 @@ public class ConfiguredSoftwareDistributions {
 		return INSTANCE;
 	}
 
-	private static String getFilename(String unitName) {
-		int dashIndex = unitName.lastIndexOf('-');
-		if (dashIndex < 0)
-			return unitName;
-		return unitName.substring(0, dashIndex);
-	}
-
-	public static String getVersion(String unitName) {
-		int dashIndex = unitName.lastIndexOf('-');
-		if (dashIndex < 0)
-			return "";
-		return unitName.substring(dashIndex + 1);
-	}
-
 	private static ConfiguredSoftwareDistributions INSTANCE;
 
 	public static final AutonomousSoftwareDistribution MAIN_PROGRAM = new AutonomousSoftwareDistribution(
@@ -54,20 +40,21 @@ public class ConfiguredSoftwareDistributions {
 	public final File configDir;
 	public final ClusterMode clusterMode;
 	public final Map<String, AutonomousSoftwareDistribution> distributions = new HashMap<String, AutonomousSoftwareDistribution>();
-	public final Map<String, SoftwareDistributionUnit> unitsByName = new HashMap<String, SoftwareDistributionUnit>();
-	public final Map<SoftwareDistributionUnit, AutonomousSoftwareDistribution> distributionsByUnit = new HashMap<SoftwareDistributionUnit, AutonomousSoftwareDistribution>();
+	public final Map<String, SoftwareUnit> unitsByName = new HashMap<String, SoftwareUnit>();
+	public final Map<SoftwareUnit, AutonomousSoftwareDistribution> distributionsByUnit = new HashMap<SoftwareUnit, AutonomousSoftwareDistribution>();
 
 	private ConfiguredSoftwareDistributions(ClusterMode clusterMode, File configDir) {
 		this.clusterMode = clusterMode;
 		this.configDir = configDir;
-		distributions.put(MAIN_PROGRAM.name, MAIN_PROGRAM);
+
+		if (clusterMode == ClusterMode.GROUP)
+			distributions.put(MAIN_PROGRAM.name, MAIN_PROGRAM);
 	}
 
 	private void loadDistributions() {
 		if (clusterMode == ClusterMode.UNIT) {
-			AutonomousSoftwareDistribution unknown = new AutonomousSoftwareDistribution(
-					SoftwareDistributionUnit.UNKNOWN.name, Collections.singleton(SoftwareDistributionUnit.UNKNOWN));
-			distributionsByUnit.put(SoftwareDistributionUnit.UNKNOWN, unknown);
+			AutonomousSoftwareDistribution dynamorioCluster = establishCluster(SoftwareUnit.DYNAMORIO_UNIT_NAME);
+			installCluster(dynamorioCluster, SoftwareUnit.DYNAMORIO);
 			return;
 		}
 
@@ -87,7 +74,7 @@ public class ConfiguredSoftwareDistributions {
 			}
 
 			for (AutonomousSoftwareDistribution distribution : distributions.values()) {
-				for (SoftwareDistributionUnit unit : distribution.distributionUnits) {
+				for (SoftwareUnit unit : distribution.distributionUnits) {
 					unitsByName.put(unit.name, unit);
 					distributionsByUnit.put(unit, distribution);
 				}
@@ -108,32 +95,43 @@ public class ConfiguredSoftwareDistributions {
 		return cluster;
 	}
 
-	public synchronized SoftwareDistributionUnit establishUnit(String name) {
-		SoftwareDistributionUnit existing = unitsByName.get(name);
-		if (existing == null)
-			existing = unitsByName.get(getFilename(name));
+	public SoftwareUnit establishUnitByName(String unitName) {
+		if (unitName.startsWith(SoftwareUnit.DYNAMIC_UNIT_NAME))
+			throw new IllegalArgumentException(String.format("Name collision: file %s will look like a dynamic unit!",
+					unitName));
+		if (unitName.startsWith(SoftwareModule.DYNAMIC_MODULE_NAME))
+			unitName = unitName.replace(SoftwareModule.DYNAMIC_MODULE_NAME, SoftwareUnit.DYNAMIC_UNIT_NAME);
+
+		if (unitName.startsWith(SoftwareUnit.DYNAMORIO_UNIT_NAME))
+			throw new IllegalArgumentException(String.format(
+					"Name collision: file %s will look like the dynamorio module!", unitName));
+		if (unitName.contains(SoftwareModule.DYNAMORIO_MODULE_NAME))
+			unitName = unitName.replace(SoftwareModule.DYNAMORIO_MODULE_NAME, SoftwareUnit.DYNAMORIO_UNIT_NAME);
+
+		return establishUnitByFileSystemName(unitName);
+	}
+
+	public synchronized SoftwareUnit establishUnitByFileSystemName(String name) {
+		SoftwareUnit existing = unitsByName.get(name);
 		if (existing != null)
 			return existing;
 
 		if (clusterMode == ClusterMode.UNIT) {
-			AutonomousSoftwareDistribution unitCluster;
-			if (name.endsWith(".exe"))
-				unitCluster = MAIN_PROGRAM;
-			else
-				unitCluster = establishCluster(name);
-
-			SoftwareDistributionUnit unit = new SoftwareDistributionUnit(name);
-			unitsByName.put(unit.name, unit);
-			distributionsByUnit.put(unit, unitCluster);
-			unitCluster.distributionUnits.add(unit);
+			AutonomousSoftwareDistribution unitCluster = establishCluster(name);
+			SoftwareUnit unit = new SoftwareUnit(name, name.startsWith(SoftwareUnit.DYNAMIC_UNIT_NAME));
+			installCluster(unitCluster, unit);
 			return unit;
 		} else {
-			SoftwareDistributionUnit unit = new SoftwareDistributionUnit(name);
+			SoftwareUnit unit = new SoftwareUnit(name);
 			AutonomousSoftwareDistribution main = distributions.get(MAIN_PROGRAM);
-			unitsByName.put(unit.name, unit);
-			distributionsByUnit.put(unit, main);
-			main.distributionUnits.add(unit);
+			installCluster(main, unit);
 			return unit;
 		}
+	}
+
+	private void installCluster(AutonomousSoftwareDistribution cluster, SoftwareUnit unit) {
+		unitsByName.put(unit.name, unit);
+		distributionsByUnit.put(unit, cluster);
+		cluster.distributionUnits.add(unit);
 	}
 }

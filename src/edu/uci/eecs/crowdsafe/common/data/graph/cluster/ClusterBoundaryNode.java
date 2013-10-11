@@ -1,13 +1,13 @@
 package edu.uci.eecs.crowdsafe.common.data.graph.cluster;
 
-import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareDistributionUnit;
+import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareUnit;
 import edu.uci.eecs.crowdsafe.common.data.graph.MetaNodeType;
 import edu.uci.eecs.crowdsafe.common.data.graph.Node;
 
 public class ClusterBoundaryNode extends ClusterNode<ClusterBoundaryNode.Key> {
 
-	public static final ClusterModule BOUNDARY_MODULE = new ClusterModule(0, SoftwareDistributionUnit.CLUSTER_BOUNDARY,
-			"");
+	// id 0 means: arbitrarily associate with the first module in the cluster
+	public static final ClusterModule BOUNDARY_MODULE = new ClusterModule(0, SoftwareUnit.CLUSTER_BOUNDARY);
 
 	public static class Key implements Node.Key {
 		private final long hash;
