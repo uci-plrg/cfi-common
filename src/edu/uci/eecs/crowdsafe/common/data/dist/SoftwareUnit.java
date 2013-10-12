@@ -10,7 +10,7 @@ public class SoftwareUnit {
 	public static final String DYNAMORIO_UNIT_NAME = "__dynamorio";
 	public static final String DYNAMIC_UNIT_NAME = "__dynamic";
 
-	public static final SoftwareUnit DYNAMORIO = new SoftwareUnit("|dynamorio|-" + SoftwareModule.EMPTY_VERSION);
+	public static final SoftwareUnit DYNAMORIO = new SoftwareUnit("|dynamorio|-" + SoftwareModule.EMPTY_VERSION, true);
 	public static final SoftwareUnit CLUSTER_BOUNDARY = new SoftwareUnit("|cluster_boundary|-"
 			+ SoftwareModule.EMPTY_VERSION);
 

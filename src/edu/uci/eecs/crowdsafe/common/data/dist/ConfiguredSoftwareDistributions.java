@@ -74,7 +74,7 @@ public class ConfiguredSoftwareDistributions {
 			}
 
 			for (AutonomousSoftwareDistribution distribution : distributions.values()) {
-				for (SoftwareUnit unit : distribution.distributionUnits) {
+				for (SoftwareUnit unit : distribution.getUnits()) {
 					unitsByName.put(unit.name, unit);
 					distributionsByUnit.put(unit, distribution);
 				}
@@ -118,7 +118,8 @@ public class ConfiguredSoftwareDistributions {
 
 		if (clusterMode == ClusterMode.UNIT) {
 			AutonomousSoftwareDistribution unitCluster = establishCluster(name);
-			SoftwareUnit unit = new SoftwareUnit(name, name.startsWith(SoftwareUnit.DYNAMIC_UNIT_NAME));
+			SoftwareUnit unit = new SoftwareUnit(name, name.startsWith(SoftwareUnit.DYNAMIC_UNIT_NAME)
+					|| name.startsWith(SoftwareUnit.DYNAMORIO_UNIT_NAME));
 			installCluster(unitCluster, unit);
 			return unit;
 		} else {
@@ -132,6 +133,6 @@ public class ConfiguredSoftwareDistributions {
 	private void installCluster(AutonomousSoftwareDistribution cluster, SoftwareUnit unit) {
 		unitsByName.put(unit.name, unit);
 		distributionsByUnit.put(unit, cluster);
-		cluster.distributionUnits.add(unit);
+		cluster.addUnit(unit);
 	}
 }

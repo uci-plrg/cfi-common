@@ -32,10 +32,7 @@ public class ClusterModuleLoader {
 			if (moduleLine.length() == 0)
 				continue;
 
-			int lastDash = moduleLine.lastIndexOf('-');
-			String unitName = moduleLine.substring(0, lastDash);
-			SoftwareUnit unit = ConfiguredSoftwareDistributions.getInstance().establishUnitByFileSystemName(unitName);
-			String version = moduleLine.substring(lastDash + 1);
+			SoftwareUnit unit = ConfiguredSoftwareDistributions.getInstance().establishUnitByFileSystemName(moduleLine);
 			modules.addModule(unit);
 		}
 

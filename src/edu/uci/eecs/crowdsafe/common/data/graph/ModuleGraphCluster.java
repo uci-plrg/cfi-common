@@ -74,7 +74,7 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 			return false;
 
 		for (ModuleGraph module : graphs.values()) {
-			ModuleGraph otherModule = other.graphs.get(module);
+			ModuleGraph otherModule = other.graphs.get(module.softwareUnit);
 			if (otherModule == null)
 				return false;
 		}

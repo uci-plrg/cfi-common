@@ -65,7 +65,7 @@ public class ProcessExecutionGraph {
 			ModuleGraphCluster<ExecutionNode> moduleCluster = new ModuleGraphCluster<ExecutionNode>(dist);
 			moduleGraphs.put(dist, moduleCluster);
 
-			for (SoftwareUnit unit : dist.distributionUnits) {
+			for (SoftwareUnit unit : dist.getUnits()) {
 				moduleGraphsBySoftwareUnit.put(unit, moduleCluster);
 			}
 		}
