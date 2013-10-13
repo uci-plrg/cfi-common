@@ -36,6 +36,8 @@ public class ConfiguredSoftwareDistributions {
 
 	public static final AutonomousSoftwareDistribution MAIN_PROGRAM = new AutonomousSoftwareDistribution(
 			"<main-program>", "main-program");
+	public static final AutonomousSoftwareDistribution DYNAMORIO_CLUSTER = new AutonomousSoftwareDistribution(
+			SoftwareUnit.DYNAMORIO_UNIT_NAME, SoftwareUnit.DYNAMORIO_UNIT_NAME);
 
 	public final File configDir;
 	public final ClusterMode clusterMode;
@@ -49,12 +51,13 @@ public class ConfiguredSoftwareDistributions {
 
 		if (clusterMode == ClusterMode.GROUP)
 			distributions.put(MAIN_PROGRAM.name, MAIN_PROGRAM);
+		else
+			distributions.put(DYNAMORIO_CLUSTER.name, DYNAMORIO_CLUSTER);
 	}
 
 	private void loadDistributions() {
 		if (clusterMode == ClusterMode.UNIT) {
-			AutonomousSoftwareDistribution dynamorioCluster = establishCluster(SoftwareUnit.DYNAMORIO_UNIT_NAME);
-			installCluster(dynamorioCluster, SoftwareUnit.DYNAMORIO);
+			installCluster(DYNAMORIO_CLUSTER, SoftwareUnit.DYNAMORIO);
 			return;
 		}
 
@@ -102,24 +105,31 @@ public class ConfiguredSoftwareDistributions {
 		if (unitName.startsWith(SoftwareModule.DYNAMIC_MODULE_NAME))
 			unitName = unitName.replace(SoftwareModule.DYNAMIC_MODULE_NAME, SoftwareUnit.DYNAMIC_UNIT_NAME);
 
-		if (unitName.startsWith(SoftwareUnit.DYNAMORIO_UNIT_NAME))
-			throw new IllegalArgumentException(String.format(
-					"Name collision: file %s will look like the dynamorio module!", unitName));
-		if (unitName.contains(SoftwareModule.DYNAMORIO_MODULE_NAME))
-			unitName = unitName.replace(SoftwareModule.DYNAMORIO_MODULE_NAME, SoftwareUnit.DYNAMORIO_UNIT_NAME);
+		if (unitName.startsWith(SoftwareUnit.DYNAMORIO_UNIT_NAME)
+				|| unitName.contains(SoftwareModule.DYNAMORIO_MODULE_NAME))
+			throw new IllegalArgumentException("The DynamoRIO software unit is static!");
+
+		/*
+		 * if (unitName.startsWith(SoftwareUnit.DYNAMORIO_UNIT_NAME)) throw new IllegalArgumentException(String.format(
+		 * "Name collision: file %s will look like the dynamorio module!", unitName)); if
+		 * (unitName.contains(SoftwareModule.DYNAMORIO_MODULE_NAME)) unitName =
+		 * unitName.replace(SoftwareModule.DYNAMORIO_MODULE_NAME, SoftwareUnit.DYNAMORIO_UNIT_NAME);
+		 */
 
 		return establishUnitByFileSystemName(unitName);
 	}
 
 	public synchronized SoftwareUnit establishUnitByFileSystemName(String name) {
+		if (name.startsWith(SoftwareUnit.DYNAMORIO_UNIT_NAME))
+			return SoftwareUnit.DYNAMORIO;
+
 		SoftwareUnit existing = unitsByName.get(name);
 		if (existing != null)
 			return existing;
 
 		if (clusterMode == ClusterMode.UNIT) {
 			AutonomousSoftwareDistribution unitCluster = establishCluster(name);
-			SoftwareUnit unit = new SoftwareUnit(name, name.startsWith(SoftwareUnit.DYNAMIC_UNIT_NAME)
-					|| name.startsWith(SoftwareUnit.DYNAMORIO_UNIT_NAME));
+			SoftwareUnit unit = new SoftwareUnit(name, name.startsWith(SoftwareUnit.DYNAMIC_UNIT_NAME));
 			installCluster(unitCluster, unit);
 			return unit;
 		} else {

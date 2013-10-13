@@ -234,6 +234,48 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 		}
 	}
 
+	public void logGraph() {
+		Log.log("\nGraph traversal for cluster %s", cluster);
+		
+		Set<EdgeEndpointType> visitedNodes = new HashSet<EdgeEndpointType>();
+		Queue<EdgeEndpointType> bfsQueue = new LinkedList<EdgeEndpointType>();
+		bfsQueue.addAll(entryNodes.values());
+
+		while (bfsQueue.size() > 0) {
+			EdgeEndpointType node = bfsQueue.remove();
+			visitedNodes.add(node);
+
+			Log.log(node);
+
+			OrdinalEdgeList<EdgeEndpointType> edgeList = node.getOutgoingEdges();
+			try {
+				for (Edge<EdgeEndpointType> edge : edgeList) {
+					EdgeEndpointType neighbor = edge.getToNode();
+					if (!visitedNodes.contains(neighbor)) {
+						bfsQueue.add(neighbor);
+						visitedNodes.add(neighbor);
+					}
+					Log.log(edge);
+				}
+			} finally {
+				edgeList.release();
+			}
+
+			Edge<EdgeEndpointType> continuationEdge = node.getCallContinuation();
+			if (continuationEdge != null) {
+				EdgeEndpointType continuation = continuationEdge.getToNode();
+				if (!visitedNodes.contains(continuation)) {
+					bfsQueue.add(continuation);
+					visitedNodes.add(continuation);
+				}
+
+				Log.log(continuationEdge);
+			}
+		}
+		
+		Log.log();
+	}
+
 	public Graph.Cluster summarize() {
 		Graph.Cluster.Builder clusterBuilder = Graph.Cluster.newBuilder();
 		Graph.Module.Builder moduleBuilder = Graph.Module.newBuilder();

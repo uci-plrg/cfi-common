@@ -23,6 +23,7 @@ import edu.uci.eecs.crowdsafe.common.data.graph.MetaNodeType;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterBasicBlock;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterBoundaryNode;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterModule;
+import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterNode;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.writer.ClusterDataWriter;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.ModuleInstance;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.ProcessExecutionGraph;
@@ -155,6 +156,7 @@ public class RawGraphTransformer {
 
 		final Multimap<Long, RawTag> multiVersionTags = ArrayListMultimap.create();
 
+		boolean foundAppEntryPoint = false;
 		long entryIndex = -1L;
 		while (factory.hasMoreEntries()) {
 			RawGraphEntry.TwoWordEntry nodeEntry = factory.createEntry();
@@ -189,8 +191,12 @@ public class RawGraphTransformer {
 				relativeTag = (int) (absoluteTag - moduleInstance.start);
 			}
 
-			ClusterBasicBlock node = new ClusterBasicBlock(clusterModule, relativeTag, tagVersion, nodeEntry.second,
-					nodeType);
+			ClusterNode<?> node;
+			if (nodeType == MetaNodeType.CONTEXT_ENTRY) {
+				node = new ClusterBoundaryNode(nodeEntry.second, MetaNodeType.CLUSTER_ENTRY);
+			} else {
+				node = new ClusterBasicBlock(clusterModule, relativeTag, tagVersion, nodeEntry.second, nodeType);
+			}
 			RawClusterData nodeData = establishNodeData(cluster);
 			IndexedClusterNode nodeId = nodeData.addNode(node);
 
@@ -199,10 +205,12 @@ public class RawGraphTransformer {
 			if (tagVersion > 0)
 				multiVersionTags.put(absoluteTag, rawTag);
 
-			if ((dataByCluster.size() == 1) && (nodeData.size() == 1)) {
+			if ((!foundAppEntryPoint) && (nodeType == MetaNodeType.NORMAL)) {
 				ClusterBoundaryNode entry = new ClusterBoundaryNode(1L, MetaNodeType.CLUSTER_ENTRY);
 				IndexedClusterNode entryId = nodeData.addNode(entry);
 				establishEdgeSet(cluster).add(new RawEdge(entryId, nodeId, EdgeType.CLUSTER_ENTRY, 0));
+
+				foundAppEntryPoint = true;
 			}
 		}
 
