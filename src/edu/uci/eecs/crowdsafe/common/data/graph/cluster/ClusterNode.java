@@ -11,9 +11,9 @@ public abstract class ClusterNode<KeyType extends Node.Key> extends Node<Cluster
 	protected ClusterNode(KeyType key) {
 		this.key = key;
 	}
-	
+
 	public abstract int getInstanceId();
-	
+
 	public abstract ClusterModule getModule();
 
 	@Override
@@ -27,6 +27,14 @@ public abstract class ClusterNode<KeyType extends Node.Key> extends Node<Cluster
 
 	public void addOutgoingEdge(Edge<ClusterNode<?>> e) {
 		edges.addEdge(EdgeSet.Direction.OUTGOING, e);
+	}
+
+	public void removeIncomingEdge(Edge<ClusterNode<?>> e) {
+		edges.removeEdge(EdgeSet.Direction.INCOMING, e);
+	}
+
+	public boolean replaceEdge(Edge<ClusterNode<?>> original, Edge<ClusterNode<?>> replacement) {
+		return edges.replaceEdge(original, replacement);
 	}
 
 	@Override

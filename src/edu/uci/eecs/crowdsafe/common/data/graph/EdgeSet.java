@@ -3,6 +3,7 @@ package edu.uci.eecs.crowdsafe.common.data.graph;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterNode;
 import edu.uci.eecs.crowdsafe.common.log.Log;
 
 /**
@@ -90,6 +91,25 @@ public class EdgeSet<EdgeEndpointType extends Node<EdgeEndpointType>> {
 		for (int i = ordinal + 1; i < outgoingOrdinals.size(); i++) {
 			outgoingOrdinals.get(i).position++;
 		}
+	}
+
+	public void removeEdge(Direction direction, Edge<EdgeEndpointType> edge) {
+		switch (direction) {
+			case INCOMING:
+				edges.remove(edge);
+				break;
+			case OUTGOING:
+				throw new UnsupportedOperationException("Removal of outgoing edges is not implemented yet.");
+		}
+	}
+
+	public boolean replaceEdge(Edge<EdgeEndpointType> original, Edge<EdgeEndpointType> replacement) {
+		int index = edges.indexOf(original);
+		if (index < 0)
+			return false;
+
+		edges.set(index, replacement);
+		return true;
 	}
 
 	public OrdinalEdgeList<EdgeEndpointType> getEdges(Direction direction, int ordinal) {

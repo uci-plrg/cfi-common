@@ -284,8 +284,10 @@ public class RawGraphTransformer {
 				RawEdge edge = new RawEdge(fromNodeId, toNodeId, type, ordinal);
 				establishEdgeSet(fromNodeId.cluster).add(edge);
 			} else {
-				throw new IllegalStateException(String.format(
-						"Intra-module edge from %s to %s crosses a cluster boundary!", fromNodeId.node, toNodeId.node));
+				Log.log("Error! Intra-module edge from %s to %s crosses a cluster boundary (%s to %s)!",
+						fromNodeId.node, toNodeId.node, fromNodeId.cluster, toNodeId.cluster);
+				// throw new IllegalStateException(String.format(
+				// "Intra-module edge from %s to %s crosses a cluster boundary!", fromNodeId.node, toNodeId.node));
 			}
 		}
 	}

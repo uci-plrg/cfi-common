@@ -99,7 +99,7 @@ public class ClusterGraphLoadSession {
 			builder.graph.analyzeGraph();
 			if (builder.graph.cluster.isDynamic())
 				builder.graph.logGraph();
-			
+
 			return builder.graph;
 		}
 
@@ -127,10 +127,14 @@ public class ClusterGraphLoadSession {
 
 			try {
 				while (edgeFactory.ready()) {
-					Edge<?> edge = edgeFactory.createEdge();
+					try {
+						Edge<?> edge = edgeFactory.createEdge();
 
-					if (listener != null)
-						listener.edgeCreation(edge);
+						if (listener != null)
+							listener.edgeCreation(edge);
+					} catch (Throwable t) {
+						Log.log("%s while creating an edge. Skipping it for now!", t.getClass().getSimpleName());
+					}
 				}
 			} finally {
 				edgeFactory.close();
