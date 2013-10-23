@@ -28,6 +28,10 @@ public class AutonomousSoftwareDistribution {
 		return units;
 	}
 	
+	public int getUnitCount() {
+		return units.size();
+	}
+	
 	public boolean isDynamic() {
 		return isDynamic;
 	}
