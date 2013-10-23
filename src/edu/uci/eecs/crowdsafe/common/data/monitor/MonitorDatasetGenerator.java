@@ -123,14 +123,12 @@ public class MonitorDatasetGenerator {
 		List<Edge<ClusterNode<?>>> intraModule = new ArrayList<Edge<ClusterNode<?>>>();
 		List<Edge<ClusterNode<?>>> callSites = new ArrayList<Edge<ClusterNode<?>>>();
 		List<Edge<ClusterNode<?>>> exports = new ArrayList<Edge<ClusterNode<?>>>();
-		int moduleStart;
 
 		for (AutonomousSoftwareDistribution cluster : sortedClusters) {
 			nodeSorter.clear();
 			SoftwareUnit unit = cluster.getUnits().iterator().next();
 			CatalogPointers unitPointers = catalogPointers.get(unit);
 			unitPointers.data.offsetLocation = writer.getCursor();
-			moduleStart = writer.getCursor();
 
 			ModuleGraphCluster<?> graph = loadSession.loadClusterGraph(cluster);
 			for (Node<?> node : graph.getAllNodes()) {
@@ -153,7 +151,7 @@ public class MonitorDatasetGenerator {
 			int intraModuleWord;
 			for (ClusterBasicBlock node : nodeSorter) {
 				Pointer nodePointer = nodePointers.get(node);
-				nodePointer.offsetLocation = (writer.getCursor() - moduleStart);
+				nodePointer.offsetLocation = writer.getCursor();
 
 				intraModule.clear();
 				callSites.clear();
