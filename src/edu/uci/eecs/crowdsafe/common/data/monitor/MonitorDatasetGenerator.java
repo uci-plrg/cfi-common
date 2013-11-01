@@ -2,6 +2,7 @@ package edu.uci.eecs.crowdsafe.common.data.monitor;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -104,6 +105,7 @@ public class MonitorDatasetGenerator {
 
 	private final Map<MonitorFileSegment, File> outputFiles = new EnumMap<MonitorFileSegment, File>(
 			MonitorFileSegment.class);
+	private final File outputFile;
 
 	private final int imageIndexSize;
 	private int imageNamesSize;
@@ -144,6 +146,8 @@ public class MonitorDatasetGenerator {
 		String baseFilename = outputFile.getName();
 		if (outputFile.getParentFile() == null)
 			outputFile = new File(new File("."), outputFile.getName());
+		this.outputFile = outputFile;
+
 		int lastDot = baseFilename.lastIndexOf('.');
 		if (lastDot >= 0) {
 			String start = baseFilename.substring(0, lastDot);
@@ -169,6 +173,8 @@ public class MonitorDatasetGenerator {
 			generateAnonymousModule();
 			generateAnonymousIndex();
 		}
+
+		generateConcatenationScript();
 	}
 
 	private void generateNameBlock() throws IOException {
@@ -263,6 +269,7 @@ public class MonitorDatasetGenerator {
 			CatalogPointers unitPointers = catalogPointers.get(unit);
 			unitPointers.dataPointsTo = baseOffset + writer.getCursor();
 
+			writer.writeInt(nodeSorter.size());
 			for (ClusterBasicBlock node : nodeSorter) {
 				writer.writeInt(node.getRelativeTag());
 				writer.writeInt(nodePointers.get(node));
@@ -397,5 +404,31 @@ public class MonitorDatasetGenerator {
 		}
 
 		writer.conclude();
+	}
+
+	private void generateConcatenationScript() throws IOException {
+		File script = new File(outputFile.getParentFile(), "concatenate");
+		script.setExecutable(true);
+		PrintWriter writer = new PrintWriter(script);
+
+		writer.println("#!/bin/bash");
+		writer.println();
+		writer.println(String.format("cd %s", script.getParentFile().getAbsolutePath()));
+		writer.println(String.format("mv %s %s", outputFiles.get(MonitorFileSegment.IMAGE_INDEX).getName(),
+				outputFile.getName()));
+		writer.println(String.format("cat %s >> %s", outputFiles.get(MonitorFileSegment.IMAGE_NAMES).getName(),
+				outputFile.getName()));
+		writer.println(String.format("cat %s >> %s", outputFiles.get(MonitorFileSegment.IMAGE_GRAPHS).getName(),
+				outputFile.getName()));
+
+		if (outputFiles.get(MonitorFileSegment.ANONYMOUS_GRAPH).exists()) {
+			writer.println(String.format("cat %s >> %s", outputFiles.get(MonitorFileSegment.ANONYMOUS_INDEX).getName(),
+					outputFile.getName()));
+			writer.println(String.format("cat %s >> %s", outputFiles.get(MonitorFileSegment.ANONYMOUS_GRAPH).getName(),
+					outputFile.getName()));
+		}
+
+		writer.flush();
+		writer.close();
 	}
 }
