@@ -38,6 +38,8 @@ public class ConfiguredSoftwareDistributions {
 			"<main-program>", "main-program");
 	public static final AutonomousSoftwareDistribution DYNAMORIO_CLUSTER = new AutonomousSoftwareDistribution(
 			SoftwareUnit.DYNAMORIO_UNIT_NAME, SoftwareUnit.DYNAMORIO_UNIT_NAME);
+	public static final AutonomousSoftwareDistribution ANONYMOUS_CLUSTER = new AutonomousSoftwareDistribution(
+			SoftwareUnit.ANONYMOUS_UNIT_NAME, SoftwareUnit.ANONYMOUS_UNIT_NAME);
 
 	public final File configDir;
 	public final ClusterMode clusterMode;
@@ -92,7 +94,10 @@ public class ConfiguredSoftwareDistributions {
 	public synchronized AutonomousSoftwareDistribution establishCluster(String name) {
 		AutonomousSoftwareDistribution cluster = distributions.get(name);
 		if (cluster == null) {
-			cluster = new AutonomousSoftwareDistribution(name, name);
+			if (name.equals(ANONYMOUS_CLUSTER.name))
+				cluster = ANONYMOUS_CLUSTER;
+			else
+				cluster = new AutonomousSoftwareDistribution(name, name);
 			distributions.put(name, cluster);
 		}
 		return cluster;
@@ -104,6 +109,8 @@ public class ConfiguredSoftwareDistributions {
 					unitName));
 		if (unitName.startsWith(SoftwareModule.DYNAMIC_MODULE_NAME))
 			unitName = unitName.replace(SoftwareModule.DYNAMIC_MODULE_NAME, SoftwareUnit.DYNAMIC_UNIT_NAME);
+		if (unitName.startsWith(SoftwareModule.STATIC_MODULE_NAME))
+			unitName = unitName.replace(SoftwareModule.STATIC_MODULE_NAME, SoftwareUnit.STATIC_UNIT_NAME);
 
 		if (unitName.startsWith(SoftwareUnit.DYNAMORIO_UNIT_NAME)
 				|| unitName.contains(SoftwareModule.DYNAMORIO_MODULE_NAME))
@@ -129,7 +136,10 @@ public class ConfiguredSoftwareDistributions {
 
 		if (clusterMode == ClusterMode.UNIT) {
 			AutonomousSoftwareDistribution unitCluster = establishCluster(name);
-			SoftwareUnit unit = new SoftwareUnit(name, name.startsWith(SoftwareUnit.DYNAMIC_UNIT_NAME));
+			boolean isDynamic = name.startsWith(SoftwareUnit.DYNAMIC_UNIT_NAME)
+					|| name.startsWith(SoftwareUnit.STATIC_UNIT_NAME)
+					|| name.startsWith(SoftwareUnit.ANONYMOUS_UNIT_NAME);
+			SoftwareUnit unit = new SoftwareUnit(name, isDynamic);
 			installCluster(unitCluster, unit);
 			return unit;
 		} else {

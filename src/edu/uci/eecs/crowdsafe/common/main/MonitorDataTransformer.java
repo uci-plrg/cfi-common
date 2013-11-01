@@ -56,7 +56,7 @@ public class MonitorDataTransformer {
 			MonitorDatasetGenerator generator = new MonitorDatasetGenerator(directory, outputFile);
 			generator.generateDataset();
 		} catch (Throwable t) {
-			t.printStackTrace();
+			t.printStackTrace(System.err);
 		}
 	}
 

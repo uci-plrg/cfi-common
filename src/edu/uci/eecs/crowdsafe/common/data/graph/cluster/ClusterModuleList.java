@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareModule;
 import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareUnit;
 
 public class ClusterModuleList {
@@ -28,7 +29,12 @@ public class ClusterModuleList {
 		if (unit.equals(ClusterBoundaryNode.BOUNDARY_MODULE.unit))
 			return ClusterBoundaryNode.BOUNDARY_MODULE; // placeholder only, not to be included in the list
 
-		ClusterModule module = new ClusterModule(moduleList.size(), unit);
+		ClusterModule module;
+		if (unit.equals(SoftwareModule.ANONYMOUS_MODULE.unit))
+			module = SoftwareModule.ANONYMOUS_MODULE;
+		else
+			module = new ClusterModule(moduleList.size(), unit);
+
 		moduleList.add(module);
 		modules.put(module.unit, module);
 		return module;

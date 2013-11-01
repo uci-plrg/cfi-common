@@ -8,7 +8,7 @@ public class AutonomousSoftwareDistribution {
 	public final String name;
 	public final String id;
 
-	private boolean isDynamic = false;
+	private boolean isAnonymous = false;
 	private final Set<SoftwareUnit> units;
 
 	AutonomousSoftwareDistribution(String name, String id) {
@@ -32,15 +32,15 @@ public class AutonomousSoftwareDistribution {
 		return units.size();
 	}
 	
-	public boolean isDynamic() {
-		return isDynamic;
+	public boolean isAnonymous() {
+		return isAnonymous;
 	}
 
 	void addUnit(SoftwareUnit unit) {
 		if (units.isEmpty()) {
-			isDynamic = unit.isDynamic;
-		} else if (isDynamic != unit.isDynamic) {
-			if (isDynamic)
+			isAnonymous = unit.isAnonymous;
+		} else if (isAnonymous != unit.isAnonymous) {
+			if (isAnonymous)
 				throw new IllegalArgumentException(String.format(
 						"Attempt to add static software unit %s to a dynamic cluster.", unit));
 			else

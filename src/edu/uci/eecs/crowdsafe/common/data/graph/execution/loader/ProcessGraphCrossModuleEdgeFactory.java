@@ -48,7 +48,6 @@ public class ProcessGraphCrossModuleEdgeFactory {
 		long annotatedFromTag = input.readLong();
 		long annotatedToTag = input.readLong();
 		long signatureHash = input.readLong();
-		boolean isCallback = (signatureHash < 0);
 		signatureHash = Math.abs(signatureHash);
 		edgeIndex++;
 
@@ -114,7 +113,7 @@ public class ProcessGraphCrossModuleEdgeFactory {
 					loader.listener.edgeCreation(e);
 			} else {
 				ExecutionNode exitNode = new ExecutionNode(fromModule, MetaNodeType.CLUSTER_EXIT, signatureHash, 0,
-						signatureHash, fromNode.getTimestamp(), isCallback);
+						signatureHash, fromNode.getTimestamp());
 				fromCluster.addNode(exitNode);
 				Edge<ExecutionNode> clusterExitEdge = new Edge<ExecutionNode>(fromNode, exitNode, edgeType, 0);
 				fromNode.addOutgoingEdge(clusterExitEdge);
@@ -126,7 +125,7 @@ public class ProcessGraphCrossModuleEdgeFactory {
 				ExecutionNode entryNode = toCluster.getEntryPoint(signatureHash);
 				if (entryNode == null) {
 					entryNode = new ExecutionNode(toModule, MetaNodeType.CLUSTER_ENTRY, 0L, 0, signatureHash,
-							toNode.getTimestamp(), isCallback);
+							toNode.getTimestamp());
 					toCluster.addClusterEntryNode(entryNode);
 				}
 				Edge<ExecutionNode> clusterEntryEdge = new Edge<ExecutionNode>(entryNode, toNode,

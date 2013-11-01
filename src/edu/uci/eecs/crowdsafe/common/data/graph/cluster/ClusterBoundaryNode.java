@@ -84,11 +84,6 @@ public class ClusterBoundaryNode extends ClusterNode<ClusterBoundaryNode.Key> {
 		return key.type;
 	}
 
-	@Override
-	public boolean isCallback() {
-		return key.hash < 0L;
-	}
-
 	public String identify() {
 		switch (key.type) {
 			case CLUSTER_ENTRY:

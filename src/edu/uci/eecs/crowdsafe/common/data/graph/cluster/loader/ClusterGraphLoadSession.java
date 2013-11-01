@@ -97,8 +97,8 @@ public class ClusterGraphLoadSession {
 			Log.log("Cluster %s loaded in %f seconds.", cluster.name, (System.currentTimeMillis() - start) / 1000.);
 
 			builder.graph.analyzeGraph();
-			if (builder.graph.cluster.isDynamic())
-				builder.graph.logGraph();
+			// if (builder.graph.cluster.isDynamic())
+			// builder.graph.logGraph();
 
 			return builder.graph;
 		}

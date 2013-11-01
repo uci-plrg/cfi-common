@@ -17,6 +17,7 @@ import com.google.common.collect.Multimap;
 import edu.uci.eecs.crowdsafe.common.config.CrowdSafeConfiguration;
 import edu.uci.eecs.crowdsafe.common.data.dist.AutonomousSoftwareDistribution;
 import edu.uci.eecs.crowdsafe.common.data.dist.ConfiguredSoftwareDistributions;
+import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareModule;
 import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareUnit;
 import edu.uci.eecs.crowdsafe.common.data.graph.EdgeType;
 import edu.uci.eecs.crowdsafe.common.data.graph.MetaNodeType;
@@ -63,8 +64,8 @@ public class RawGraphTransformer {
 
 	private final Map<RawTag, IndexedClusterNode> nodesByRawTag = new HashMap<RawTag, IndexedClusterNode>();
 	private final Set<Long> flattenedCollisions = new HashSet<Long>();
-	private final Map<RawTag, Integer> fakeDynamicModuleTags = new HashMap<RawTag, Integer>();
-	private int fakeDynamicTagIndex = 0;
+	private final Map<RawTag, Integer> fakeAnonymousModuleTags = new HashMap<RawTag, Integer>();
+	private int fakeAnonymousTagIndex = 0;
 
 	public RawGraphTransformer(ArgumentStack args) {
 		this.args = args;
@@ -169,27 +170,32 @@ public class RawGraphTransformer {
 			ModuleInstance moduleInstance = executionModules.getModule(absoluteTag, entryIndex, streamType);
 			AutonomousSoftwareDistribution cluster = ConfiguredSoftwareDistributions.getInstance().distributionsByUnit
 					.get(moduleInstance.unit);
-			ClusterModule clusterModule = establishNodeData(cluster).moduleList.establishModule(moduleInstance.unit);
-
-			if (moduleInstance.unit.isDynamic)
-				Log.log("Dynamic node with absolute tag 0x%x in module instance %s and cluster module %s", absoluteTag,
-						moduleInstance, clusterModule);
-
-			graphWriters.establishClusterWriters(dataByCluster.get(cluster));
 
 			int relativeTag;
-			if ((moduleInstance.unit == SoftwareUnit.DYNAMORIO) || moduleInstance.unit.isDynamic) {
+			ClusterModule clusterModule;
+			if (cluster.isAnonymous()) {
+				Log.log("Anonymous node with absolute tag 0x%x in module instance %s, originally from cluster %s",
+						absoluteTag, moduleInstance, cluster);
+
+				clusterModule = establishNodeData(ConfiguredSoftwareDistributions.ANONYMOUS_CLUSTER).moduleList
+						.establishModule(SoftwareModule.ANONYMOUS_MODULE.unit);
+				cluster = ConfiguredSoftwareDistributions.ANONYMOUS_CLUSTER;
+				moduleInstance = ModuleInstance.ANONYMOUS;
+
 				RawTag lookup = new RawTag(absoluteTag, tagVersion);
-				Integer tag = fakeDynamicModuleTags.get(lookup);
+				Integer tag = fakeAnonymousModuleTags.get(lookup);
 				if (tag == null) {
-					tag = fakeDynamicTagIndex++;
-					fakeDynamicModuleTags.put(lookup, tag);
-					Log.log("mapping DR tag %x to fake tag %d", absoluteTag, tag);
+					tag = fakeAnonymousTagIndex++;
+					fakeAnonymousModuleTags.put(lookup, tag);
+					Log.log("mapping anonymous tag %x to fake tag %d", absoluteTag, tag);
 				}
 				relativeTag = tag;
 			} else {
+				clusterModule = establishNodeData(cluster).moduleList.establishModule(moduleInstance.unit);
 				relativeTag = (int) (absoluteTag - moduleInstance.start);
 			}
+
+			graphWriters.establishClusterWriters(dataByCluster.get(cluster));
 
 			ClusterNode<?> node;
 			if (nodeType == MetaNodeType.CONTEXT_ENTRY) {
@@ -282,7 +288,10 @@ public class RawGraphTransformer {
 
 			if (fromNodeId.cluster == toNodeId.cluster) {
 				RawEdge edge = new RawEdge(fromNodeId, toNodeId, type, ordinal);
-				establishEdgeSet(fromNodeId.cluster).add(edge);
+				if (fromNodeId.cluster.isAnonymous())
+					establishEdgeSet(ConfiguredSoftwareDistributions.ANONYMOUS_CLUSTER).add(edge);
+				else
+					establishEdgeSet(fromNodeId.cluster).add(edge);
 			} else {
 				Log.log("Error! Intra-module edge from %s to %s crosses a cluster boundary (%s to %s)!",
 						fromNodeId.node, toNodeId.node, fromNodeId.cluster, toNodeId.cluster);
@@ -325,6 +334,9 @@ public class RawGraphTransformer {
 
 			if (fromNodeId.cluster == toNodeId.cluster) {
 				establishEdgeSet(fromNodeId.cluster).add(new RawEdge(fromNodeId, toNodeId, type, ordinal));
+			} else if (fromNodeId.cluster.isAnonymous() && toNodeId.cluster.isAnonymous()) {
+				establishEdgeSet(ConfiguredSoftwareDistributions.ANONYMOUS_CLUSTER).add(
+						new RawEdge(fromNodeId, toNodeId, type, ordinal));
 			} else {
 				ClusterBoundaryNode entry = new ClusterBoundaryNode(hash, MetaNodeType.CLUSTER_ENTRY);
 				IndexedClusterNode entryId = dataByCluster.get(toNodeId.cluster).addNode(entry);
@@ -359,14 +371,14 @@ public class RawGraphTransformer {
 			ExecutionTraceStreamType streamType) {
 		ModuleInstance moduleInstance = executionModules.getModule(absoluteTag, entryIndex, streamType);
 
-		// if (moduleInstance.unit.isDynamic)
-		// System.out.println(String.format("Identify node for absolute tag 0x%x", absoluteTag));
-
-		AutonomousSoftwareDistribution cluster = ConfiguredSoftwareDistributions.getInstance().distributionsByUnit
-				.get(moduleInstance.unit);
+		AutonomousSoftwareDistribution cluster;
+		if (moduleInstance.unit.isAnonymous)
+			cluster = ConfiguredSoftwareDistributions.ANONYMOUS_CLUSTER;
+		else
+			cluster = ConfiguredSoftwareDistributions.getInstance().distributionsByUnit.get(moduleInstance.unit);
 		ClusterModule clusterModule = dataByCluster.get(cluster).moduleList.getModule(moduleInstance.unit);
 
-		if ((moduleInstance.unit == SoftwareUnit.DYNAMORIO) || moduleInstance.unit.isDynamic) {
+		if ((moduleInstance.unit == SoftwareUnit.DYNAMORIO) || moduleInstance.unit.isAnonymous) {
 			IndexedClusterNode node = nodesByRawTag.get(new RawTag(absoluteTag, tagVersion));
 			if (node == null)
 				toString();
@@ -387,8 +399,6 @@ public class RawGraphTransformer {
 			ClusterDataWriter<IndexedClusterNode> writer = graphWriters.getWriter(cluster);
 			for (IndexedClusterNode node : dataByCluster.get(cluster).getSortedNodeList()) {
 				writer.writeNode(node);
-				if (node.isCallback())
-					writer.writeCallback(node);
 			}
 		}
 	}

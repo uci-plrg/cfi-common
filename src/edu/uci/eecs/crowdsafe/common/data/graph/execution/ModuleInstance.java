@@ -7,6 +7,8 @@ import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareModule;
 public class ModuleInstance extends SoftwareModule {
 	public static ModuleInstance DYNAMORIO = new ModuleInstance(SoftwareUnit.DYNAMORIO, 0L, Long.MAX_VALUE, 0L,
 			Long.MAX_VALUE, 0L, Long.MAX_VALUE, 0L, Long.MAX_VALUE);
+	public static ModuleInstance ANONYMOUS = new ModuleInstance(SoftwareModule.ANONYMOUS_MODULE.unit, 0L,
+			Long.MAX_VALUE, 0L, Long.MAX_VALUE, 0L, Long.MAX_VALUE, 0L, Long.MAX_VALUE);
 
 	public static class Span {
 		public final long loadTimestamp;

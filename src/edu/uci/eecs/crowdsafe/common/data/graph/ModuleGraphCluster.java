@@ -48,7 +48,6 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 			EdgeType.class);
 
 	private int executableNodeCount = 0;
-	private Set<Node<?>> callbackEntryPoints = new HashSet<Node<?>>();
 
 	public ModuleGraphCluster(AutonomousSoftwareDistribution cluster) {
 		this.cluster = cluster;
@@ -176,8 +175,6 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 						bfsQueue.add(neighbor);
 						visitedNodes.add(neighbor);
 					}
-					if (node.isCallback())
-						callbackEntryPoints.add(neighbor);
 					switch (neighbor.getType()) {
 						case CLUSTER_EXIT:
 							interModuleEdgeTypeCounts.get(edge.getEdgeType()).increment();
@@ -294,7 +291,6 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 		clusterBuilder.setNodeCount(clusterNodeCount);
 		clusterBuilder.setExecutableNodeCount(getExecutableNodeCount());
 		clusterBuilder.setEntryPointCount(getEntryHashes().size());
-		clusterBuilder.setCallbackEntryCount(callbackEntryPoints.size());
 
 		for (ModuleGraph moduleGraph : CrowdSafeCollections.createSortedCopy(getGraphs(), ModuleGraphSorter.INSTANCE)) {
 			moduleBuilder.clear().setName(moduleGraph.softwareUnit.filename);

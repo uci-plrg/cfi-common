@@ -13,6 +13,4 @@ public interface NodeIdentifier {
 	int getInstanceId();
 
 	MetaNodeType getType();
-	
-	boolean isCallback();
 }

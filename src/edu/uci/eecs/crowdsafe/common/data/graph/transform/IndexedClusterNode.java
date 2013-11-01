@@ -44,11 +44,6 @@ public class IndexedClusterNode implements NodeIdentifier {
 		return node.getType();
 	}
 
-	@Override
-	public boolean isCallback() {
-		return node.isCallback();
-	}
-
 	IndexedClusterNode resetToVersionZero() {
 		return new IndexedClusterNode(cluster, new ClusterBasicBlock(node.getModule(), node.getRelativeTag(), 0,
 				node.getHash(), node.getType()), index);

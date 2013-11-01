@@ -99,11 +99,6 @@ public class ClusterBasicBlock extends ClusterNode<ClusterBasicBlock.Key> {
 	}
 
 	@Override
-	public boolean isCallback() {
-		return false;
-	}
-
-	@Override
 	public boolean isModuleRelativeEquivalent(Node<?> other) {
 		if (!(other instanceof ClusterBasicBlock))
 			return super.isModuleRelativeEquivalent(other);
@@ -119,7 +114,7 @@ public class ClusterBasicBlock extends ClusterNode<ClusterBasicBlock.Key> {
 			return super.isModuleRelativeMismatch(other);
 
 		ClusterBasicBlock n = (ClusterBasicBlock) other;
-		if (key.module.unit.isDynamic || n.key.module.unit.isDynamic)
+		if (key.module.unit.isAnonymous || n.key.module.unit.isAnonymous)
 			return false;
 
 		return !(key.relativeTag == n.key.relativeTag) && key.module.equals(n.key.module) && (getType() == n.getType())

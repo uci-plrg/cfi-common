@@ -7,6 +7,7 @@ import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareModule;
 import edu.uci.eecs.crowdsafe.common.data.graph.MetaNodeType;
 import edu.uci.eecs.crowdsafe.common.data.graph.ModuleGraph;
 import edu.uci.eecs.crowdsafe.common.data.graph.ModuleGraphCluster;
+import edu.uci.eecs.crowdsafe.common.data.graph.Node;
 import edu.uci.eecs.crowdsafe.common.data.results.Graph;
 import edu.uci.eecs.crowdsafe.common.io.cluster.ClusterTraceStreamType;
 
@@ -40,7 +41,7 @@ public class ClusterGraph {
 			graph.addModule(new ModuleGraph(module.unit));
 		}
 	}
-
+	
 	public ClusterNode<?> addNode(long hash, SoftwareModule module, int relativeTag, MetaNodeType type) {
 		switch (type) {
 			case CLUSTER_ENTRY:

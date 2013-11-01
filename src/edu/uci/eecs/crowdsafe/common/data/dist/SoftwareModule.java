@@ -1,11 +1,17 @@
 package edu.uci.eecs.crowdsafe.common.data.dist;
 
+import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterModule;
+
 public abstract class SoftwareModule {
 
 	public static final String DYNAMORIO_MODULE_NAME = "|dynamorio|";
 	public static final String DYNAMIC_MODULE_NAME = "|dynamic|";
+	public static final String STATIC_MODULE_NAME = "|static|";
 
 	public static final String EMPTY_VERSION = "0-0-0";
+
+	public static final ClusterModule ANONYMOUS_MODULE = new ClusterModule(0, new SoftwareUnit(
+			SoftwareUnit.ANONYMOUS_UNIT_NAME, true));
 
 	public final SoftwareUnit unit;
 
@@ -14,7 +20,7 @@ public abstract class SoftwareModule {
 	}
 
 	public boolean isEquivalent(SoftwareModule other) {
-		return unit.equals(other.unit) && !unit.isDynamic;
+		return unit.equals(other.unit) && !unit.isAnonymous;
 	}
 
 	@Override

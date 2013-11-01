@@ -71,7 +71,6 @@ public class ClusterDataWriter<NodeType extends NodeIdentifier> {
 	}
 
 	final LittleEndianOutputStream nodeStream;
-	final LittleEndianOutputStream callbackStream;
 	final LittleEndianOutputStream edgeStream;
 	final BufferedWriter moduleWriter;
 
@@ -81,7 +80,6 @@ public class ClusterDataWriter<NodeType extends NodeIdentifier> {
 		this.data = data;
 
 		nodeStream = dataSink.getLittleEndianOutputStream(data.getCluster(), ClusterTraceStreamType.GRAPH_NODE);
-		callbackStream = dataSink.getLittleEndianOutputStream(data.getCluster(), ClusterTraceStreamType.CALLBACK_ENTRY);
 		edgeStream = dataSink.getLittleEndianOutputStream(data.getCluster(), ClusterTraceStreamType.GRAPH_EDGE);
 		moduleWriter = new BufferedWriter(new OutputStreamWriter(dataSink.getDataOutputStream(data.getCluster(),
 				ClusterTraceStreamType.MODULE)));
@@ -94,12 +92,6 @@ public class ClusterDataWriter<NodeType extends NodeIdentifier> {
 		word |= ((long) node.getType().ordinal()) << 0x30;
 		nodeStream.writeLong(word);
 		nodeStream.writeLong(node.getHash());
-	}
-
-	public void writeCallback(NodeType node) throws IOException {
-		int word = data.getModuleIndex(node.getModule());
-		word |= ((int) node.getRelativeTag() & 0xffffffL) << 0x10;
-		callbackStream.writeInt(word);
 	}
 
 	public void writeEdge(Edge<NodeType> edge) throws IOException {
@@ -122,8 +114,6 @@ public class ClusterDataWriter<NodeType extends NodeIdentifier> {
 	public void flush() throws IOException {
 		nodeStream.flush();
 		nodeStream.close();
-		callbackStream.flush();
-		callbackStream.close();
 		edgeStream.flush();
 		edgeStream.close();
 		moduleWriter.flush();
