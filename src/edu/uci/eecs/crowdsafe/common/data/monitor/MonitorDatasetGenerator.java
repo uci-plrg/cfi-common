@@ -71,7 +71,12 @@ public class MonitorDatasetGenerator {
 	private static class OrderByHash implements Comparator<Long> {
 		@Override
 		public int compare(Long first, Long second) {
-			return Long.signum(first - second);
+			if (first < second)
+				return -1;
+			else if (first > second)
+				return 1;
+			else
+				return 0;
 		}
 	}
 
@@ -416,16 +421,23 @@ public class MonitorDatasetGenerator {
 		writer.println(String.format("cd %s", script.getParentFile().getAbsolutePath()));
 		writer.println(String.format("mv %s %s", outputFiles.get(MonitorFileSegment.IMAGE_INDEX).getName(),
 				outputFile.getName()));
+		
 		writer.println(String.format("cat %s >> %s", outputFiles.get(MonitorFileSegment.IMAGE_NAMES).getName(),
 				outputFile.getName()));
+		writer.println(String.format("rm %s", outputFiles.get(MonitorFileSegment.IMAGE_NAMES).getName()));
+		
 		writer.println(String.format("cat %s >> %s", outputFiles.get(MonitorFileSegment.IMAGE_GRAPHS).getName(),
 				outputFile.getName()));
+		writer.println(String.format("rm %s", outputFiles.get(MonitorFileSegment.IMAGE_GRAPHS).getName()));
 
 		if (outputFiles.get(MonitorFileSegment.ANONYMOUS_GRAPH).exists()) {
 			writer.println(String.format("cat %s >> %s", outputFiles.get(MonitorFileSegment.ANONYMOUS_INDEX).getName(),
 					outputFile.getName()));
+			writer.println(String.format("rm %s", outputFiles.get(MonitorFileSegment.ANONYMOUS_INDEX).getName()));
+			
 			writer.println(String.format("cat %s >> %s", outputFiles.get(MonitorFileSegment.ANONYMOUS_GRAPH).getName(),
 					outputFile.getName()));
+			writer.println(String.format("rm %s", outputFiles.get(MonitorFileSegment.ANONYMOUS_GRAPH).getName()));
 		}
 
 		writer.flush();
