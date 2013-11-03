@@ -38,15 +38,17 @@ public class MonitorDatasetGenerator {
 
 	private static class AnonymousNodeEntry {
 		final int offset;
+		final long hash;
 		final int edgeCountWord;
 		final Edge<ClusterNode<?>> intraModuleEdges[];
 		final long calloutSites[];
 		final long exports[];
 
 		@SuppressWarnings("unchecked")
-		public AnonymousNodeEntry(int offset, int edgeCountWord, int intraModuleCount, int calloutSiteCount,
+		public AnonymousNodeEntry(int offset, long hash, int edgeCountWord, int intraModuleCount, int calloutSiteCount,
 				int exportCount) {
 			this.offset = offset;
+			this.hash = hash;
 			this.edgeCountWord = edgeCountWord;
 			intraModuleEdges = new Edge[intraModuleCount];
 			calloutSites = new long[calloutSiteCount];
@@ -71,12 +73,17 @@ public class MonitorDatasetGenerator {
 	private static class OrderByHash implements Comparator<Long> {
 		@Override
 		public int compare(Long first, Long second) {
-			if (first < second)
+			if (first < 0L) {
+				if (second < 0L) {
+					return Long.signum(second - first);
+				} else {
+					return 1;
+				}
+			} else if (second < 0L) {
 				return -1;
-			else if (first > second)
-				return 1;
-			else
-				return 0;
+			} else {
+				return Long.signum(first - second);
+			}
 		}
 	}
 
@@ -355,8 +362,8 @@ public class MonitorDatasetGenerator {
 				if (i != lastIndexInChain)
 					edgeCountWord |= (1 << 0x1f);
 
-				entry = new AnonymousNodeEntry(cursor, edgeCountWord, intraModule.size(), callSites.size(),
-						exports.size());
+				entry = new AnonymousNodeEntry(cursor, node.getHash(), edgeCountWord, intraModule.size(),
+						callSites.size(), exports.size());
 				entries.add(entry);
 
 				for (int j = 0; j < intraModule.size(); j++) {
@@ -372,18 +379,21 @@ public class MonitorDatasetGenerator {
 					entry.exports[j] = edge.getFromNode().getHash();
 				}
 
-				cursor += (4 /* edgeCountWord */+ (intraModule.size() * 4) + (callSites.size() * 8) + (exports.size() * 8));
+				cursor += (8 /* hash */+ 4 /* edgeCountWord */+ (intraModule.size() * 4) + (callSites.size() * 8) + (exports
+						.size() * 8));
 			}
 		}
 
 		LittleEndianCursorWriter writer = new LittleEndianCursorWriter(
 				outputFiles.get(MonitorFileSegment.ANONYMOUS_GRAPH));
 		for (AnonymousNodeEntry nodeEntry : entries) {
+			writer.writeLong(nodeEntry.hash);
 			writer.writeInt(nodeEntry.edgeCountWord);
 
 			for (int i = 0; i < nodeEntry.intraModuleEdges.length; i++) {
 				intraModuleWord = (entryOffsets.get(nodeEntry.intraModuleEdges[i].getToNode()) & 0xffffff);
 				intraModuleWord |= (nodeEntry.intraModuleEdges[i].getOrdinal() << 0x18);
+				intraModuleWord |= (nodeEntry.intraModuleEdges[i].getEdgeType().ordinal() << 0x1c);
 				writer.writeInt(intraModuleWord);
 			}
 
@@ -421,11 +431,11 @@ public class MonitorDatasetGenerator {
 		writer.println(String.format("cd %s", script.getParentFile().getAbsolutePath()));
 		writer.println(String.format("mv %s %s", outputFiles.get(MonitorFileSegment.IMAGE_INDEX).getName(),
 				outputFile.getName()));
-		
+
 		writer.println(String.format("cat %s >> %s", outputFiles.get(MonitorFileSegment.IMAGE_NAMES).getName(),
 				outputFile.getName()));
 		writer.println(String.format("rm %s", outputFiles.get(MonitorFileSegment.IMAGE_NAMES).getName()));
-		
+
 		writer.println(String.format("cat %s >> %s", outputFiles.get(MonitorFileSegment.IMAGE_GRAPHS).getName(),
 				outputFile.getName()));
 		writer.println(String.format("rm %s", outputFiles.get(MonitorFileSegment.IMAGE_GRAPHS).getName()));
@@ -434,7 +444,7 @@ public class MonitorDatasetGenerator {
 			writer.println(String.format("cat %s >> %s", outputFiles.get(MonitorFileSegment.ANONYMOUS_INDEX).getName(),
 					outputFile.getName()));
 			writer.println(String.format("rm %s", outputFiles.get(MonitorFileSegment.ANONYMOUS_INDEX).getName()));
-			
+
 			writer.println(String.format("cat %s >> %s", outputFiles.get(MonitorFileSegment.ANONYMOUS_GRAPH).getName(),
 					outputFile.getName()));
 			writer.println(String.format("rm %s", outputFiles.get(MonitorFileSegment.ANONYMOUS_GRAPH).getName()));
