@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.TreeMap;
 
 import edu.uci.eecs.crowdsafe.common.data.dist.AutonomousSoftwareDistribution;
@@ -73,17 +74,15 @@ public class MonitorDatasetGenerator {
 	private static class OrderByHash implements Comparator<Long> {
 		@Override
 		public int compare(Long first, Long second) {
-			if (first < 0L) {
-				if (second < 0L) {
-					return Long.signum(second - first);
-				} else {
-					return 1;
-				}
-			} else if (second < 0L) {
-				return -1;
-			} else {
-				return Long.signum(first - second);
-			}
+			long firstHalf = ((first >> 0x20) & 0xffffffffL);
+			long secondHalf = ((second >> 0x20) & 0xffffffffL);
+			int comparison = Long.signum(firstHalf - secondHalf);
+			if (comparison != 0)
+				return comparison;
+
+			firstHalf = (first & 0xffffffffL);
+			secondHalf = (second & 0xffffffffL);
+			return Long.signum(firstHalf - secondHalf);
 		}
 	}
 
@@ -266,8 +265,11 @@ public class MonitorDatasetGenerator {
 
 				writer.writeLong(node.getHash());
 				for (Edge<ClusterNode<?>> edge : intraModule) {
-					intraModuleWord = edge.getToNode().getRelativeTag() & 0xffffff;
-					intraModuleWord |= (edge.getOrdinal() << 0x18);
+					if (edge.getToNode().getRelativeTag() > 0xfffffff)
+						throw new IllegalStateException("Relative tag exceeds intra-module edge format limit 0xfffffff!");
+					
+					intraModuleWord = edge.getToNode().getRelativeTag() & 0xfffffff;
+					intraModuleWord |= (edge.getOrdinal() << 0x1c);
 					writer.writeInt(intraModuleWord);
 				}
 				for (Edge<ClusterNode<?>> edge : callSites) {
@@ -381,6 +383,9 @@ public class MonitorDatasetGenerator {
 
 				cursor += (8 /* hash */+ 4 /* edgeCountWord */+ (intraModule.size() * 4) + (callSites.size() * 8) + (exports
 						.size() * 8));
+				
+				if (cursor > 0xffffff)
+					throw new IllegalStateException("Cursor exceeds max offset 0xffffff!");
 			}
 		}
 
@@ -452,5 +457,19 @@ public class MonitorDatasetGenerator {
 
 		writer.flush();
 		writer.close();
+	}
+
+	public static void main(String[] args) {
+		List<Long> jumble = new ArrayList<Long>();
+		Random random = new Random();
+
+		for (int i = 0; i < 1000; i++) {
+			jumble.add(random.nextLong());
+		}
+
+		Collections.sort(jumble, new OrderByHash());
+		for (Long number : jumble) {
+			System.out.println(String.format("0x%x", number));
+		}
 	}
 }

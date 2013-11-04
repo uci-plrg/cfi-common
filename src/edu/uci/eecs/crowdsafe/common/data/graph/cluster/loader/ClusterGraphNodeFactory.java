@@ -34,13 +34,13 @@ public class ClusterGraphNodeFactory {
 	ClusterNode<?> createNode() throws IOException {
 		long first = input.readLong();
 		int moduleIndex = (int) (first & 0xffffL);
-		long relativeTag = ((first >> 0x10) & 0xffffffL);
-		int instanceId = (int) ((first >> 0x28) & 0xffL);
+		long relativeTag = ((first >> 0x10) & 0xffffffffL);
+		int instanceId = (int) ((first >> 0x30) & 0xffL);
 
-		if (((int) ((first >> 0x30) & 0xffL)) > MetaNodeType.values().length)
+		if (((int) ((first >> 0x38) & 0xffL)) > MetaNodeType.values().length)
 			System.out.println(String.format("Parse fail: %x", first));
 
-		MetaNodeType type = MetaNodeType.values()[(int) ((first >> 0x30) & 0xffL)];
+		MetaNodeType type = MetaNodeType.values()[(int) ((first >> 0x38) & 0xffL)];
 		ClusterModule module = modules.getModule(moduleIndex);
 
 		long hash = input.readLong();

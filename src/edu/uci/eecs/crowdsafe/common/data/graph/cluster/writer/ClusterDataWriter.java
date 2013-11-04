@@ -87,9 +87,9 @@ public class ClusterDataWriter<NodeType extends NodeIdentifier> {
 
 	public void writeNode(NodeType node) throws IOException {
 		long word = data.getModuleIndex(node.getModule());
-		word |= ((long) node.getRelativeTag() & 0xffffffL) << 0x10;
-		word |= ((long) node.getInstanceId()) << 0x28;
-		word |= ((long) node.getType().ordinal()) << 0x30;
+		word |= ((long) node.getRelativeTag() & 0xffffffffL) << 0x10;
+		word |= ((long) node.getInstanceId()) << 0x30;
+		word |= ((long) node.getType().ordinal()) << 0x38;
 		nodeStream.writeLong(word);
 		nodeStream.writeLong(node.getHash());
 	}

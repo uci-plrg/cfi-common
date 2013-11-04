@@ -206,6 +206,8 @@ public class RawGraphTransformer {
 			RawClusterData nodeData = establishNodeData(cluster);
 			IndexedClusterNode nodeId = nodeData.addNode(node);
 
+			if (absoluteTag == 0x15438cL)
+				toString();
 			RawTag rawTag = new RawTag(absoluteTag, tagVersion);
 			nodesByRawTag.put(rawTag, nodeId);
 			if (tagVersion > 0)
@@ -267,8 +269,12 @@ public class RawGraphTransformer {
 
 			long absoluteToTag = CrowdSafeTraceUtil.getTag(edgeEntry.second);
 			int toTagVersion = CrowdSafeTraceUtil.getTagVersion(edgeEntry.second);
-			IndexedClusterNode toNodeId = identifyNode(absoluteToTag, toTagVersion, entryIndex, streamType);
+			
+			if ((absoluteFromTag == 0x15437bL) || (absoluteFromTag == 0x1538e5L))
+				toString();
 
+			IndexedClusterNode toNodeId = identifyNode(absoluteToTag, toTagVersion, entryIndex, streamType);
+			
 			if (fromNodeId == null) {
 				Log.log("Error: missing 'from' node 0x%x-v%d", absoluteFromTag, fromTagVersion);
 				continue;
@@ -380,8 +386,6 @@ public class RawGraphTransformer {
 
 		if ((moduleInstance.unit == SoftwareUnit.DYNAMORIO) || moduleInstance.unit.isAnonymous) {
 			IndexedClusterNode node = nodesByRawTag.get(new RawTag(absoluteTag, tagVersion));
-			if (node == null)
-				toString();
 			return node;
 		}
 
