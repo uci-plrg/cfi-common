@@ -100,6 +100,10 @@ public class MonitorDatasetGenerator {
 		}
 	}
 
+	public static final int INTRA_MODULE_EDGE_MASK = 0xfff;
+	public static final int CALLOUT_EDGE_MASK = 0xfff;
+	public static final int EXPORT_EDGE_MASK = 0xff;
+
 	private static final Charset ascii = Charset.forName("US-ASCII");
 
 	private final File clusterDataDirectory;
@@ -258,16 +262,30 @@ public class MonitorDatasetGenerator {
 					edges.release();
 				}
 
+				if (intraModule.size() >= INTRA_MODULE_EDGE_MASK)
+					throw new IllegalStateException(String.format(
+							"Intra-module edge count %d exceeds the data format limit of %d for node %s",
+							intraModule.size(), INTRA_MODULE_EDGE_MASK, node));
+				if (callSites.size() >= CALLOUT_EDGE_MASK)
+					throw new IllegalStateException(String.format(
+							"Callout edge count %d exceeds the data format limit of %d for node %s", callSites.size(),
+							CALLOUT_EDGE_MASK, node));
+				if (exports.size() >= EXPORT_EDGE_MASK)
+					throw new IllegalStateException(String.format(
+							"Export edge count %d exceeds the data format limit of %d for node %s", exports.size(),
+							EXPORT_EDGE_MASK, node));
+
 				edgeCountWord = intraModule.size();
-				edgeCountWord |= (callSites.size() << 0x8);
-				edgeCountWord |= (exports.size() << 0x14);
+				edgeCountWord |= (callSites.size() << 0xc);
+				edgeCountWord |= (exports.size() << 0x18);
 				writer.writeInt(edgeCountWord);
 
 				writer.writeLong(node.getHash());
 				for (Edge<ClusterNode<?>> edge : intraModule) {
 					if (edge.getToNode().getRelativeTag() > 0xfffffff)
-						throw new IllegalStateException("Relative tag exceeds intra-module edge format limit 0xfffffff!");
-					
+						throw new IllegalStateException(
+								"Relative tag exceeds intra-module edge format limit 0xfffffff!");
+
 					intraModuleWord = edge.getToNode().getRelativeTag() & 0xfffffff;
 					intraModuleWord |= (edge.getOrdinal() << 0x1c);
 					writer.writeInt(intraModuleWord);
@@ -383,7 +401,7 @@ public class MonitorDatasetGenerator {
 
 				cursor += (8 /* hash */+ 4 /* edgeCountWord */+ (intraModule.size() * 4) + (callSites.size() * 8) + (exports
 						.size() * 8));
-				
+
 				if (cursor > 0xffffff)
 					throw new IllegalStateException("Cursor exceeds max offset 0xffffff!");
 			}

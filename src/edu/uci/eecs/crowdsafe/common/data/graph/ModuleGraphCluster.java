@@ -47,6 +47,10 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 	private final Map<EdgeType, MutableInteger> interModuleEdgeTypeCounts = new EnumMap<EdgeType, MutableInteger>(
 			EdgeType.class);
 
+	private int maxIntraModuleEdges = 0;
+	private int maxCalloutEdges = 0;
+	private int maxExportEdges = 0;
+
 	private int executableNodeCount = 0;
 
 	public ModuleGraphCluster(AutonomousSoftwareDistribution cluster) {
@@ -158,6 +162,13 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 			interModuleEdgeTypeCounts.put(type, new MutableInteger(0));
 		}
 
+		int intraModuleEdges;
+		int calloutEdges;
+		int exportEdges;
+		maxIntraModuleEdges = 0;
+		maxCalloutEdges = 0;
+		maxExportEdges = 0;
+
 		Set<EdgeEndpointType> visitedNodes = new HashSet<EdgeEndpointType>();
 		Queue<EdgeEndpointType> bfsQueue = new LinkedList<EdgeEndpointType>();
 		bfsQueue.addAll(entryNodes.values());
@@ -167,6 +178,9 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 			unreachableNodes.remove(node);
 			visitedNodes.add(node);
 
+			intraModuleEdges = 0;
+			calloutEdges = 0;
+			exportEdges = 0;
 			OrdinalEdgeList<EdgeEndpointType> edgeList = node.getOutgoingEdges();
 			try {
 				for (Edge<EdgeEndpointType> edge : edgeList) {
@@ -177,9 +191,11 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 					}
 					switch (neighbor.getType()) {
 						case CLUSTER_EXIT:
+							calloutEdges++;
 							interModuleEdgeTypeCounts.get(edge.getEdgeType()).increment();
 							break;
 						default:
+							intraModuleEdges++;
 							intraModuleEdgeTypeCounts.get(edge.getEdgeType()).increment();
 					}
 				}
@@ -189,6 +205,7 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 
 			Edge<EdgeEndpointType> continuationEdge = node.getCallContinuation();
 			if (continuationEdge != null) {
+				intraModuleEdges++;
 				EdgeEndpointType continuation = continuationEdge.getToNode();
 				if (!visitedNodes.contains(continuation)) {
 					bfsQueue.add(continuation);
@@ -196,7 +213,28 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 				}
 				intraModuleEdgeTypeCounts.get(continuationEdge.getEdgeType()).increment();
 			}
+
+			edgeList = node.getIncomingEdges();
+			try {
+				for (Edge<EdgeEndpointType> edge : edgeList) {
+					if (edge.getEdgeType() == EdgeType.CLUSTER_ENTRY)
+						exportEdges++;
+				}
+			} finally {
+				edgeList.release();
+			}
+
+			if (intraModuleEdges > maxIntraModuleEdges)
+				maxIntraModuleEdges = intraModuleEdges;
+			if (calloutEdges > maxCalloutEdges)
+				maxCalloutEdges = calloutEdges;
+			if (exportEdges > maxExportEdges)
+				maxExportEdges = exportEdges;
 		}
+		
+		Log.log("Max intra-module edges for a single node: %d", maxIntraModuleEdges);
+		Log.log("Max callout edges for a single node: %d", maxCalloutEdges);
+		Log.log("Max export edges for a single node: %d", maxExportEdges);
 
 		Log.log("%d unreachable nodes for cluster %s", unreachableNodes.size(), cluster.name);
 
