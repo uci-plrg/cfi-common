@@ -56,6 +56,11 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 	public ModuleGraphCluster(AutonomousSoftwareDistribution cluster) {
 		this.cluster = cluster;
 		this.graphData = new GraphData<EdgeEndpointType>();
+
+		for (EdgeType type : EdgeType.values()) {
+			intraModuleEdgeTypeCounts.put(type, new MutableInteger(0));
+			interModuleEdgeTypeCounts.put(type, new MutableInteger(0));
+		}
 	}
 
 	public GraphData<EdgeEndpointType> getGraphData() {
@@ -161,7 +166,7 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 			intraModuleEdgeTypeCounts.put(type, new MutableInteger(0));
 			interModuleEdgeTypeCounts.put(type, new MutableInteger(0));
 		}
-
+		
 		int intraModuleEdges;
 		int calloutEdges;
 		int exportEdges;
@@ -231,7 +236,7 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 			if (exportEdges > maxExportEdges)
 				maxExportEdges = exportEdges;
 		}
-		
+
 		Log.log("Max intra-module edges for a single node: %d", maxIntraModuleEdges);
 		Log.log("Max callout edges for a single node: %d", maxCalloutEdges);
 		Log.log("Max export edges for a single node: %d", maxExportEdges);

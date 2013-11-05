@@ -78,8 +78,8 @@ public class ProcessGraphLoadSession {
 			// Some other initialization and sanity checks
 			for (AutonomousSoftwareDistribution cluster : graph.getRepresentedClusters()) {
 				ModuleGraphCluster<ExecutionNode> clusterGraph = graph.getModuleGraphCluster(cluster);
-				clusterGraph.getGraphData().validate();
-				clusterGraph.analyzeGraph();
+				// clusterGraph.getGraphData().validate();
+				// clusterGraph.analyzeGraph();
 			}
 
 			return graph;
