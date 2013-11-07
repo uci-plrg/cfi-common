@@ -45,7 +45,6 @@ public class EdgeSet<EdgeEndpointType extends Node<EdgeEndpointType>> {
 		return outgoingOrdinals.get(ordinal).type;
 	}
 
-	// 15% hot during load!
 	public void addEdge(Direction direction, Edge<EdgeEndpointType> edge) {
 		if ((direction == Direction.OUTGOING) && (edge.getEdgeType() == EdgeType.CALL_CONTINUATION)) {
 			if (callContinuation != null) {
@@ -58,9 +57,6 @@ public class EdgeSet<EdgeEndpointType extends Node<EdgeEndpointType>> {
 			}
 			return;
 		}
-
-		if (edges.contains(edge))
-			return;
 
 		if (direction == Direction.INCOMING) {
 			edges.add(edge);

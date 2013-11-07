@@ -62,6 +62,8 @@ public class ClusterGraphLoadSession {
 		if (!dataSource.getReprsentedClusters().contains(cluster))
 			return null;
 
+		Log.log("Loading graph %s", cluster);
+
 		GraphLoader graphLoader = new GraphLoader(cluster, listener);
 		return graphLoader.loadGraph();
 	}
