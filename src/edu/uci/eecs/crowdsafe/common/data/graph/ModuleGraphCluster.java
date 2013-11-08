@@ -166,7 +166,7 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 			intraModuleEdgeTypeCounts.put(type, new MutableInteger(0));
 			interModuleEdgeTypeCounts.put(type, new MutableInteger(0));
 		}
-		
+
 		int intraModuleEdges;
 		int calloutEdges;
 		int exportEdges;
@@ -277,17 +277,20 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 	}
 
 	public void logGraph() {
+		logGraph(Integer.MAX_VALUE);
+	}
+
+	public void logGraph(int limit) {
 		Log.log("\nGraph traversal for cluster %s", cluster);
 
 		Set<EdgeEndpointType> visitedNodes = new HashSet<EdgeEndpointType>();
 		Queue<EdgeEndpointType> bfsQueue = new LinkedList<EdgeEndpointType>();
 		bfsQueue.addAll(entryNodes.values());
 
-		while (bfsQueue.size() > 0) {
+		int count = 0;
+		queue: while (bfsQueue.size() > 0) {
 			EdgeEndpointType node = bfsQueue.remove();
 			visitedNodes.add(node);
-
-			Log.log(node);
 
 			OrdinalEdgeList<EdgeEndpointType> edgeList = node.getOutgoingEdges();
 			try {
@@ -298,6 +301,10 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 						visitedNodes.add(neighbor);
 					}
 					Log.log(edge);
+					
+					count++;
+					if (count > limit)
+						break queue;
 				}
 			} finally {
 				edgeList.release();

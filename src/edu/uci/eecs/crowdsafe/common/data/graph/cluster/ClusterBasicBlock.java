@@ -30,6 +30,7 @@ public class ClusterBasicBlock extends ClusterNode<ClusterBasicBlock.Key> {
 
 		@Override
 		public boolean equals(Object obj) {
+			// TODO: strict "==" for anonymous nodes?
 			if (this == obj)
 				return true;
 			if (obj == null)
