@@ -7,6 +7,7 @@ import java.util.Map;
 
 import edu.uci.eecs.crowdsafe.common.data.graph.Edge;
 import edu.uci.eecs.crowdsafe.common.data.graph.EdgeType;
+import edu.uci.eecs.crowdsafe.common.data.graph.MetaNodeType;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterNode;
 import edu.uci.eecs.crowdsafe.common.io.LittleEndianInputStream;
 import edu.uci.eecs.crowdsafe.common.log.Log;
@@ -56,6 +57,10 @@ public class ClusterGraphEdgeFactory {
 
 		fromNode.addOutgoingEdge(edge);
 		toNode.addIncomingEdge(edge);
+		
+		if (toNode.getType() == MetaNodeType.CLUSTER_EXIT)
+			toString();
+		
 		return edge;
 	}
 
