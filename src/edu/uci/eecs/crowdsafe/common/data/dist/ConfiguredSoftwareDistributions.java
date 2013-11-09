@@ -45,6 +45,8 @@ public class ConfiguredSoftwareDistributions {
 	public final ClusterMode clusterMode;
 	public final Map<String, AutonomousSoftwareDistribution> distributions = new HashMap<String, AutonomousSoftwareDistribution>();
 	public final Map<String, SoftwareUnit> unitsByName = new HashMap<String, SoftwareUnit>();
+	public final Map<Long, SoftwareUnit> unitsByAnonymousEntryHash = new HashMap<Long, SoftwareUnit>();
+	public final Map<Long, SoftwareUnit> unitsByAnonymousExitHash = new HashMap<Long, SoftwareUnit>();
 	public final Map<SoftwareUnit, AutonomousSoftwareDistribution> distributionsByUnit = new HashMap<SoftwareUnit, AutonomousSoftwareDistribution>();
 
 	private ConfiguredSoftwareDistributions(ClusterMode clusterMode, File configDir) {
@@ -81,6 +83,8 @@ public class ConfiguredSoftwareDistributions {
 			for (AutonomousSoftwareDistribution distribution : distributions.values()) {
 				for (SoftwareUnit unit : distribution.getUnits()) {
 					unitsByName.put(unit.name, unit);
+					unitsByAnonymousEntryHash.put(unit.anonymousEntryHash, unit);
+					unitsByAnonymousExitHash.put(unit.anonymousExitHash, unit);
 					distributionsByUnit.put(unit, distribution);
 				}
 			}
@@ -150,8 +154,26 @@ public class ConfiguredSoftwareDistributions {
 		}
 	}
 
+	public AutonomousSoftwareDistribution getClusterByAnonymousEntryHash(long hash) {
+		SoftwareUnit unit = unitsByAnonymousEntryHash.get(hash);
+		if (unit == null)
+			return null;
+		else
+			return distributionsByUnit.get(unit);
+	}
+
+	public AutonomousSoftwareDistribution getClusterByAnonymousExitHash(long hash) {
+		SoftwareUnit unit = unitsByAnonymousExitHash.get(hash);
+		if (unit == null)
+			return null;
+		else
+			return distributionsByUnit.get(unit);
+	}
+
 	private void installCluster(AutonomousSoftwareDistribution cluster, SoftwareUnit unit) {
 		unitsByName.put(unit.name, unit);
+		unitsByAnonymousEntryHash.put(unit.anonymousEntryHash, unit);
+		unitsByAnonymousExitHash.put(unit.anonymousExitHash, unit);
 		distributionsByUnit.put(unit, cluster);
 		cluster.addUnit(unit);
 	}

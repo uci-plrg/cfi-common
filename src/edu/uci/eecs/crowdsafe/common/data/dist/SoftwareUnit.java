@@ -3,6 +3,8 @@ package edu.uci.eecs.crowdsafe.common.data.dist;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import edu.uci.eecs.crowdsafe.common.util.CrowdSafeTraceUtil;
+
 public class SoftwareUnit {
 
 	private static final Pattern FILENAME_PATTERN = Pattern.compile("^([^\\-]+)-([^\\-]+-[^\\-]+-[^\\-]+)$");
@@ -20,6 +22,8 @@ public class SoftwareUnit {
 	public final String filename;
 	public final String version;
 	public final boolean isAnonymous;
+	public final long anonymousEntryHash;
+	public final long anonymousExitHash;
 
 	SoftwareUnit(String name) {
 		this(name, false);
@@ -37,6 +41,9 @@ public class SoftwareUnit {
 			filename = name;
 			version = SoftwareModule.EMPTY_VERSION;
 		}
+
+		anonymousEntryHash = CrowdSafeTraceUtil.stringHash(String.format("%s/<anonymous>!callback", filename));
+		anonymousExitHash = CrowdSafeTraceUtil.stringHash(String.format("<anonymous>/%s!callback", filename));
 	}
 
 	@Override

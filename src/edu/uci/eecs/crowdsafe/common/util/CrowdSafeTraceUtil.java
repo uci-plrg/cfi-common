@@ -36,4 +36,12 @@ public class CrowdSafeTraceUtil {
 	public static int getTagVersion(long annotatedTag) {
 		return (new Long(annotatedTag >>> 56)).intValue();
 	}
+
+	public static long stringHash(String string) {
+		long hash = 0L;
+		for (int i = 0; i < string.length(); i++) {
+			hash = hash ^ (hash << 5) ^ ((int) string.charAt(i));
+		}
+		return hash;
+	}
 }
