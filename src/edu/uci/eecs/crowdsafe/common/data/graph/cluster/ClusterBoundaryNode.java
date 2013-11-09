@@ -14,7 +14,7 @@ public class ClusterBoundaryNode extends ClusterNode<ClusterBoundaryNode.Key> {
 
 		private final MetaNodeType type;
 
-		Key(long hash, MetaNodeType type) {
+		public Key(long hash, MetaNodeType type) {
 			this.hash = hash;
 			this.type = type;
 		}

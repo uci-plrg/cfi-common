@@ -14,13 +14,21 @@ public class MutableInteger {
 	public int getVal() {
 		return innerVal;
 	}
-	
+
 	public void increment() {
 		innerVal++;
 	}
-	
+
 	public void decrement() {
 		innerVal--;
+	}
+
+	public void add(int val) {
+		this.innerVal += val;
+	}
+	
+	public void subtract(int val) {
+		this.innerVal -= val;
 	}
 
 	public String toString() {
