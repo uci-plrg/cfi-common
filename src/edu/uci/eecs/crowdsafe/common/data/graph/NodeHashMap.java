@@ -38,8 +38,13 @@ public class NodeHashMap<NodeType extends Node<NodeType>> {
 		nodeCount++;
 	}
 
+	@SuppressWarnings("unchecked")
 	public NodeList<NodeType> get(long hash) {
-		return map.get(hash);
+		NodeList<NodeType> nodes = map.get(hash);
+		if (nodes == null)
+			return (NodeList<NodeType>) NodeList.EMPTY;
+		else
+			return nodes;
 	}
 
 	public Set<Long> keySet() {
