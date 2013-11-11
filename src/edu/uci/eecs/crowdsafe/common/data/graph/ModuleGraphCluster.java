@@ -34,8 +34,9 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 
 	public final AutonomousSoftwareDistribution cluster;
 
-	// Maps from the signature hash of the cross-module edge to entry points
+	// Maps from the signature hash of the cross-module edge to entry/exit points
 	private final Map<Long, EdgeEndpointType> entryNodes = new HashMap<Long, EdgeEndpointType>();
+	private final Map<Long, EdgeEndpointType> exitNodes = new HashMap<Long, EdgeEndpointType>();
 
 	protected final GraphData<EdgeEndpointType> graphData;
 
@@ -100,6 +101,10 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 		return entryNodes.keySet();
 	}
 
+	public Collection<EdgeEndpointType> getEntryPoints() {
+		return entryNodes.values();
+	}
+
 	public EdgeEndpointType getEntryPoint(long hash) {
 		return entryNodes.get(hash);
 	}
@@ -109,6 +114,25 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 			return;
 
 		entryNodes.put(entryNode.getHash(), entryNode);
+	}
+
+	public Collection<Long> getExitHashes() {
+		return exitNodes.keySet();
+	}
+
+	public Collection<EdgeEndpointType> getExitPoints() {
+		return exitNodes.values();
+	}
+
+	public EdgeEndpointType getExitPoint(long hash) {
+		return exitNodes.get(hash);
+	}
+
+	public void addClusterExitNode(EdgeEndpointType exitNode) {
+		if (exitNodes.containsKey(exitNode.getHash()))
+			return;
+
+		exitNodes.put(exitNode.getHash(), exitNode);
 	}
 
 	public int getExecutableNodeCount() {
@@ -145,8 +169,9 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 		switch (node.getType()) {
 			case CLUSTER_ENTRY:
 				addClusterEntryNode(node);
-				//$FALL-THROUGH$
+				return;
 			case CLUSTER_EXIT:
+				addClusterExitNode(node);
 				return;
 			default:
 				graphData.nodesByHash.add(node);
@@ -301,7 +326,7 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 						visitedNodes.add(neighbor);
 					}
 					Log.log(edge);
-					
+
 					count++;
 					if (count > limit)
 						break queue;

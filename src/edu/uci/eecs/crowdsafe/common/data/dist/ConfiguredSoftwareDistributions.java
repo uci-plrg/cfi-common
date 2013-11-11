@@ -154,6 +154,7 @@ public class ConfiguredSoftwareDistributions {
 		}
 	}
 
+	// TODO: interception edges
 	public AutonomousSoftwareDistribution getClusterByAnonymousEntryHash(long hash) {
 		SoftwareUnit unit = unitsByAnonymousEntryHash.get(hash);
 		if (unit == null)
