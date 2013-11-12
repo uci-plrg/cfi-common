@@ -3,6 +3,7 @@ package edu.uci.eecs.crowdsafe.common.data.dist;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import edu.uci.eecs.crowdsafe.common.log.Log;
 import edu.uci.eecs.crowdsafe.common.util.CrowdSafeTraceUtil;
 
 public class SoftwareUnit {
@@ -14,9 +15,12 @@ public class SoftwareUnit {
 	public static final String STATIC_UNIT_NAME = "__static";
 	public static final String ANONYMOUS_UNIT_NAME = "__anonymous";
 
-	public static final SoftwareUnit DYNAMORIO = new SoftwareUnit("|dynamorio|-" + SoftwareModule.EMPTY_VERSION, true);
+	public static final SoftwareUnit DYNAMORIO = new SoftwareUnit("|dynamorio|-" + SoftwareModule.EMPTY_VERSION, true,
+			true);
 	public static final SoftwareUnit CLUSTER_BOUNDARY = new SoftwareUnit("|cluster_boundary|-"
 			+ SoftwareModule.EMPTY_VERSION);
+
+	public static final long DYNAMORIO_INTERCEPTION_RETURN_EDGE_HASH = 1L;
 
 	public final String name;
 	public final String filename;
@@ -24,12 +28,17 @@ public class SoftwareUnit {
 	public final boolean isAnonymous;
 	public final long anonymousEntryHash;
 	public final long anonymousExitHash;
+	public final long interceptionHash;
 
 	SoftwareUnit(String name) {
 		this(name, false);
 	}
 
 	SoftwareUnit(String name, boolean isAnonymous) {
+		this(name, isAnonymous, false);
+	}
+
+	private SoftwareUnit(String name, boolean isAnonymous, boolean isDynamorio) {
 		this.name = name;
 		this.isAnonymous = isAnonymous;
 
@@ -42,8 +51,18 @@ public class SoftwareUnit {
 			version = SoftwareModule.EMPTY_VERSION;
 		}
 
-		anonymousEntryHash = CrowdSafeTraceUtil.stringHash(String.format("%s/<anonymous>!callback", filename));
-		anonymousExitHash = CrowdSafeTraceUtil.stringHash(String.format("<anonymous>/%s!callback", filename));
+		if (isAnonymous) {
+			anonymousExitHash = 0L;
+			interceptionHash = 0L;
+			if (isDynamorio)
+				anonymousEntryHash = DYNAMORIO_INTERCEPTION_RETURN_EDGE_HASH;
+			else
+				anonymousEntryHash = 0L;
+		} else {
+			anonymousEntryHash = CrowdSafeTraceUtil.stringHash(String.format("%s/<anonymous>!callback", filename));
+			anonymousExitHash = CrowdSafeTraceUtil.stringHash(String.format("<anonymous>/%s!callback", filename));
+			interceptionHash = CrowdSafeTraceUtil.stringHash(String.format("%s!interception", filename));
+		}
 	}
 
 	@Override

@@ -174,8 +174,8 @@ public class RawGraphTransformer {
 			int relativeTag;
 			ClusterModule clusterModule;
 			if (cluster.isAnonymous()) {
-				Log.log("Anonymous node with absolute tag 0x%x in module instance %s, originally from cluster %s",
-						absoluteTag, moduleInstance, cluster);
+				Log.log("Anonymous node with absolute tag 0x%x and hash 0x%x in module instance %s", absoluteTag,
+						nodeEntry.second, moduleInstance, cluster);
 
 				clusterModule = establishNodeData(ConfiguredSoftwareDistributions.ANONYMOUS_CLUSTER).moduleList
 						.establishModule(SoftwareModule.ANONYMOUS_MODULE.unit);
@@ -199,18 +199,18 @@ public class RawGraphTransformer {
 
 			ClusterNode<?> node;
 			if (nodeType == MetaNodeType.CONTEXT_ENTRY) {
-				node = new ClusterBoundaryNode(nodeEntry.second, MetaNodeType.CLUSTER_ENTRY);
+				// TODO: unhack this when new data arrives from DR:
+				node = new ClusterBoundaryNode(1L /* nodeEntry.second */, MetaNodeType.CLUSTER_ENTRY);
 			} else {
-				node = new ClusterBasicBlock(clusterModule, relativeTag, tagVersion, nodeEntry.second, nodeType);
+				node = new ClusterBasicBlock(clusterModule, relativeTag, cluster.isAnonymous() ? 0 : tagVersion,
+						nodeEntry.second, nodeType);
 			}
 			RawClusterData nodeData = establishNodeData(cluster);
 			IndexedClusterNode nodeId = nodeData.addNode(node);
 
-			if (absoluteTag == 0x15438cL)
-				toString();
 			RawTag rawTag = new RawTag(absoluteTag, tagVersion);
 			nodesByRawTag.put(rawTag, nodeId);
-			if (tagVersion > 0)
+			if ((tagVersion > 0) && !cluster.isAnonymous())
 				multiVersionTags.put(absoluteTag, rawTag);
 
 			if ((!foundAppEntryPoint) && (nodeType == MetaNodeType.NORMAL)) {
@@ -269,12 +269,9 @@ public class RawGraphTransformer {
 
 			long absoluteToTag = CrowdSafeTraceUtil.getTag(edgeEntry.second);
 			int toTagVersion = CrowdSafeTraceUtil.getTagVersion(edgeEntry.second);
-			
-			if ((absoluteFromTag == 0x15437bL) || (absoluteFromTag == 0x1538e5L))
-				toString();
 
 			IndexedClusterNode toNodeId = identifyNode(absoluteToTag, toTagVersion, entryIndex, streamType);
-			
+
 			if (fromNodeId == null) {
 				Log.log("Error: missing 'from' node 0x%x-v%d", absoluteFromTag, fromTagVersion);
 				continue;

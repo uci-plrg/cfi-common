@@ -39,7 +39,7 @@ public class ConfiguredSoftwareDistributions {
 	public static final AutonomousSoftwareDistribution DYNAMORIO_CLUSTER = new AutonomousSoftwareDistribution(
 			SoftwareUnit.DYNAMORIO_UNIT_NAME, SoftwareUnit.DYNAMORIO_UNIT_NAME);
 	public static final AutonomousSoftwareDistribution ANONYMOUS_CLUSTER = new AutonomousSoftwareDistribution(
-			SoftwareUnit.ANONYMOUS_UNIT_NAME, SoftwareUnit.ANONYMOUS_UNIT_NAME);
+			SoftwareUnit.ANONYMOUS_UNIT_NAME, SoftwareUnit.ANONYMOUS_UNIT_NAME, true);
 
 	public final File configDir;
 	public final ClusterMode clusterMode;
@@ -47,16 +47,19 @@ public class ConfiguredSoftwareDistributions {
 	public final Map<String, SoftwareUnit> unitsByName = new HashMap<String, SoftwareUnit>();
 	public final Map<Long, SoftwareUnit> unitsByAnonymousEntryHash = new HashMap<Long, SoftwareUnit>();
 	public final Map<Long, SoftwareUnit> unitsByAnonymousExitHash = new HashMap<Long, SoftwareUnit>();
+	public final Map<Long, SoftwareUnit> unitsByInterceptionHash = new HashMap<Long, SoftwareUnit>();
 	public final Map<SoftwareUnit, AutonomousSoftwareDistribution> distributionsByUnit = new HashMap<SoftwareUnit, AutonomousSoftwareDistribution>();
 
 	private ConfiguredSoftwareDistributions(ClusterMode clusterMode, File configDir) {
 		this.clusterMode = clusterMode;
 		this.configDir = configDir;
 
-		if (clusterMode == ClusterMode.GROUP)
+		if (clusterMode == ClusterMode.GROUP) {
 			distributions.put(MAIN_PROGRAM.name, MAIN_PROGRAM);
-		else
+		} else {
 			distributions.put(DYNAMORIO_CLUSTER.name, DYNAMORIO_CLUSTER);
+			installCluster(DYNAMORIO_CLUSTER, SoftwareUnit.DYNAMORIO);
+		}
 	}
 
 	private void loadDistributions() {
@@ -85,6 +88,7 @@ public class ConfiguredSoftwareDistributions {
 					unitsByName.put(unit.name, unit);
 					unitsByAnonymousEntryHash.put(unit.anonymousEntryHash, unit);
 					unitsByAnonymousExitHash.put(unit.anonymousExitHash, unit);
+					unitsByInterceptionHash.put(unit.interceptionHash, unit);
 					distributionsByUnit.put(unit, distribution);
 				}
 			}
@@ -154,7 +158,6 @@ public class ConfiguredSoftwareDistributions {
 		}
 	}
 
-	// TODO: interception edges
 	public AutonomousSoftwareDistribution getClusterByAnonymousEntryHash(long hash) {
 		SoftwareUnit unit = unitsByAnonymousEntryHash.get(hash);
 		if (unit == null)
@@ -171,10 +174,19 @@ public class ConfiguredSoftwareDistributions {
 			return distributionsByUnit.get(unit);
 	}
 
+	public AutonomousSoftwareDistribution getClusterByInterceptionHash(long hash) {
+		SoftwareUnit unit = unitsByInterceptionHash.get(hash);
+		if (unit == null)
+			return null;
+		else
+			return distributionsByUnit.get(unit);
+	}
+
 	private void installCluster(AutonomousSoftwareDistribution cluster, SoftwareUnit unit) {
 		unitsByName.put(unit.name, unit);
 		unitsByAnonymousEntryHash.put(unit.anonymousEntryHash, unit);
 		unitsByAnonymousExitHash.put(unit.anonymousExitHash, unit);
+		unitsByInterceptionHash.put(unit.interceptionHash, unit);
 		distributionsByUnit.put(unit, cluster);
 		cluster.addUnit(unit);
 	}

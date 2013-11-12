@@ -15,6 +15,9 @@ public class ClusterBoundaryNode extends ClusterNode<ClusterBoundaryNode.Key> {
 		private final MetaNodeType type;
 
 		public Key(long hash, MetaNodeType type) {
+			if (hash == 0L)
+				throw new IllegalArgumentException("ClusterBoundaryNode hash cannot be zero!");
+
 			this.hash = hash;
 			this.type = type;
 		}

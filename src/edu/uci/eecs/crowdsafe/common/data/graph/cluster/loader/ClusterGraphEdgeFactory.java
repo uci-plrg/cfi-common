@@ -51,6 +51,9 @@ public class ClusterGraphEdgeFactory {
 
 		ClusterNode<?> fromNode = nodeList.get(fromNodeIndex);
 		ClusterNode<?> toNode = nodeList.get(toNodeIndex);
+		
+		if ((fromNode.getModule().unit.isAnonymous) && (type == EdgeType.CALL_CONTINUATION))
+			throw new IllegalStateException("Anonymous edges may not be call continuations!");
 
 		edge = new Edge<ClusterNode<?>>(fromNode, toNode, type, ordinal);
 		existingEdges.put(first, edge);

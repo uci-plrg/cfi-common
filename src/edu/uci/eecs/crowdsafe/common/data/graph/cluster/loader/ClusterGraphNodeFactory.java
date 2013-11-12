@@ -37,14 +37,11 @@ public class ClusterGraphNodeFactory {
 		long relativeTag = ((first >> 0x10) & 0xffffffffL);
 		int instanceId = (int) ((first >> 0x30) & 0xffL);
 
-		if (((int) ((first >> 0x38) & 0xffL)) > MetaNodeType.values().length)
-			System.out.println(String.format("Parse fail: %x", first));
-
 		MetaNodeType type = MetaNodeType.values()[(int) ((first >> 0x38) & 0xffL)];
 		ClusterModule module = modules.getModule(moduleIndex);
 
 		long hash = input.readLong();
-
+		
 		ClusterNode<?> node = null;
 
 		switch (type) {

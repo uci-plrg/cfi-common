@@ -12,8 +12,15 @@ public class RawEdge implements ClusterDataWriter.Edge<IndexedClusterNode> {
 	RawEdge(IndexedClusterNode fromNode, IndexedClusterNode toNode, EdgeType type, int ordinal) {
 		this.fromNode = fromNode;
 		this.toNode = toNode;
-		this.type = type;
-		this.ordinal = ordinal;
+
+		// TODO: hack!
+		if (fromNode.cluster.isAnonymous() && (type == EdgeType.CALL_CONTINUATION)) {
+			this.type = EdgeType.DIRECT;
+			this.ordinal = 2;
+		} else {
+			this.type = type;
+			this.ordinal = ordinal;
+		}
 	}
 
 	@Override

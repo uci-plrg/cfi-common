@@ -12,8 +12,13 @@ public class AutonomousSoftwareDistribution {
 	private final Set<SoftwareUnit> units;
 
 	AutonomousSoftwareDistribution(String name, String id) {
+		this(name, id, false);
+	}
+
+	AutonomousSoftwareDistribution(String name, String id, boolean isAnonymous) {
 		this.name = name;
 		this.id = id;
+		this.isAnonymous = isAnonymous;
 
 		units = new HashSet<SoftwareUnit>();
 	}
@@ -23,15 +28,15 @@ public class AutonomousSoftwareDistribution {
 
 		this.units = Collections.unmodifiableSet(distributionUnits);
 	}
-	
+
 	public Iterable<SoftwareUnit> getUnits() {
 		return units;
 	}
-	
+
 	public int getUnitCount() {
 		return units.size();
 	}
-	
+
 	public boolean isAnonymous() {
 		return isAnonymous;
 	}

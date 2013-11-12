@@ -135,7 +135,8 @@ public class ClusterGraphLoadSession {
 						if (listener != null)
 							listener.edgeCreation(edge);
 					} catch (Throwable t) {
-						Log.log("%s while creating an edge. Skipping it for now!", t.getClass().getSimpleName());
+						Log.log("%s while creating an edge. Skipping it for now! Message: %s", t.getClass()
+								.getSimpleName(), t.getMessage());
 					}
 				}
 			} finally {
