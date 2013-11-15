@@ -28,9 +28,6 @@ public class NodeHashMap<NodeType extends Node<NodeType>> {
 				map.put(node.getHash(), list);
 			} else {
 				NodeArrayList<NodeType> list = (NodeArrayList<NodeType>) existing;
-				if (list.contains(node))
-					return;
-
 				list.add(node);
 			}
 		}

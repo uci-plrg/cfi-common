@@ -306,6 +306,11 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 	}
 
 	public void logGraph(int limit) {
+		if (entryNodes.isEmpty()) {
+			logUnreachableGraph();
+			return;
+		}
+
 		Log.log("\nGraph traversal for cluster %s", cluster);
 
 		Set<EdgeEndpointType> visitedNodes = new HashSet<EdgeEndpointType>();
@@ -337,6 +342,31 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 		}
 
 		Log.log();
+	}
+
+	public void logUnreachableGraph() {
+		Log.log("\nGraph traversal for unreachable graph %s", cluster);
+
+		for (EdgeEndpointType node : getAllNodes()) {
+			Log.log("%s", node);
+			
+			OrdinalEdgeList<EdgeEndpointType> edgeList = node.getOutgoingEdges();
+			try {
+				for (Edge<EdgeEndpointType> edge : edgeList) {
+					Log.log("Outgoing: %s", edge);
+				}
+			} finally {
+				edgeList.release();
+			}
+			edgeList = node.getIncomingEdges();
+			try {
+				for (Edge<EdgeEndpointType> edge : edgeList) {
+					Log.log("Incoming: %s", edge);
+				}
+			} finally {
+				edgeList.release();
+			}
+		}
 	}
 
 	public Graph.Cluster summarize() {

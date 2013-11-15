@@ -187,7 +187,7 @@ public class RawGraphTransformer {
 				if (tag == null) {
 					tag = fakeAnonymousTagIndex++;
 					fakeAnonymousModuleTags.put(lookup, tag);
-					Log.log("mapping anonymous tag %x to fake tag %d", absoluteTag, tag);
+					Log.log("mapping anonymous tag 0x%x-v%d to fake tag 0x%x", absoluteTag, tagVersion, tag);
 				}
 				relativeTag = tag;
 			} else {

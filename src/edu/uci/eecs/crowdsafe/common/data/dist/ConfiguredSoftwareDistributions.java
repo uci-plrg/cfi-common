@@ -1,8 +1,10 @@
 package edu.uci.eecs.crowdsafe.common.data.dist;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +36,8 @@ public class ConfiguredSoftwareDistributions {
 
 	private static ConfiguredSoftwareDistributions INSTANCE;
 
+	private static final String BLACK_BOX_OWNER_FILENAME = "anonymous-blackbox-owners.cfg";
+
 	public static final AutonomousSoftwareDistribution MAIN_PROGRAM = new AutonomousSoftwareDistribution(
 			"<main-program>", "main-program");
 	public static final AutonomousSoftwareDistribution DYNAMORIO_CLUSTER = new AutonomousSoftwareDistribution(
@@ -49,6 +53,7 @@ public class ConfiguredSoftwareDistributions {
 	public final Map<Long, SoftwareUnit> unitsByAnonymousExitHash = new HashMap<Long, SoftwareUnit>();
 	public final Map<Long, SoftwareUnit> unitsByInterceptionHash = new HashMap<Long, SoftwareUnit>();
 	public final Map<SoftwareUnit, AutonomousSoftwareDistribution> distributionsByUnit = new HashMap<SoftwareUnit, AutonomousSoftwareDistribution>();
+	public final List<SoftwareUnit> anonymousBlackBoxOwners = new ArrayList<SoftwareUnit>();
 
 	private ConfiguredSoftwareDistributions(ClusterMode clusterMode, File configDir) {
 		this.clusterMode = clusterMode;
@@ -59,6 +64,22 @@ public class ConfiguredSoftwareDistributions {
 		} else {
 			distributions.put(DYNAMORIO_CLUSTER.name, DYNAMORIO_CLUSTER);
 			installCluster(DYNAMORIO_CLUSTER, SoftwareUnit.DYNAMORIO);
+		}
+	}
+
+	private void loadAnonymousBlackBoxOwners() throws IOException {
+		File blackBoxConfigFile = new File(configDir, BLACK_BOX_OWNER_FILENAME);
+		if (blackBoxConfigFile.exists() && blackBoxConfigFile.isFile()) {
+			BufferedReader input = new BufferedReader(new FileReader(blackBoxConfigFile));
+			try {
+				String line;
+				while ((line = input.readLine()) != null) {
+					SoftwareUnit ownerModuleName = establishUnitByFileSystemName(line);
+					anonymousBlackBoxOwners.add(ownerModuleName);
+				}
+			} finally {
+				input.close();
+			}
 		}
 	}
 
