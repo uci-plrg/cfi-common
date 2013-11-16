@@ -330,8 +330,8 @@ public class MonitorDatasetGenerator {
 
 	private void generateAnonymousModule() throws IOException {
 		int cursor = anonymousNodesBySortedHash.size() * 12; // (8) hash, (4) pointer to node chain
-		
-		// add black boxes!
+		int blackBoxHashCount = ((ConfiguredSoftwareDistributions.getInstance().anonymousBlackBoxOwners.size() * 2) + 1);
+		cursor += (blackBoxHashCount * 8);
 
 		List<AnonymousNodeEntry> entries = new ArrayList<AnonymousNodeEntry>();
 		Map<ClusterBasicBlock, Integer> entryOffsets = new HashMap<ClusterBasicBlock, Integer>();
@@ -438,7 +438,11 @@ public class MonitorDatasetGenerator {
 		LittleEndianCursorWriter writer = new LittleEndianCursorWriter(
 				outputFiles.get(MonitorFileSegment.ANONYMOUS_INDEX));
 		
-		// black boxes go here
+		for (SoftwareUnit blackBox : ConfiguredSoftwareDistributions.getInstance().anonymousBlackBoxOwners) {
+			writer.writeLong(blackBox.anonymousEntryHash);
+			writer.writeLong(blackBox.anonymousExitHash);
+		}
+		writer.writeLong(0L);
 
 		for (Long hash : anonymousNodesBySortedHash.keySet()) {
 			writer.writeLong(hash);

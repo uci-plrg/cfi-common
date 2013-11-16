@@ -66,6 +66,7 @@ public class RawGraphTransformer {
 	private final Set<Long> flattenedCollisions = new HashSet<Long>();
 	private final Map<RawTag, Integer> fakeAnonymousModuleTags = new HashMap<RawTag, Integer>();
 	private int fakeAnonymousTagIndex = 0;
+	private final Map<AutonomousSoftwareDistribution, AutonomousSoftwareDistribution> blackBoxOwners = new HashMap<AutonomousSoftwareDistribution, AutonomousSoftwareDistribution>();
 
 	public RawGraphTransformer(ArgumentStack args) {
 		this.args = args;
@@ -170,6 +171,17 @@ public class RawGraphTransformer {
 			ModuleInstance moduleInstance = executionModules.getModule(absoluteTag, entryIndex, streamType);
 			AutonomousSoftwareDistribution cluster = ConfiguredSoftwareDistributions.getInstance().distributionsByUnit
 					.get(moduleInstance.unit);
+
+			if (nodeType == MetaNodeType.BLACK_BOX_SINGLETON) {
+				AutonomousSoftwareDistribution owner = ConfiguredSoftwareDistributions.getInstance()
+						.getClusterByAnonymousEntryHash(nodeEntry.second);
+				if (owner == null) {
+					// error!
+				}
+				
+				// change tag to (((int) nodeEntry.second) | (1 << 0x1f))
+				blackBoxOwners.put(cluster, owner);
+			}
 
 			int relativeTag;
 			ClusterModule clusterModule;

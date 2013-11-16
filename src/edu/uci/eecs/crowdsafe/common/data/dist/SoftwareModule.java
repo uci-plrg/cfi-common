@@ -5,8 +5,7 @@ import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterModule;
 public abstract class SoftwareModule {
 
 	public static final String DYNAMORIO_MODULE_NAME = "|dynamorio|";
-	public static final String DYNAMIC_MODULE_NAME = "|dynamic|";
-	public static final String STATIC_MODULE_NAME = "|static|";
+	public static final String ANONYMOUS_MODULE_NAME = "|anonymous|";
 
 	public static final String EMPTY_VERSION = "0-0-0";
 

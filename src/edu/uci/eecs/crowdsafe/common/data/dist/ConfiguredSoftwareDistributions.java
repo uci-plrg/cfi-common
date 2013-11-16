@@ -133,13 +133,8 @@ public class ConfiguredSoftwareDistributions {
 	}
 
 	public SoftwareUnit establishUnitByName(String unitName) {
-		if (unitName.startsWith(SoftwareUnit.DYNAMIC_UNIT_NAME))
-			throw new IllegalArgumentException(String.format("Name collision: file %s will look like a dynamic unit!",
-					unitName));
-		if (unitName.startsWith(SoftwareModule.DYNAMIC_MODULE_NAME))
-			unitName = unitName.replace(SoftwareModule.DYNAMIC_MODULE_NAME, SoftwareUnit.DYNAMIC_UNIT_NAME);
-		if (unitName.startsWith(SoftwareModule.STATIC_MODULE_NAME))
-			unitName = unitName.replace(SoftwareModule.STATIC_MODULE_NAME, SoftwareUnit.STATIC_UNIT_NAME);
+		if (unitName.startsWith(SoftwareModule.ANONYMOUS_MODULE_NAME))
+			unitName = unitName.replace(SoftwareModule.ANONYMOUS_MODULE_NAME, SoftwareUnit.ANONYMOUS_UNIT_NAME);
 
 		if (unitName.startsWith(SoftwareUnit.DYNAMORIO_UNIT_NAME)
 				|| unitName.contains(SoftwareModule.DYNAMORIO_MODULE_NAME))
@@ -165,9 +160,7 @@ public class ConfiguredSoftwareDistributions {
 
 		if (clusterMode == ClusterMode.UNIT) {
 			AutonomousSoftwareDistribution unitCluster = establishCluster(name);
-			boolean isDynamic = name.startsWith(SoftwareUnit.DYNAMIC_UNIT_NAME)
-					|| name.startsWith(SoftwareUnit.STATIC_UNIT_NAME)
-					|| name.startsWith(SoftwareUnit.ANONYMOUS_UNIT_NAME);
+			boolean isDynamic = name.startsWith(SoftwareUnit.ANONYMOUS_UNIT_NAME);
 			SoftwareUnit unit = new SoftwareUnit(name, isDynamic);
 			installCluster(unitCluster, unit);
 			return unit;
