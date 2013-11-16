@@ -30,6 +30,7 @@ import edu.uci.eecs.crowdsafe.common.data.graph.execution.ModuleInstance;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.ProcessExecutionGraph;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.ProcessExecutionModuleSet;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.loader.ProcessModuleLoader;
+import edu.uci.eecs.crowdsafe.common.exception.InvalidGraphException;
 import edu.uci.eecs.crowdsafe.common.io.LittleEndianInputStream;
 import edu.uci.eecs.crowdsafe.common.io.LittleEndianOutputStream;
 import edu.uci.eecs.crowdsafe.common.io.execution.ExecutionTraceDataSource;
@@ -67,6 +68,7 @@ public class RawGraphTransformer {
 	private final Map<RawTag, Integer> fakeAnonymousModuleTags = new HashMap<RawTag, Integer>();
 	private int fakeAnonymousTagIndex = 0;
 	private final Map<AutonomousSoftwareDistribution, AutonomousSoftwareDistribution> blackBoxOwners = new HashMap<AutonomousSoftwareDistribution, AutonomousSoftwareDistribution>();
+	private final Map<AutonomousSoftwareDistribution, ClusterNode> blackBoxSingletons = new HashMap<AutonomousSoftwareDistribution, ClusterNode>();
 
 	public RawGraphTransformer(ArgumentStack args) {
 		this.args = args;
@@ -172,22 +174,21 @@ public class RawGraphTransformer {
 			AutonomousSoftwareDistribution cluster = ConfiguredSoftwareDistributions.getInstance().distributionsByUnit
 					.get(moduleInstance.unit);
 
-			if (nodeType == MetaNodeType.BLACK_BOX_SINGLETON) {
-				AutonomousSoftwareDistribution owner = ConfiguredSoftwareDistributions.getInstance()
-						.getClusterByAnonymousEntryHash(nodeEntry.second);
-				if (owner == null) {
-					// error!
-				}
-				
-				// change tag to (((int) nodeEntry.second) | (1 << 0x1f))
-				blackBoxOwners.put(cluster, owner);
-			}
-
 			int relativeTag;
 			ClusterModule clusterModule;
+			AutonomousSoftwareDistribution blackBoxOwner = null;
+			boolean isNewBlackBoxSingleton = false;
 			if (cluster.isAnonymous()) {
-				Log.log("Anonymous node with absolute tag 0x%x and hash 0x%x in module instance %s", absoluteTag,
-						nodeEntry.second, moduleInstance, cluster);
+				if (nodeType == MetaNodeType.BLACK_BOX_SINGLETON) {
+					blackBoxOwner = ConfiguredSoftwareDistributions.getInstance().getClusterByAnonymousEntryHash(
+							nodeEntry.second);
+					if (blackBoxOwner == null)
+						new InvalidGraphException("Error: cannot find the owner of black box with entry 0x%x!",
+								nodeEntry.second);
+
+					blackBoxOwners.put(cluster, blackBoxOwner);
+					// TODO: removing extraneous nodes requires patching the data set for the whole anonymous module
+				}
 
 				clusterModule = establishNodeData(ConfiguredSoftwareDistributions.ANONYMOUS_CLUSTER).moduleList
 						.establishModule(SoftwareModule.ANONYMOUS_MODULE.unit);
@@ -195,11 +196,24 @@ public class RawGraphTransformer {
 				moduleInstance = ModuleInstance.ANONYMOUS;
 
 				RawTag lookup = new RawTag(absoluteTag, tagVersion);
-				Integer tag = fakeAnonymousModuleTags.get(lookup);
+				Integer tag = null;
+				if (blackBoxOwner == null) {
+					tag = fakeAnonymousModuleTags.get(lookup);
+				} else {
+					ClusterNode singleton = blackBoxSingletons.get(blackBoxOwner);
+					if (singleton != null) {
+						tag = singleton.getRelativeTag();
+						fakeAnonymousModuleTags.put(lookup, tag);
+					}
+				}
+
 				if (tag == null) {
 					tag = fakeAnonymousTagIndex++;
 					fakeAnonymousModuleTags.put(lookup, tag);
-					Log.log("mapping anonymous tag 0x%x-v%d to fake tag 0x%x", absoluteTag, tagVersion, tag);
+					Log.log("Mapping 0x%x-v%d => 0x%x for module %s (hash 0x%x)", absoluteTag, tagVersion, tag,
+							moduleInstance.unit.filename, nodeEntry.second);
+
+					isNewBlackBoxSingleton = (blackBoxOwner != null);
 				}
 				relativeTag = tag;
 			} else {
@@ -210,15 +224,25 @@ public class RawGraphTransformer {
 			graphWriters.establishClusterWriters(dataByCluster.get(cluster));
 
 			ClusterNode<?> node;
-			if (nodeType == MetaNodeType.CONTEXT_ENTRY) {
-				// TODO: unhack this when new data arrives from DR:
-				node = new ClusterBoundaryNode(1L /* nodeEntry.second */, MetaNodeType.CLUSTER_ENTRY);
+			if ((blackBoxOwner == null) || isNewBlackBoxSingleton) {
+				if (nodeType == MetaNodeType.CONTEXT_ENTRY) {
+					node = new ClusterBoundaryNode(nodeEntry.second, MetaNodeType.CLUSTER_ENTRY);
+				} else {
+					node = new ClusterBasicBlock(clusterModule, relativeTag, cluster.isAnonymous() ? 0 : tagVersion,
+							nodeEntry.second, nodeType);
+				}
+				if (isNewBlackBoxSingleton)
+					blackBoxSingletons.put(blackBoxOwner, node);
 			} else {
-				node = new ClusterBasicBlock(clusterModule, relativeTag, cluster.isAnonymous() ? 0 : tagVersion,
-						nodeEntry.second, nodeType);
+				node = blackBoxSingletons.get(blackBoxOwner);
 			}
 			RawClusterData nodeData = establishNodeData(cluster);
-			IndexedClusterNode nodeId = nodeData.addNode(node);
+			IndexedClusterNode nodeId;
+			if ((blackBoxOwner == null) || isNewBlackBoxSingleton) {
+				nodeId = nodeData.addNode(node);
+			} else {
+				nodeId = nodeData.getNode(node.getKey());
+			}
 
 			RawTag rawTag = new RawTag(absoluteTag, tagVersion);
 			nodesByRawTag.put(rawTag, nodeId);
@@ -301,6 +325,13 @@ public class RawGraphTransformer {
 				}
 			}
 
+			if (fromNodeId.cluster == ConfiguredSoftwareDistributions.ANONYMOUS_CLUSTER) {
+				if ((blackBoxSingletons.containsValue(fromNodeId.node))
+						|| (blackBoxSingletons.containsValue(toNodeId.node))) {
+					toString();
+				}
+			}
+
 			if (fromNodeId.cluster == toNodeId.cluster) {
 				RawEdge edge = new RawEdge(fromNodeId, toNodeId, type, ordinal);
 				if (fromNodeId.cluster.isAnonymous())
@@ -346,6 +377,8 @@ public class RawGraphTransformer {
 				Log.log("Error: missing 'to' node 0x%x-v%d", absoluteToTag, toTagVersion);
 				continue;
 			}
+
+			// TODO: if an endpoint is a black box singleton, make edge type and ordinal uniform
 
 			if (fromNodeId.cluster == toNodeId.cluster) {
 				establishEdgeSet(fromNodeId.cluster).add(new RawEdge(fromNodeId, toNodeId, type, ordinal));
