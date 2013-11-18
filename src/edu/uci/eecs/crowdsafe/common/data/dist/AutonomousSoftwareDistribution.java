@@ -36,6 +36,10 @@ public class AutonomousSoftwareDistribution {
 	public int getUnitCount() {
 		return units.size();
 	}
+	
+	public boolean containsUnit(SoftwareUnit unit) {
+		return units.contains(unit);
+	}
 
 	public boolean isAnonymous() {
 		return isAnonymous;

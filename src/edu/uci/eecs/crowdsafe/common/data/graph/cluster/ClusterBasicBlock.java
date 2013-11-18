@@ -123,7 +123,8 @@ public class ClusterBasicBlock extends ClusterNode<ClusterBasicBlock.Key> {
 	}
 
 	public String identify() {
-		return String.format("%s(0x%x-i%d|0x%x)", key.module.unit.filename, key.relativeTag, key.instanceId, hash);
+		return String.format("%s(0x%x-i%d|0x%x|%s)", key.module.unit.filename, key.relativeTag, key.instanceId, hash,
+				type.code);
 	}
 
 	@Override

@@ -173,6 +173,8 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 			case CLUSTER_EXIT:
 				addClusterExitNode(node);
 				return;
+			case BLACK_BOX_SINGLETON:
+				break;
 			default:
 				graphData.nodesByHash.add(node);
 				executableNodeCount++;
@@ -349,7 +351,7 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 
 		for (EdgeEndpointType node : getAllNodes()) {
 			Log.log("%s", node);
-			
+
 			OrdinalEdgeList<EdgeEndpointType> edgeList = node.getOutgoingEdges();
 			try {
 				for (Edge<EdgeEndpointType> edge : edgeList) {

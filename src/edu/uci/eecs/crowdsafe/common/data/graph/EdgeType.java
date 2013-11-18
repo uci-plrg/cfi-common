@@ -3,11 +3,17 @@ package edu.uci.eecs.crowdsafe.common.data.graph;
 import edu.uci.eecs.crowdsafe.common.data.results.Graph;
 
 public enum EdgeType {
-	INDIRECT,
-	DIRECT,
-	CALL_CONTINUATION,
-	UNEXPECTED_RETURN,
-	CLUSTER_ENTRY;
+	INDIRECT("I"),
+	DIRECT("D"),
+	CALL_CONTINUATION("CC"),
+	UNEXPECTED_RETURN("UR"),
+	CLUSTER_ENTRY("E");
+
+	public final String code;
+
+	private EdgeType(String code) {
+		this.code = code;
+	}
 
 	public Graph.EdgeType mapToResultType() {
 		switch (this) {

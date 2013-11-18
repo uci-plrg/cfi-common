@@ -13,14 +13,13 @@ while getopts "l:o:" option
 do
   case $option in
     o ) output_basedir=$OPTARG;;
-    l ) log_option="-l "$OPTARG;;
+    l ) log_file=$OPTARG;;
     * ) usage; exit;;
   esac
 done
 shift $((OPTIND-1))
 
 local_dir=$(pwd)
-[ -z "$log_option" ] && log_option="-l transform-graphs.log"
 
 for f in $@
 do
@@ -28,6 +27,15 @@ do
   then
     output_dir=$output_basedir/${f/$local_dir}
     mkdir -p $output_dir
+    
+    if [ -z "$log_file" ] 
+    then
+      log_option="-l "${output_dir%/}"/transform-graphs.log"
+    else
+      log_option="-l "$log_file
+    fi
+
+    rm -f $output_dir/*
     output_option="-o "$output_dir
     input="-i "$f
   else

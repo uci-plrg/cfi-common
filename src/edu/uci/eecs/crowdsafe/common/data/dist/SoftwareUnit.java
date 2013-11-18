@@ -27,7 +27,7 @@ public class SoftwareUnit {
 	public final long anonymousEntryHash;
 	public final long anonymousExitHash;
 	public final long interceptionHash;
-
+	
 	SoftwareUnit(String name) {
 		this(name, false);
 	}

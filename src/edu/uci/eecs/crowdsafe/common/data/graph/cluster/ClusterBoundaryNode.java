@@ -90,9 +90,8 @@ public class ClusterBoundaryNode extends ClusterNode<ClusterBoundaryNode.Key> {
 	public String identify() {
 		switch (key.type) {
 			case CLUSTER_ENTRY:
-				return String.format("ClusterEntry(0x%x)", key.hash);
 			case CLUSTER_EXIT:
-				return String.format("ClusterExit(0x%x)", key.hash);
+				return String.format("(0x%x|%s)", key.hash, key.type.code);
 			default:
 				throw new IllegalStateException(String.format("%s must be of type %s or %s",
 						getClass().getSimpleName(), MetaNodeType.CLUSTER_ENTRY, MetaNodeType.CLUSTER_EXIT));

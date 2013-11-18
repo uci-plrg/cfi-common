@@ -27,6 +27,7 @@ public class ConfiguredSoftwareDistributions {
 
 	public static void initialize(ClusterMode clusterMode, File configDir) {
 		INSTANCE = new ConfiguredSoftwareDistributions(clusterMode, configDir);
+		// INSTANCE.loadAnonymousBlackBoxOwners();
 		INSTANCE.loadDistributions();
 	}
 
@@ -36,7 +37,7 @@ public class ConfiguredSoftwareDistributions {
 
 	private static ConfiguredSoftwareDistributions INSTANCE;
 
-	private static final String BLACK_BOX_OWNER_FILENAME = "anonymous-blackbox-owners.cfg";
+	// private static final String BLACK_BOX_OWNER_FILENAME = "anonymous-blackbox-owners.cfg";
 
 	public static final AutonomousSoftwareDistribution MAIN_PROGRAM = new AutonomousSoftwareDistribution(
 			"<main-program>", "main-program");
@@ -53,7 +54,8 @@ public class ConfiguredSoftwareDistributions {
 	public final Map<Long, SoftwareUnit> unitsByAnonymousExitHash = new HashMap<Long, SoftwareUnit>();
 	public final Map<Long, SoftwareUnit> unitsByInterceptionHash = new HashMap<Long, SoftwareUnit>();
 	public final Map<SoftwareUnit, AutonomousSoftwareDistribution> distributionsByUnit = new HashMap<SoftwareUnit, AutonomousSoftwareDistribution>();
-	public final List<SoftwareUnit> anonymousBlackBoxOwners = new ArrayList<SoftwareUnit>();
+
+	// public final List<SoftwareUnit> anonymousBlackBoxOwners = new ArrayList<SoftwareUnit>();
 
 	private ConfiguredSoftwareDistributions(ClusterMode clusterMode, File configDir) {
 		this.clusterMode = clusterMode;
@@ -67,6 +69,8 @@ public class ConfiguredSoftwareDistributions {
 		}
 	}
 
+	/**
+	 * <pre>
 	private void loadAnonymousBlackBoxOwners() throws IOException {
 		File blackBoxConfigFile = new File(configDir, BLACK_BOX_OWNER_FILENAME);
 		if (blackBoxConfigFile.exists() && blackBoxConfigFile.isFile()) {
@@ -75,6 +79,8 @@ public class ConfiguredSoftwareDistributions {
 				String line;
 				while ((line = input.readLine()) != null) {
 					SoftwareUnit ownerModuleName = establishUnitByFileSystemName(line);
+					ownerModuleName.setBlackBoxOwner(true);
+					distributionsByUnit.get(ownerModuleName).setBlackBoxOwner(true);
 					anonymousBlackBoxOwners.add(ownerModuleName);
 				}
 			} finally {
@@ -82,6 +88,7 @@ public class ConfiguredSoftwareDistributions {
 			}
 		}
 	}
+	 */
 
 	private void loadDistributions() {
 		if (clusterMode == ClusterMode.UNIT) {

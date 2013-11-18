@@ -19,8 +19,10 @@ import edu.uci.eecs.crowdsafe.common.data.dist.AutonomousSoftwareDistribution;
 import edu.uci.eecs.crowdsafe.common.data.dist.ConfiguredSoftwareDistributions;
 import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareModule;
 import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareUnit;
+import edu.uci.eecs.crowdsafe.common.data.graph.Edge;
 import edu.uci.eecs.crowdsafe.common.data.graph.EdgeType;
 import edu.uci.eecs.crowdsafe.common.data.graph.MetaNodeType;
+import edu.uci.eecs.crowdsafe.common.data.graph.OrdinalEdgeList;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterBasicBlock;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterBoundaryNode;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterModule;
@@ -309,7 +311,13 @@ public class RawGraphTransformer {
 			IndexedClusterNode toNodeId = identifyNode(absoluteToTag, toTagVersion, entryIndex, streamType);
 
 			if (fromNodeId == null) {
-				Log.log("Error: missing 'from' node 0x%x-v%d", absoluteFromTag, fromTagVersion);
+				if (toNodeId == null) {
+					Log.log("Error: both nodes missing in edge 0x%x-v%d -> 0x%x-v%d (%s)", absoluteFromTag,
+							fromTagVersion, absoluteToTag, toTagVersion, type);
+				} else {
+					Log.log("Error: missing 'from' node 0x%x-v%d in edge to %s 0x%x-v%d (%s)", absoluteFromTag,
+							fromTagVersion, toNodeId.cluster.name, absoluteToTag, toTagVersion, type);
+				}
 				continue;
 			}
 
@@ -369,7 +377,13 @@ public class RawGraphTransformer {
 			long hash = edgeEntry.third;
 
 			if (fromNodeId == null) {
-				Log.log("Error: missing 'from' node 0x%x-v%d", absoluteFromTag, fromTagVersion);
+				if (toNodeId == null) {
+					Log.log("Error: both nodes missing in edge 0x%x-v%d -> 0x%x-v%d", absoluteFromTag, fromTagVersion,
+							absoluteToTag, toTagVersion);
+				} else {
+					Log.log("Error: missing 'from' node 0x%x-v%d in edge to %s 0x%x-v%d ", absoluteFromTag,
+							fromTagVersion, toNodeId.cluster.name, absoluteToTag, toTagVersion);
+				}
 				continue;
 			}
 
@@ -377,6 +391,17 @@ public class RawGraphTransformer {
 				Log.log("Error: missing 'to' node 0x%x-v%d", absoluteToTag, toTagVersion);
 				continue;
 			}
+
+			/**
+			 * <pre> 
+			if (fromNodeId.cluster.name.startsWith("xul") && toNodeId.cluster.isAnonymous()) {
+				Log.log("Anonymous entry from xul: 0x%x-v%d -> 0x%x-v%d", absoluteFromTag, fromTagVersion,
+						absoluteToTag, toTagVersion);
+			} else if (toNodeId.cluster.name.startsWith("xul") && fromNodeId.cluster.isAnonymous()) {
+				Log.log("Anonymous exit to xul: 0x%x-v%d -> 0x%x-v%d", absoluteFromTag, fromTagVersion, absoluteToTag,
+						toTagVersion);
+			}
+			 */
 
 			// TODO: if an endpoint is a black box singleton, make edge type and ordinal uniform
 
