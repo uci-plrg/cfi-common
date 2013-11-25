@@ -55,13 +55,6 @@ public abstract class Node<EdgeEndpointType extends Node<EdgeEndpointType>> impl
 		return edges.getEdges(EdgeSet.Direction.OUTGOING, ordinal);
 	}
 
-	/**
-	 * @return null for non-call node, edge for the first block of the calling procedure
-	 */
-	public Edge<EdgeEndpointType> getCallContinuation() {
-		return edges.getCallContinuation();
-	}
-
 	public Edge<EdgeEndpointType> getOutgoingEdge(EdgeEndpointType toNode) {
 		OrdinalEdgeList<EdgeEndpointType> edgeList = edges.getEdges(EdgeSet.Direction.OUTGOING);
 		try {

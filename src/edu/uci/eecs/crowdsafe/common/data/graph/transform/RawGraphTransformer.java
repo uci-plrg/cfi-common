@@ -202,7 +202,7 @@ public class RawGraphTransformer {
 				if (blackBoxOwner == null) {
 					tag = fakeAnonymousModuleTags.get(lookup);
 				} else {
-					ClusterNode singleton = blackBoxSingletons.get(blackBoxOwner);
+					ClusterNode<?> singleton = blackBoxSingletons.get(blackBoxOwner);
 					if (singleton != null) {
 						tag = singleton.getRelativeTag();
 						fakeAnonymousModuleTags.put(lookup, tag);
@@ -322,23 +322,19 @@ public class RawGraphTransformer {
 			}
 
 			if (toNodeId == null) {
-				if (type == EdgeType.CALL_CONTINUATION) {
-					if (toTagVersion > 0)
-						toNodeId = identifyNode(absoluteToTag, 0, entryIndex, streamType);
-					if (toNodeId == null)
-						continue;
-				} else {
-					Log.log("Error: missing 'to' node 0x%x-v%d", absoluteToTag, toTagVersion);
-					continue;
-				}
+				Log.log("Error: missing 'to' node 0x%x-v%d", absoluteToTag, toTagVersion);
+				continue;
 			}
 
+			/**
+			 * <pre>
 			if (fromNodeId.cluster == ConfiguredSoftwareDistributions.ANONYMOUS_CLUSTER) {
 				if ((blackBoxSingletons.containsValue(fromNodeId.node))
 						|| (blackBoxSingletons.containsValue(toNodeId.node))) {
 					toString();
 				}
 			}
+			 */
 
 			if (fromNodeId.cluster == toNodeId.cluster) {
 				RawEdge edge = new RawEdge(fromNodeId, toNodeId, type, ordinal);
@@ -391,19 +387,6 @@ public class RawGraphTransformer {
 				Log.log("Error: missing 'to' node 0x%x-v%d", absoluteToTag, toTagVersion);
 				continue;
 			}
-
-			/**
-			 * <pre> 
-			if (fromNodeId.cluster.name.startsWith("xul") && toNodeId.cluster.isAnonymous()) {
-				Log.log("Anonymous entry from xul: 0x%x-v%d -> 0x%x-v%d", absoluteFromTag, fromTagVersion,
-						absoluteToTag, toTagVersion);
-			} else if (toNodeId.cluster.name.startsWith("xul") && fromNodeId.cluster.isAnonymous()) {
-				Log.log("Anonymous exit to xul: 0x%x-v%d -> 0x%x-v%d", absoluteFromTag, fromTagVersion, absoluteToTag,
-						toTagVersion);
-			}
-			 */
-
-			// TODO: if an endpoint is a black box singleton, make edge type and ordinal uniform
 
 			if (fromNodeId.cluster == toNodeId.cluster) {
 				establishEdgeSet(fromNodeId.cluster).add(new RawEdge(fromNodeId, toNodeId, type, ordinal));

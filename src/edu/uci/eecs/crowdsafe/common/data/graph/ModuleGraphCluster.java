@@ -235,17 +235,6 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 				edgeList.release();
 			}
 
-			Edge<EdgeEndpointType> continuationEdge = node.getCallContinuation();
-			if (continuationEdge != null) {
-				intraModuleEdges++;
-				EdgeEndpointType continuation = continuationEdge.getToNode();
-				if (!visitedNodes.contains(continuation)) {
-					bfsQueue.add(continuation);
-					visitedNodes.add(continuation);
-				}
-				intraModuleEdgeTypeCounts.get(continuationEdge.getEdgeType()).increment();
-			}
-
 			edgeList = node.getIncomingEdges();
 			try {
 				for (Edge<EdgeEndpointType> edge : edgeList) {
