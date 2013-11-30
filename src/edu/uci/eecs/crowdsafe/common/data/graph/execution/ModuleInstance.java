@@ -5,8 +5,10 @@ import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareModule;
 
 // TODO: check the usage of ModuleInstance hashcode/equals: maybe use alternate key for equivocating all instances of the same software unit?
 public class ModuleInstance extends SoftwareModule {
-	public static ModuleInstance DYNAMORIO = new ModuleInstance(SoftwareUnit.DYNAMORIO, 0L, Long.MAX_VALUE, 0L,
+	public static ModuleInstance SYSTEM = new ModuleInstance(SoftwareModule.SYSTEM_MODULE.unit, 0L, Long.MAX_VALUE, 0L,
 			Long.MAX_VALUE, 0L, Long.MAX_VALUE, 0L, Long.MAX_VALUE);
+	public static ModuleInstance DYNAMORIO = new ModuleInstance(SoftwareModule.DYNAMORIO_MODULE.unit, 0L,
+			Long.MAX_VALUE, 0L, Long.MAX_VALUE, 0L, Long.MAX_VALUE, 0L, Long.MAX_VALUE);
 	public static ModuleInstance ANONYMOUS = new ModuleInstance(SoftwareModule.ANONYMOUS_MODULE.unit, 0L,
 			Long.MAX_VALUE, 0L, Long.MAX_VALUE, 0L, Long.MAX_VALUE, 0L, Long.MAX_VALUE);
 

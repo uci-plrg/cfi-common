@@ -173,7 +173,7 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 			case CLUSTER_EXIT:
 				addClusterExitNode(node);
 				return;
-			case BLACK_BOX_SINGLETON:
+			case SINGLETON:
 				break;
 			default:
 				graphData.nodesByHash.add(node);

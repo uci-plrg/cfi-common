@@ -51,6 +51,9 @@ public class ClusterDataWriter<NodeType extends NodeIdentifier> {
 		}
 
 		public void establishClusterWriters(ClusterData<NodeType> data) throws IOException {
+			if (data == null)
+				toString();
+
 			ClusterDataWriter<NodeType> writer = getWriter(data.getCluster());
 			if (writer == null) {
 				dataSink.addCluster(data.getCluster(), filenameFormat);

@@ -2,8 +2,7 @@ package edu.uci.eecs.crowdsafe.common.data.graph;
 
 public enum MetaNodeType {
 	NORMAL("N", true),
-	CONTEXT_ENTRY("CE"),
-	CONTEXT_EXIT("CX"),
+	SINGLETON("S"),
 	TRAMPOLINE("T", true),
 	RETURN("R", true),
 	SIGNAL_HANDLER("SH", true),

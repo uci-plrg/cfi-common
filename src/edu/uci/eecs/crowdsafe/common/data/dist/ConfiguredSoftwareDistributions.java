@@ -1,10 +1,7 @@
 package edu.uci.eecs.crowdsafe.common.data.dist;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,6 +38,8 @@ public class ConfiguredSoftwareDistributions {
 
 	public static final AutonomousSoftwareDistribution MAIN_PROGRAM = new AutonomousSoftwareDistribution(
 			"<main-program>", "main-program");
+	public static final AutonomousSoftwareDistribution SYSTEM_CLUSTER = new AutonomousSoftwareDistribution(
+			SoftwareUnit.SYSTEM_UNIT_NAME, SoftwareUnit.SYSTEM_UNIT_NAME, true);
 	public static final AutonomousSoftwareDistribution DYNAMORIO_CLUSTER = new AutonomousSoftwareDistribution(
 			SoftwareUnit.DYNAMORIO_UNIT_NAME, SoftwareUnit.DYNAMORIO_UNIT_NAME);
 	public static final AutonomousSoftwareDistribution ANONYMOUS_CLUSTER = new AutonomousSoftwareDistribution(
@@ -64,8 +63,12 @@ public class ConfiguredSoftwareDistributions {
 		if (clusterMode == ClusterMode.GROUP) {
 			distributions.put(MAIN_PROGRAM.name, MAIN_PROGRAM);
 		} else {
+			distributions.put(SYSTEM_CLUSTER.name, SYSTEM_CLUSTER);
+			installCluster(SYSTEM_CLUSTER, SoftwareModule.SYSTEM_MODULE.unit);
 			distributions.put(DYNAMORIO_CLUSTER.name, DYNAMORIO_CLUSTER);
-			installCluster(DYNAMORIO_CLUSTER, SoftwareUnit.DYNAMORIO);
+			installCluster(DYNAMORIO_CLUSTER, SoftwareModule.DYNAMORIO_MODULE.unit);
+			distributions.put(ANONYMOUS_CLUSTER.name, ANONYMOUS_CLUSTER);
+			installCluster(ANONYMOUS_CLUSTER, SoftwareModule.ANONYMOUS_MODULE.unit);
 		}
 	}
 
@@ -92,7 +95,7 @@ public class ConfiguredSoftwareDistributions {
 
 	private void loadDistributions() {
 		if (clusterMode == ClusterMode.UNIT) {
-			installCluster(DYNAMORIO_CLUSTER, SoftwareUnit.DYNAMORIO);
+			installCluster(DYNAMORIO_CLUSTER, SoftwareModule.DYNAMORIO_MODULE.unit);
 			return;
 		}
 
@@ -159,7 +162,7 @@ public class ConfiguredSoftwareDistributions {
 
 	public synchronized SoftwareUnit establishUnitByFileSystemName(String name) {
 		if (name.startsWith(SoftwareUnit.DYNAMORIO_UNIT_NAME))
-			return SoftwareUnit.DYNAMORIO;
+			return SoftwareModule.DYNAMORIO_MODULE.unit;
 
 		SoftwareUnit existing = unitsByName.get(name);
 		if (existing != null)

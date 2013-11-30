@@ -10,11 +10,10 @@ public class SoftwareUnit {
 
 	private static final Pattern FILENAME_PATTERN = Pattern.compile("^([^\\-]+)-([^\\-]+-[^\\-]+-[^\\-]+)$");
 
+	public static final String SYSTEM_UNIT_NAME = "__system";
 	public static final String DYNAMORIO_UNIT_NAME = "__dynamorio";
 	public static final String ANONYMOUS_UNIT_NAME = "__anonymous";
 
-	public static final SoftwareUnit DYNAMORIO = new SoftwareUnit("|dynamorio|-" + SoftwareModule.EMPTY_VERSION, true,
-			true);
 	public static final SoftwareUnit CLUSTER_BOUNDARY = new SoftwareUnit("|cluster_boundary|-"
 			+ SoftwareModule.EMPTY_VERSION);
 
@@ -27,7 +26,7 @@ public class SoftwareUnit {
 	public final long anonymousEntryHash;
 	public final long anonymousExitHash;
 	public final long interceptionHash;
-	
+
 	SoftwareUnit(String name) {
 		this(name, false);
 	}

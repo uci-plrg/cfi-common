@@ -37,13 +37,11 @@ public class GraphData<NodeType extends Node<NodeType>> {
 	public void validate() {
 		for (NodeType node : nodesByKey.values()) {
 			switch (node.getType()) {
-				case CONTEXT_ENTRY:
 				case CLUSTER_ENTRY:
 					if (node.hasIncomingEdges()) {
 						throw new InvalidGraphException("Entry point has incoming edges!");
 					}
 					break;
-				case CONTEXT_EXIT:
 				case CLUSTER_EXIT:
 					if (node.hasOutgoingEdges()) {
 						Log.log("");

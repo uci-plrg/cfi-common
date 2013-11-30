@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import edu.uci.eecs.crowdsafe.common.data.dist.AutonomousSoftwareDistribution;
+import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareModule;
 import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareUnit;
 import edu.uci.eecs.crowdsafe.common.data.graph.Edge;
 import edu.uci.eecs.crowdsafe.common.data.graph.EdgeType;
@@ -112,8 +113,8 @@ public class ProcessGraphLoadSession {
 			// Tags don't duplicate in lookup file
 			if (hashLookupTable.containsKey(node.getKey())) {
 				ExecutionNode existingNode = hashLookupTable.get(node.getKey());
-				if ((existingNode.getHash() != node.getHash()) && (node.getModule().unit != SoftwareUnit.DYNAMORIO)
-						&& (existingNode.getModule().unit != SoftwareUnit.DYNAMORIO)) {
+				if ((existingNode.getHash() != node.getHash())
+						&& (node.getModule().unit != SoftwareModule.DYNAMORIO_MODULE.unit)) {
 					String msg = String.format("Duplicate tags: %s -> %s in datasource %s", node.getKey(),
 							existingNode, dataSource.toString());
 					throw new InvalidTagException(msg);
