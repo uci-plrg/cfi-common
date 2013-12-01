@@ -13,7 +13,11 @@ import java.util.Queue;
 import java.util.Set;
 
 import edu.uci.eecs.crowdsafe.common.data.dist.AutonomousSoftwareDistribution;
+import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareModule;
 import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareUnit;
+import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterBasicBlock;
+import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterBoundaryNode;
+import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterNode;
 import edu.uci.eecs.crowdsafe.common.data.results.Graph;
 import edu.uci.eecs.crowdsafe.common.data.results.NodeResultsFactory;
 import edu.uci.eecs.crowdsafe.common.log.Log;
@@ -164,16 +168,16 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 	}
 
 	public void addNode(EdgeEndpointType node) {
-		graphData.nodesByKey.put(node.getKey(), node);
-
 		switch (node.getType()) {
 			case CLUSTER_ENTRY:
 				addClusterEntryNode(node);
-				return;
+				break;
 			case CLUSTER_EXIT:
 				addClusterExitNode(node);
-				return;
+				break;
 			case SINGLETON:
+				if (node.getRelativeTag() == ClusterNode.PROCESS_ENTRY_SINGLETON)
+					return;
 				break;
 			default:
 				graphData.nodesByHash.add(node);
@@ -181,6 +185,7 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 				graphs.get(node.getModule().unit).incrementExecutableBlockCount();
 
 		}
+		graphData.nodesByKey.put(node.getKey(), node);
 	}
 
 	public void analyzeGraph() {
@@ -257,6 +262,22 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 		Log.log("Max callout edges for a single node: %d", maxCalloutEdges);
 		Log.log("Max export edges for a single node: %d", maxExportEdges);
 
+		/**
+		 * <pre>
+		for (EdgeEndpointType unreachable : new ArrayList<EdgeEndpointType>(unreachableNodes)) {
+			if (unreachable.getType() == MetaNodeType.CLUSTER_EXIT) {
+				OrdinalEdgeList<EdgeEndpointType> edgeList = unreachable.getIncomingEdges();
+				try {
+					for (Edge<EdgeEndpointType> edge : edgeList) {
+						if (edge.getFromNode().getRelativeTag() == ClusterNode.PROCESS_ENTRY_SINGLETON)
+							unreachableNodes.remove(unreachable);
+					}
+				} finally {
+					edgeList.release();
+				}
+			}
+		}
+		 */
 		Log.log("%d unreachable nodes for cluster %s", unreachableNodes.size(), cluster.name);
 
 		if (!CrowdSafeDebug.LOG_UNREACHABLE_ENTRY_POINTS)

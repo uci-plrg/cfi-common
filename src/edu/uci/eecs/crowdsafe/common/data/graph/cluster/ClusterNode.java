@@ -2,6 +2,7 @@ package edu.uci.eecs.crowdsafe.common.data.graph.cluster;
 
 import edu.uci.eecs.crowdsafe.common.data.graph.Edge;
 import edu.uci.eecs.crowdsafe.common.data.graph.EdgeSet;
+import edu.uci.eecs.crowdsafe.common.data.graph.MetaNodeType;
 import edu.uci.eecs.crowdsafe.common.data.graph.Node;
 
 public abstract class ClusterNode<KeyType extends Node.Key> extends Node<ClusterNode<?>> {
@@ -43,6 +44,10 @@ public abstract class ClusterNode<KeyType extends Node.Key> extends Node<Cluster
 
 	public boolean replaceEdge(Edge<ClusterNode<?>> original, Edge<ClusterNode<?>> replacement) {
 		return edges.replaceEdge(original, replacement);
+	}
+
+	public boolean isBlackBoxSingleton() {
+		return ((getType() == MetaNodeType.SINGLETON) && (getRelativeTag() >= BLACK_BOX_SINGLETON_START) && (getRelativeTag() < BLACK_BOX_SINGLETON_END));
 	}
 
 	@Override

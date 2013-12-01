@@ -11,9 +11,8 @@ public abstract class SoftwareModule {
 	public static final String EMPTY_VERSION = "0-0-0";
 
 	public static final ClusterModule SYSTEM_MODULE = new ClusterModule(0, new SoftwareUnit(
-			SoftwareUnit.SYSTEM_UNIT_NAME, true));
-	public static final ClusterModule DYNAMORIO_MODULE = new ClusterModule(0, new SoftwareUnit(
-			SoftwareUnit.DYNAMORIO_UNIT_NAME, true));
+			SoftwareUnit.SYSTEM_UNIT_NAME, false));
+	public static final ClusterModule DYNAMORIO_MODULE = new ClusterModule(0, SoftwareUnit.DYNAMORIO_UNIT);
 	public static final ClusterModule ANONYMOUS_MODULE = new ClusterModule(0, new SoftwareUnit(
 			SoftwareUnit.ANONYMOUS_UNIT_NAME, true));
 

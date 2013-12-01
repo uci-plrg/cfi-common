@@ -69,7 +69,6 @@ public class RawGraphTransformer {
 	private final Map<RawTag, Integer> fakeAnonymousModuleTags = new HashMap<RawTag, Integer>();
 	private int fakeAnonymousTagIndex = ClusterNode.FAKE_ANONYMOUS_TAG_START;
 	private final Map<Long, IndexedClusterNode> syscallSingletons = new HashMap<Long, IndexedClusterNode>();
-	private final Map<AutonomousSoftwareDistribution, AutonomousSoftwareDistribution> blackBoxOwners = new HashMap<AutonomousSoftwareDistribution, AutonomousSoftwareDistribution>();
 	private final Map<AutonomousSoftwareDistribution, ClusterNode<?>> blackBoxSingletons = new HashMap<AutonomousSoftwareDistribution, ClusterNode<?>>();
 
 	public RawGraphTransformer(ArgumentStack args) {
@@ -142,7 +141,6 @@ public class RawGraphTransformer {
 				fakeAnonymousModuleTags.clear();
 				fakeAnonymousTagIndex = ClusterNode.FAKE_ANONYMOUS_TAG_START;
 				syscallSingletons.clear();
-				blackBoxOwners.clear();
 				blackBoxSingletons.clear();
 			}
 		} catch (Throwable t) {
@@ -170,17 +168,18 @@ public class RawGraphTransformer {
 		RawClusterData nodeData = establishNodeData(ConfiguredSoftwareDistributions.SYSTEM_CLUSTER);
 		nodeData.moduleList.establishModule(ModuleInstance.SYSTEM_MODULE.unit);
 		ClusterNode<?> node = new ClusterBasicBlock(SoftwareModule.SYSTEM_MODULE, ClusterNode.PROCESS_ENTRY_SINGLETON,
-				0, 0L, MetaNodeType.SINGLETON);
+				0, ClusterNode.PROCESS_ENTRY_SINGLETON, MetaNodeType.SINGLETON);
 		IndexedClusterNode nodeId = nodeData.addNode(node);
 		RawTag rawTag = new RawTag(ClusterNode.PROCESS_ENTRY_SINGLETON, 0);
 		fakeAnonymousModuleTags.put(rawTag, ClusterNode.PROCESS_ENTRY_SINGLETON);
 		nodesByRawTag.put(rawTag, nodeId);
 		graphWriters.establishClusterWriters(nodesByCluster.get(ConfiguredSoftwareDistributions.SYSTEM_CLUSTER));
-		
+
 		nodeData = establishNodeData(ConfiguredSoftwareDistributions.DYNAMORIO_CLUSTER);
 		nodeData.moduleList.establishModule(ModuleInstance.DYNAMORIO_MODULE.unit);
 		node = new ClusterBasicBlock(SoftwareModule.DYNAMORIO_MODULE,
-				ClusterNode.DYNAMORIO_INTERCEPTION_RETURN_SINGLETON, 0, 0L, MetaNodeType.SINGLETON);
+				ClusterNode.DYNAMORIO_INTERCEPTION_RETURN_SINGLETON, 0,
+				ClusterNode.DYNAMORIO_INTERCEPTION_RETURN_SINGLETON, MetaNodeType.SINGLETON);
 		nodeId = nodeData.addNode(node);
 		rawTag = new RawTag(ClusterNode.DYNAMORIO_INTERCEPTION_RETURN_SINGLETON, 0);
 		fakeAnonymousModuleTags.put(rawTag, ClusterNode.DYNAMORIO_INTERCEPTION_RETURN_SINGLETON);
@@ -214,9 +213,6 @@ public class RawGraphTransformer {
 			AutonomousSoftwareDistribution cluster = ConfiguredSoftwareDistributions.getInstance().distributionsByUnit
 					.get(moduleInstance.unit);
 
-			if (cluster == null)
-				toString();
-
 			int relativeTag;
 			ClusterModule clusterModule;
 			AutonomousSoftwareDistribution blackBoxOwner = null;
@@ -244,7 +240,6 @@ public class RawGraphTransformer {
 							new InvalidGraphException("Error: cannot find the owner of black box with entry 0x%x!",
 									nodeEntry.second);
 
-						blackBoxOwners.put(cluster, blackBoxOwner);
 						// TODO: removing extraneous nodes requires patching the data set for the whole
 						// anonymous module
 					}
@@ -254,7 +249,7 @@ public class RawGraphTransformer {
 				Integer tag = null;
 				if (blackBoxOwner == null) {
 					tag = fakeAnonymousModuleTags.get(lookup);
-				} else {
+				} else { // this is not necessary now, there is only one instance of the singleton
 					ClusterNode<?> singleton = blackBoxSingletons.get(blackBoxOwner);
 					if (singleton != null) {
 						tag = singleton.getRelativeTag();
@@ -263,12 +258,15 @@ public class RawGraphTransformer {
 				}
 
 				if (tag == null) {
-					tag = fakeAnonymousTagIndex++;
-					fakeAnonymousModuleTags.put(lookup, tag);
-					Log.log("Mapping 0x%x-v%d => 0x%x for module %s (hash 0x%x)", absoluteTag, tagVersion, tag,
-							moduleInstance.unit.filename, nodeEntry.second);
-
-					isNewBlackBoxSingleton = (blackBoxOwner != null);
+					if (blackBoxOwner != null) {
+						isNewBlackBoxSingleton = true;
+						tag = (int) absoluteTag;
+					} else {
+						tag = fakeAnonymousTagIndex++;
+						fakeAnonymousModuleTags.put(lookup, tag);
+						Log.log("Mapping 0x%x-v%d => 0x%x for module %s (hash 0x%x)", absoluteTag, tagVersion, tag,
+								moduleInstance.unit.filename, nodeEntry.second);
+					}
 				}
 				relativeTag = tag;
 			} else {
@@ -381,17 +379,18 @@ public class RawGraphTransformer {
 
 			if (fromNodeId == null) {
 				if (toNodeId == null) {
-					Log.log("Error: both nodes missing in edge 0x%x-v%d -> 0x%x-v%d", absoluteFromTag, fromTagVersion,
-							absoluteToTag, toTagVersion);
+					Log.log("Error: both nodes missing in cross-module edge 0x%x-v%d -> 0x%x-v%d", absoluteFromTag,
+							fromTagVersion, absoluteToTag, toTagVersion);
 				} else {
-					Log.log("Error: missing 'from' node 0x%x-v%d in edge to %s 0x%x-v%d ", absoluteFromTag,
-							fromTagVersion, toNodeId.cluster.name, absoluteToTag, toTagVersion);
+					Log.log("Error: missing 'from' node 0x%x-v%d in cross-module edge to %s 0x%x-v%d ",
+							absoluteFromTag, fromTagVersion, toNodeId.cluster.name, absoluteToTag, toTagVersion);
 				}
 				continue;
 			}
 
 			if (toNodeId == null) {
-				Log.log("Error: missing 'to' node 0x%x-v%d", absoluteToTag, toTagVersion);
+				Log.log("Error: missing 'to' node 0x%x-v%d in cross-module edge from %s 0x%x-v%d", absoluteToTag,
+						toTagVersion, fromNodeId.cluster.name, absoluteFromTag, fromTagVersion);
 				continue;
 			}
 
@@ -405,9 +404,11 @@ public class RawGraphTransformer {
 				IndexedClusterNode entryId = nodesByCluster.get(toNodeId.cluster).addNode(entry);
 				establishEdgeSet(toNodeId.cluster).add(new RawEdge(entryId, toNodeId, EdgeType.CLUSTER_ENTRY, 0));
 
-				ClusterBoundaryNode exit = new ClusterBoundaryNode(hash, MetaNodeType.CLUSTER_EXIT);
-				IndexedClusterNode exitId = nodesByCluster.get(fromNodeId.cluster).addNode(exit);
-				establishEdgeSet(fromNodeId.cluster).add(new RawEdge(fromNodeId, exitId, type, ordinal));
+				if (fromNodeId.node.getRelativeTag() != ClusterNode.PROCESS_ENTRY_SINGLETON) {
+					ClusterBoundaryNode exit = new ClusterBoundaryNode(hash, MetaNodeType.CLUSTER_EXIT);
+					IndexedClusterNode exitId = nodesByCluster.get(fromNodeId.cluster).addNode(exit);
+					establishEdgeSet(fromNodeId.cluster).add(new RawEdge(fromNodeId, exitId, type, ordinal));
+				}
 			}
 		}
 	}

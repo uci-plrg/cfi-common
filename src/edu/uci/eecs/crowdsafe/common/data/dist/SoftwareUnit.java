@@ -16,6 +16,7 @@ public class SoftwareUnit {
 
 	public static final SoftwareUnit CLUSTER_BOUNDARY = new SoftwareUnit("|cluster_boundary|-"
 			+ SoftwareModule.EMPTY_VERSION);
+	public static final SoftwareUnit DYNAMORIO_UNIT = new SoftwareUnit(SoftwareUnit.DYNAMORIO_UNIT_NAME, false, true);
 
 	public static final long DYNAMORIO_INTERCEPTION_RETURN_EDGE_HASH = 1L;
 
