@@ -7,11 +7,12 @@ import edu.uci.eecs.crowdsafe.common.data.graph.Node;
 public abstract class ClusterNode<KeyType extends Node.Key> extends Node<ClusterNode<?>> {
 
 	public static final int DYNAMORIO_INTERCEPTION_RETURN_SINGLETON = 1;
-	public static final int SYSCALL_SINGLETON = 2;
 	public static final int PROCESS_ENTRY_SINGLETON = 3;
 	public static final int BLACK_BOX_SINGLETON_START = 0x100;
 	public static final int BLACK_BOX_SINGLETON_END = BLACK_BOX_SINGLETON_START + 10;
-	public static final int FAKE_ANONYMOUS_TAG_START = PROCESS_ENTRY_SINGLETON + 1;
+	public static final int SYSCALL_SINGLETON_START = 0x1000;
+	public static final int SYSCALL_SINGLETON_END = SYSCALL_SINGLETON_START + 0x4000;
+	public static final int FAKE_ANONYMOUS_TAG_START = SYSCALL_SINGLETON_END + 1;
 
 	final KeyType key;
 
