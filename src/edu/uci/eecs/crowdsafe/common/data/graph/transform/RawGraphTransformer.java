@@ -320,16 +320,22 @@ public class RawGraphTransformer {
 							fromTagVersion, absoluteToTag, toTagVersion, type);
 				} else {
 					Log.log("Error in cluster %s: missing 'from' node 0x%x-v%d in edge to 0x%x-v%d (%s)",
-							toNodeId.cluster.name, absoluteFromTag, fromTagVersion, absoluteToTag, toTagVersion, type);
+							toNodeId.cluster.getUnitFilename(), absoluteFromTag, fromTagVersion, absoluteToTag,
+							toTagVersion, type);
 				}
 				continue;
 			}
 
 			if (toNodeId == null) {
-				Log.log("Error in cluster %s: missing 'to' node 0x%x-v%d", fromNodeId.cluster.name, absoluteToTag,
-						toTagVersion);
+				Log.log("Error in cluster %s: missing 'to' node 0x%x-v%d", fromNodeId.cluster.getUnitFilename(),
+						absoluteToTag, toTagVersion);
 				continue;
 			}
+
+			if (((ordinal > 1) && (type != EdgeType.CALL_CONTINUATION)) || (ordinal > 2))
+				Log.log("Warning: high ordinal in %s edge (0x%x-v%d) -%s-%d-> (0x%x-v%d)",
+						fromNodeId.cluster.getUnitFilename(), absoluteFromTag, fromTagVersion, type.code, ordinal,
+						absoluteToTag, toTagVersion);
 
 			/**
 			 * <pre>
@@ -382,17 +388,23 @@ public class RawGraphTransformer {
 					Log.log("Error: both nodes missing in cross-module edge 0x%x-v%d -> 0x%x-v%d", absoluteFromTag,
 							fromTagVersion, absoluteToTag, toTagVersion);
 				} else {
-					Log.log("Error: missing 'from' node 0x%x-v%d in cross-module edge to %s 0x%x-v%d ",
-							absoluteFromTag, fromTagVersion, toNodeId.cluster.name, absoluteToTag, toTagVersion);
+					Log.log("Error: missing 'from' node 0x%x-v%d in cross-module edge to %s(0x%x-v%d) ",
+							absoluteFromTag, fromTagVersion, toNodeId.cluster.getUnitFilename(), absoluteToTag,
+							toTagVersion);
 				}
 				continue;
 			}
 
 			if (toNodeId == null) {
 				Log.log("Error: missing 'to' node 0x%x-v%d in cross-module edge from %s 0x%x-v%d", absoluteToTag,
-						toTagVersion, fromNodeId.cluster.name, absoluteFromTag, fromTagVersion);
+						toTagVersion, fromNodeId.cluster.getUnitFilename(), absoluteFromTag, fromTagVersion);
 				continue;
 			}
+
+			if (((ordinal > 1) && (type != EdgeType.CALL_CONTINUATION)) || (ordinal > 2))
+				Log.log("Warning: high ordinal in cross-module edge %s(0x%x-v%d) -%s-%d-> %s(0x%x-v%d)",
+						fromNodeId.cluster.getUnitFilename(), absoluteFromTag, fromTagVersion, type.code, ordinal,
+						toNodeId.cluster.getUnitFilename(), absoluteToTag, toTagVersion);
 
 			if (fromNodeId.cluster == toNodeId.cluster) {
 				establishEdgeSet(fromNodeId.cluster).add(new RawEdge(fromNodeId, toNodeId, type, ordinal));
