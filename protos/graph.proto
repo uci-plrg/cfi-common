@@ -48,8 +48,9 @@ enum EdgeType {
   INDIRECT = 0;
   DIRECT = 1;
   CALL_CONTINUATION = 2;
-  UNEXPECTED_RETURN = 3;
-  MODULE_ENTRY = 4;
+  EXCEPTION_CONTINUATION = 3;
+  UNEXPECTED_RETURN = 4;
+  MODULE_ENTRY = 5;
 }
 
 message UnreachableNode {

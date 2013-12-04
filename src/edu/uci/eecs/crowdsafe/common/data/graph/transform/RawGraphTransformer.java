@@ -332,7 +332,7 @@ public class RawGraphTransformer {
 				continue;
 			}
 
-			if (((ordinal > 1) && (type != EdgeType.CALL_CONTINUATION)) || (ordinal > 2))
+			if (type.isHighOrdinal(ordinal))
 				Log.log("Warning: high ordinal in %s edge (0x%x-v%d) -%s-%d-> (0x%x-v%d)",
 						fromNodeId.cluster.getUnitFilename(), absoluteFromTag, fromTagVersion, type.code, ordinal,
 						absoluteToTag, toTagVersion);
@@ -401,7 +401,7 @@ public class RawGraphTransformer {
 				continue;
 			}
 
-			if (((ordinal > 1) && (type != EdgeType.CALL_CONTINUATION)) || (ordinal > 2))
+			if (type.isHighOrdinal(ordinal))
 				Log.log("Warning: high ordinal in cross-module edge %s(0x%x-v%d) -%s-%d-> %s(0x%x-v%d)",
 						fromNodeId.cluster.getUnitFilename(), absoluteFromTag, fromTagVersion, type.code, ordinal,
 						toNodeId.cluster.getUnitFilename(), absoluteToTag, toTagVersion);

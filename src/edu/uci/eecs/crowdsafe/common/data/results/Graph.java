@@ -26,13 +26,17 @@ public final class Graph {
      */
     CALL_CONTINUATION(2, 2),
     /**
-     * <code>UNEXPECTED_RETURN = 3;</code>
+     * <code>EXCEPTION_CONTINUATION = 3;</code>
      */
-    UNEXPECTED_RETURN(3, 3),
+    EXCEPTION_CONTINUATION(3, 3),
     /**
-     * <code>MODULE_ENTRY = 4;</code>
+     * <code>UNEXPECTED_RETURN = 4;</code>
      */
-    MODULE_ENTRY(4, 4),
+    UNEXPECTED_RETURN(4, 4),
+    /**
+     * <code>MODULE_ENTRY = 5;</code>
+     */
+    MODULE_ENTRY(5, 5),
     ;
 
     /**
@@ -48,13 +52,17 @@ public final class Graph {
      */
     public static final int CALL_CONTINUATION_VALUE = 2;
     /**
-     * <code>UNEXPECTED_RETURN = 3;</code>
+     * <code>EXCEPTION_CONTINUATION = 3;</code>
      */
-    public static final int UNEXPECTED_RETURN_VALUE = 3;
+    public static final int EXCEPTION_CONTINUATION_VALUE = 3;
     /**
-     * <code>MODULE_ENTRY = 4;</code>
+     * <code>UNEXPECTED_RETURN = 4;</code>
      */
-    public static final int MODULE_ENTRY_VALUE = 4;
+    public static final int UNEXPECTED_RETURN_VALUE = 4;
+    /**
+     * <code>MODULE_ENTRY = 5;</code>
+     */
+    public static final int MODULE_ENTRY_VALUE = 5;
 
 
     public final int getNumber() { return value; }
@@ -64,8 +72,9 @@ public final class Graph {
         case 0: return INDIRECT;
         case 1: return DIRECT;
         case 2: return CALL_CONTINUATION;
-        case 3: return UNEXPECTED_RETURN;
-        case 4: return MODULE_ENTRY;
+        case 3: return EXCEPTION_CONTINUATION;
+        case 4: return UNEXPECTED_RETURN;
+        case 5: return MODULE_ENTRY;
         default: return null;
       }
     }
@@ -7542,11 +7551,12 @@ public final class Graph {
       "ge\030\002 \003(\0132\036.crowd_safe_data_analysis.Edge" +
       "\022\026\n\016is_entry_point\030\003 \001(\010\"P\n\rEdgeTypeCoun" +
       "t\0220\n\004type\030\001 \001(\0162\".crowd_safe_data_analys" +
-      "is.EdgeType\022\r\n\005count\030\002 \001(\005*d\n\010EdgeType\022\014",
-      "\n\010INDIRECT\020\000\022\n\n\006DIRECT\020\001\022\025\n\021CALL_CONTINU" +
-      "ATION\020\002\022\025\n\021UNEXPECTED_RETURN\020\003\022\020\n\014MODULE" +
-      "_ENTRY\020\004B3\n*edu.uci.eecs.crowdsafe.commo" +
-      "n.data.resultsB\005Graph"
+      "is.EdgeType\022\r\n\005count\030\002 \001(\005*\200\001\n\010EdgeType\022",
+      "\014\n\010INDIRECT\020\000\022\n\n\006DIRECT\020\001\022\025\n\021CALL_CONTIN" +
+      "UATION\020\002\022\032\n\026EXCEPTION_CONTINUATION\020\003\022\025\n\021" +
+      "UNEXPECTED_RETURN\020\004\022\020\n\014MODULE_ENTRY\020\005B3\n" +
+      "*edu.uci.eecs.crowdsafe.common.data.resu" +
+      "ltsB\005Graph"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
