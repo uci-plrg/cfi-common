@@ -1,22 +1,17 @@
 package edu.uci.eecs.crowdsafe.common.data.graph;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 
 import edu.uci.eecs.crowdsafe.common.data.dist.AutonomousSoftwareDistribution;
-import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareModule;
 import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareUnit;
-import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterBasicBlock;
-import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterBoundaryNode;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterNode;
 import edu.uci.eecs.crowdsafe.common.data.results.Graph;
 import edu.uci.eecs.crowdsafe.common.data.results.NodeResultsFactory;
@@ -57,6 +52,8 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 	private int maxExportEdges = 0;
 
 	private int executableNodeCount = 0;
+
+	private boolean analyzed = false;
 
 	public ModuleGraphCluster(AutonomousSoftwareDistribution cluster) {
 		this.cluster = cluster;
@@ -188,7 +185,16 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 		graphData.nodesByKey.put(node.getKey(), node);
 	}
 
+	public void resetAnalysis() {
+		analyzed = false;
+	}
+
 	public void analyzeGraph() {
+		if (analyzed)
+			return;
+
+		analyzed = true;
+		
 		unreachableNodes.clear();
 		unreachableNodes.addAll(graphData.nodesByKey.values());
 

@@ -15,9 +15,9 @@ import edu.uci.eecs.crowdsafe.common.log.Log;
 import edu.uci.eecs.crowdsafe.common.util.CrowdSafeTraceUtil;
 
 public class ProcessGraphEdgeFactory {
-	
+
 	private static final int ENTRY_BYTE_COUNT = 0x10;
-	
+
 	private final ProcessGraphLoadSession.GraphLoader loader;
 	private final LittleEndianInputStream input;
 
@@ -68,40 +68,21 @@ public class ProcessGraphEdgeFactory {
 
 		// Double check if tag1 and tag2 exist in the lookup file
 		if (fromNode == null) {
-			boolean fixed = false;
-			if (edgeType == EdgeType.CALL_CONTINUATION) {
-				fromNode = loader.hashLookupTable.get(ExecutionNode.Key.create(fromTag, fromVersion + 1, fromModule));
-				if (fromNode != null) {
-					fixed = true;
-					Log.log("\t(Call continuation/tag version bug!)");
-				}
-			}
-			if (!fixed) {
-				Log.log("Problem at edge index %d: missing 'from' node for tag 0x%x-v%d(%s) in edge to 0x%x-v%d(%s) of type %s on ordinal %d",
-						edgeIndex, fromTag, fromVersion, fromModule.unit.name, toTag, toVersion, toModule.unit.name,
-						edgeType, edgeOrdinal);
-				return;
-			}
+			Log.log("Problem at edge index %d: missing 'from' node for tag 0x%x-v%d(%s) in edge to 0x%x-v%d(%s) of type %s on ordinal %d",
+					edgeIndex, fromTag, fromVersion, fromModule.unit.name, toTag, toVersion, toModule.unit.name,
+					edgeType, edgeOrdinal);
+			return;
 		}
 		if (toNode == null) {
-			if (edgeType == EdgeType.CALL_CONTINUATION)
-				return; // discard b/c we never reached the continuation point
-			else {
-				boolean fixed = false;
-				if (edgeType == EdgeType.INDIRECT) {
-					toNode = loader.hashLookupTable.get(ExecutionNode.Key.create(toTag, toVersion + 1, toModule));
-					if (toNode != null) {
-						fixed = true;
-						Log.log("\t(Indirect branch/tag version bug!)");
-					}
-				}
-				if (!fixed) {
-					Log.log("Problem at edge index %d: missing 'to' node for tag 0x%x-v%d(%s) in edge #%d from 0x%x-v%d(%s) of type %s on ordinal %d",
-							edgeIndex, toTag, toVersion, toModule.unit.name, edgeIndex, fromTag, fromVersion,
-							fromModule.unit.name, edgeType, edgeOrdinal);
-					return;
-				}
-			}
+			// if (edgeType == EdgeType.CALL_CONTINUATION)
+			// return; // discard b/c we never reached the continuation point
+			// else {
+			// boolean fixed = false;
+			Log.log("Problem at edge index %d: missing 'to' node for tag 0x%x-v%d(%s) in edge #%d from 0x%x-v%d(%s) of type %s on ordinal %d",
+					edgeIndex, toTag, toVersion, toModule.unit.name, edgeIndex, fromTag, fromVersion,
+					fromModule.unit.name, edgeType, edgeOrdinal);
+			return;
+			// }
 		}
 
 		if ((fromModule.unit != toModule.unit)
@@ -117,8 +98,7 @@ public class ProcessGraphEdgeFactory {
 		Edge<ExecutionNode> e = new Edge<ExecutionNode>(fromNode, toNode, edgeType, edgeOrdinal);
 
 		if ((existing != null)
-				&& ((existing.getEdgeType() == EdgeType.DIRECT && e.getEdgeType() == EdgeType.CALL_CONTINUATION) || (existing
-						.getEdgeType() == EdgeType.CALL_CONTINUATION && e.getEdgeType() == EdgeType.DIRECT))) {
+				&& ((existing.isDirect() && e.isContinuation()) || (existing.isContinuation() && e.isDirect()))) {
 			existing = null; // // allow a call to its own continuation
 		}
 		if (existing == null) {

@@ -29,6 +29,10 @@ public enum EdgeType {
 	public boolean isHighOrdinal(int ordinal) {
 		return (ordinal > 1);
 	}
+	
+	public boolean isContinuation() {
+		return (this == CALL_CONTINUATION) || (this == EXCEPTION_CONTINUATION);
+	}
 
 	public Graph.EdgeType mapToResultType() {
 		switch (this) {

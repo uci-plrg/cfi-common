@@ -78,9 +78,10 @@ public class CommonMergeOptions {
 
 	public boolean includeCluster(AutonomousSoftwareDistribution cluster) {
 		if (explicitClusterNames.isEmpty()) {
-			return !excludedClusterNames.contains(cluster.name);
+			return !(excludedClusterNames.contains(cluster.name) || excludedClusterNames.contains(cluster
+					.getUnitFilename()));
 		}
 
-		return explicitClusterNames.contains(cluster.name);
+		return (explicitClusterNames.contains(cluster.name) || explicitClusterNames.contains(cluster.getUnitFilename()));
 	}
 }
