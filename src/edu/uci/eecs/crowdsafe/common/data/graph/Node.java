@@ -4,6 +4,7 @@ public abstract class Node<EdgeEndpointType extends Node<EdgeEndpointType>> impl
 		NodeList<EdgeEndpointType> {
 
 	public interface Key {
+		boolean isModuleRelativeEquivalent(Key other);
 	}
 
 	protected final EdgeSet<EdgeEndpointType> edges = new EdgeSet<EdgeEndpointType>();
@@ -11,7 +12,7 @@ public abstract class Node<EdgeEndpointType extends Node<EdgeEndpointType>> impl
 	public abstract Key getKey();
 
 	public boolean isModuleRelativeEquivalent(Node<?> other) {
-		return getKey().equals(other.getKey()) && (getType() == other.getType()) && (getHash() == other.getHash());
+		return getKey().isModuleRelativeEquivalent(other.getKey()) && (getType() == other.getType()) && (getHash() == other.getHash());
 	}
 
 	public boolean isModuleRelativeMismatch(Node<?> other) {
