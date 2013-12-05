@@ -4,6 +4,7 @@ import edu.uci.eecs.crowdsafe.common.data.graph.Edge;
 import edu.uci.eecs.crowdsafe.common.data.graph.EdgeSet;
 import edu.uci.eecs.crowdsafe.common.data.graph.MetaNodeType;
 import edu.uci.eecs.crowdsafe.common.data.graph.Node;
+import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterBoundaryNode.Key;
 import edu.uci.eecs.crowdsafe.common.exception.InvalidGraphException;
 
 /**
@@ -35,6 +36,15 @@ public class ExecutionNode extends Node<ExecutionNode> {
 			this.relativeTag = relativeTag;
 			this.version = tagVersion;
 			this.module = module;
+		}
+
+		@Override
+		public boolean isModuleRelativeEquivalent(edu.uci.eecs.crowdsafe.common.data.graph.Node.Key other) {
+			if (other instanceof Key) {
+				Key otherKey = (Key) other;
+				return (relativeTag == otherKey.relativeTag) && module.equals(otherKey.module);
+			}
+			return false;
 		}
 
 		@Override

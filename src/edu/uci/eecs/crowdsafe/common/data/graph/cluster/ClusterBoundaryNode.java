@@ -23,6 +23,15 @@ public class ClusterBoundaryNode extends ClusterNode<ClusterBoundaryNode.Key> {
 		}
 
 		@Override
+		public boolean isModuleRelativeEquivalent(edu.uci.eecs.crowdsafe.common.data.graph.Node.Key other) {
+			if (other instanceof Key) {
+				Key otherKey = (Key) other;
+				return (type == otherKey.type) && (hash == otherKey.hash);
+			}
+			return false;
+		}
+
+		@Override
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;

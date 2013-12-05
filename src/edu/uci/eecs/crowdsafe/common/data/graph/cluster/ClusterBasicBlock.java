@@ -2,10 +2,11 @@ package edu.uci.eecs.crowdsafe.common.data.graph.cluster;
 
 import edu.uci.eecs.crowdsafe.common.data.graph.MetaNodeType;
 import edu.uci.eecs.crowdsafe.common.data.graph.Node;
+import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterBoundaryNode.Key;
 
 public class ClusterBasicBlock extends ClusterNode<ClusterBasicBlock.Key> {
 
-	public static class Key implements Node.Key {
+	public static class Key<ClusterBasicBlock> implements Node.Key {
 		public final ClusterModule module;
 
 		public final long relativeTag;
@@ -16,6 +17,15 @@ public class ClusterBasicBlock extends ClusterNode<ClusterBasicBlock.Key> {
 			this.module = module;
 			this.relativeTag = relativeTag;
 			this.instanceId = instanceId;
+		}
+
+		@Override
+		public boolean isModuleRelativeEquivalent(edu.uci.eecs.crowdsafe.common.data.graph.Node.Key other) {
+			if (other instanceof Key) {
+				Key otherKey = (Key) other;
+				return (relativeTag == otherKey.relativeTag) && module.equals(otherKey.module);
+			}
+			return false;
 		}
 
 		@Override
