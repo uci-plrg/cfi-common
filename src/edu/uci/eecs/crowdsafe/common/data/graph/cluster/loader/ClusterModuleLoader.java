@@ -6,7 +6,8 @@ import java.io.InputStreamReader;
 
 import edu.uci.eecs.crowdsafe.common.data.dist.AutonomousSoftwareDistribution;
 import edu.uci.eecs.crowdsafe.common.data.dist.ConfiguredSoftwareDistributions;
-import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareDistributionUnit;
+import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareUnit;
+import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterModule;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterModuleList;
 import edu.uci.eecs.crowdsafe.common.io.cluster.ClusterTraceDataSource;
 import edu.uci.eecs.crowdsafe.common.io.cluster.ClusterTraceStreamType;
@@ -31,11 +32,8 @@ public class ClusterModuleLoader {
 			if (moduleLine.length() == 0)
 				continue;
 
-			int lastDash = moduleLine.lastIndexOf('-');
-			String moduleName = moduleLine.substring(0, lastDash);
-			SoftwareDistributionUnit unit = ConfiguredSoftwareDistributions.getInstance().establishUnit(moduleName);
-			String version = moduleLine.substring(lastDash + 1);
-			modules.addModule(unit, version);
+			SoftwareUnit unit = ConfiguredSoftwareDistributions.getInstance().establishUnitByFileSystemName(moduleLine);
+			modules.addModule(unit);
 		}
 
 		return modules;

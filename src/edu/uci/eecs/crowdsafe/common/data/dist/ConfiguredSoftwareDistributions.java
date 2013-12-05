@@ -2,7 +2,6 @@ package edu.uci.eecs.crowdsafe.common.data.dist;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +24,7 @@ public class ConfiguredSoftwareDistributions {
 
 	public static void initialize(ClusterMode clusterMode, File configDir) {
 		INSTANCE = new ConfiguredSoftwareDistributions(clusterMode, configDir);
+		// INSTANCE.loadAnonymousBlackBoxOwners();
 		INSTANCE.loadDistributions();
 	}
 
@@ -32,42 +32,70 @@ public class ConfiguredSoftwareDistributions {
 		return INSTANCE;
 	}
 
-	private static String getFilename(String unitName) {
-		int dashIndex = unitName.lastIndexOf('-');
-		if (dashIndex < 0)
-			return unitName;
-		return unitName.substring(0, dashIndex);
-	}
-
-	public static String getVersion(String unitName) {
-		int dashIndex = unitName.lastIndexOf('-');
-		if (dashIndex < 0)
-			return "";
-		return unitName.substring(dashIndex + 1);
-	}
-
 	private static ConfiguredSoftwareDistributions INSTANCE;
+
+	// private static final String BLACK_BOX_OWNER_FILENAME = "anonymous-blackbox-owners.cfg";
 
 	public static final AutonomousSoftwareDistribution MAIN_PROGRAM = new AutonomousSoftwareDistribution(
 			"<main-program>", "main-program");
+	public static final AutonomousSoftwareDistribution SYSTEM_CLUSTER = new AutonomousSoftwareDistribution(
+			SoftwareUnit.SYSTEM_UNIT_NAME, SoftwareUnit.SYSTEM_UNIT_NAME, true);
+	public static final AutonomousSoftwareDistribution DYNAMORIO_CLUSTER = new AutonomousSoftwareDistribution(
+			SoftwareUnit.DYNAMORIO_UNIT_NAME, SoftwareUnit.DYNAMORIO_UNIT_NAME);
+	public static final AutonomousSoftwareDistribution ANONYMOUS_CLUSTER = new AutonomousSoftwareDistribution(
+			SoftwareUnit.ANONYMOUS_UNIT_NAME, SoftwareUnit.ANONYMOUS_UNIT_NAME, true);
 
 	public final File configDir;
 	public final ClusterMode clusterMode;
 	public final Map<String, AutonomousSoftwareDistribution> distributions = new HashMap<String, AutonomousSoftwareDistribution>();
-	public final Map<String, SoftwareDistributionUnit> unitsByName = new HashMap<String, SoftwareDistributionUnit>();
-	public final Map<SoftwareDistributionUnit, AutonomousSoftwareDistribution> distributionsByUnit = new HashMap<SoftwareDistributionUnit, AutonomousSoftwareDistribution>();
+	public final Map<String, SoftwareUnit> unitsByName = new HashMap<String, SoftwareUnit>();
+	public final Map<Long, SoftwareUnit> unitsByAnonymousEntryHash = new HashMap<Long, SoftwareUnit>();
+	public final Map<Long, SoftwareUnit> unitsByAnonymousExitHash = new HashMap<Long, SoftwareUnit>();
+	public final Map<Long, SoftwareUnit> unitsByInterceptionHash = new HashMap<Long, SoftwareUnit>();
+	public final Map<SoftwareUnit, AutonomousSoftwareDistribution> distributionsByUnit = new HashMap<SoftwareUnit, AutonomousSoftwareDistribution>();
+
+	// public final List<SoftwareUnit> anonymousBlackBoxOwners = new ArrayList<SoftwareUnit>();
 
 	private ConfiguredSoftwareDistributions(ClusterMode clusterMode, File configDir) {
 		this.clusterMode = clusterMode;
 		this.configDir = configDir;
-		distributions.put(MAIN_PROGRAM.name, MAIN_PROGRAM);
+
+		if (clusterMode == ClusterMode.GROUP) {
+			distributions.put(MAIN_PROGRAM.name, MAIN_PROGRAM);
+		} else {
+			distributions.put(SYSTEM_CLUSTER.name, SYSTEM_CLUSTER);
+			installCluster(SYSTEM_CLUSTER, SoftwareModule.SYSTEM_MODULE.unit);
+			distributions.put(DYNAMORIO_CLUSTER.name, DYNAMORIO_CLUSTER);
+			installCluster(DYNAMORIO_CLUSTER, SoftwareModule.DYNAMORIO_MODULE.unit);
+			distributions.put(ANONYMOUS_CLUSTER.name, ANONYMOUS_CLUSTER);
+			installCluster(ANONYMOUS_CLUSTER, SoftwareModule.ANONYMOUS_MODULE.unit);
+		}
 	}
+
+	/**
+	 * <pre>
+	private void loadAnonymousBlackBoxOwners() throws IOException {
+		File blackBoxConfigFile = new File(configDir, BLACK_BOX_OWNER_FILENAME);
+		if (blackBoxConfigFile.exists() && blackBoxConfigFile.isFile()) {
+			BufferedReader input = new BufferedReader(new FileReader(blackBoxConfigFile));
+			try {
+				String line;
+				while ((line = input.readLine()) != null) {
+					SoftwareUnit ownerModuleName = establishUnitByFileSystemName(line);
+					ownerModuleName.setBlackBoxOwner(true);
+					distributionsByUnit.get(ownerModuleName).setBlackBoxOwner(true);
+					anonymousBlackBoxOwners.add(ownerModuleName);
+				}
+			} finally {
+				input.close();
+			}
+		}
+	}
+	 */
 
 	private void loadDistributions() {
 		if (clusterMode == ClusterMode.UNIT) {
-			AutonomousSoftwareDistribution unknown = new AutonomousSoftwareDistribution(
-					SoftwareDistributionUnit.UNKNOWN.name, Collections.singleton(SoftwareDistributionUnit.UNKNOWN));
-			distributionsByUnit.put(SoftwareDistributionUnit.UNKNOWN, unknown);
+			installCluster(DYNAMORIO_CLUSTER, SoftwareModule.DYNAMORIO_MODULE.unit);
 			return;
 		}
 
@@ -87,8 +115,11 @@ public class ConfiguredSoftwareDistributions {
 			}
 
 			for (AutonomousSoftwareDistribution distribution : distributions.values()) {
-				for (SoftwareDistributionUnit unit : distribution.distributionUnits) {
+				for (SoftwareUnit unit : distribution.getUnits()) {
 					unitsByName.put(unit.name, unit);
+					unitsByAnonymousEntryHash.put(unit.anonymousEntryHash, unit);
+					unitsByAnonymousExitHash.put(unit.anonymousExitHash, unit);
+					unitsByInterceptionHash.put(unit.interceptionHash, unit);
 					distributionsByUnit.put(unit, distribution);
 				}
 			}
@@ -102,38 +133,85 @@ public class ConfiguredSoftwareDistributions {
 	public synchronized AutonomousSoftwareDistribution establishCluster(String name) {
 		AutonomousSoftwareDistribution cluster = distributions.get(name);
 		if (cluster == null) {
-			cluster = new AutonomousSoftwareDistribution(name, name);
+			if (name.equals(ANONYMOUS_CLUSTER.name))
+				cluster = ANONYMOUS_CLUSTER;
+			else
+				cluster = new AutonomousSoftwareDistribution(name, name);
 			distributions.put(name, cluster);
 		}
 		return cluster;
 	}
 
-	public synchronized SoftwareDistributionUnit establishUnit(String name) {
-		SoftwareDistributionUnit existing = unitsByName.get(name);
-		if (existing == null)
-			existing = unitsByName.get(getFilename(name));
+	public SoftwareUnit establishUnitByName(String unitName) {
+		if (unitName.startsWith(SoftwareModule.ANONYMOUS_MODULE_NAME))
+			unitName = unitName.replace(SoftwareModule.ANONYMOUS_MODULE_NAME, SoftwareUnit.ANONYMOUS_UNIT_NAME);
+
+		if (unitName.startsWith(SoftwareUnit.DYNAMORIO_UNIT_NAME)
+				|| unitName.contains(SoftwareModule.DYNAMORIO_MODULE_NAME))
+			throw new IllegalArgumentException("The DynamoRIO software unit is static!");
+
+		/*
+		 * if (unitName.startsWith(SoftwareUnit.DYNAMORIO_UNIT_NAME)) throw new IllegalArgumentException(String.format(
+		 * "Name collision: file %s will look like the dynamorio module!", unitName)); if
+		 * (unitName.contains(SoftwareModule.DYNAMORIO_MODULE_NAME)) unitName =
+		 * unitName.replace(SoftwareModule.DYNAMORIO_MODULE_NAME, SoftwareUnit.DYNAMORIO_UNIT_NAME);
+		 */
+
+		return establishUnitByFileSystemName(unitName);
+	}
+
+	public synchronized SoftwareUnit establishUnitByFileSystemName(String name) {
+		if (name.startsWith(SoftwareUnit.DYNAMORIO_UNIT_NAME))
+			return SoftwareModule.DYNAMORIO_MODULE.unit;
+
+		SoftwareUnit existing = unitsByName.get(name);
 		if (existing != null)
 			return existing;
 
 		if (clusterMode == ClusterMode.UNIT) {
-			AutonomousSoftwareDistribution unitCluster;
-			if (name.endsWith(".exe"))
-				unitCluster = MAIN_PROGRAM;
-			else
-				unitCluster = establishCluster(name);
-
-			SoftwareDistributionUnit unit = new SoftwareDistributionUnit(name);
-			unitsByName.put(unit.name, unit);
-			distributionsByUnit.put(unit, unitCluster);
-			unitCluster.distributionUnits.add(unit);
+			AutonomousSoftwareDistribution unitCluster = establishCluster(name);
+			boolean isDynamic = name.startsWith(SoftwareUnit.ANONYMOUS_UNIT_NAME);
+			SoftwareUnit unit = new SoftwareUnit(name, isDynamic);
+			installCluster(unitCluster, unit);
 			return unit;
 		} else {
-			SoftwareDistributionUnit unit = new SoftwareDistributionUnit(name);
+			SoftwareUnit unit = new SoftwareUnit(name);
 			AutonomousSoftwareDistribution main = distributions.get(MAIN_PROGRAM);
-			unitsByName.put(unit.name, unit);
-			distributionsByUnit.put(unit, main);
-			main.distributionUnits.add(unit);
+			installCluster(main, unit);
 			return unit;
 		}
+	}
+
+	public AutonomousSoftwareDistribution getClusterByAnonymousEntryHash(long hash) {
+		SoftwareUnit unit = unitsByAnonymousEntryHash.get(hash);
+		if (unit == null)
+			return null;
+		else
+			return distributionsByUnit.get(unit);
+	}
+
+	public AutonomousSoftwareDistribution getClusterByAnonymousExitHash(long hash) {
+		SoftwareUnit unit = unitsByAnonymousExitHash.get(hash);
+		if (unit == null)
+			return null;
+		else
+			return distributionsByUnit.get(unit);
+	}
+
+	public AutonomousSoftwareDistribution getClusterByInterceptionHash(long hash) {
+		SoftwareUnit unit = unitsByInterceptionHash.get(hash);
+		if (unit == null)
+			return null;
+		else
+			return distributionsByUnit.get(unit);
+	}
+
+	private void installCluster(AutonomousSoftwareDistribution cluster, SoftwareUnit unit) {
+		unitsByName.put(unit.name, unit);
+		unitsByAnonymousEntryHash.put(unit.anonymousEntryHash, unit);
+		unitsByAnonymousExitHash.put(unit.anonymousExitHash, unit);
+		unitsByInterceptionHash.put(unit.interceptionHash, unit);
+		distributionsByUnit.put(unit, cluster);
+		cluster.addUnit(unit);
 	}
 }

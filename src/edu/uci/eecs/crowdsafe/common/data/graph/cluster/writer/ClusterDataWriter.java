@@ -51,6 +51,9 @@ public class ClusterDataWriter<NodeType extends NodeIdentifier> {
 		}
 
 		public void establishClusterWriters(ClusterData<NodeType> data) throws IOException {
+			if (data == null)
+				toString();
+
 			ClusterDataWriter<NodeType> writer = getWriter(data.getCluster());
 			if (writer == null) {
 				dataSink.addCluster(data.getCluster(), filenameFormat);
@@ -87,9 +90,9 @@ public class ClusterDataWriter<NodeType extends NodeIdentifier> {
 
 	public void writeNode(NodeType node) throws IOException {
 		long word = data.getModuleIndex(node.getModule());
-		word |= ((long) node.getRelativeTag() & 0xffffffL) << 0x10;
-		word |= ((long) node.getInstanceId()) << 0x28;
-		word |= ((long) node.getType().ordinal()) << 0x30;
+		word |= ((long) node.getRelativeTag() & 0xffffffffL) << 0x10;
+		word |= ((long) node.getInstanceId()) << 0x30;
+		word |= ((long) node.getType().ordinal()) << 0x38;
 		nodeStream.writeLong(word);
 		nodeStream.writeLong(node.getHash());
 	}
@@ -107,7 +110,7 @@ public class ClusterDataWriter<NodeType extends NodeIdentifier> {
 			if (module.equals(ClusterBoundaryNode.BOUNDARY_MODULE))
 				continue;
 
-			moduleWriter.write(String.format("%s-%s\n", module.unit.name, module.version));
+			moduleWriter.write(module.unit.name);
 		}
 	}
 

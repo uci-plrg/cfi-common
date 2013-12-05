@@ -7,17 +7,63 @@ import java.util.Set;
 public class AutonomousSoftwareDistribution {
 	public final String name;
 	public final String id;
-	public final Set<SoftwareDistributionUnit> distributionUnits;
+
+	private boolean isAnonymous = false;
+	private final Set<SoftwareUnit> units;
 
 	AutonomousSoftwareDistribution(String name, String id) {
-		this.name = name;
-		this.id = id;
-		distributionUnits = new HashSet<SoftwareDistributionUnit>();
+		this(name, id, false);
 	}
 
-	AutonomousSoftwareDistribution(String name, Set<SoftwareDistributionUnit> distributionUnits) {
+	AutonomousSoftwareDistribution(String name, String id, boolean isAnonymous) {
+		this.name = name;
+		this.id = id;
+		this.isAnonymous = isAnonymous;
+
+		units = new HashSet<SoftwareUnit>();
+	}
+
+	AutonomousSoftwareDistribution(String name, Set<SoftwareUnit> distributionUnits) {
 		this.name = this.id = name;
-		this.distributionUnits = Collections.unmodifiableSet(distributionUnits);
+
+		this.units = Collections.unmodifiableSet(distributionUnits);
+	}
+
+	public Iterable<SoftwareUnit> getUnits() {
+		return units;
+	}
+
+	public int getUnitCount() {
+		return units.size();
+	}
+
+	public boolean containsUnit(SoftwareUnit unit) {
+		return units.contains(unit);
+	}
+
+	public String getUnitFilename() {
+		if (units.size() > 0)
+			return units.iterator().next().filename;
+		else
+			return name;
+	}
+
+	public boolean isAnonymous() {
+		return isAnonymous;
+	}
+
+	void addUnit(SoftwareUnit unit) {
+		if (units.isEmpty()) {
+			isAnonymous = unit.isAnonymous;
+		} else if (isAnonymous != unit.isAnonymous) {
+			if (isAnonymous)
+				throw new IllegalArgumentException(String.format(
+						"Attempt to add static software unit %s to a dynamic cluster.", unit));
+			else
+				throw new IllegalArgumentException(String.format(
+						"Attempt to add dynamic software unit %s to a static cluster.", unit));
+		}
+		units.add(unit);
 	}
 
 	@Override

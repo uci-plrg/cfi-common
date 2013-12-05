@@ -3,6 +3,9 @@ package edu.uci.eecs.crowdsafe.common.data.graph;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterNode;
+import edu.uci.eecs.crowdsafe.common.log.Log;
+
 /**
  * <pre>
  * Warning: only the iterator is threadsafe. Concurrent modifications to the list will corrupt the data structure! 
@@ -36,28 +39,11 @@ public class EdgeSet<EdgeEndpointType extends Node<EdgeEndpointType>> {
 	final List<OutgoingOrdinal> outgoingOrdinals = new ArrayList<OutgoingOrdinal>();
 	int directionDivider = 0;
 
-	Edge<EdgeEndpointType> callContinuation;
-
 	public EdgeType getOrdinalEdgeType(int ordinal) {
 		return outgoingOrdinals.get(ordinal).type;
 	}
 
-	// 15% hot during load!
 	public void addEdge(Direction direction, Edge<EdgeEndpointType> edge) {
-		if ((direction == Direction.OUTGOING) && (edge.getEdgeType() == EdgeType.CALL_CONTINUATION)) {
-			if (callContinuation != null) {
-				if (!callContinuation.equals(edge)) {
-					throw new IllegalStateException("Cannot add multiple call continuation edges!");
-				}
-			} else {
-				callContinuation = edge;
-			}
-			return;
-		}
-
-		if (edges.contains(edge))
-			return;
-
 		if (direction == Direction.INCOMING) {
 			edges.add(edge);
 			return;
@@ -89,6 +75,25 @@ public class EdgeSet<EdgeEndpointType extends Node<EdgeEndpointType>> {
 		}
 	}
 
+	public void removeEdge(Direction direction, Edge<EdgeEndpointType> edge) {
+		switch (direction) {
+			case INCOMING:
+				edges.remove(edge);
+				break;
+			case OUTGOING:
+				throw new UnsupportedOperationException("Removal of outgoing edges is not implemented yet.");
+		}
+	}
+
+	public boolean replaceEdge(Edge<EdgeEndpointType> original, Edge<EdgeEndpointType> replacement) {
+		int index = edges.indexOf(original);
+		if (index < 0)
+			return false;
+
+		edges.set(index, replacement);
+		return true;
+	}
+
 	public OrdinalEdgeList<EdgeEndpointType> getEdges(Direction direction, int ordinal) {
 		OrdinalEdgeList<EdgeEndpointType> listView = OrdinalEdgeList.get(this);// threadListView.get();
 		switch (direction) {
@@ -99,12 +104,10 @@ public class EdgeSet<EdgeEndpointType extends Node<EdgeEndpointType>> {
 					listView.group = null;
 					listView.start = 0;
 					listView.end = 0;
-					listView.includeCallContinuation = false;
 				} else {
 					listView.group = outgoingOrdinals.get(ordinal);
 					listView.start = listView.group.position;
 					listView.end = listView.group.position + listView.group.size;
-					listView.includeCallContinuation = false;
 				}
 				break;
 		}
@@ -113,7 +116,6 @@ public class EdgeSet<EdgeEndpointType extends Node<EdgeEndpointType>> {
 
 	public OrdinalEdgeList<EdgeEndpointType> getEdges(Direction direction) {
 		OrdinalEdgeList<EdgeEndpointType> listView = OrdinalEdgeList.get(this);// threadListView.get();
-		listView.includeCallContinuation = (callContinuation != null) && (direction == Direction.OUTGOING);
 		if (edges.isEmpty()) {
 			listView.start = 0;
 			listView.group = null;
@@ -134,10 +136,6 @@ public class EdgeSet<EdgeEndpointType extends Node<EdgeEndpointType>> {
 				break;
 		}
 		return listView;
-	}
-
-	public Edge<EdgeEndpointType> getCallContinuation() {
-		return callContinuation;
 	}
 
 	public int getOrdinalCount(Direction direction) {
@@ -172,22 +170,6 @@ public class EdgeSet<EdgeEndpointType extends Node<EdgeEndpointType>> {
 			if (myOrdinal.type != otherOrdinal.type)
 				return false;
 		}
-
-		if ((callContinuation == null) != (other.callContinuation == null)) {
-			if (maxCommonOrdinal == 0)
-				return false;
-			OutgoingOrdinal lastOutgoing = outgoingOrdinals.get(outgoingOrdinals.size() - 1);
-			switch (lastOutgoing.type) {
-				case DIRECT:
-				case INDIRECT:
-					// tolerate this--maybe the CC was never reached
-					break;
-				default:
-					return false;
-			}
-		} else if ((callContinuation != null) && (callContinuation.getOrdinal() != other.callContinuation.getOrdinal()))
-			return false;
-
 		return true;
 	}
 }

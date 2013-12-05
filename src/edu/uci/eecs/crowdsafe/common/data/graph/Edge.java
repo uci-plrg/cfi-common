@@ -100,6 +100,6 @@ public class Edge<EndpointType extends Node<?>> implements ClusterDataWriter.Edg
 	}
 
 	public String toString() {
-		return String.format("%s(%s)--%d-->%s", fromNode, edgeType, ordinal, toNode);
+		return String.format("%s--%d|%s-->%s", fromNode, ordinal, edgeType.code, toNode);
 	}
 }

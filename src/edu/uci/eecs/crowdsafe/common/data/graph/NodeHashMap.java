@@ -28,9 +28,6 @@ public class NodeHashMap<NodeType extends Node<NodeType>> {
 				map.put(node.getHash(), list);
 			} else {
 				NodeArrayList<NodeType> list = (NodeArrayList<NodeType>) existing;
-				if (list.contains(node))
-					return;
-
 				list.add(node);
 			}
 		}
@@ -38,8 +35,13 @@ public class NodeHashMap<NodeType extends Node<NodeType>> {
 		nodeCount++;
 	}
 
+	@SuppressWarnings("unchecked")
 	public NodeList<NodeType> get(long hash) {
-		return map.get(hash);
+		NodeList<NodeType> nodes = map.get(hash);
+		if (nodes == null)
+			return (NodeList<NodeType>) NodeList.EMPTY;
+		else
+			return nodes;
 	}
 
 	public Set<Long> keySet() {
@@ -52,5 +54,17 @@ public class NodeHashMap<NodeType extends Node<NodeType>> {
 
 	public int getNodeCount() {
 		return nodeCount;
+	}
+
+	public int getHashOverlapPerNode(NodeHashMap<?> other) {
+		int overlap = 0;
+		NodeList<?> otherList;
+		for (Map.Entry<Long, NodeList<NodeType>> entry : map.entrySet()) {
+			otherList = other.map.get(entry.getKey());
+			if (otherList != null) {
+				overlap += Math.min(entry.getValue().size(), otherList.size());
+			}
+		}
+		return overlap;
 	}
 }

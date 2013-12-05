@@ -48,6 +48,7 @@ public class ProcessGraphCrossModuleEdgeFactory {
 		long annotatedFromTag = input.readLong();
 		long annotatedToTag = input.readLong();
 		long signatureHash = input.readLong();
+		signatureHash = Math.abs(signatureHash);
 		edgeIndex++;
 
 		long fromTag = CrowdSafeTraceUtil.getTag(annotatedFromTag);

@@ -2,18 +2,27 @@ package edu.uci.eecs.crowdsafe.common.data.graph.cluster;
 
 import edu.uci.eecs.crowdsafe.common.data.graph.Edge;
 import edu.uci.eecs.crowdsafe.common.data.graph.EdgeSet;
+import edu.uci.eecs.crowdsafe.common.data.graph.MetaNodeType;
 import edu.uci.eecs.crowdsafe.common.data.graph.Node;
 
 public abstract class ClusterNode<KeyType extends Node.Key> extends Node<ClusterNode<?>> {
+
+	public static final int DYNAMORIO_INTERCEPTION_RETURN_SINGLETON = 1;
+	public static final int PROCESS_ENTRY_SINGLETON = 3;
+	public static final int BLACK_BOX_SINGLETON_START = 0x100;
+	public static final int BLACK_BOX_SINGLETON_END = BLACK_BOX_SINGLETON_START + 10;
+	public static final int SYSCALL_SINGLETON_START = 0x1000;
+	public static final int SYSCALL_SINGLETON_END = SYSCALL_SINGLETON_START + 0x4000;
+	public static final int FAKE_ANONYMOUS_TAG_START = SYSCALL_SINGLETON_END + 1;
 
 	final KeyType key;
 
 	protected ClusterNode(KeyType key) {
 		this.key = key;
 	}
-	
+
 	public abstract int getInstanceId();
-	
+
 	public abstract ClusterModule getModule();
 
 	@Override
@@ -27,6 +36,18 @@ public abstract class ClusterNode<KeyType extends Node.Key> extends Node<Cluster
 
 	public void addOutgoingEdge(Edge<ClusterNode<?>> e) {
 		edges.addEdge(EdgeSet.Direction.OUTGOING, e);
+	}
+
+	public void removeIncomingEdge(Edge<ClusterNode<?>> e) {
+		edges.removeEdge(EdgeSet.Direction.INCOMING, e);
+	}
+
+	public boolean replaceEdge(Edge<ClusterNode<?>> original, Edge<ClusterNode<?>> replacement) {
+		return edges.replaceEdge(original, replacement);
+	}
+
+	public boolean isBlackBoxSingleton() {
+		return ((getType() == MetaNodeType.SINGLETON) && (getRelativeTag() >= BLACK_BOX_SINGLETON_START) && (getRelativeTag() < BLACK_BOX_SINGLETON_END));
 	}
 
 	@Override

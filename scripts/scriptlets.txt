@@ -10,3 +10,5 @@ egrep "^[[:xdigit:]]+\s[[:xdigit:]]+\s[[:xdigit:]]+\s[[:xdigit:]]+\s[[:xdigit:]]
 
 · Edges having 'to' nodes with a certain tag version (specified by the last pattern) in the bb-graph file
 egrep "^[[:xdigit:]]+\s[[:xdigit:]]+\s[[:xdigit:]]+\s[[:xdigit:]]+\s[[:xdigit:]]+\s[[:xdigit:]]+\s[[:xdigit:]]+\s[[:xdigit:]]+\s[[:xdigit:]]{1}[1-9]"
+
+· out=transform-summary.log; for f in $(find . -name 'transform-graphs.log'); do echo "$(dirname $f):" >> $out; echo -n "Mappings: " >> $out; grep "Mapping" $f | wc -l >> $out; echo -n "Errors: " >> $out; grep "Error" $f | wc -l >> $out; done;

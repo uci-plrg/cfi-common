@@ -5,7 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import edu.uci.eecs.crowdsafe.common.data.dist.AutonomousSoftwareDistribution;
-import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareDistributionUnit;
+import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareModule;
+import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareUnit;
 import edu.uci.eecs.crowdsafe.common.data.graph.Edge;
 import edu.uci.eecs.crowdsafe.common.data.graph.EdgeType;
 import edu.uci.eecs.crowdsafe.common.data.graph.GraphLoadEventListener;
@@ -78,8 +79,8 @@ public class ProcessGraphLoadSession {
 			// Some other initialization and sanity checks
 			for (AutonomousSoftwareDistribution cluster : graph.getRepresentedClusters()) {
 				ModuleGraphCluster<ExecutionNode> clusterGraph = graph.getModuleGraphCluster(cluster);
-				clusterGraph.getGraphData().validate();
-				clusterGraph.analyzeGraph();
+				// clusterGraph.getGraphData().validate();
+				// clusterGraph.analyzeGraph();
 			}
 
 			return graph;
@@ -92,7 +93,7 @@ public class ProcessGraphLoadSession {
 				if (nodeFactory.ready()) {
 					ExecutionNode node = nodeFactory.createNode();
 					addNodeToGraph(node);
-					createEntryPoint(node);
+					createProcessEntryPoint(node);
 				}
 
 				while (nodeFactory.ready()) {
@@ -113,8 +114,7 @@ public class ProcessGraphLoadSession {
 			if (hashLookupTable.containsKey(node.getKey())) {
 				ExecutionNode existingNode = hashLookupTable.get(node.getKey());
 				if ((existingNode.getHash() != node.getHash())
-						&& (node.getModule().unit != SoftwareDistributionUnit.UNKNOWN)
-						&& (existingNode.getModule().unit != SoftwareDistributionUnit.UNKNOWN)) {
+						&& (node.getModule().unit != SoftwareModule.DYNAMORIO_MODULE.unit)) {
 					String msg = String.format("Duplicate tags: %s -> %s in datasource %s", node.getKey(),
 							existingNode, dataSource.toString());
 					throw new InvalidTagException(msg);
@@ -125,7 +125,7 @@ public class ProcessGraphLoadSession {
 			ModuleGraphCluster<ExecutionNode> moduleCluster = graph.getModuleGraphCluster(node.getModule().unit);
 			ModuleGraph moduleGraph = moduleCluster.getModuleGraph(node.getModule().unit);
 			if (moduleGraph == null) {
-				moduleGraph = new ModuleGraph(node.getModule().unit, node.getModule().version);
+				moduleGraph = new ModuleGraph(node.getModule().unit);
 				moduleCluster.addModule(moduleGraph);
 			}
 			moduleCluster.addNode(node);
@@ -135,7 +135,7 @@ public class ProcessGraphLoadSession {
 				listener.graphAddition(node, moduleCluster);
 		}
 
-		private void createEntryPoint(ExecutionNode node) {
+		private void createProcessEntryPoint(ExecutionNode node) {
 			ExecutionNode entryNode = new ExecutionNode(node.getModule(), MetaNodeType.CLUSTER_ENTRY, 0L, 0, 1L,
 					node.getTimestamp());
 			graph.getModuleGraphCluster(node.getModule().unit).addClusterEntryNode(entryNode);

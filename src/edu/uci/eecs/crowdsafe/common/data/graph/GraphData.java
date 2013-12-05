@@ -16,7 +16,7 @@ public class GraphData<NodeType extends Node<NodeType>> {
 	final Map<Node.Key, NodeType> nodesByKey = new HashMap<Node.Key, NodeType>();
 
 	public boolean HACK_containsEquivalent(Node<?> node) {
-		if (node.getModule().unit.isDynamic())
+		if (node.getModule().unit.isAnonymous)
 			return false;
 		if (nodesByKey.containsKey(node.getKey()))
 			return true;
@@ -37,13 +37,11 @@ public class GraphData<NodeType extends Node<NodeType>> {
 	public void validate() {
 		for (NodeType node : nodesByKey.values()) {
 			switch (node.getType()) {
-				case PROCESS_ENTRY:
 				case CLUSTER_ENTRY:
 					if (node.hasIncomingEdges()) {
 						throw new InvalidGraphException("Entry point has incoming edges!");
 					}
 					break;
-				case PROCESS_EXIT:
 				case CLUSTER_EXIT:
 					if (node.hasOutgoingEdges()) {
 						Log.log("");

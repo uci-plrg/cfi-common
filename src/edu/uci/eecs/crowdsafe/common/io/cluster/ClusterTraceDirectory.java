@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
 
 import edu.uci.eecs.crowdsafe.common.data.dist.AutonomousSoftwareDistribution;
 import edu.uci.eecs.crowdsafe.common.data.dist.ConfiguredSoftwareDistributions;
-import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareDistributionUnit;
+import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareUnit;
 import edu.uci.eecs.crowdsafe.common.io.LittleEndianInputStream;
 import edu.uci.eecs.crowdsafe.common.io.LittleEndianOutputStream;
 import edu.uci.eecs.crowdsafe.common.io.TraceDataSourceException;
@@ -67,7 +67,7 @@ public class ClusterTraceDirectory implements ClusterTraceDataSource, ClusterTra
 			for (ClusterTraceStreamType streamType : streamTypes) {
 				Matcher matcher = filePatterns.get(streamType).matcher(file.getName());
 				if (matcher.matches()) {
-					SoftwareDistributionUnit unit = ConfiguredSoftwareDistributions.getInstance().establishUnit(
+					SoftwareUnit unit = ConfiguredSoftwareDistributions.getInstance().establishUnitByFileSystemName(
 							matcher.group(1));
 					AutonomousSoftwareDistribution cluster = ConfiguredSoftwareDistributions.getInstance().distributionsByUnit
 							.get(unit);

@@ -62,6 +62,8 @@ public class ClusterGraphLoadSession {
 		if (!dataSource.getReprsentedClusters().contains(cluster))
 			return null;
 
+		Log.log("Loading graph %s", cluster);
+
 		GraphLoader graphLoader = new GraphLoader(cluster, listener);
 		return graphLoader.loadGraph();
 	}
@@ -97,6 +99,9 @@ public class ClusterGraphLoadSession {
 			Log.log("Cluster %s loaded in %f seconds.", cluster.name, (System.currentTimeMillis() - start) / 1000.);
 
 			builder.graph.analyzeGraph();
+			// if (builder.graph.cluster.isDynamic())
+			// builder.graph.logGraph();
+
 			return builder.graph;
 		}
 
@@ -124,10 +129,15 @@ public class ClusterGraphLoadSession {
 
 			try {
 				while (edgeFactory.ready()) {
-					Edge<?> edge = edgeFactory.createEdge();
+					try {
+						Edge<?> edge = edgeFactory.createEdge();
 
-					if (listener != null)
-						listener.edgeCreation(edge);
+						if (listener != null)
+							listener.edgeCreation(edge);
+					} catch (Throwable t) {
+						Log.log("%s while creating an edge. Skipping it for now! Message: %s", t.getClass()
+								.getSimpleName(), t.getMessage());
+					}
 				}
 			} finally {
 				edgeFactory.close();

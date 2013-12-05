@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import edu.uci.eecs.crowdsafe.common.data.DataMessageType;
 import edu.uci.eecs.crowdsafe.common.data.dist.AutonomousSoftwareDistribution;
 import edu.uci.eecs.crowdsafe.common.data.graph.ModuleGraphCluster;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.loader.ClusterGraphLoadSession;
@@ -65,6 +66,7 @@ public class GraphSummaryPrinter {
 					break;
 			}
 			FileOutputStream out = new FileOutputStream(outputFile);
+			out.write(DataMessageType.PROCESS_GRAPH.id);
 			process.writeTo(out);
 			out.flush();
 			out.close();
@@ -88,7 +90,8 @@ public class GraphSummaryPrinter {
 	}
 
 	private Graph.Process summarizeExecutionGraph(File directory) throws IOException {
-		ExecutionTraceDataSource dataSource = new ExecutionTraceDirectory(directory);
+		ExecutionTraceDataSource dataSource = new ExecutionTraceDirectory(directory,
+				ProcessExecutionGraph.EXECUTION_GRAPH_FILE_TYPES);
 		ProcessGraphLoadSession loadSession = new ProcessGraphLoadSession();
 		ProcessExecutionGraph graph = loadSession.loadGraph(dataSource, null);
 		return graph.summarizeProcess();

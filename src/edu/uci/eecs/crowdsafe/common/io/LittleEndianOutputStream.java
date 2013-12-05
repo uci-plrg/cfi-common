@@ -26,6 +26,18 @@ public class LittleEndianOutputStream {
 		this.description = "file:" + file.getAbsolutePath();
 	}
 
+	public void writeInt(int data) throws IOException {
+		if (byteIndex == BUFFER_SIZE) {
+			output.write(buffer);
+			byteIndex = 0;
+		}
+
+		buffer[byteIndex++] = (byte) (data);
+		buffer[byteIndex++] = (byte) (data >> 0x8);
+		buffer[byteIndex++] = (byte) (data >> 0x10);
+		buffer[byteIndex++] = (byte) (data >> 0x18);
+	}
+
 	public void writeLong(long data) throws IOException {
 		if (byteIndex == BUFFER_SIZE) {
 			output.write(buffer);
@@ -36,10 +48,43 @@ public class LittleEndianOutputStream {
 		buffer[byteIndex++] = (byte) (data >> 0x8);
 		buffer[byteIndex++] = (byte) (data >> 0x10);
 		buffer[byteIndex++] = (byte) (data >> 0x18);
+		
+		if (byteIndex == BUFFER_SIZE) {
+			output.write(buffer);
+			byteIndex = 0;
+		}
+
 		buffer[byteIndex++] = (byte) (data >> 0x20);
 		buffer[byteIndex++] = (byte) (data >> 0x28);
 		buffer[byteIndex++] = (byte) (data >> 0x30);
 		buffer[byteIndex++] = (byte) (data >> 0x38);
+	}
+
+	public void writeBytes(byte data[]) throws IOException {
+		int dataIndex = 0;
+		while ((byteIndex + (data.length - dataIndex)) >= BUFFER_SIZE) {
+			while (byteIndex < BUFFER_SIZE) {
+				buffer[byteIndex++] = data[dataIndex++];
+			}
+			output.write(buffer);
+			byteIndex = 0;
+		}
+		
+		while (dataIndex < data.length)
+			buffer[byteIndex++] = data[dataIndex++];
+	}
+
+	public void writeByte(byte data) throws IOException {
+		buffer[byteIndex++] = data;
+	}
+	
+	public int alignBuffer(int unit) {
+		int padding = 0;
+		while ((byteIndex % unit) > 0) {
+			buffer[byteIndex++] = 0;
+			padding++;
+		}
+		return padding;
 	}
 
 	public void flush() throws IOException {

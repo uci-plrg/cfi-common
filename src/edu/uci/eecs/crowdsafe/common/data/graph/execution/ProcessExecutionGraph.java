@@ -8,7 +8,7 @@ import java.util.Map;
 
 import edu.uci.eecs.crowdsafe.common.data.dist.AutonomousSoftwareDistribution;
 import edu.uci.eecs.crowdsafe.common.data.dist.ConfiguredSoftwareDistributions;
-import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareDistributionUnit;
+import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareUnit;
 import edu.uci.eecs.crowdsafe.common.data.graph.ModuleGraphCluster;
 import edu.uci.eecs.crowdsafe.common.data.results.Graph;
 import edu.uci.eecs.crowdsafe.common.io.execution.ExecutionTraceDataSource;
@@ -50,7 +50,7 @@ public class ProcessExecutionGraph {
 			ExecutionTraceStreamType.CROSS_MODULE_EDGE);
 
 	private final Map<AutonomousSoftwareDistribution, ModuleGraphCluster<ExecutionNode>> moduleGraphs = new HashMap<AutonomousSoftwareDistribution, ModuleGraphCluster<ExecutionNode>>();
-	private final Map<SoftwareDistributionUnit, ModuleGraphCluster<ExecutionNode>> moduleGraphsBySoftwareUnit = new HashMap<SoftwareDistributionUnit, ModuleGraphCluster<ExecutionNode>>();
+	private final Map<SoftwareUnit, ModuleGraphCluster<ExecutionNode>> moduleGraphsBySoftwareUnit = new HashMap<SoftwareUnit, ModuleGraphCluster<ExecutionNode>>();
 
 	// Used to normalize the tag in a single graph
 	protected final ProcessExecutionModuleSet modules;
@@ -65,7 +65,7 @@ public class ProcessExecutionGraph {
 			ModuleGraphCluster<ExecutionNode> moduleCluster = new ModuleGraphCluster<ExecutionNode>(dist);
 			moduleGraphs.put(dist, moduleCluster);
 
-			for (SoftwareDistributionUnit unit : dist.distributionUnits) {
+			for (SoftwareUnit unit : dist.getUnits()) {
 				moduleGraphsBySoftwareUnit.put(unit, moduleCluster);
 			}
 		}
@@ -87,7 +87,7 @@ public class ProcessExecutionGraph {
 		return moduleGraphs.get(distribution);
 	}
 
-	public ModuleGraphCluster<ExecutionNode> getModuleGraphCluster(SoftwareDistributionUnit softwareUnit) {
+	public ModuleGraphCluster<ExecutionNode> getModuleGraphCluster(SoftwareUnit softwareUnit) {
 		ModuleGraphCluster<ExecutionNode> cluster = moduleGraphsBySoftwareUnit.get(softwareUnit);
 		if (cluster != null)
 			return cluster;

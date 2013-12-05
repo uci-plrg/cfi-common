@@ -86,7 +86,15 @@ public class RawClusterData implements ClusterDataWriter.ClusterData<IndexedClus
 
 	@Override
 	public int getNodeIndex(IndexedClusterNode node) {
-		return nodeIndexMap.get(node);
+		if (nodeIndexMap == null)
+			toString();
+		if (node == null)
+			toString();
+		Integer index = nodeIndexMap.get(node);
+		if (index == null) {
+			return 0;
+		}
+		return index;
 	}
 
 	public Iterable<IndexedClusterNode> getSortedNodeList() {

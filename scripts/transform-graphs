@@ -28,6 +28,15 @@ do
   then
     output_dir=$output_basedir/${f/$local_dir}
     mkdir -p $output_dir
+    
+    if [ -z "$log_file" ] 
+    then
+      log_option="-l "${output_dir%/}"/"$log_file
+    else
+      log_option="-l "$log_file
+    fi
+
+    rm -f $output_dir/*
     output_option="-o "$output_dir
     input="-i "$f
     log_option="-l "$output_dir"/"$log_file

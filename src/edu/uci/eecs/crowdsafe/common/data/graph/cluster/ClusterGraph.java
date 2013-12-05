@@ -7,6 +7,7 @@ import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareModule;
 import edu.uci.eecs.crowdsafe.common.data.graph.MetaNodeType;
 import edu.uci.eecs.crowdsafe.common.data.graph.ModuleGraph;
 import edu.uci.eecs.crowdsafe.common.data.graph.ModuleGraphCluster;
+import edu.uci.eecs.crowdsafe.common.data.graph.Node;
 import edu.uci.eecs.crowdsafe.common.data.results.Graph;
 import edu.uci.eecs.crowdsafe.common.io.cluster.ClusterTraceStreamType;
 
@@ -23,7 +24,7 @@ public class ClusterGraph {
 
 		moduleList = new ClusterModuleList();
 		for (ModuleGraph module : graph.getGraphs()) {
-			moduleList.addModule(module.softwareUnit, module.version);
+			moduleList.addModule(module.softwareUnit);
 		}
 	}
 
@@ -37,10 +38,10 @@ public class ClusterGraph {
 		this.moduleList = moduleList;
 
 		for (ClusterModule module : moduleList.getModules()) {
-			graph.addModule(new ModuleGraph(module.unit, module.version));
+			graph.addModule(new ModuleGraph(module.unit));
 		}
 	}
-
+	
 	public ClusterNode<?> addNode(long hash, SoftwareModule module, int relativeTag, MetaNodeType type) {
 		switch (type) {
 			case CLUSTER_ENTRY:
@@ -62,9 +63,9 @@ public class ClusterGraph {
 				return exit;
 		}
 
-		ClusterModule mergedModule = moduleList.establishModule(module.unit, module.version);
+		ClusterModule mergedModule = moduleList.establishModule(module.unit);
 		if (graph.getModuleGraph(module.unit) == null)
-			graph.addModule(new ModuleGraph(module.unit, module.version));
+			graph.addModule(new ModuleGraph(module.unit));
 
 		ClusterBasicBlock.Key key = new ClusterBasicBlock.Key(mergedModule, relativeTag, 0);
 		while (graph.hasNode(key))

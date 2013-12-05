@@ -26,13 +26,17 @@ public final class Graph {
      */
     CALL_CONTINUATION(2, 2),
     /**
-     * <code>UNEXPECTED_RETURN = 3;</code>
+     * <code>EXCEPTION_CONTINUATION = 3;</code>
      */
-    UNEXPECTED_RETURN(3, 3),
+    EXCEPTION_CONTINUATION(3, 3),
     /**
-     * <code>MODULE_ENTRY = 4;</code>
+     * <code>UNEXPECTED_RETURN = 4;</code>
      */
-    MODULE_ENTRY(4, 4),
+    UNEXPECTED_RETURN(4, 4),
+    /**
+     * <code>MODULE_ENTRY = 5;</code>
+     */
+    MODULE_ENTRY(5, 5),
     ;
 
     /**
@@ -48,13 +52,17 @@ public final class Graph {
      */
     public static final int CALL_CONTINUATION_VALUE = 2;
     /**
-     * <code>UNEXPECTED_RETURN = 3;</code>
+     * <code>EXCEPTION_CONTINUATION = 3;</code>
      */
-    public static final int UNEXPECTED_RETURN_VALUE = 3;
+    public static final int EXCEPTION_CONTINUATION_VALUE = 3;
     /**
-     * <code>MODULE_ENTRY = 4;</code>
+     * <code>UNEXPECTED_RETURN = 4;</code>
      */
-    public static final int MODULE_ENTRY_VALUE = 4;
+    public static final int UNEXPECTED_RETURN_VALUE = 4;
+    /**
+     * <code>MODULE_ENTRY = 5;</code>
+     */
+    public static final int MODULE_ENTRY_VALUE = 5;
 
 
     public final int getNumber() { return value; }
@@ -64,8 +72,9 @@ public final class Graph {
         case 0: return INDIRECT;
         case 1: return DIRECT;
         case 2: return CALL_CONTINUATION;
-        case 3: return UNEXPECTED_RETURN;
-        case 4: return MODULE_ENTRY;
+        case 3: return EXCEPTION_CONTINUATION;
+        case 4: return UNEXPECTED_RETURN;
+        case 5: return MODULE_ENTRY;
         default: return null;
       }
     }
@@ -1079,6 +1088,16 @@ public final class Graph {
      */
     int getEntryPointCount();
 
+    // optional int32 callback_entry_count = 9;
+    /**
+     * <code>optional int32 callback_entry_count = 9;</code>
+     */
+    boolean hasCallbackEntryCount();
+    /**
+     * <code>optional int32 callback_entry_count = 9;</code>
+     */
+    int getCallbackEntryCount();
+
     // repeated .crowd_safe_data_analysis.ModuleInstance module = 5;
     /**
      * <code>repeated .crowd_safe_data_analysis.ModuleInstance module = 5;</code>
@@ -1251,35 +1270,40 @@ public final class Graph {
               break;
             }
             case 42: {
-              if (!((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
+              if (!((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
                 module_ = new java.util.ArrayList<edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleInstance>();
-                mutable_bitField0_ |= 0x00000010;
+                mutable_bitField0_ |= 0x00000020;
               }
               module_.add(input.readMessage(edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleInstance.PARSER, extensionRegistry));
               break;
             }
             case 50: {
-              if (!((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
+              if (!((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
                 unreachable_ = new java.util.ArrayList<edu.uci.eecs.crowdsafe.common.data.results.Graph.UnreachableNode>();
-                mutable_bitField0_ |= 0x00000020;
+                mutable_bitField0_ |= 0x00000040;
               }
               unreachable_.add(input.readMessage(edu.uci.eecs.crowdsafe.common.data.results.Graph.UnreachableNode.PARSER, extensionRegistry));
               break;
             }
             case 58: {
-              if (!((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
+              if (!((mutable_bitField0_ & 0x00000080) == 0x00000080)) {
                 intraModuleEdgeCount_ = new java.util.ArrayList<edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount>();
-                mutable_bitField0_ |= 0x00000040;
+                mutable_bitField0_ |= 0x00000080;
               }
               intraModuleEdgeCount_.add(input.readMessage(edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount.PARSER, extensionRegistry));
               break;
             }
             case 66: {
-              if (!((mutable_bitField0_ & 0x00000080) == 0x00000080)) {
+              if (!((mutable_bitField0_ & 0x00000100) == 0x00000100)) {
                 interModuleEdgeCount_ = new java.util.ArrayList<edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount>();
-                mutable_bitField0_ |= 0x00000080;
+                mutable_bitField0_ |= 0x00000100;
               }
               interModuleEdgeCount_.add(input.readMessage(edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount.PARSER, extensionRegistry));
+              break;
+            }
+            case 72: {
+              bitField0_ |= 0x00000010;
+              callbackEntryCount_ = input.readInt32();
               break;
             }
           }
@@ -1290,16 +1314,16 @@ public final class Graph {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
+        if (((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
           module_ = java.util.Collections.unmodifiableList(module_);
         }
-        if (((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
+        if (((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
           unreachable_ = java.util.Collections.unmodifiableList(unreachable_);
         }
-        if (((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
+        if (((mutable_bitField0_ & 0x00000080) == 0x00000080)) {
           intraModuleEdgeCount_ = java.util.Collections.unmodifiableList(intraModuleEdgeCount_);
         }
-        if (((mutable_bitField0_ & 0x00000080) == 0x00000080)) {
+        if (((mutable_bitField0_ & 0x00000100) == 0x00000100)) {
           interModuleEdgeCount_ = java.util.Collections.unmodifiableList(interModuleEdgeCount_);
         }
         this.unknownFields = unknownFields.build();
@@ -1423,6 +1447,22 @@ public final class Graph {
      */
     public int getEntryPointCount() {
       return entryPointCount_;
+    }
+
+    // optional int32 callback_entry_count = 9;
+    public static final int CALLBACK_ENTRY_COUNT_FIELD_NUMBER = 9;
+    private int callbackEntryCount_;
+    /**
+     * <code>optional int32 callback_entry_count = 9;</code>
+     */
+    public boolean hasCallbackEntryCount() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional int32 callback_entry_count = 9;</code>
+     */
+    public int getCallbackEntryCount() {
+      return callbackEntryCount_;
     }
 
     // repeated .crowd_safe_data_analysis.ModuleInstance module = 5;
@@ -1574,6 +1614,7 @@ public final class Graph {
       nodeCount_ = 0;
       executableNodeCount_ = 0;
       entryPointCount_ = 0;
+      callbackEntryCount_ = 0;
       module_ = java.util.Collections.emptyList();
       unreachable_ = java.util.Collections.emptyList();
       intraModuleEdgeCount_ = java.util.Collections.emptyList();
@@ -1615,6 +1656,9 @@ public final class Graph {
       for (int i = 0; i < interModuleEdgeCount_.size(); i++) {
         output.writeMessage(8, interModuleEdgeCount_.get(i));
       }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeInt32(9, callbackEntryCount_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -1655,6 +1699,10 @@ public final class Graph {
       for (int i = 0; i < interModuleEdgeCount_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(8, interModuleEdgeCount_.get(i));
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(9, callbackEntryCount_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1784,27 +1832,29 @@ public final class Graph {
         bitField0_ = (bitField0_ & ~0x00000004);
         entryPointCount_ = 0;
         bitField0_ = (bitField0_ & ~0x00000008);
+        callbackEntryCount_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000010);
         if (moduleBuilder_ == null) {
           module_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000010);
+          bitField0_ = (bitField0_ & ~0x00000020);
         } else {
           moduleBuilder_.clear();
         }
         if (unreachableBuilder_ == null) {
           unreachable_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000020);
+          bitField0_ = (bitField0_ & ~0x00000040);
         } else {
           unreachableBuilder_.clear();
         }
         if (intraModuleEdgeCountBuilder_ == null) {
           intraModuleEdgeCount_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000040);
+          bitField0_ = (bitField0_ & ~0x00000080);
         } else {
           intraModuleEdgeCountBuilder_.clear();
         }
         if (interModuleEdgeCountBuilder_ == null) {
           interModuleEdgeCount_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000080);
+          bitField0_ = (bitField0_ & ~0x00000100);
         } else {
           interModuleEdgeCountBuilder_.clear();
         }
@@ -1852,37 +1902,41 @@ public final class Graph {
           to_bitField0_ |= 0x00000008;
         }
         result.entryPointCount_ = entryPointCount_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.callbackEntryCount_ = callbackEntryCount_;
         if (moduleBuilder_ == null) {
-          if (((bitField0_ & 0x00000010) == 0x00000010)) {
+          if (((bitField0_ & 0x00000020) == 0x00000020)) {
             module_ = java.util.Collections.unmodifiableList(module_);
-            bitField0_ = (bitField0_ & ~0x00000010);
+            bitField0_ = (bitField0_ & ~0x00000020);
           }
           result.module_ = module_;
         } else {
           result.module_ = moduleBuilder_.build();
         }
         if (unreachableBuilder_ == null) {
-          if (((bitField0_ & 0x00000020) == 0x00000020)) {
+          if (((bitField0_ & 0x00000040) == 0x00000040)) {
             unreachable_ = java.util.Collections.unmodifiableList(unreachable_);
-            bitField0_ = (bitField0_ & ~0x00000020);
+            bitField0_ = (bitField0_ & ~0x00000040);
           }
           result.unreachable_ = unreachable_;
         } else {
           result.unreachable_ = unreachableBuilder_.build();
         }
         if (intraModuleEdgeCountBuilder_ == null) {
-          if (((bitField0_ & 0x00000040) == 0x00000040)) {
+          if (((bitField0_ & 0x00000080) == 0x00000080)) {
             intraModuleEdgeCount_ = java.util.Collections.unmodifiableList(intraModuleEdgeCount_);
-            bitField0_ = (bitField0_ & ~0x00000040);
+            bitField0_ = (bitField0_ & ~0x00000080);
           }
           result.intraModuleEdgeCount_ = intraModuleEdgeCount_;
         } else {
           result.intraModuleEdgeCount_ = intraModuleEdgeCountBuilder_.build();
         }
         if (interModuleEdgeCountBuilder_ == null) {
-          if (((bitField0_ & 0x00000080) == 0x00000080)) {
+          if (((bitField0_ & 0x00000100) == 0x00000100)) {
             interModuleEdgeCount_ = java.util.Collections.unmodifiableList(interModuleEdgeCount_);
-            bitField0_ = (bitField0_ & ~0x00000080);
+            bitField0_ = (bitField0_ & ~0x00000100);
           }
           result.interModuleEdgeCount_ = interModuleEdgeCount_;
         } else {
@@ -1918,11 +1972,14 @@ public final class Graph {
         if (other.hasEntryPointCount()) {
           setEntryPointCount(other.getEntryPointCount());
         }
+        if (other.hasCallbackEntryCount()) {
+          setCallbackEntryCount(other.getCallbackEntryCount());
+        }
         if (moduleBuilder_ == null) {
           if (!other.module_.isEmpty()) {
             if (module_.isEmpty()) {
               module_ = other.module_;
-              bitField0_ = (bitField0_ & ~0x00000010);
+              bitField0_ = (bitField0_ & ~0x00000020);
             } else {
               ensureModuleIsMutable();
               module_.addAll(other.module_);
@@ -1935,7 +1992,7 @@ public final class Graph {
               moduleBuilder_.dispose();
               moduleBuilder_ = null;
               module_ = other.module_;
-              bitField0_ = (bitField0_ & ~0x00000010);
+              bitField0_ = (bitField0_ & ~0x00000020);
               moduleBuilder_ = 
                 com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
                    getModuleFieldBuilder() : null;
@@ -1948,7 +2005,7 @@ public final class Graph {
           if (!other.unreachable_.isEmpty()) {
             if (unreachable_.isEmpty()) {
               unreachable_ = other.unreachable_;
-              bitField0_ = (bitField0_ & ~0x00000020);
+              bitField0_ = (bitField0_ & ~0x00000040);
             } else {
               ensureUnreachableIsMutable();
               unreachable_.addAll(other.unreachable_);
@@ -1961,7 +2018,7 @@ public final class Graph {
               unreachableBuilder_.dispose();
               unreachableBuilder_ = null;
               unreachable_ = other.unreachable_;
-              bitField0_ = (bitField0_ & ~0x00000020);
+              bitField0_ = (bitField0_ & ~0x00000040);
               unreachableBuilder_ = 
                 com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
                    getUnreachableFieldBuilder() : null;
@@ -1974,7 +2031,7 @@ public final class Graph {
           if (!other.intraModuleEdgeCount_.isEmpty()) {
             if (intraModuleEdgeCount_.isEmpty()) {
               intraModuleEdgeCount_ = other.intraModuleEdgeCount_;
-              bitField0_ = (bitField0_ & ~0x00000040);
+              bitField0_ = (bitField0_ & ~0x00000080);
             } else {
               ensureIntraModuleEdgeCountIsMutable();
               intraModuleEdgeCount_.addAll(other.intraModuleEdgeCount_);
@@ -1987,7 +2044,7 @@ public final class Graph {
               intraModuleEdgeCountBuilder_.dispose();
               intraModuleEdgeCountBuilder_ = null;
               intraModuleEdgeCount_ = other.intraModuleEdgeCount_;
-              bitField0_ = (bitField0_ & ~0x00000040);
+              bitField0_ = (bitField0_ & ~0x00000080);
               intraModuleEdgeCountBuilder_ = 
                 com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
                    getIntraModuleEdgeCountFieldBuilder() : null;
@@ -2000,7 +2057,7 @@ public final class Graph {
           if (!other.interModuleEdgeCount_.isEmpty()) {
             if (interModuleEdgeCount_.isEmpty()) {
               interModuleEdgeCount_ = other.interModuleEdgeCount_;
-              bitField0_ = (bitField0_ & ~0x00000080);
+              bitField0_ = (bitField0_ & ~0x00000100);
             } else {
               ensureInterModuleEdgeCountIsMutable();
               interModuleEdgeCount_.addAll(other.interModuleEdgeCount_);
@@ -2013,7 +2070,7 @@ public final class Graph {
               interModuleEdgeCountBuilder_.dispose();
               interModuleEdgeCountBuilder_ = null;
               interModuleEdgeCount_ = other.interModuleEdgeCount_;
-              bitField0_ = (bitField0_ & ~0x00000080);
+              bitField0_ = (bitField0_ & ~0x00000100);
               interModuleEdgeCountBuilder_ = 
                 com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
                    getInterModuleEdgeCountFieldBuilder() : null;
@@ -2222,13 +2279,46 @@ public final class Graph {
         return this;
       }
 
+      // optional int32 callback_entry_count = 9;
+      private int callbackEntryCount_ ;
+      /**
+       * <code>optional int32 callback_entry_count = 9;</code>
+       */
+      public boolean hasCallbackEntryCount() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional int32 callback_entry_count = 9;</code>
+       */
+      public int getCallbackEntryCount() {
+        return callbackEntryCount_;
+      }
+      /**
+       * <code>optional int32 callback_entry_count = 9;</code>
+       */
+      public Builder setCallbackEntryCount(int value) {
+        bitField0_ |= 0x00000010;
+        callbackEntryCount_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 callback_entry_count = 9;</code>
+       */
+      public Builder clearCallbackEntryCount() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        callbackEntryCount_ = 0;
+        onChanged();
+        return this;
+      }
+
       // repeated .crowd_safe_data_analysis.ModuleInstance module = 5;
       private java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleInstance> module_ =
         java.util.Collections.emptyList();
       private void ensureModuleIsMutable() {
-        if (!((bitField0_ & 0x00000010) == 0x00000010)) {
+        if (!((bitField0_ & 0x00000020) == 0x00000020)) {
           module_ = new java.util.ArrayList<edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleInstance>(module_);
-          bitField0_ |= 0x00000010;
+          bitField0_ |= 0x00000020;
          }
       }
 
@@ -2377,7 +2467,7 @@ public final class Graph {
       public Builder clearModule() {
         if (moduleBuilder_ == null) {
           module_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000010);
+          bitField0_ = (bitField0_ & ~0x00000020);
           onChanged();
         } else {
           moduleBuilder_.clear();
@@ -2454,7 +2544,7 @@ public final class Graph {
           moduleBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
               edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleInstance, edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleInstance.Builder, edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleInstanceOrBuilder>(
                   module_,
-                  ((bitField0_ & 0x00000010) == 0x00000010),
+                  ((bitField0_ & 0x00000020) == 0x00000020),
                   getParentForChildren(),
                   isClean());
           module_ = null;
@@ -2466,9 +2556,9 @@ public final class Graph {
       private java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.UnreachableNode> unreachable_ =
         java.util.Collections.emptyList();
       private void ensureUnreachableIsMutable() {
-        if (!((bitField0_ & 0x00000020) == 0x00000020)) {
+        if (!((bitField0_ & 0x00000040) == 0x00000040)) {
           unreachable_ = new java.util.ArrayList<edu.uci.eecs.crowdsafe.common.data.results.Graph.UnreachableNode>(unreachable_);
-          bitField0_ |= 0x00000020;
+          bitField0_ |= 0x00000040;
          }
       }
 
@@ -2617,7 +2707,7 @@ public final class Graph {
       public Builder clearUnreachable() {
         if (unreachableBuilder_ == null) {
           unreachable_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000020);
+          bitField0_ = (bitField0_ & ~0x00000040);
           onChanged();
         } else {
           unreachableBuilder_.clear();
@@ -2694,7 +2784,7 @@ public final class Graph {
           unreachableBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
               edu.uci.eecs.crowdsafe.common.data.results.Graph.UnreachableNode, edu.uci.eecs.crowdsafe.common.data.results.Graph.UnreachableNode.Builder, edu.uci.eecs.crowdsafe.common.data.results.Graph.UnreachableNodeOrBuilder>(
                   unreachable_,
-                  ((bitField0_ & 0x00000020) == 0x00000020),
+                  ((bitField0_ & 0x00000040) == 0x00000040),
                   getParentForChildren(),
                   isClean());
           unreachable_ = null;
@@ -2706,9 +2796,9 @@ public final class Graph {
       private java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount> intraModuleEdgeCount_ =
         java.util.Collections.emptyList();
       private void ensureIntraModuleEdgeCountIsMutable() {
-        if (!((bitField0_ & 0x00000040) == 0x00000040)) {
+        if (!((bitField0_ & 0x00000080) == 0x00000080)) {
           intraModuleEdgeCount_ = new java.util.ArrayList<edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount>(intraModuleEdgeCount_);
-          bitField0_ |= 0x00000040;
+          bitField0_ |= 0x00000080;
          }
       }
 
@@ -2857,7 +2947,7 @@ public final class Graph {
       public Builder clearIntraModuleEdgeCount() {
         if (intraModuleEdgeCountBuilder_ == null) {
           intraModuleEdgeCount_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000040);
+          bitField0_ = (bitField0_ & ~0x00000080);
           onChanged();
         } else {
           intraModuleEdgeCountBuilder_.clear();
@@ -2934,7 +3024,7 @@ public final class Graph {
           intraModuleEdgeCountBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
               edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount, edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount.Builder, edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCountOrBuilder>(
                   intraModuleEdgeCount_,
-                  ((bitField0_ & 0x00000040) == 0x00000040),
+                  ((bitField0_ & 0x00000080) == 0x00000080),
                   getParentForChildren(),
                   isClean());
           intraModuleEdgeCount_ = null;
@@ -2946,9 +3036,9 @@ public final class Graph {
       private java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount> interModuleEdgeCount_ =
         java.util.Collections.emptyList();
       private void ensureInterModuleEdgeCountIsMutable() {
-        if (!((bitField0_ & 0x00000080) == 0x00000080)) {
+        if (!((bitField0_ & 0x00000100) == 0x00000100)) {
           interModuleEdgeCount_ = new java.util.ArrayList<edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount>(interModuleEdgeCount_);
-          bitField0_ |= 0x00000080;
+          bitField0_ |= 0x00000100;
          }
       }
 
@@ -3097,7 +3187,7 @@ public final class Graph {
       public Builder clearInterModuleEdgeCount() {
         if (interModuleEdgeCountBuilder_ == null) {
           interModuleEdgeCount_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000080);
+          bitField0_ = (bitField0_ & ~0x00000100);
           onChanged();
         } else {
           interModuleEdgeCountBuilder_.clear();
@@ -3174,7 +3264,7 @@ public final class Graph {
           interModuleEdgeCountBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
               edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount, edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCount.Builder, edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCountOrBuilder>(
                   interModuleEdgeCount_,
-                  ((bitField0_ & 0x00000080) == 0x00000080),
+                  ((bitField0_ & 0x00000100) == 0x00000100),
                   getParentForChildren(),
                   isClean());
           interModuleEdgeCount_ = null;
@@ -7435,36 +7525,38 @@ public final class Graph {
       "\n\013graph.proto\022\030crowd_safe_data_analysis\"" +
       "W\n\007Process\022\n\n\002id\030\001 \001(\005\022\014\n\004name\030\002 \001(\t\0222\n\007" +
       "cluster\030\003 \003(\0132!.crowd_safe_data_analysis" +
-      ".Cluster\"\200\003\n\007Cluster\022\031\n\021distribution_nam" +
+      ".Cluster\"\236\003\n\007Cluster\022\031\n\021distribution_nam" +
       "e\030\001 \001(\t\022\022\n\nnode_count\030\002 \001(\005\022\035\n\025executabl" +
       "e_node_count\030\003 \001(\005\022\031\n\021entry_point_count\030" +
-      "\004 \001(\005\0228\n\006module\030\005 \003(\0132(.crowd_safe_data_" +
-      "analysis.ModuleInstance\022>\n\013unreachable\030\006" +
-      " \003(\0132).crowd_safe_data_analysis.Unreacha" +
-      "bleNode\022H\n\027intra_module_edge_count\030\007 \003(\013",
-      "2\'.crowd_safe_data_analysis.EdgeTypeCoun" +
-      "t\022H\n\027inter_module_edge_count\030\010 \003(\0132\'.cro" +
-      "wd_safe_data_analysis.EdgeTypeCount\"\'\n\006M" +
-      "odule\022\014\n\004name\030\001 \001(\t\022\017\n\007version\030\002 \001(\t\"V\n\016" +
-      "ModuleInstance\0220\n\006module\030\001 \001(\0132 .crowd_s" +
-      "afe_data_analysis.Module\022\022\n\nnode_count\030\002" +
-      " \001(\005\"u\n\004Node\0220\n\006module\030\001 \001(\0132 .crowd_saf" +
-      "e_data_analysis.Module\022\024\n\014relative_tag\030\002" +
-      " \001(\005\022\023\n\013tag_version\030\003 \001(\005\022\020\n\010hashcode\030\004 " +
-      "\001(\003\"\234\001\n\004Edge\0221\n\tfrom_node\030\001 \001(\0132\036.crowd_",
-      "safe_data_analysis.Node\022/\n\007to_node\030\002 \001(\013" +
-      "2\036.crowd_safe_data_analysis.Node\0220\n\004type" +
-      "\030\003 \001(\0162\".crowd_safe_data_analysis.EdgeTy" +
-      "pe\"\225\001\n\017UnreachableNode\022,\n\004node\030\001 \001(\0132\036.c" +
-      "rowd_safe_data_analysis.Node\022<\n\024missed_i" +
-      "ncoming_edge\030\002 \003(\0132\036.crowd_safe_data_ana" +
-      "lysis.Edge\022\026\n\016is_entry_point\030\003 \001(\010\"P\n\rEd" +
-      "geTypeCount\0220\n\004type\030\001 \001(\0162\".crowd_safe_d" +
-      "ata_analysis.EdgeType\022\r\n\005count\030\002 \001(\005*d\n\010" +
-      "EdgeType\022\014\n\010INDIRECT\020\000\022\n\n\006DIRECT\020\001\022\025\n\021CA",
-      "LL_CONTINUATION\020\002\022\025\n\021UNEXPECTED_RETURN\020\003" +
-      "\022\020\n\014MODULE_ENTRY\020\004B3\n*edu.uci.eecs.crowd" +
-      "safe.common.data.resultsB\005Graph"
+      "\004 \001(\005\022\034\n\024callback_entry_count\030\t \001(\005\0228\n\006m" +
+      "odule\030\005 \003(\0132(.crowd_safe_data_analysis.M" +
+      "oduleInstance\022>\n\013unreachable\030\006 \003(\0132).cro" +
+      "wd_safe_data_analysis.UnreachableNode\022H\n",
+      "\027intra_module_edge_count\030\007 \003(\0132\'.crowd_s" +
+      "afe_data_analysis.EdgeTypeCount\022H\n\027inter" +
+      "_module_edge_count\030\010 \003(\0132\'.crowd_safe_da" +
+      "ta_analysis.EdgeTypeCount\"\'\n\006Module\022\014\n\004n" +
+      "ame\030\001 \001(\t\022\017\n\007version\030\002 \001(\t\"V\n\016ModuleInst" +
+      "ance\0220\n\006module\030\001 \001(\0132 .crowd_safe_data_a" +
+      "nalysis.Module\022\022\n\nnode_count\030\002 \001(\005\"u\n\004No" +
+      "de\0220\n\006module\030\001 \001(\0132 .crowd_safe_data_ana" +
+      "lysis.Module\022\024\n\014relative_tag\030\002 \001(\005\022\023\n\013ta" +
+      "g_version\030\003 \001(\005\022\020\n\010hashcode\030\004 \001(\003\"\234\001\n\004Ed",
+      "ge\0221\n\tfrom_node\030\001 \001(\0132\036.crowd_safe_data_" +
+      "analysis.Node\022/\n\007to_node\030\002 \001(\0132\036.crowd_s" +
+      "afe_data_analysis.Node\0220\n\004type\030\003 \001(\0162\".c" +
+      "rowd_safe_data_analysis.EdgeType\"\225\001\n\017Unr" +
+      "eachableNode\022,\n\004node\030\001 \001(\0132\036.crowd_safe_" +
+      "data_analysis.Node\022<\n\024missed_incoming_ed" +
+      "ge\030\002 \003(\0132\036.crowd_safe_data_analysis.Edge" +
+      "\022\026\n\016is_entry_point\030\003 \001(\010\"P\n\rEdgeTypeCoun" +
+      "t\0220\n\004type\030\001 \001(\0162\".crowd_safe_data_analys" +
+      "is.EdgeType\022\r\n\005count\030\002 \001(\005*\200\001\n\010EdgeType\022",
+      "\014\n\010INDIRECT\020\000\022\n\n\006DIRECT\020\001\022\025\n\021CALL_CONTIN" +
+      "UATION\020\002\022\032\n\026EXCEPTION_CONTINUATION\020\003\022\025\n\021" +
+      "UNEXPECTED_RETURN\020\004\022\020\n\014MODULE_ENTRY\020\005B3\n" +
+      "*edu.uci.eecs.crowdsafe.common.data.resu" +
+      "ltsB\005Graph"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -7482,7 +7574,7 @@ public final class Graph {
           internal_static_crowd_safe_data_analysis_Cluster_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_crowd_safe_data_analysis_Cluster_descriptor,
-              new java.lang.String[] { "DistributionName", "NodeCount", "ExecutableNodeCount", "EntryPointCount", "Module", "Unreachable", "IntraModuleEdgeCount", "InterModuleEdgeCount", });
+              new java.lang.String[] { "DistributionName", "NodeCount", "ExecutableNodeCount", "EntryPointCount", "CallbackEntryCount", "Module", "Unreachable", "IntraModuleEdgeCount", "InterModuleEdgeCount", });
           internal_static_crowd_safe_data_analysis_Module_descriptor =
             getDescriptor().getMessageTypes().get(2);
           internal_static_crowd_safe_data_analysis_Module_fieldAccessorTable = new

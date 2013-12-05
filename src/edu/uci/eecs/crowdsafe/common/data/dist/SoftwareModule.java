@@ -1,26 +1,34 @@
 package edu.uci.eecs.crowdsafe.common.data.dist;
 
-public abstract class SoftwareModule {
-	
-	public final SoftwareDistributionUnit unit;
-	public final String version;
+import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterModule;
 
-	protected SoftwareModule(SoftwareDistributionUnit unit, String version) {
+public abstract class SoftwareModule {
+
+	public static final String SYSTEM_MODULE_NAME = "|system|";
+	public static final String DYNAMORIO_MODULE_NAME = "|dynamorio|";
+	public static final String ANONYMOUS_MODULE_NAME = "|anonymous|";
+
+	public static final String EMPTY_VERSION = "0-0-0";
+
+	public static final ClusterModule SYSTEM_MODULE = new ClusterModule(0, new SoftwareUnit(
+			SoftwareUnit.SYSTEM_UNIT_NAME, false));
+	public static final ClusterModule DYNAMORIO_MODULE = new ClusterModule(0, SoftwareUnit.DYNAMORIO_UNIT);
+	public static final ClusterModule ANONYMOUS_MODULE = new ClusterModule(0, new SoftwareUnit(
+			SoftwareUnit.ANONYMOUS_UNIT_NAME, true));
+
+	public final SoftwareUnit unit;
+
+	protected SoftwareModule(SoftwareUnit unit) {
 		this.unit = unit;
-		this.version = version;
 	}
 
 	public boolean isEquivalent(SoftwareModule other) {
-		return unit.filename.equals(other.unit.filename) && version.equals(other.version) && !unit.isDynamic();
+		return unit.equals(other.unit) && !unit.isAnonymous;
 	}
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((unit == null) ? 0 : unit.hashCode());
-		result = prime * result + ((version == null) ? 0 : version.hashCode());
-		return result;
+		return unit.hashCode();
 	}
 
 	@Override
@@ -34,13 +42,11 @@ public abstract class SoftwareModule {
 		SoftwareModule other = (SoftwareModule) obj;
 		if (!unit.equals(other.unit))
 			return false;
-		if (!version.equals(other.version))
-			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return unit.name + "-" + version;
+		return unit.toString();
 	}
 }

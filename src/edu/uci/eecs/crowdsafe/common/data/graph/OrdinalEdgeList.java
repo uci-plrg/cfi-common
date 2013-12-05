@@ -32,16 +32,12 @@ public class OrdinalEdgeList<EdgeEndpointType extends Node<EdgeEndpointType>> ex
 
 		@Override
 		public boolean hasNext() {
-			return (index < end) || ((index == end) && includeCallContinuation);
+			return (index < end);
 		}
 
 		// 8% hot during load!
 		@Override
 		public Edge<EdgeEndpointType> next() {
-			if (index == end) {
-				index++;
-				return data.callContinuation;
-			}
 			return data.edges.get(index++);
 		}
 
@@ -58,10 +54,7 @@ public class OrdinalEdgeList<EdgeEndpointType extends Node<EdgeEndpointType>> ex
 		@Override
 		public Edge<EdgeEndpointType> previous() {
 			index--;
-			if (index == end)
-				return data.callContinuation;
-			else
-				return data.edges.get(index);
+			return data.edges.get(index);
 		}
 
 		@Override
@@ -103,7 +96,6 @@ public class OrdinalEdgeList<EdgeEndpointType extends Node<EdgeEndpointType>> ex
 
 	int start;
 	int end;
-	boolean includeCallContinuation;
 	OutgoingOrdinal group;
 
 	private final IndexingIterator iterator = new IndexingIterator();
@@ -112,8 +104,6 @@ public class OrdinalEdgeList<EdgeEndpointType extends Node<EdgeEndpointType>> ex
 		if (edge == null)
 			return false;
 		if (edge instanceof Edge) {
-			if (includeCallContinuation && data.callContinuation.isModuleRelativeEquivalent(edge))
-				return true;
 			for (int i = start; i < end; i++) {
 				if (data.edges.get(i).isModuleRelativeEquivalent(edge))
 					return true;
@@ -127,8 +117,6 @@ public class OrdinalEdgeList<EdgeEndpointType extends Node<EdgeEndpointType>> ex
 		if (o == null)
 			return false;
 		if (o instanceof Edge) {
-			if (includeCallContinuation && data.callContinuation.equals(o))
-				return true;
 			for (int i = start; i < end; i++) {
 				if (data.edges.get(i).equals(o))
 					return true;
@@ -148,8 +136,6 @@ public class OrdinalEdgeList<EdgeEndpointType extends Node<EdgeEndpointType>> ex
 
 	@Override
 	public Edge<EdgeEndpointType> get(int index) {
-		if (includeCallContinuation && (index == (end - start)))
-			return data.callContinuation;
 		return data.edges.get(start + index);
 	}
 
@@ -159,21 +145,16 @@ public class OrdinalEdgeList<EdgeEndpointType extends Node<EdgeEndpointType>> ex
 			if (data.edges.get(i).equals(o))
 				return i - start;
 		}
-		if (includeCallContinuation && data.callContinuation.equals(o))
-			return end - start;
-
 		return -1;
 	}
 
 	@Override
 	public boolean isEmpty() {
-		return (start > end) || ((start == end) && !includeCallContinuation);
+		return (start > end);
 	}
 
 	@Override
 	public int lastIndexOf(Object o) {
-		if (includeCallContinuation && data.callContinuation.equals(o))
-			return end - start;
 		for (int i = end - 1; i >= start; i--) {
 			if (data.edges.get(i).equals(o))
 				return i - start;
@@ -195,7 +176,7 @@ public class OrdinalEdgeList<EdgeEndpointType extends Node<EdgeEndpointType>> ex
 
 	@Override
 	public int size() {
-		return (end - start) + (includeCallContinuation ? 1 : 0);
+		return (end - start);
 	}
 
 	@Override

@@ -3,24 +3,47 @@ package edu.uci.eecs.crowdsafe.common.data.graph;
 import edu.uci.eecs.crowdsafe.common.data.results.Graph;
 
 public enum EdgeType {
-	INDIRECT,
-	DIRECT,
-	CALL_CONTINUATION,
-	UNEXPECTED_RETURN,
-	CLUSTER_ENTRY;
+	INDIRECT("I"),
+	DIRECT("D"),
+	CALL_CONTINUATION("CC") {
+		@Override
+		public boolean isHighOrdinal(int ordinal) {
+			return (ordinal > 2);
+		}
+	},
+	EXCEPTION_CONTINUATION("EC") {
+		@Override
+		public boolean isHighOrdinal(int ordinal) {
+			return (ordinal > 3);
+		}
+	},
+	UNEXPECTED_RETURN("UR"),
+	CLUSTER_ENTRY("E");
+
+	public final String code;
+
+	private EdgeType(String code) {
+		this.code = code;
+	}
+
+	public boolean isHighOrdinal(int ordinal) {
+		return (ordinal > 1);
+	}
 
 	public Graph.EdgeType mapToResultType() {
 		switch (this) {
-			case CALL_CONTINUATION:
-				return Graph.EdgeType.CALL_CONTINUATION;
-			case DIRECT:
-				return Graph.EdgeType.DIRECT;
 			case INDIRECT:
 				return Graph.EdgeType.INDIRECT;
-			case CLUSTER_ENTRY:
-				return Graph.EdgeType.MODULE_ENTRY;
+			case DIRECT:
+				return Graph.EdgeType.DIRECT;
+			case CALL_CONTINUATION:
+				return Graph.EdgeType.CALL_CONTINUATION;
+			case EXCEPTION_CONTINUATION:
+				return Graph.EdgeType.EXCEPTION_CONTINUATION;
 			case UNEXPECTED_RETURN:
 				return Graph.EdgeType.UNEXPECTED_RETURN;
+			case CLUSTER_ENTRY:
+				return Graph.EdgeType.MODULE_ENTRY;
 		}
 		throw new IllegalStateException("Unknown EdgeType " + this);
 	}

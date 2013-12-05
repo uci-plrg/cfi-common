@@ -1,20 +1,23 @@
 package edu.uci.eecs.crowdsafe.common.data.graph.cluster;
 
-import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareDistributionUnit;
+import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareUnit;
 import edu.uci.eecs.crowdsafe.common.data.graph.MetaNodeType;
 import edu.uci.eecs.crowdsafe.common.data.graph.Node;
 
 public class ClusterBoundaryNode extends ClusterNode<ClusterBoundaryNode.Key> {
 
-	public static final ClusterModule BOUNDARY_MODULE = new ClusterModule(0, SoftwareDistributionUnit.CLUSTER_BOUNDARY,
-			"");
+	// id 0 means: arbitrarily associate with the first module in the cluster
+	public static final ClusterModule BOUNDARY_MODULE = new ClusterModule(0, SoftwareUnit.CLUSTER_BOUNDARY);
 
 	public static class Key implements Node.Key {
 		private final long hash;
 
 		private final MetaNodeType type;
 
-		Key(long hash, MetaNodeType type) {
+		public Key(long hash, MetaNodeType type) {
+			if (hash == 0L)
+				throw new IllegalArgumentException("ClusterBoundaryNode hash cannot be zero!");
+
 			this.hash = hash;
 			this.type = type;
 		}
@@ -87,9 +90,8 @@ public class ClusterBoundaryNode extends ClusterNode<ClusterBoundaryNode.Key> {
 	public String identify() {
 		switch (key.type) {
 			case CLUSTER_ENTRY:
-				return String.format("ClusterEntry(0x%x)", key.hash);
 			case CLUSTER_EXIT:
-				return String.format("ClusterExit(0x%x)", key.hash);
+				return String.format("(0x%x|%s)", key.hash, key.type.code);
 			default:
 				throw new IllegalStateException(String.format("%s must be of type %s or %s",
 						getClass().getSimpleName(), MetaNodeType.CLUSTER_ENTRY, MetaNodeType.CLUSTER_EXIT));
