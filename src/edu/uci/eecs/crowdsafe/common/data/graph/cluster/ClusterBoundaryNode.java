@@ -95,7 +95,7 @@ public class ClusterBoundaryNode extends ClusterNode<ClusterBoundaryNode.Key> {
 	public MetaNodeType getType() {
 		return key.type;
 	}
-
+	
 	public String identify() {
 		switch (key.type) {
 			case CLUSTER_ENTRY:
