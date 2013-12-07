@@ -224,7 +224,8 @@ public class MonitorDatasetGenerator {
 
 			ModuleGraphCluster<?> graph = loadSession.loadClusterGraph(cluster);
 			for (Node<?> node : graph.getAllNodes()) {
-				if ((node.getType() == MetaNodeType.NORMAL) || (node.getType() == MetaNodeType.RETURN))
+				if ((node.getType() == MetaNodeType.NORMAL) || (node.getType() == MetaNodeType.RETURN)
+						|| (node.getType() == MetaNodeType.SINGLETON))
 					nodeSorter.add((ClusterBasicBlock) node);
 			}
 			Collections.sort(nodeSorter, sortOrder);

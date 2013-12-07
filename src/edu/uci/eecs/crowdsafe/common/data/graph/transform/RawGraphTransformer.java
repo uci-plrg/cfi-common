@@ -407,12 +407,12 @@ public class RawGraphTransformer {
 				IndexedClusterNode entryId = nodesByCluster.get(toNodeId.cluster).addNode(entry);
 				establishEdgeSet(toNodeId.cluster).add(new RawEdge(entryId, toNodeId, EdgeType.CLUSTER_ENTRY, 0));
 
-				if ((fromNodeId.node.getRelativeTag() != ClusterNode.PROCESS_ENTRY_SINGLETON)
-						&& (fromNodeId.node.getRelativeTag() != ClusterNode.SYSTEM_SINGLETON)) {
-					ClusterBoundaryNode exit = new ClusterBoundaryNode(hash, MetaNodeType.CLUSTER_EXIT);
-					IndexedClusterNode exitId = nodesByCluster.get(fromNodeId.cluster).addNode(exit);
-					establishEdgeSet(fromNodeId.cluster).add(new RawEdge(fromNodeId, exitId, type, ordinal));
-				}
+				// if ((fromNodeId.node.getRelativeTag() != ClusterNode.PROCESS_ENTRY_SINGLETON)
+				// && (fromNodeId.node.getRelativeTag() != ClusterNode.SYSTEM_SINGLETON)) {
+				ClusterBoundaryNode exit = new ClusterBoundaryNode(hash, MetaNodeType.CLUSTER_EXIT);
+				IndexedClusterNode exitId = nodesByCluster.get(fromNodeId.cluster).addNode(exit);
+				establishEdgeSet(fromNodeId.cluster).add(new RawEdge(fromNodeId, exitId, type, ordinal));
+				// }
 			}
 		}
 	}

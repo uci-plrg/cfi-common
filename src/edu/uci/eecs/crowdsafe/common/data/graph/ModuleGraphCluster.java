@@ -175,7 +175,7 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 			case SINGLETON:
 				if ((node.getRelativeTag() == ClusterNode.PROCESS_ENTRY_SINGLETON)
 						|| (node.getRelativeTag() == ClusterNode.SYSTEM_SINGLETON))
-					return;
+					graphData.nodesByHash.add(node);
 				break;
 			default:
 				graphData.nodesByHash.add(node);
@@ -216,6 +216,13 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 		Set<EdgeEndpointType> visitedNodes = new HashSet<EdgeEndpointType>();
 		Queue<EdgeEndpointType> bfsQueue = new LinkedList<EdgeEndpointType>();
 		bfsQueue.addAll(entryNodes.values());
+
+		NodeList<EdgeEndpointType> systemNodes = graphData.nodesByHash.get(1L);
+		if (systemNodes.size() == 1)
+			bfsQueue.add(systemNodes.get(0));
+		systemNodes = graphData.nodesByHash.get(3L);
+		if (systemNodes.size() == 1)
+			bfsQueue.add(systemNodes.get(0));
 
 		while (bfsQueue.size() > 0) {
 			EdgeEndpointType node = bfsQueue.remove();
