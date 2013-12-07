@@ -454,6 +454,9 @@ public class RawGraphTransformer {
 		if ((absoluteTag == ClusterNode.PROCESS_ENTRY_SINGLETON) || (absoluteTag == ClusterNode.SYSTEM_SINGLETON)) {
 			moduleInstance = ModuleInstance.SYSTEM;
 			cluster = ConfiguredSoftwareDistributions.SYSTEM_CLUSTER;
+		} else if ((absoluteTag >= ClusterNode.BLACK_BOX_SINGLETON_START)
+				&& (absoluteTag < ClusterNode.BLACK_BOX_SINGLETON_END)) {
+			return nodesByRawTag.get(new RawTag(absoluteTag, tagVersion));
 		} else {
 			moduleInstance = executionModules.getModule(absoluteTag, entryIndex, streamType);
 			if (moduleInstance.unit.isAnonymous)
