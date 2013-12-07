@@ -175,16 +175,12 @@ public class RawGraphTransformer {
 		nodesByRawTag.put(rawTag, nodeId);
 		graphWriters.establishClusterWriters(nodesByCluster.get(ConfiguredSoftwareDistributions.SYSTEM_CLUSTER));
 
-		nodeData = establishNodeData(ConfiguredSoftwareDistributions.DYNAMORIO_CLUSTER);
-		nodeData.moduleList.establishModule(ModuleInstance.DYNAMORIO_MODULE.unit);
-		node = new ClusterBasicBlock(SoftwareModule.DYNAMORIO_MODULE,
-				ClusterNode.DYNAMORIO_INTERCEPTION_RETURN_SINGLETON, 0,
-				ClusterNode.DYNAMORIO_INTERCEPTION_RETURN_SINGLETON, MetaNodeType.SINGLETON);
+		node = new ClusterBasicBlock(SoftwareModule.SYSTEM_MODULE, ClusterNode.SYSTEM_SINGLETON, 0,
+				ClusterNode.SYSTEM_SINGLETON, MetaNodeType.SINGLETON);
 		nodeId = nodeData.addNode(node);
-		rawTag = new RawTag(ClusterNode.DYNAMORIO_INTERCEPTION_RETURN_SINGLETON, 0);
-		fakeAnonymousModuleTags.put(rawTag, ClusterNode.DYNAMORIO_INTERCEPTION_RETURN_SINGLETON);
+		rawTag = new RawTag(ClusterNode.SYSTEM_SINGLETON, 0);
+		fakeAnonymousModuleTags.put(rawTag, ClusterNode.SYSTEM_SINGLETON);
 		nodesByRawTag.put(rawTag, nodeId);
-		graphWriters.establishClusterWriters(nodesByCluster.get(ConfiguredSoftwareDistributions.DYNAMORIO_CLUSTER));
 
 		long entryIndex = -1L;
 		while (factory.hasMoreEntries()) {
@@ -197,10 +193,9 @@ public class RawGraphTransformer {
 
 			ModuleInstance moduleInstance;
 			if (nodeType == MetaNodeType.SINGLETON) {
-				if (absoluteTag == ClusterNode.PROCESS_ENTRY_SINGLETON) {
+				if ((absoluteTag == ClusterNode.PROCESS_ENTRY_SINGLETON)
+						|| (absoluteTag == ClusterNode.SYSTEM_SINGLETON)) {
 					moduleInstance = ModuleInstance.SYSTEM;
-				} else if (absoluteTag == ClusterNode.DYNAMORIO_INTERCEPTION_RETURN_SINGLETON) {
-					moduleInstance = ModuleInstance.DYNAMORIO;
 				} else if ((absoluteTag >= ClusterNode.BLACK_BOX_SINGLETON_START)
 						&& (absoluteTag < ClusterNode.BLACK_BOX_SINGLETON_END)) {
 					moduleInstance = ModuleInstance.ANONYMOUS;
@@ -218,16 +213,12 @@ public class RawGraphTransformer {
 			AutonomousSoftwareDistribution blackBoxOwner = null;
 			boolean isNewBlackBoxSingleton = false;
 			if (cluster.isAnonymous()) {
-				if (absoluteTag == ClusterNode.PROCESS_ENTRY_SINGLETON) {
+				if ((absoluteTag == ClusterNode.PROCESS_ENTRY_SINGLETON)
+						|| (absoluteTag == ClusterNode.SYSTEM_SINGLETON)) {
 					clusterModule = establishNodeData(ConfiguredSoftwareDistributions.SYSTEM_CLUSTER).moduleList
 							.establishModule(SoftwareModule.SYSTEM_MODULE.unit);
 					cluster = ConfiguredSoftwareDistributions.SYSTEM_CLUSTER;
 					moduleInstance = ModuleInstance.SYSTEM;
-				} else if (absoluteTag == ClusterNode.DYNAMORIO_INTERCEPTION_RETURN_SINGLETON) {
-					clusterModule = establishNodeData(ConfiguredSoftwareDistributions.DYNAMORIO_CLUSTER).moduleList
-							.establishModule(SoftwareModule.DYNAMORIO_MODULE.unit);
-					cluster = ConfiguredSoftwareDistributions.DYNAMORIO_CLUSTER;
-					moduleInstance = ModuleInstance.DYNAMORIO;
 				} else {
 					clusterModule = establishNodeData(ConfiguredSoftwareDistributions.ANONYMOUS_CLUSTER).moduleList
 							.establishModule(SoftwareModule.ANONYMOUS_MODULE.unit);
@@ -416,7 +407,8 @@ public class RawGraphTransformer {
 				IndexedClusterNode entryId = nodesByCluster.get(toNodeId.cluster).addNode(entry);
 				establishEdgeSet(toNodeId.cluster).add(new RawEdge(entryId, toNodeId, EdgeType.CLUSTER_ENTRY, 0));
 
-				if (fromNodeId.node.getRelativeTag() != ClusterNode.PROCESS_ENTRY_SINGLETON) {
+				if ((fromNodeId.node.getRelativeTag() != ClusterNode.PROCESS_ENTRY_SINGLETON)
+						&& (fromNodeId.node.getRelativeTag() != ClusterNode.SYSTEM_SINGLETON)) {
 					ClusterBoundaryNode exit = new ClusterBoundaryNode(hash, MetaNodeType.CLUSTER_EXIT);
 					IndexedClusterNode exitId = nodesByCluster.get(fromNodeId.cluster).addNode(exit);
 					establishEdgeSet(fromNodeId.cluster).add(new RawEdge(fromNodeId, exitId, type, ordinal));
@@ -459,12 +451,9 @@ public class RawGraphTransformer {
 
 		ModuleInstance moduleInstance;
 		AutonomousSoftwareDistribution cluster;
-		if (absoluteTag == ClusterNode.PROCESS_ENTRY_SINGLETON) {
+		if ((absoluteTag == ClusterNode.PROCESS_ENTRY_SINGLETON) || (absoluteTag == ClusterNode.SYSTEM_SINGLETON)) {
 			moduleInstance = ModuleInstance.SYSTEM;
 			cluster = ConfiguredSoftwareDistributions.SYSTEM_CLUSTER;
-		} else if (absoluteTag == ClusterNode.DYNAMORIO_INTERCEPTION_RETURN_SINGLETON) {
-			moduleInstance = ModuleInstance.DYNAMORIO;
-			cluster = ConfiguredSoftwareDistributions.DYNAMORIO_CLUSTER;
 		} else {
 			moduleInstance = executionModules.getModule(absoluteTag, entryIndex, streamType);
 			if (moduleInstance.unit.isAnonymous)
@@ -483,7 +472,7 @@ public class RawGraphTransformer {
 
 		// ClusterModule clusterModule = nodesByCluster.get(cluster).moduleList.getModule(moduleInstance.unit);
 
-		if ((moduleInstance.unit == SoftwareModule.DYNAMORIO_MODULE.unit) || moduleInstance.unit.isAnonymous) {
+		if (moduleInstance.unit.isAnonymous) {
 			IndexedClusterNode node = nodesByRawTag.get(new RawTag(absoluteTag, tagVersion));
 			return node;
 		}

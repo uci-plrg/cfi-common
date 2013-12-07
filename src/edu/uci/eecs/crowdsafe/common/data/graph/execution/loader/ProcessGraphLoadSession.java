@@ -113,8 +113,7 @@ public class ProcessGraphLoadSession {
 			// Tags don't duplicate in lookup file
 			if (hashLookupTable.containsKey(node.getKey())) {
 				ExecutionNode existingNode = hashLookupTable.get(node.getKey());
-				if ((existingNode.getHash() != node.getHash())
-						&& (node.getModule().unit != SoftwareModule.DYNAMORIO_MODULE.unit)) {
+				if (existingNode.getHash() != node.getHash()) {
 					String msg = String.format("Duplicate tags: %s -> %s in datasource %s", node.getKey(),
 							existingNode, dataSource.toString());
 					throw new InvalidTagException(msg);

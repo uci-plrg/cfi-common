@@ -173,7 +173,8 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 				addClusterExitNode(node);
 				break;
 			case SINGLETON:
-				if (node.getRelativeTag() == ClusterNode.PROCESS_ENTRY_SINGLETON)
+				if ((node.getRelativeTag() == ClusterNode.PROCESS_ENTRY_SINGLETON)
+						|| (node.getRelativeTag() == ClusterNode.SYSTEM_SINGLETON))
 					return;
 				break;
 			default:
@@ -194,7 +195,7 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 			return;
 
 		analyzed = true;
-		
+
 		unreachableNodes.clear();
 		unreachableNodes.addAll(graphData.nodesByKey.values());
 

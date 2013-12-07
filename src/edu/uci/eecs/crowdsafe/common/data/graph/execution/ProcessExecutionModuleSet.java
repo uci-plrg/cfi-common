@@ -30,7 +30,6 @@ public class ProcessExecutionModuleSet {
 
 	public void freeze() {
 		List<ModuleInstance> instances = new ArrayList<ModuleInstance>();
-		instances.add(ModuleInstance.DYNAMORIO);
 		instances.addAll(instancesByUnit.values());
 		modules = instances.toArray(new ModuleInstance[] {});
 	}

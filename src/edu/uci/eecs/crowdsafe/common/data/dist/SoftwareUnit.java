@@ -11,14 +11,10 @@ public class SoftwareUnit {
 	private static final Pattern FILENAME_PATTERN = Pattern.compile("^([^\\-]+)-([^\\-]+-[^\\-]+-[^\\-]+)$");
 
 	public static final String SYSTEM_UNIT_NAME = "__system";
-	public static final String DYNAMORIO_UNIT_NAME = "__dynamorio";
 	public static final String ANONYMOUS_UNIT_NAME = "__anonymous";
 
 	public static final SoftwareUnit CLUSTER_BOUNDARY = new SoftwareUnit("|cluster_boundary|-"
 			+ SoftwareModule.EMPTY_VERSION);
-	public static final SoftwareUnit DYNAMORIO_UNIT = new SoftwareUnit(SoftwareUnit.DYNAMORIO_UNIT_NAME, false, true);
-
-	public static final long DYNAMORIO_INTERCEPTION_RETURN_EDGE_HASH = 1L;
 
 	public final String name;
 	public final String filename;
@@ -33,10 +29,6 @@ public class SoftwareUnit {
 	}
 
 	SoftwareUnit(String name, boolean isAnonymous) {
-		this(name, isAnonymous, false);
-	}
-
-	private SoftwareUnit(String name, boolean isAnonymous, boolean isDynamorio) {
 		this.name = name;
 		this.isAnonymous = isAnonymous;
 
@@ -52,10 +44,7 @@ public class SoftwareUnit {
 		if (isAnonymous) {
 			anonymousExitHash = 0L;
 			interceptionHash = 0L;
-			if (isDynamorio)
-				anonymousEntryHash = DYNAMORIO_INTERCEPTION_RETURN_EDGE_HASH;
-			else
-				anonymousEntryHash = 0L;
+			anonymousEntryHash = 0L;
 		} else {
 			anonymousEntryHash = CrowdSafeTraceUtil.stringHash(String.format("%s/<anonymous>!callback", filename));
 			anonymousExitHash = CrowdSafeTraceUtil.stringHash(String.format("<anonymous>/%s!callback", filename));

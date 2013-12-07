@@ -136,7 +136,7 @@ public class MonitorDatasetGenerator {
 		sortedImageClusters = new ArrayList<AutonomousSoftwareDistribution>();
 		for (AutonomousSoftwareDistribution cluster : dataSource.getReprsentedClusters()) {
 			if (cluster != ConfiguredSoftwareDistributions.ANONYMOUS_CLUSTER) {
-				if (cluster.isAnonymous() && (cluster != ConfiguredSoftwareDistributions.DYNAMORIO_CLUSTER))
+				if (cluster.isAnonymous())
 					throw new IllegalArgumentException(String.format(
 							"Found a dynamic module that has not been integrated into the anonymous module: %s.\n"
 									+ "Please merge the graph before generating monitor data (unity merge is valid).",

@@ -40,8 +40,6 @@ public class ConfiguredSoftwareDistributions {
 			"<main-program>", "main-program");
 	public static final AutonomousSoftwareDistribution SYSTEM_CLUSTER = new AutonomousSoftwareDistribution(
 			SoftwareUnit.SYSTEM_UNIT_NAME, SoftwareUnit.SYSTEM_UNIT_NAME, true);
-	public static final AutonomousSoftwareDistribution DYNAMORIO_CLUSTER = new AutonomousSoftwareDistribution(
-			SoftwareUnit.DYNAMORIO_UNIT_NAME, SoftwareUnit.DYNAMORIO_UNIT_NAME);
 	public static final AutonomousSoftwareDistribution ANONYMOUS_CLUSTER = new AutonomousSoftwareDistribution(
 			SoftwareUnit.ANONYMOUS_UNIT_NAME, SoftwareUnit.ANONYMOUS_UNIT_NAME, true);
 
@@ -65,8 +63,6 @@ public class ConfiguredSoftwareDistributions {
 		} else {
 			distributions.put(SYSTEM_CLUSTER.name, SYSTEM_CLUSTER);
 			installCluster(SYSTEM_CLUSTER, SoftwareModule.SYSTEM_MODULE.unit);
-			distributions.put(DYNAMORIO_CLUSTER.name, DYNAMORIO_CLUSTER);
-			installCluster(DYNAMORIO_CLUSTER, SoftwareModule.DYNAMORIO_MODULE.unit);
 			distributions.put(ANONYMOUS_CLUSTER.name, ANONYMOUS_CLUSTER);
 			installCluster(ANONYMOUS_CLUSTER, SoftwareModule.ANONYMOUS_MODULE.unit);
 		}
@@ -95,7 +91,6 @@ public class ConfiguredSoftwareDistributions {
 
 	private void loadDistributions() {
 		if (clusterMode == ClusterMode.UNIT) {
-			installCluster(DYNAMORIO_CLUSTER, SoftwareModule.DYNAMORIO_MODULE.unit);
 			return;
 		}
 
@@ -146,24 +141,10 @@ public class ConfiguredSoftwareDistributions {
 		if (unitName.startsWith(SoftwareModule.ANONYMOUS_MODULE_NAME))
 			unitName = unitName.replace(SoftwareModule.ANONYMOUS_MODULE_NAME, SoftwareUnit.ANONYMOUS_UNIT_NAME);
 
-		if (unitName.startsWith(SoftwareUnit.DYNAMORIO_UNIT_NAME)
-				|| unitName.contains(SoftwareModule.DYNAMORIO_MODULE_NAME))
-			throw new IllegalArgumentException("The DynamoRIO software unit is static!");
-
-		/*
-		 * if (unitName.startsWith(SoftwareUnit.DYNAMORIO_UNIT_NAME)) throw new IllegalArgumentException(String.format(
-		 * "Name collision: file %s will look like the dynamorio module!", unitName)); if
-		 * (unitName.contains(SoftwareModule.DYNAMORIO_MODULE_NAME)) unitName =
-		 * unitName.replace(SoftwareModule.DYNAMORIO_MODULE_NAME, SoftwareUnit.DYNAMORIO_UNIT_NAME);
-		 */
-
 		return establishUnitByFileSystemName(unitName);
 	}
 
 	public synchronized SoftwareUnit establishUnitByFileSystemName(String name) {
-		if (name.startsWith(SoftwareUnit.DYNAMORIO_UNIT_NAME))
-			return SoftwareModule.DYNAMORIO_MODULE.unit;
-
 		SoftwareUnit existing = unitsByName.get(name);
 		if (existing != null)
 			return existing;

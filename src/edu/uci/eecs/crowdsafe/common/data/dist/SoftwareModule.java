@@ -5,14 +5,12 @@ import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterModule;
 public abstract class SoftwareModule {
 
 	public static final String SYSTEM_MODULE_NAME = "|system|";
-	public static final String DYNAMORIO_MODULE_NAME = "|dynamorio|";
 	public static final String ANONYMOUS_MODULE_NAME = "|anonymous|";
 
 	public static final String EMPTY_VERSION = "0-0-0";
 
 	public static final ClusterModule SYSTEM_MODULE = new ClusterModule(0, new SoftwareUnit(
 			SoftwareUnit.SYSTEM_UNIT_NAME, false));
-	public static final ClusterModule DYNAMORIO_MODULE = new ClusterModule(0, SoftwareUnit.DYNAMORIO_UNIT);
 	public static final ClusterModule ANONYMOUS_MODULE = new ClusterModule(0, new SoftwareUnit(
 			SoftwareUnit.ANONYMOUS_UNIT_NAME, true));
 
