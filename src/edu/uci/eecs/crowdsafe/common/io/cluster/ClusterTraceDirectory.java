@@ -47,6 +47,11 @@ public class ClusterTraceDirectory implements ClusterTraceDataSource, ClusterTra
 		this.streamTypes = streamTypes;
 	}
 
+	@Override
+	public File getDirectory() {
+		return directory;
+	}
+
 	public ClusterTraceDirectory loadExistingFiles() {
 		File[] ls = directory.listFiles();
 

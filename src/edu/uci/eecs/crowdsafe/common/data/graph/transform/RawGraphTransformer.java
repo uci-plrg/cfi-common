@@ -111,25 +111,33 @@ public class RawGraphTransformer {
 			ConfiguredSoftwareDistributions.initialize(clusterMode);
 
 			for (String inputPath : pathList) {
-				File runDir = new File(inputPath);
-				if (!(runDir.exists() && runDir.isDirectory())) {
-					Log.log("Warning: input path %s is not a directory!", runDir.getAbsolutePath());
-					continue;
-				}
+				try {
+					File runDir = new File(inputPath);
+					if (!(runDir.exists() && runDir.isDirectory())) {
+						Log.log("Warning: input path %s is not a directory!", runDir.getAbsolutePath());
+						continue;
+					}
 
-				dataSource = new ExecutionTraceDirectory(runDir, ProcessExecutionGraph.EXECUTION_GRAPH_FILE_TYPES);
+					dataSource = new ExecutionTraceDirectory(runDir, ProcessExecutionGraph.EXECUTION_GRAPH_FILE_TYPES);
 
-				File outputDir;
-				if (outputOption.getValue() == null) {
-					outputDir = new File(runDir, "cluster");
-				} else {
-					outputDir = new File(outputOption.getValue());
+					File outputDir;
+					if (outputOption.getValue() == null) {
+						outputDir = new File(runDir, "cluster");
+					} else {
+						outputDir = new File(outputOption.getValue());
+					}
+					outputDir.mkdirs();
+					graphWriters = new ClusterDataWriter.Directory<IndexedClusterNode>(outputDir,
+							dataSource.getProcessName());
+					Log.log("Transform %s to %s", runDir.getAbsolutePath(), outputDir.getAbsolutePath());
+					transformGraph();
+				} catch (Throwable t) {
+					Log.log("Error transforming %s", inputPath);
+					Log.log(t);
+
+					System.err.println("Error transforming " + inputPath);
+					t.printStackTrace();
 				}
-				outputDir.mkdirs();
-				graphWriters = new ClusterDataWriter.Directory<IndexedClusterNode>(outputDir,
-						dataSource.getProcessName());
-				Log.log("Transform %s to %s", runDir.getAbsolutePath(), outputDir.getAbsolutePath());
-				transformGraph();
 
 				outputDir = null;
 				dataSource = null;
@@ -202,6 +210,9 @@ public class RawGraphTransformer {
 				} else {
 					throw new InvalidGraphException("Error: unknown singleton with tag 0x%x!", absoluteTag);
 				}
+			} else if ((absoluteTag >= ClusterNode.BLACK_BOX_SINGLETON_START) // FIXME: temporary hack
+					&& (absoluteTag < ClusterNode.BLACK_BOX_SINGLETON_END)) {
+				moduleInstance = ModuleInstance.ANONYMOUS;
 			} else {
 				moduleInstance = executionModules.getModule(absoluteTag, entryIndex, streamType);
 			}
@@ -307,18 +318,19 @@ public class RawGraphTransformer {
 
 			if (fromNodeId == null) {
 				if (toNodeId == null) {
-					Log.log("Error: both nodes missing in edge 0x%x-v%d -> 0x%x-v%d (%s)", absoluteFromTag,
-							fromTagVersion, absoluteToTag, toTagVersion, type);
+					Log.log("Error: both nodes missing in edge (0x%x-v%d) -%s-%d-> (0x%x-v%d)", absoluteFromTag,
+							fromTagVersion, type.code, ordinal, absoluteToTag, toTagVersion);
 				} else {
-					Log.log("Error in cluster %s: missing 'from' node 0x%x-v%d in edge to 0x%x-v%d (%s)",
-							toNodeId.cluster.getUnitFilename(), absoluteFromTag, fromTagVersion, absoluteToTag,
-							toTagVersion, type);
+					Log.log("Error in cluster %s: missing 'from' node: (0x%x-v%d) -%s-%d-> (0x%x-v%d)",
+							toNodeId.cluster.getUnitFilename(), absoluteFromTag, fromTagVersion, type.code, ordinal,
+							absoluteToTag, toTagVersion);
 				}
 				continue;
 			}
 
 			if (toNodeId == null) {
-				Log.log("Error in cluster %s: missing 'to' node 0x%x-v%d", fromNodeId.cluster.getUnitFilename(),
+				Log.log("Error in cluster %s: missing 'to' node: (0x%x-v%d) -%s-%d-> (0x%x-v%d)",
+						fromNodeId.cluster.getUnitFilename(), absoluteFromTag, fromTagVersion, type.code, ordinal,
 						absoluteToTag, toTagVersion);
 				continue;
 			}
@@ -459,6 +471,8 @@ public class RawGraphTransformer {
 			return nodesByRawTag.get(new RawTag(absoluteTag, tagVersion));
 		} else {
 			moduleInstance = executionModules.getModule(absoluteTag, entryIndex, streamType);
+			if (moduleInstance == null)
+				return null;
 			if (moduleInstance.unit.isAnonymous)
 				cluster = ConfiguredSoftwareDistributions.ANONYMOUS_CLUSTER;
 			else
@@ -482,7 +496,10 @@ public class RawGraphTransformer {
 
 		long tag = (absoluteTag - moduleInstance.start);
 		ClusterBasicBlock.Key key = new ClusterBasicBlock.Key(clusterModule, tag, tagVersion);
-		IndexedClusterNode node = nodesByCluster.get(cluster).getNode(key);
+		RawClusterData clusterData = nodesByCluster.get(cluster);
+		if (clusterData == null)
+			return null;
+		IndexedClusterNode node = clusterData.getNode(key);
 		return node;
 	}
 

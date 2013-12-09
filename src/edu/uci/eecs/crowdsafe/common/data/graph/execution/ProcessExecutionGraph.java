@@ -57,12 +57,12 @@ public class ProcessExecutionGraph {
 
 	public final ExecutionTraceDataSource dataSource;
 
-	public ProcessExecutionGraph(ExecutionTraceDataSource dataSource, ProcessExecutionModuleSet modules) {
+	public ProcessExecutionGraph(String name, ExecutionTraceDataSource dataSource, ProcessExecutionModuleSet modules) {
 		this.dataSource = dataSource;
 		this.modules = modules;
 
 		for (AutonomousSoftwareDistribution dist : ConfiguredSoftwareDistributions.getInstance().distributions.values()) {
-			ModuleGraphCluster<ExecutionNode> moduleCluster = new ModuleGraphCluster<ExecutionNode>(dist);
+			ModuleGraphCluster<ExecutionNode> moduleCluster = new ModuleGraphCluster<ExecutionNode>(name, dist);
 			moduleGraphs.put(dist, moduleCluster);
 
 			for (SoftwareUnit unit : dist.getUnits()) {

@@ -85,7 +85,8 @@ public class ClusterGraphLoadSession {
 			long start = System.currentTimeMillis();
 
 			ClusterModuleList modules = moduleLoader.loadModules(cluster, dataSource);
-			builder = new ClusterGraph(cluster, modules);
+			builder = new ClusterGraph(String.format("cluster %s loaded from %s", cluster.getUnitFilename(), dataSource
+					.getDirectory().getName()), cluster, modules);
 
 			try {
 				loadGraphNodes(modules);

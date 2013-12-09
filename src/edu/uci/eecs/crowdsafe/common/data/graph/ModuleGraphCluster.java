@@ -31,6 +31,7 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 		}
 	}
 
+	public final String name;
 	public final AutonomousSoftwareDistribution cluster;
 
 	// Maps from the signature hash of the cross-module edge to entry/exit points
@@ -55,7 +56,8 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 
 	private boolean analyzed = false;
 
-	public ModuleGraphCluster(AutonomousSoftwareDistribution cluster) {
+	public ModuleGraphCluster(String name, AutonomousSoftwareDistribution cluster) {
+		this.name = name;
 		this.cluster = cluster;
 		this.graphData = new GraphData<EdgeEndpointType>();
 
@@ -172,16 +174,13 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 			case CLUSTER_EXIT:
 				addClusterExitNode(node);
 				break;
-			case SINGLETON:
-				if ((node.getRelativeTag() == ClusterNode.PROCESS_ENTRY_SINGLETON)
-						|| (node.getRelativeTag() == ClusterNode.SYSTEM_SINGLETON))
-					graphData.nodesByHash.add(node);
-				break;
 			default:
-				graphData.nodesByHash.add(node);
+				// graphData.nodesByHash.add(node);
 				executableNodeCount++;
 				graphs.get(node.getModule().unit).incrementExecutableBlockCount();
-
+				//$FALL-THROUGH$
+			case SINGLETON:
+				graphData.nodesByHash.add(node);
 		}
 		graphData.nodesByKey.put(node.getKey(), node);
 	}
@@ -292,7 +291,7 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 			}
 		}
 		 */
-		Log.log("%d unreachable nodes for cluster %s", unreachableNodes.size(), cluster.name);
+		Log.log("%d unreachable nodes for %s", unreachableNodes.size(), name);
 
 		if (!CrowdSafeDebug.LOG_UNREACHABLE_ENTRY_POINTS)
 			return;

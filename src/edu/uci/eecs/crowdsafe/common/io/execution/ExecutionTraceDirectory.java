@@ -30,6 +30,7 @@ public class ExecutionTraceDirectory implements ExecutionTraceDataSource {
 
 	private static final FilePatterns FILE_PATTERNS = new FilePatterns();
 
+	private final File directory;
 	private final int processId;
 	private final String processName;
 	private final Map<ExecutionTraceStreamType, File> files = new EnumMap<ExecutionTraceStreamType, File>(
@@ -39,26 +40,28 @@ public class ExecutionTraceDirectory implements ExecutionTraceDataSource {
 		this(dir, ALL_STREAM_TYPES);
 	}
 
-	public ExecutionTraceDirectory(File dir, Set<ExecutionTraceStreamType> streamTypes) throws TraceDataSourceException {
-		if (!(dir.exists() && dir.isDirectory())) {
-			if (dir.isDirectory())
+	public ExecutionTraceDirectory(File directory, Set<ExecutionTraceStreamType> streamTypes)
+			throws TraceDataSourceException {
+		this.directory = directory;
+		if (!(directory.exists() && directory.isDirectory())) {
+			if (directory.isDirectory())
 				throw new IllegalArgumentException(String.format("Source directory %s does not exist!",
-						dir.getAbsolutePath()));
+						directory.getAbsolutePath()));
 			else
 				throw new IllegalArgumentException(String.format("Source path %s is not a directory!",
-						dir.getAbsolutePath()));
+						directory.getAbsolutePath()));
 		}
 
-		for (File file : dir.listFiles()) {
+		for (File file : directory.listFiles()) {
 			if (file.isDirectory())
 				continue;
 
 			for (ExecutionTraceStreamType streamType : streamTypes) {
 				if (Pattern.matches(FILE_PATTERNS.patterns.get(streamType), file.getName())) {
 					if (files.containsKey(streamType))
-						throw new TraceDataSourceException(String.format(
-								"Directory %s contains multiple files of type %s: %s and %s", dir.getAbsolutePath(),
-								streamType, file.getName(), files.get(streamType).getName()));
+						throw new TraceDataSourceException(
+								String.format("Directory %s contains multiple files of type %s: %s and %s", directory
+										.getAbsolutePath(), streamType, file.getName(), files.get(streamType).getName()));
 					files.put(streamType, file);
 				}
 			}
@@ -68,7 +71,7 @@ public class ExecutionTraceDirectory implements ExecutionTraceDataSource {
 			Set<ExecutionTraceStreamType> requiredTypes = EnumSet.copyOf(streamTypes);
 			requiredTypes.removeAll(files.keySet());
 			throw new TraceDataSourceException(String.format("Required data files are missing from directory %s: %s",
-					dir.getAbsolutePath(), requiredTypes));
+					directory.getAbsolutePath(), requiredTypes));
 		}
 
 		ExecutionTraceStreamType anyType = files.keySet().iterator().next();
@@ -80,6 +83,11 @@ public class ExecutionTraceDirectory implements ExecutionTraceDataSource {
 		int lastDot = runSignature.lastIndexOf('.');
 
 		processId = Integer.parseInt(runSignature.substring(lastDash + 1, lastDot));
+	}
+
+	@Override
+	public File getDirectory() {
+		return directory;
 	}
 
 	@Override

@@ -7,11 +7,9 @@ import java.util.List;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 
-import edu.uci.eecs.crowdsafe.common.data.dist.ConfiguredSoftwareDistributions;
-import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareModule;
 import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareUnit;
-import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterModule;
 import edu.uci.eecs.crowdsafe.common.io.execution.ExecutionTraceStreamType;
+import edu.uci.eecs.crowdsafe.common.log.Log;
 
 public class ProcessExecutionModuleSet {
 
@@ -80,6 +78,7 @@ public class ProcessExecutionModuleSet {
 			default:
 				throw new IllegalArgumentException("Cannot identify modules for stream type " + streamType);
 		}
-		throw new IllegalStateException("Failed to identify the module for tag " + tag);
+		Log.log("Error! Failed to identify the module for tag 0x%x", tag);
+		return null;
 	}
 }

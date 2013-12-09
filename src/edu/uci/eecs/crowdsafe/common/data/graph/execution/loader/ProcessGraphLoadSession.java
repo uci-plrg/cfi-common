@@ -62,7 +62,8 @@ public class ProcessGraphLoadSession {
 		ProcessExecutionGraph loadGraph() throws IOException {
 			ProcessModuleLoader moduleLoader = new ProcessModuleLoader();
 			ProcessExecutionModuleSet modules = moduleLoader.loadModules(dataSource);
-			graph = new ProcessExecutionGraph(dataSource, modules);
+			graph = new ProcessExecutionGraph(String.format("process graph loaded from %s", dataSource.getDirectory()
+					.getName()), dataSource, modules);
 
 			try {
 				loadGraphNodes(modules);

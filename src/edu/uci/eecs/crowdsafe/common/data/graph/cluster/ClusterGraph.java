@@ -28,13 +28,13 @@ public class ClusterGraph {
 		}
 	}
 
-	public ClusterGraph(AutonomousSoftwareDistribution cluster) {
-		graph = new ModuleGraphCluster<ClusterNode<?>>(cluster);
+	public ClusterGraph(String name, AutonomousSoftwareDistribution cluster) {
+		graph = new ModuleGraphCluster<ClusterNode<?>>(name, cluster);
 		moduleList = new ClusterModuleList();
 	}
 
-	public ClusterGraph(AutonomousSoftwareDistribution cluster, ClusterModuleList moduleList) {
-		graph = new ModuleGraphCluster<ClusterNode<?>>(cluster);
+	public ClusterGraph(String name, AutonomousSoftwareDistribution cluster, ClusterModuleList moduleList) {
+		graph = new ModuleGraphCluster<ClusterNode<?>>(name, cluster);
 		this.moduleList = moduleList;
 
 		for (ClusterModule module : moduleList.getModules()) {
