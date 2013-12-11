@@ -216,6 +216,11 @@ public class RawGraphTransformer {
 			} else {
 				moduleInstance = executionModules.getModule(absoluteTag, entryIndex, streamType);
 			}
+			if (moduleInstance == null) {
+				Log.log("Error: cannot find the module for node 0x%x-v%d (type %s)", absoluteTag, tagVersion, nodeType);
+				continue;
+			}
+
 			AutonomousSoftwareDistribution cluster = ConfiguredSoftwareDistributions.getInstance().distributionsByUnit
 					.get(moduleInstance.unit);
 
