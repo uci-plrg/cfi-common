@@ -35,7 +35,7 @@ public class ProcessGraphNodeFactory {
 	private final ProcessExecutionModuleSet modules;
 	private final LittleEndianInputStream input;
 
-	long tag = 0, tagOriginal = 0, hash = 0;
+	long tag = 0, annotatedTag = 0, hash = 0;
 	long blockIndex = -1L;
 	ModuleInstance module;
 	ModuleGraphCluster<ExecutionNode> moduleCluster;
@@ -50,13 +50,13 @@ public class ProcessGraphNodeFactory {
 	}
 
 	ExecutionNode createNode() throws IOException {
-		tagOriginal = input.readLong();
+		annotatedTag = input.readLong();
 		hash = input.readLong();
 		blockIndex++;
 
-		tag = CrowdSafeTraceUtil.getTagEffectiveValue(tagOriginal);
-		int versionNumber = CrowdSafeTraceUtil.getNodeVersionNumber(tagOriginal);
-		MetaNodeType metaNodeType = CrowdSafeTraceUtil.getNodeMetaType(tagOriginal);
+		tag = CrowdSafeTraceUtil.getTag(annotatedTag);
+		int versionNumber = CrowdSafeTraceUtil.getTagVersion(annotatedTag);
+		MetaNodeType metaNodeType = CrowdSafeTraceUtil.getNodeMetaType(annotatedTag);
 		module = modules.getModule(tag, blockIndex, ExecutionTraceStreamType.GRAPH_NODE);
 
 		return new ExecutionNode(module, metaNodeType, tag, versionNumber, hash, blockIndex);

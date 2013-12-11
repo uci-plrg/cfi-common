@@ -199,6 +199,9 @@ public class RawGraphTransformer {
 			int tagVersion = CrowdSafeTraceUtil.getTagVersion(nodeEntry.first);
 			MetaNodeType nodeType = CrowdSafeTraceUtil.getNodeMetaType(nodeEntry.first);
 
+			if (absoluteTag == 0x684e5850L)
+				toString();
+
 			ModuleInstance moduleInstance;
 			if (nodeType == MetaNodeType.SINGLETON) {
 				if ((absoluteTag == ClusterNode.PROCESS_ENTRY_SINGLETON)
@@ -310,6 +313,8 @@ public class RawGraphTransformer {
 			entryIndex++;
 
 			long absoluteFromTag = CrowdSafeTraceUtil.getTag(edgeEntry.first);
+			if (absoluteFromTag == 0x684e5850L)
+				toString();
 			int fromTagVersion = CrowdSafeTraceUtil.getTagVersion(edgeEntry.first);
 			IndexedClusterNode fromNodeId = identifyNode(absoluteFromTag, fromTagVersion, entryIndex, streamType);
 
@@ -318,7 +323,6 @@ public class RawGraphTransformer {
 
 			long absoluteToTag = CrowdSafeTraceUtil.getTag(edgeEntry.second);
 			int toTagVersion = CrowdSafeTraceUtil.getTagVersion(edgeEntry.second);
-
 			IndexedClusterNode toNodeId = identifyNode(absoluteToTag, toTagVersion, entryIndex, streamType);
 
 			if (fromNodeId == null) {
