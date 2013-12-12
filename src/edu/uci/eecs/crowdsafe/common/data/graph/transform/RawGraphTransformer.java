@@ -199,9 +199,6 @@ public class RawGraphTransformer {
 			int tagVersion = CrowdSafeTraceUtil.getTagVersion(nodeEntry.first);
 			MetaNodeType nodeType = CrowdSafeTraceUtil.getNodeMetaType(nodeEntry.first);
 
-			if (absoluteTag == 0x684e5850L)
-				toString();
-
 			ModuleInstance moduleInstance;
 			if (nodeType == MetaNodeType.SINGLETON) {
 				if ((absoluteTag == ClusterNode.PROCESS_ENTRY_SINGLETON)
@@ -313,8 +310,6 @@ public class RawGraphTransformer {
 			entryIndex++;
 
 			long absoluteFromTag = CrowdSafeTraceUtil.getTag(edgeEntry.first);
-			if (absoluteFromTag == 0x684e5850L)
-				toString();
 			int fromTagVersion = CrowdSafeTraceUtil.getTagVersion(edgeEntry.first);
 			IndexedClusterNode fromNodeId = identifyNode(absoluteFromTag, fromTagVersion, entryIndex, streamType);
 
@@ -348,16 +343,6 @@ public class RawGraphTransformer {
 				Log.log("Warning: high ordinal in %s edge (0x%x-v%d) -%s-%d-> (0x%x-v%d)",
 						fromNodeId.cluster.getUnitFilename(), absoluteFromTag, fromTagVersion, type.code, ordinal,
 						absoluteToTag, toTagVersion);
-
-			/**
-			 * <pre>
-			if (fromNodeId.cluster == ConfiguredSoftwareDistributions.ANONYMOUS_CLUSTER) {
-				if ((blackBoxSingletons.containsValue(fromNodeId.node))
-						|| (blackBoxSingletons.containsValue(toNodeId.node))) {
-					toString();
-				}
-			}
-			 */
 
 			if (fromNodeId.cluster == toNodeId.cluster) {
 				RawEdge edge = new RawEdge(fromNodeId, toNodeId, type, ordinal);
