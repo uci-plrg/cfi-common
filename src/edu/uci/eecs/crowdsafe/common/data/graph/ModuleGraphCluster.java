@@ -291,7 +291,8 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 			}
 		}
 		 */
-		Log.log("%d unreachable nodes for %s", unreachableNodes.size(), name);
+		if (!unreachableNodes.isEmpty())
+			Log.log("%d unreachable nodes for %s", unreachableNodes.size(), name);
 
 		if (!CrowdSafeDebug.LOG_UNREACHABLE_ENTRY_POINTS)
 			return;
