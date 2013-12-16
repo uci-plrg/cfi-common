@@ -48,10 +48,6 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 	private final Map<EdgeType, MutableInteger> interModuleEdgeTypeCounts = new EnumMap<EdgeType, MutableInteger>(
 			EdgeType.class);
 
-	private int maxIntraModuleEdges = 0;
-	private int maxCalloutEdges = 0;
-	private int maxExportEdges = 0;
-
 	private int executableNodeCount = 0;
 
 	private boolean analyzed = false;
@@ -189,14 +185,11 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 		analyzed = false;
 	}
 
-	public void analyzeGraph() {
+	public void analyzeGraph(boolean analyzeReachability) {
 		if (analyzed)
 			return;
 
 		analyzed = true;
-
-		unreachableNodes.clear();
-		unreachableNodes.addAll(graphData.nodesByKey.values());
 
 		intraModuleEdgeTypeCounts.clear();
 		interModuleEdgeTypeCounts.clear();
@@ -204,13 +197,40 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 			intraModuleEdgeTypeCounts.put(type, new MutableInteger(0));
 			interModuleEdgeTypeCounts.put(type, new MutableInteger(0));
 		}
+		unreachableNodes.clear();
 
-		int intraModuleEdges;
-		int calloutEdges;
-		int exportEdges;
-		maxIntraModuleEdges = 0;
-		maxCalloutEdges = 0;
-		maxExportEdges = 0;
+		if (analyzeReachability)
+			analyzeReachability();
+		else
+			edgeStudy(graphData.nodesByKey.values());
+	}
+
+	private void edgeStudy(Iterable<EdgeEndpointType> nodes) {
+		for (EdgeEndpointType node : nodes) {
+			OrdinalEdgeList<EdgeEndpointType> edgeList = node.getOutgoingEdges();
+			try {
+				for (Edge<EdgeEndpointType> edge : edgeList) {
+					if (edge.getEdgeType() == EdgeType.CLUSTER_ENTRY) {
+						interModuleEdgeTypeCounts.get(edge.getEdgeType()).increment();
+					} else {
+						EdgeEndpointType neighbor = edge.getToNode();
+						switch (neighbor.getType()) {
+							case CLUSTER_EXIT:
+								interModuleEdgeTypeCounts.get(edge.getEdgeType()).increment();
+								break;
+							default:
+								intraModuleEdgeTypeCounts.get(edge.getEdgeType()).increment();
+						}
+					}
+				}
+			} finally {
+				edgeList.release();
+			}
+		}
+	}
+
+	private void analyzeReachability() {
+		unreachableNodes.addAll(graphData.nodesByKey.values());
 
 		Set<EdgeEndpointType> visitedNodes = new HashSet<EdgeEndpointType>();
 		Queue<EdgeEndpointType> bfsQueue = new LinkedList<EdgeEndpointType>();
@@ -228,9 +248,6 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 			unreachableNodes.remove(node);
 			visitedNodes.add(node);
 
-			intraModuleEdges = 0;
-			calloutEdges = 0;
-			exportEdges = 0;
 			OrdinalEdgeList<EdgeEndpointType> edgeList = node.getOutgoingEdges();
 			try {
 				for (Edge<EdgeEndpointType> edge : edgeList) {
@@ -241,11 +258,9 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 					}
 					switch (neighbor.getType()) {
 						case CLUSTER_EXIT:
-							calloutEdges++;
 							interModuleEdgeTypeCounts.get(edge.getEdgeType()).increment();
 							break;
 						default:
-							intraModuleEdges++;
 							intraModuleEdgeTypeCounts.get(edge.getEdgeType()).increment();
 					}
 				}
@@ -256,73 +271,53 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 			edgeList = node.getIncomingEdges();
 			try {
 				for (Edge<EdgeEndpointType> edge : edgeList) {
-					if (edge.getEdgeType() == EdgeType.CLUSTER_ENTRY)
-						exportEdges++;
+					if (edge.getEdgeType() == EdgeType.CLUSTER_ENTRY) {
+						interModuleEdgeTypeCounts.get(edge.getEdgeType()).increment();
+					}
 				}
 			} finally {
 				edgeList.release();
 			}
-
-			if (intraModuleEdges > maxIntraModuleEdges)
-				maxIntraModuleEdges = intraModuleEdges;
-			if (calloutEdges > maxCalloutEdges)
-				maxCalloutEdges = calloutEdges;
-			if (exportEdges > maxExportEdges)
-				maxExportEdges = exportEdges;
 		}
-
-		Log.log("Max intra-module edges for a single node: %d", maxIntraModuleEdges);
-		Log.log("Max callout edges for a single node: %d", maxCalloutEdges);
-		Log.log("Max export edges for a single node: %d", maxExportEdges);
-
-		/**
-		 * <pre>
-		for (EdgeEndpointType unreachable : new ArrayList<EdgeEndpointType>(unreachableNodes)) {
-			if (unreachable.getType() == MetaNodeType.CLUSTER_EXIT) {
-				OrdinalEdgeList<EdgeEndpointType> edgeList = unreachable.getIncomingEdges();
-				try {
-					for (Edge<EdgeEndpointType> edge : edgeList) {
-						if (edge.getFromNode().getRelativeTag() == ClusterNode.PROCESS_ENTRY_SINGLETON)
-							unreachableNodes.remove(unreachable);
-					}
-				} finally {
-					edgeList.release();
-				}
-			}
-		}
-		 */
-		if (!unreachableNodes.isEmpty())
-			Log.log("%d unreachable nodes for %s", unreachableNodes.size(), name);
 
 		if (!CrowdSafeDebug.LOG_UNREACHABLE_ENTRY_POINTS)
 			return;
 
-		Set<EdgeEndpointType> missedEntries = new HashSet<EdgeEndpointType>();
-		for (EdgeEndpointType node : unreachableNodes) {
-			boolean reachableFromUnreachables = false;
-			for (Edge<EdgeEndpointType> edge : node.getIncomingEdges()) {
-				if (unreachableNodes.contains(edge.getFromNode())) {
-					reachableFromUnreachables = true;
+		if (!unreachableNodes.isEmpty()) {
+			edgeStudy(unreachableNodes);
+
+			Log.log("%d unreachable nodes for %s", unreachableNodes.size(), name);
+
+			if (!CrowdSafeDebug.LOG_UNREACHABLE_ENTRY_POINTS)
+				return;
+
+			Set<EdgeEndpointType> missedEntries = new HashSet<EdgeEndpointType>();
+			for (EdgeEndpointType node : unreachableNodes) {
+				boolean reachableFromUnreachables = false;
+				for (Edge<EdgeEndpointType> edge : node.getIncomingEdges()) {
+					if (unreachableNodes.contains(edge.getFromNode())) {
+						reachableFromUnreachables = true;
+						break;
+					}
+				}
+				if (!reachableFromUnreachables)
+					missedEntries.add(node);
+			}
+
+			int limitCounter = 0;
+			for (EdgeEndpointType node : missedEntries) {
+				if (++limitCounter == CrowdSafeDebug.MAX_UNREACHABLE_NODE_REPORT) {
+					Log.log("\t...");
 					break;
 				}
-			}
-			if (!reachableFromUnreachables)
-				missedEntries.add(node);
-		}
 
-		int limitCounter = 0;
-		for (EdgeEndpointType node : missedEntries) {
-			if (++limitCounter == CrowdSafeDebug.MAX_UNREACHABLE_NODE_REPORT) {
-				Log.log("\t...");
-				break;
-			}
-
-			if (node.hasIncomingEdges()) {
-				for (Edge<EdgeEndpointType> edge : node.getIncomingEdges()) {
-					Log.log("\tMissed incoming edge %s", edge);
+				if (node.hasIncomingEdges()) {
+					for (Edge<EdgeEndpointType> edge : node.getIncomingEdges()) {
+						Log.log("\tMissed incoming edge %s", edge);
+					}
+				} else {
+					Log.log("\tNo entry points into %s", node);
 				}
-			} else {
-				Log.log("\tNo entry points into %s", node);
 			}
 		}
 	}
@@ -395,7 +390,10 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 		}
 	}
 
-	public Graph.Cluster summarize() {
+	public Graph.Cluster summarize(boolean reportUnreachableSubgraphs) {
+		if (!analyzed)
+			throw new IllegalStateException("Cannot summarize a graph that has not been analyzed!");
+
 		Graph.Cluster.Builder clusterBuilder = Graph.Cluster.newBuilder();
 		Graph.Module.Builder moduleBuilder = Graph.Module.newBuilder();
 		Graph.ModuleInstance.Builder moduleInstanceBuilder = Graph.ModuleInstance.newBuilder();
@@ -420,33 +418,35 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 			clusterBuilder.addModule(moduleInstanceBuilder.build());
 		}
 
-		Set<EdgeEndpointType> unreachableNodes = getUnreachableNodes();
-		if (!unreachableNodes.isEmpty()) {
-			for (Node<?> unreachableNode : unreachableNodes) {
-				unreachableBuilder.clear().setNode(nodeFactory.buildNode(unreachableNode));
-				unreachableBuilder.setIsEntryPoint(true);
+		if (reportUnreachableSubgraphs) {
+			Set<EdgeEndpointType> unreachableNodes = getUnreachableNodes();
+			if (!unreachableNodes.isEmpty()) {
+				for (Node<?> unreachableNode : unreachableNodes) {
+					unreachableBuilder.clear().setNode(nodeFactory.buildNode(unreachableNode));
+					unreachableBuilder.setIsEntryPoint(true);
 
-				OrdinalEdgeList<?> edgeList = unreachableNode.getIncomingEdges();
-				try {
-					if (!edgeList.isEmpty()) {
-						for (Edge<?> incoming : edgeList) {
-							if (unreachableNodes.contains(incoming.getFromNode())) {
-								unreachableBuilder.setIsEntryPoint(false);
-							} else {
-								moduleBuilder.setName(incoming.getFromNode().getModule().unit.filename);
-								moduleBuilder.setVersion(incoming.getFromNode().getModule().unit.version);
-								nodeBuilder.setModule(moduleBuilder.build());
-								edgeBuilder.clear().setFromNode(nodeBuilder.build());
-								edgeBuilder.setToNode(unreachableBuilder.getNode());
-								edgeBuilder.setType(incoming.getEdgeType().mapToResultType());
-								unreachableBuilder.addMissedIncomingEdge(edgeBuilder.build());
+					OrdinalEdgeList<?> edgeList = unreachableNode.getIncomingEdges();
+					try {
+						if (!edgeList.isEmpty()) {
+							for (Edge<?> incoming : edgeList) {
+								if (unreachableNodes.contains(incoming.getFromNode())) {
+									unreachableBuilder.setIsEntryPoint(false);
+								} else {
+									moduleBuilder.setName(incoming.getFromNode().getModule().unit.filename);
+									moduleBuilder.setVersion(incoming.getFromNode().getModule().unit.version);
+									nodeBuilder.setModule(moduleBuilder.build());
+									edgeBuilder.clear().setFromNode(nodeBuilder.build());
+									edgeBuilder.setToNode(unreachableBuilder.getNode());
+									edgeBuilder.setType(incoming.getEdgeType().mapToResultType());
+									unreachableBuilder.addMissedIncomingEdge(edgeBuilder.build());
+								}
 							}
 						}
+					} finally {
+						edgeList.release();
 					}
-				} finally {
-					edgeList.release();
+					clusterBuilder.addUnreachable(unreachableBuilder.build());
 				}
-				clusterBuilder.addUnreachable(unreachableBuilder.build());
 			}
 		}
 

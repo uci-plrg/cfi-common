@@ -113,7 +113,7 @@ public class ProcessExecutionGraph {
 
 		for (AutonomousSoftwareDistribution dist : moduleGraphs.keySet()) {
 			ModuleGraphCluster<ExecutionNode> cluster = moduleGraphs.get(dist);
-			processBuilder.addCluster(cluster.summarize());
+			processBuilder.addCluster(cluster.summarize(cluster.cluster.isAnonymous()));
 		}
 
 		return processBuilder.build();
