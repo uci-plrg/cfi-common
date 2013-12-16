@@ -83,7 +83,7 @@ public class GraphSummaryPrinter {
 		ClusterGraphLoadSession loadSession = new ClusterGraphLoadSession(dataSource);
 		for (AutonomousSoftwareDistribution cluster : dataSource.getReprsentedClusters()) {
 			ModuleGraphCluster<?> graph = loadSession.loadClusterGraph(cluster);
-			processBuilder.addCluster(graph.summarize());
+			processBuilder.addCluster(graph.summarize(cluster.isAnonymous()));
 		}
 
 		return processBuilder.build();
