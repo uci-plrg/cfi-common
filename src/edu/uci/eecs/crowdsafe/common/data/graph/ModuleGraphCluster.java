@@ -171,7 +171,6 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 				addClusterExitNode(node);
 				break;
 			default:
-				// graphData.nodesByHash.add(node);
 				executableNodeCount++;
 				graphs.get(node.getModule().unit).incrementExecutableBlockCount();
 				//$FALL-THROUGH$
