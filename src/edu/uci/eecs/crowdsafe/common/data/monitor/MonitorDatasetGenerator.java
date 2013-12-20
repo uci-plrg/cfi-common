@@ -448,6 +448,7 @@ public class MonitorDatasetGenerator {
 	private void generateConcatenationScript() throws IOException {
 		File script = new File(outputFile.getParentFile(), "concatenate");
 		script.setExecutable(true);
+		
 		PrintWriter writer = new PrintWriter(script);
 
 		writer.println("#!/bin/bash");

@@ -35,7 +35,7 @@ echo "Logging to "$logfile
 echo "Transforming monitor data into "$output_file
 
 #echo "java -cp $cp $main_class $@"
-java -Xms512M -Xmx1536M -cp $cp $main_class -o $output_file $graph_dir &> $logfile
+java -Xms512M -Xmx2048M -cp $cp $main_class -o $output_file $graph_dir &> $logfile
 
 concatenate_script=$(dirname $output_file)/concatenate
 $concatenate_script
