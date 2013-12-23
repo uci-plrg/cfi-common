@@ -1,0 +1,58 @@
+package edu.uci.eecs.crowdsafe.common.util;
+
+import edu.uci.eecs.crowdsafe.common.data.graph.Edge;
+import edu.uci.eecs.crowdsafe.common.data.graph.EdgeType;
+import edu.uci.eecs.crowdsafe.common.data.graph.Node;
+import edu.uci.eecs.crowdsafe.common.data.graph.OrdinalEdgeList;
+
+public class ModuleEdgeCounter {
+	private final EdgeCounter intraCounts = new EdgeCounter();
+	private final EdgeCounter interCounts = new EdgeCounter();
+
+	public void reset() {
+		intraCounts.reset();
+		interCounts.reset();
+	}
+
+	public int getInterCount(EdgeType type) {
+		return interCounts.getCount(type);
+	}
+
+	public int getIntraCount(EdgeType type) {
+		return intraCounts.getCount(type);
+	}
+
+	public void tally(Edge<? extends Node<?>> edge) {
+		if (edge.getEdgeType() == EdgeType.CLUSTER_ENTRY) {
+			interCounts.tally(edge.getEdgeType());
+		} else {
+			Node<?> neighbor = edge.getToNode();
+			switch (neighbor.getType()) {
+				case CLUSTER_EXIT:
+					interCounts.tally(edge.getEdgeType());
+					break;
+				default:
+					intraCounts.tally(edge.getEdgeType());
+			}
+		}
+	}
+
+	public void tallyOutgoingEdges(Node<?> node) {
+		OrdinalEdgeList<? extends Node<?>> edgeList = node.getOutgoingEdges();
+		try {
+			for (Edge<? extends Node<?>> edge : edgeList) {
+				tally(edge);
+			}
+		} finally {
+			edgeList.release();
+		}
+	}
+
+	public void tallyIntraEdge(EdgeType type) {
+		intraCounts.tally(type);
+	}
+
+	public void tallyInterEdge(EdgeType type) {
+		interCounts.tally(type);
+	}
+}
