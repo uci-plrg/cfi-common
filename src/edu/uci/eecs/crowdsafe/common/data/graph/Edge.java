@@ -21,12 +21,6 @@ public class Edge<EndpointType extends Node<?>> implements ClusterDataWriter.Edg
 		this.toNode = toNode;
 		this.edgeType = edgeType;
 		this.ordinal = ordinal;
-
-		if (toNode.getType() == MetaNodeType.CLUSTER_ENTRY)
-			toNode.toString();
-
-		if (fromNode.getRelativeTag() == 0x1ea8eL)
-			fromNode.toString();
 	}
 
 	public void setEdgeType(EdgeType edgeType) {

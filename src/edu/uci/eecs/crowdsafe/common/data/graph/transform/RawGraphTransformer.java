@@ -198,7 +198,7 @@ public class RawGraphTransformer {
 			long absoluteTag = CrowdSafeTraceUtil.getTag(nodeEntry.first);
 			int tagVersion = CrowdSafeTraceUtil.getTagVersion(nodeEntry.first);
 			MetaNodeType nodeType = CrowdSafeTraceUtil.getNodeMetaType(nodeEntry.first);
-
+			
 			ModuleInstance moduleInstance;
 			if (nodeType == MetaNodeType.SINGLETON) {
 				if ((absoluteTag == ClusterNode.PROCESS_ENTRY_SINGLETON)
