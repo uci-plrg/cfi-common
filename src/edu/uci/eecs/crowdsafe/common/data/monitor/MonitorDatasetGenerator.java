@@ -19,6 +19,7 @@ import edu.uci.eecs.crowdsafe.common.data.dist.AutonomousSoftwareDistribution;
 import edu.uci.eecs.crowdsafe.common.data.dist.ConfiguredSoftwareDistributions;
 import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareUnit;
 import edu.uci.eecs.crowdsafe.common.data.graph.Edge;
+import edu.uci.eecs.crowdsafe.common.data.graph.EdgeType;
 import edu.uci.eecs.crowdsafe.common.data.graph.MetaNodeType;
 import edu.uci.eecs.crowdsafe.common.data.graph.ModuleGraphCluster;
 import edu.uci.eecs.crowdsafe.common.data.graph.Node;
@@ -100,7 +101,7 @@ public class MonitorDatasetGenerator {
 		}
 	}
 
-	public static final int INTRA_MODULE_EDGE_MASK = 0xfff;
+	public static final int INTRA_MODULE_EDGE_MASK = 0x7ff;
 	public static final int CALLOUT_EDGE_MASK = 0xfff;
 	public static final int EXPORT_EDGE_MASK = 0xff;
 
@@ -232,12 +233,14 @@ public class MonitorDatasetGenerator {
 
 			int edgeCountWord;
 			int intraModuleWord;
+			boolean isIntraModuleIndirectTarget;
 			for (ClusterBasicBlock node : nodeSorter) {
 				nodePointers.put(node, baseOffset + writer.getCursor());
 
 				intraModule.clear();
 				callSites.clear();
 				exports.clear();
+				isIntraModuleIndirectTarget = false;
 
 				OrdinalEdgeList<ClusterNode<?>> edges = node.getOutgoingEdges();
 				try {
@@ -257,6 +260,8 @@ public class MonitorDatasetGenerator {
 					for (Edge<ClusterNode<?>> edge : edges) {
 						if (edge.getFromNode().getType() == MetaNodeType.CLUSTER_ENTRY) {
 							exports.add(edge);
+						} else {
+							isIntraModuleIndirectTarget |= (edge.getEdgeType() == EdgeType.INDIRECT);
 						}
 					}
 				} finally {
@@ -276,7 +281,8 @@ public class MonitorDatasetGenerator {
 							"Export edge count %d exceeds the data format limit of %d for node %s", exports.size(),
 							EXPORT_EDGE_MASK, node));
 
-				edgeCountWord = intraModule.size();
+				edgeCountWord = (isIntraModuleIndirectTarget ? 1 : 0);
+				edgeCountWord |= intraModule.size() << 1;
 				edgeCountWord |= (callSites.size() << 0xc);
 				edgeCountWord |= (exports.size() << 0x18);
 				writer.writeInt(edgeCountWord);
