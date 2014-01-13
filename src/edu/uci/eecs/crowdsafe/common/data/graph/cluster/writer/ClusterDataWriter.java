@@ -137,8 +137,10 @@ public class ClusterDataWriter<NodeType extends NodeIdentifier> {
 				for (ClusterUIB uib : execution.uibs) {
 					writeUIB(edgeIndexMap.get(uib.edge), uib.isAdmitted, uib.traversalCount, uib.instanceCount);
 				}
-				for (ClusterUIBInterval interval : execution.intervals) {
-					writeUIBInterval(interval.span, interval.count, interval.maxConsecutive);
+				for (ClusterUIBInterval.Type type : ClusterUIBInterval.Type.values()) {
+					for (ClusterUIBInterval interval : execution.getIntervals(type)) {
+						writeUIBInterval(interval.span, interval.count, interval.maxConsecutive);
+					}
 				}
 			}
 		}

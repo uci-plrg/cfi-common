@@ -8,6 +8,9 @@ import edu.uci.eecs.crowdsafe.common.data.DataMessageType;
 import edu.uci.eecs.crowdsafe.common.data.dist.AutonomousSoftwareDistribution;
 import edu.uci.eecs.crowdsafe.common.data.graph.ModuleGraphCluster;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.loader.ClusterGraphLoadSession;
+import edu.uci.eecs.crowdsafe.common.data.graph.cluster.metadata.ClusterMetadataExecution;
+import edu.uci.eecs.crowdsafe.common.data.graph.cluster.metadata.ClusterMetadataSequence;
+import edu.uci.eecs.crowdsafe.common.data.graph.cluster.metadata.ClusterUIBInterval;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.ProcessExecutionGraph;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.loader.ProcessGraphLoadSession;
 import edu.uci.eecs.crowdsafe.common.data.results.Graph;
@@ -79,11 +82,47 @@ public class GraphSummaryPrinter {
 		Graph.Process.Builder processBuilder = Graph.Process.newBuilder();
 		processBuilder.setName(directory.getName());
 
+		ModuleGraphCluster<?> mainGraph = null;
+
 		ClusterTraceDataSource dataSource = new ClusterTraceDirectory(directory).loadExistingFiles();
 		ClusterGraphLoadSession loadSession = new ClusterGraphLoadSession(dataSource);
 		for (AutonomousSoftwareDistribution cluster : dataSource.getReprsentedClusters()) {
 			ModuleGraphCluster<?> graph = loadSession.loadClusterGraph(cluster);
 			processBuilder.addCluster(graph.summarize(cluster.isAnonymous()));
+
+			if (graph.metadata.isMain())
+				mainGraph = graph;
+		}
+
+		if (mainGraph != null) {
+			Graph.ProcessMetadataHistory.Builder metadataHistoryBuilder = Graph.ProcessMetadataHistory.newBuilder();
+			Graph.ProcessMetadataSequence.Builder metadataSequenceBuilder = Graph.ProcessMetadataSequence.newBuilder();
+			Graph.ProcessMetadata.Builder metadataBuilder = Graph.ProcessMetadata.newBuilder();
+			Graph.IntervalGroup.Builder intervalGroupBuilder = Graph.IntervalGroup.newBuilder();
+			Graph.Interval.Builder intervalBuilder = Graph.Interval.newBuilder();
+
+			for (ClusterMetadataSequence sequence : mainGraph.metadata.sequences.values()) {
+				for (ClusterMetadataExecution execution : sequence.executions) {
+					for (ClusterUIBInterval.Type type : ClusterUIBInterval.Type.values()) {
+						intervalGroupBuilder.setType(type.getResultType());
+						for (ClusterUIBInterval interval : execution.intervals.get(type)) {
+							intervalBuilder.setSpan(interval.span);
+							intervalBuilder.setOccurences(interval.count);
+							intervalBuilder.setMaxConsecutive(interval.maxConsecutive);
+							intervalGroupBuilder.addInterval(intervalBuilder.build());
+							intervalBuilder.clear();
+						}
+						metadataBuilder.addIntervalGroup(intervalGroupBuilder.build());
+						intervalGroupBuilder.clear();
+					}
+					metadataSequenceBuilder.addExecution(metadataBuilder.build());
+					metadataBuilder.clear();
+				}
+				metadataHistoryBuilder.addSequence(metadataSequenceBuilder.build());
+				metadataSequenceBuilder.clear();
+			}
+
+			processBuilder.setMetadata(metadataHistoryBuilder.build());
 		}
 
 		return processBuilder.build();

@@ -12,7 +12,6 @@ import java.util.Set;
 import edu.uci.eecs.crowdsafe.common.data.dist.AutonomousSoftwareDistribution;
 import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareUnit;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.metadata.ClusterMetadata;
-import edu.uci.eecs.crowdsafe.common.data.graph.cluster.metadata.ClusterMetadataSequence;
 import edu.uci.eecs.crowdsafe.common.data.results.Graph;
 import edu.uci.eecs.crowdsafe.common.data.results.NodeResultsFactory;
 import edu.uci.eecs.crowdsafe.common.log.Log;
@@ -372,6 +371,7 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 		Graph.Edge.Builder edgeBuilder = Graph.Edge.newBuilder();
 		Graph.EdgeTypeCount.Builder edgeTypeCountBuilder = Graph.EdgeTypeCount.newBuilder();
 		NodeResultsFactory nodeFactory = new NodeResultsFactory(moduleBuilder, nodeBuilder);
+		Graph.ModuleMetadataHistory.Builder metadataHistoryBuilder = Graph.ModuleMetadataHistory.newBuilder();
 
 		int clusterNodeCount = getNodeCount();
 
@@ -430,6 +430,9 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 			edgeTypeCountBuilder.setCount(edgeCounter.getIntraCount(type));
 			clusterBuilder.addIntraModuleEdgeCount(edgeTypeCountBuilder.build());
 		}
+
+		// metatodo
+		clusterBuilder.setMetadata(metadataHistoryBuilder.build());
 
 		return clusterBuilder.build();
 	}

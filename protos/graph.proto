@@ -7,6 +7,7 @@ message Process {
   optional int32 id = 1;
   optional string name = 2;
   repeated Cluster cluster = 3;
+  optional ProcessMetadataHistory metadata = 4;
 }
 
 message Cluster {
@@ -19,6 +20,7 @@ message Cluster {
   repeated UnreachableNode unreachable = 6;
   repeated EdgeTypeCount intra_module_edge_count = 7;
   repeated EdgeTypeCount inter_module_edge_count = 8;
+  optional ModuleMetadataHistory metadata = 10;
 }
 
 message Module {
@@ -29,6 +31,7 @@ message Module {
 message ModuleInstance {
   optional Module module = 1;
   optional int32 node_count = 2;
+  optional ModuleMetadata metadata = 3;
 }
 
 message Node {
@@ -63,4 +66,54 @@ message EdgeTypeCount {
   optional EdgeType type = 1;
   optional int32 count = 2;
 }
-  
+
+enum EvaluationType {
+	TOTAL = 0;
+	ADMITTED = 1;
+	SUSPICIOUS = 2;
+}
+
+message UIBObservation {
+	optional EvaluationType type = 1;
+	optional int32 instance_count = 2;
+	optional int32 traversal_count = 3;
+}
+
+message ModuleMetadata {
+	repeated UIBObservation total_observed = 1;
+	repeated UIBObservation inter_module_observed = 2;
+	repeated UIBObservation cross_module_observed = 3;
+}
+
+message ModuleMetadataSequence {
+	optional bool is_root = 1;
+	repeated ModuleMetadata execution = 2;
+}
+
+message ModuleMetadataHistory {
+	repeated ModuleMetadataSequence sequence = 1;
+}
+
+message Interval {
+	optional int32 span = 1;
+	optional int32 occurences = 2;
+	optional int32 max_consecutive = 3;
+}
+
+message IntervalGroup {
+	optional EvaluationType type = 1;
+	repeated Interval interval = 2;
+}
+
+message ProcessMetadata {
+	repeated IntervalGroup interval_group = 1;
+}
+
+message ProcessMetadataSequence {
+	optional bool is_root = 1;
+	repeated ProcessMetadata execution = 2;
+}
+
+message ProcessMetadataHistory {
+	repeated ProcessMetadataSequence sequence = 1;
+}

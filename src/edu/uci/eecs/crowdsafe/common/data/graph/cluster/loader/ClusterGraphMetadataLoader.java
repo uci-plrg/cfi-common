@@ -74,7 +74,7 @@ public class ClusterGraphMetadataLoader {
 			int maxConsecutive = ((int) ((intervalData >> 0x10) & 0xffffL));
 			int count = ((int) ((intervalData >> 0x20) & 0x7fffffffL));
 			ClusterUIBInterval interval = new ClusterUIBInterval(typeId, span, count, maxConsecutive);
-			execution.intervals.add(interval);
+			execution.addInterval(interval);
 		}
 
 		return execution;

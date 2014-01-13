@@ -1,11 +1,25 @@
 package edu.uci.eecs.crowdsafe.common.data.graph.cluster.metadata;
 
+import edu.uci.eecs.crowdsafe.common.data.results.Graph;
+
 public class ClusterUIBInterval {
 
 	public enum Type {
 		TOTAL,
 		ADMITTED,
 		SUSPICIOUS;
+
+		public Graph.EvaluationType getResultType() {
+			switch (this) {
+				case TOTAL:
+					return Graph.EvaluationType.TOTAL;
+				case ADMITTED:
+					return Graph.EvaluationType.ADMITTED;
+				case SUSPICIOUS:
+					return Graph.EvaluationType.SUSPICIOUS;
+			}
+			return null;
+		}
 
 		static Type forId(int id) {
 			switch (id) {

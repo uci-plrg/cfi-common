@@ -6,6 +6,7 @@ import java.util.UUID;
 
 public class ClusterMetadata {
 
+	private boolean isMain = false;
 	private ClusterMetadataSequence rootSequence;
 	public final Map<UUID, ClusterMetadataSequence> sequences = new HashMap<UUID, ClusterMetadataSequence>();
 
@@ -16,10 +17,13 @@ public class ClusterMetadata {
 		ClusterMetadataSequence existingSequence = sequences.get(newSequence.id);
 		if (existingSequence == null) {
 			if (newSequence.isRoot()) {
-				if (rootSequence == null)
+				if (rootSequence == null) {
 					rootSequence = newSequence;
-				else
+					if (rootSequence.hasIntervals())
+						isMain = true;
+				} else {
 					newSequence.setRoot(false);
+				}
 			}
 			sequences.put(newSequence.id, newSequence);
 		} else if (!newSequence.equals(existingSequence)) {
@@ -29,6 +33,10 @@ public class ClusterMetadata {
 
 	public ClusterMetadataSequence getRootSequence() {
 		return rootSequence;
+	}
+
+	public boolean isMain() {
+		return isMain;
 	}
 
 	public boolean isEmpty() {

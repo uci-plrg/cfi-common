@@ -119,7 +119,7 @@ public class ProcessExecutionGraph {
 			ModuleGraphCluster<ExecutionNode> cluster = moduleGraphs.get(dist);
 			processBuilder.addCluster(cluster.summarize(cluster.cluster.isAnonymous()));
 		}
-
+		
 		return processBuilder.build();
 	}
 
