@@ -37,11 +37,11 @@ public class ExecutionTraceDirectory implements ExecutionTraceDataSource {
 			ExecutionTraceStreamType.class);
 
 	public ExecutionTraceDirectory(File dir) throws TraceDataSourceException {
-		this(dir, ALL_STREAM_TYPES);
+		this(dir, ALL_STREAM_TYPES, ALL_STREAM_TYPES);
 	}
 
-	public ExecutionTraceDirectory(File directory, Set<ExecutionTraceStreamType> streamTypes)
-			throws TraceDataSourceException {
+	public ExecutionTraceDirectory(File directory, Set<ExecutionTraceStreamType> streamTypes,
+			Set<ExecutionTraceStreamType> requiredTypes) throws TraceDataSourceException {
 		this.directory = directory;
 		if (!(directory.exists() && directory.isDirectory())) {
 			if (directory.isDirectory())
@@ -67,8 +67,8 @@ public class ExecutionTraceDirectory implements ExecutionTraceDataSource {
 			}
 		}
 
-		if (files.size() != streamTypes.size()) {
-			Set<ExecutionTraceStreamType> requiredTypes = EnumSet.copyOf(streamTypes);
+		if (files.size() < requiredTypes.size()) {
+			requiredTypes = EnumSet.copyOf(requiredTypes);
 			requiredTypes.removeAll(files.keySet());
 			throw new TraceDataSourceException(String.format("Required data files are missing from directory %s: %s",
 					directory.getAbsolutePath(), requiredTypes));
@@ -108,6 +108,8 @@ public class ExecutionTraceDirectory implements ExecutionTraceDataSource {
 	@Override
 	public LittleEndianInputStream getLittleEndianInputStream(ExecutionTraceStreamType streamType) throws IOException {
 		File file = files.get(streamType);
+		if (file == null)
+			return null;
 		return new LittleEndianInputStream(new FileInputStream(file), "file:" + file.getAbsolutePath());
 	}
 

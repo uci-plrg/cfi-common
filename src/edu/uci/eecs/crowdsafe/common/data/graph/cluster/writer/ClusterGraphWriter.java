@@ -39,10 +39,14 @@ public class ClusterGraphWriter implements ClusterDataWriter.ClusterData<Cluster
 			}
 		}
 
+		int edgeIndex = 0;
+		Map<Edge<ClusterNode<?>>, Integer> edgeIndexMap = new HashMap<Edge<ClusterNode<?>>, Integer>();
 		for (Edge<ClusterNode<?>> edge : allEdges) {
 			dataWriter.writeEdge(edge);
+			edgeIndexMap.put(edge, edgeIndex++);
 		}
 
+		dataWriter.writeMetadataHistory(graph.graph.metadata, edgeIndexMap);
 		dataWriter.writeModules();
 
 		dataWriter.flush();

@@ -4,25 +4,21 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.Multimap;
+import java.util.TreeMap;
+import java.util.UUID;
 
 import edu.uci.eecs.crowdsafe.common.config.CrowdSafeConfiguration;
 import edu.uci.eecs.crowdsafe.common.data.dist.AutonomousSoftwareDistribution;
 import edu.uci.eecs.crowdsafe.common.data.dist.ConfiguredSoftwareDistributions;
 import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareModule;
-import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareUnit;
-import edu.uci.eecs.crowdsafe.common.data.graph.Edge;
 import edu.uci.eecs.crowdsafe.common.data.graph.EdgeType;
 import edu.uci.eecs.crowdsafe.common.data.graph.MetaNodeType;
-import edu.uci.eecs.crowdsafe.common.data.graph.OrdinalEdgeList;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterBasicBlock;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterBoundaryNode;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterModule;
@@ -45,6 +41,52 @@ import edu.uci.eecs.crowdsafe.common.util.OptionArgumentMap;
 
 public class RawGraphTransformer {
 
+	private enum MetadataType {
+		UIB(0),
+		INTERVAL(1);
+
+		final int id;
+
+		MetadataType(int id) {
+			this.id = id;
+		}
+
+		static MetadataType forId(int id) {
+			switch (id) {
+				case 0:
+					return UIB;
+				case 1:
+					return INTERVAL;
+			}
+			return null;
+		}
+	}
+
+	private static class UnexpectedIndirectBranches {
+		static final Map<Integer, RawUnexpectedIndirectBranch> uibsByEdgeIndex = new TreeMap<Integer, RawUnexpectedIndirectBranch>();
+
+		final List<RawUnexpectedIndirectBranch> uibList = new ArrayList<RawUnexpectedIndirectBranch>();
+
+		void add(RawUnexpectedIndirectBranch uib) {
+			uibList.add(uib);
+		}
+
+		Collection<RawUnexpectedIndirectBranch> sortAndMerge() {
+			uibsByEdgeIndex.clear();
+
+			for (RawUnexpectedIndirectBranch uib : uibList) {
+				RawUnexpectedIndirectBranch match = uibsByEdgeIndex.get(uib.getClusterEdgeIndex());
+				if (match == null) {
+					uibsByEdgeIndex.put(uib.getClusterEdgeIndex(), uib);
+				} else {
+					match.merge(uib);
+				}
+			}
+
+			return uibsByEdgeIndex.values();
+		}
+	}
+
 	private static final OptionArgumentMap.BooleanOption verboseOption = OptionArgumentMap.createBooleanOption('v');
 	private static final OptionArgumentMap.StringOption logOption = OptionArgumentMap.createStringOption('l');
 	private static final OptionArgumentMap.StringOption inputOption = OptionArgumentMap.createStringOption('i');
@@ -63,13 +105,20 @@ public class RawGraphTransformer {
 	private ProcessExecutionModuleSet executionModules = null;
 	private ClusterDataWriter.Directory<IndexedClusterNode> graphWriters = null;
 	private final Map<AutonomousSoftwareDistribution, RawClusterData> nodesByCluster = new HashMap<AutonomousSoftwareDistribution, RawClusterData>();
-	private final Map<AutonomousSoftwareDistribution, Set<RawEdge>> edgesByCluster = new HashMap<AutonomousSoftwareDistribution, Set<RawEdge>>();
+	private final Map<AutonomousSoftwareDistribution, Map<RawEdge, RawEdge>> edgesByCluster = new HashMap<AutonomousSoftwareDistribution, Map<RawEdge, RawEdge>>();
+	private final Map<AutonomousSoftwareDistribution, UnexpectedIndirectBranches> uibsByCluster = new HashMap<AutonomousSoftwareDistribution, UnexpectedIndirectBranches>();
 
 	private final Map<RawTag, IndexedClusterNode> nodesByRawTag = new HashMap<RawTag, IndexedClusterNode>();
 	private final Map<RawTag, Integer> fakeAnonymousModuleTags = new HashMap<RawTag, Integer>();
 	private int fakeAnonymousTagIndex = ClusterNode.FAKE_ANONYMOUS_TAG_START;
 	private final Map<Long, IndexedClusterNode> syscallSingletons = new HashMap<Long, IndexedClusterNode>();
 	private final Map<AutonomousSoftwareDistribution, ClusterNode<?>> blackBoxSingletons = new HashMap<AutonomousSoftwareDistribution, ClusterNode<?>>();
+
+	private int mainModuleStartAddress;
+	private AutonomousSoftwareDistribution mainCluster;
+	private final List<RawUnexpectedIndirectBranchInterval> uibIntervals = new ArrayList<RawUnexpectedIndirectBranchInterval>();
+	private final LinkedList<RawUnexpectedIndirectBranch> intraModuleUIBQueue = new LinkedList<RawUnexpectedIndirectBranch>();
+	private final LinkedList<RawUnexpectedIndirectBranch> crossModuleUIBQueue = new LinkedList<RawUnexpectedIndirectBranch>();
 
 	public RawGraphTransformer(ArgumentStack args) {
 		this.args = args;
@@ -118,7 +167,8 @@ public class RawGraphTransformer {
 						continue;
 					}
 
-					dataSource = new ExecutionTraceDirectory(runDir, ProcessExecutionGraph.EXECUTION_GRAPH_FILE_TYPES);
+					dataSource = new ExecutionTraceDirectory(runDir, ProcessExecutionGraph.EXECUTION_GRAPH_FILE_TYPES,
+							ProcessExecutionGraph.EXECUTION_GRAPH_REQUIRED_FILE_TYPES);
 
 					File outputDir;
 					if (outputOption.getValue() == null) {
@@ -159,21 +209,63 @@ public class RawGraphTransformer {
 	private void transformGraph() throws IOException {
 		executionModules = executionModuleLoader.loadModules(dataSource);
 
+		loadMetadata(ExecutionTraceStreamType.META);
 		transformNodes(ExecutionTraceStreamType.GRAPH_NODE);
 		transformEdges(ExecutionTraceStreamType.GRAPH_EDGE);
 		transformCrossModuleEdges(ExecutionTraceStreamType.CROSS_MODULE_EDGE);
 
 		writeNodes();
 		writeEdges();
+		writeMetadata();
 		writeModules();
 		graphWriters.flush();
+	}
+
+	private void loadMetadata(ExecutionTraceStreamType streamType) throws IOException {
+		LittleEndianInputStream input = dataSource.getLittleEndianInputStream(streamType);
+		if (input == null)
+			return;
+
+		long mainModuleStartAddress = input.readLong();
+		ModuleInstance mainModule = executionModules.getModule(mainModuleStartAddress, 0,
+				ExecutionTraceStreamType.GRAPH_NODE);
+		mainCluster = ConfiguredSoftwareDistributions.getInstance().distributionsByUnit.get(mainModule.unit);
+		Log.log("Main cluster is %s", mainCluster);
+
+		RawGraphEntry.OneWordFactory factory = new RawGraphEntry.OneWordFactory(input);
+
+		// TODO: structure, new entry content, levels
+
+		while (factory.hasMoreEntries()) {
+			RawGraphEntry.OneWordEntry nodeEntry = factory.createEntry();
+
+			MetadataType type = MetadataType.forId((int) (nodeEntry.first & 0xff));
+
+			switch (type) {
+				case UIB:
+					RawUnexpectedIndirectBranch uib = RawUnexpectedIndirectBranch.parse(nodeEntry.first);
+					if (uib.isCrossModule)
+						crossModuleUIBQueue.add(uib);
+					else
+						intraModuleUIBQueue.add(uib);
+					break;
+				case INTERVAL:
+					RawUnexpectedIndirectBranchInterval interval = RawUnexpectedIndirectBranchInterval
+							.parse(nodeEntry.first);
+					uibIntervals.add(interval);
+					break;
+			}
+		}
+
+		Collections.sort(intraModuleUIBQueue, RawUnexpectedIndirectBranch.ExecutionEdgeIndexSorter.INSTANCE);
+		Collections.sort(crossModuleUIBQueue, RawUnexpectedIndirectBranch.ExecutionEdgeIndexSorter.INSTANCE);
 	}
 
 	private void transformNodes(ExecutionTraceStreamType streamType) throws IOException {
 		LittleEndianInputStream input = dataSource.getLittleEndianInputStream(streamType);
 		RawGraphEntry.TwoWordFactory factory = new RawGraphEntry.TwoWordFactory(input);
 
-		RawClusterData nodeData = establishNodeData(ConfiguredSoftwareDistributions.SYSTEM_CLUSTER);
+		RawClusterData nodeData = establishClusterData(ConfiguredSoftwareDistributions.SYSTEM_CLUSTER);
 		nodeData.moduleList.establishModule(ModuleInstance.SYSTEM_MODULE.unit);
 		ClusterNode<?> node = new ClusterBasicBlock(SoftwareModule.SYSTEM_MODULE, ClusterNode.PROCESS_ENTRY_SINGLETON,
 				0, ClusterNode.PROCESS_ENTRY_SINGLETON, MetaNodeType.SINGLETON);
@@ -198,7 +290,7 @@ public class RawGraphTransformer {
 			long absoluteTag = CrowdSafeTraceUtil.getTag(nodeEntry.first);
 			int tagVersion = CrowdSafeTraceUtil.getTagVersion(nodeEntry.first);
 			MetaNodeType nodeType = CrowdSafeTraceUtil.getNodeMetaType(nodeEntry.first);
-			
+
 			ModuleInstance moduleInstance;
 			if (nodeType == MetaNodeType.SINGLETON) {
 				if ((absoluteTag == ClusterNode.PROCESS_ENTRY_SINGLETON)
@@ -231,12 +323,12 @@ public class RawGraphTransformer {
 			if (cluster.isAnonymous()) {
 				if ((absoluteTag == ClusterNode.PROCESS_ENTRY_SINGLETON)
 						|| (absoluteTag == ClusterNode.SYSTEM_SINGLETON)) {
-					clusterModule = establishNodeData(ConfiguredSoftwareDistributions.SYSTEM_CLUSTER).moduleList
+					clusterModule = establishClusterData(ConfiguredSoftwareDistributions.SYSTEM_CLUSTER).moduleList
 							.establishModule(SoftwareModule.SYSTEM_MODULE.unit);
 					cluster = ConfiguredSoftwareDistributions.SYSTEM_CLUSTER;
 					moduleInstance = ModuleInstance.SYSTEM;
 				} else {
-					clusterModule = establishNodeData(ConfiguredSoftwareDistributions.ANONYMOUS_CLUSTER).moduleList
+					clusterModule = establishClusterData(ConfiguredSoftwareDistributions.ANONYMOUS_CLUSTER).moduleList
 							.establishModule(SoftwareModule.ANONYMOUS_MODULE.unit);
 					cluster = ConfiguredSoftwareDistributions.ANONYMOUS_CLUSTER;
 					moduleInstance = ModuleInstance.ANONYMOUS;
@@ -280,9 +372,9 @@ public class RawGraphTransformer {
 				relativeTag = (int) (absoluteTag - moduleInstance.start);
 			}
 
-			nodeData = establishNodeData(cluster);
+			nodeData = establishClusterData(cluster);
 			if ((blackBoxOwner == null) || isNewBlackBoxSingleton) {
-				clusterModule = establishNodeData(cluster).moduleList.establishModule(moduleInstance.unit);
+				clusterModule = establishClusterData(cluster).moduleList.establishModule(moduleInstance.unit);
 				node = new ClusterBasicBlock(clusterModule, relativeTag, cluster.isAnonymous() ? 0 : tagVersion,
 						nodeEntry.second, nodeType);
 				if (isNewBlackBoxSingleton)
@@ -345,11 +437,19 @@ public class RawGraphTransformer {
 						absoluteToTag, toTagVersion);
 
 			if (fromNodeId.cluster == toNodeId.cluster) {
-				RawEdge edge = new RawEdge(fromNodeId, toNodeId, type, ordinal);
+				RawEdge edge;
 				if (fromNodeId.cluster.isAnonymous())
-					establishEdgeSet(ConfiguredSoftwareDistributions.ANONYMOUS_CLUSTER).add(edge);
+					edge = addEdge(ConfiguredSoftwareDistributions.ANONYMOUS_CLUSTER, fromNodeId, toNodeId, type,
+							ordinal);
 				else
-					establishEdgeSet(fromNodeId.cluster).add(edge);
+					edge = addEdge(fromNodeId.cluster, fromNodeId, toNodeId, type, ordinal);
+
+				if ((edge != null) && (!intraModuleUIBQueue.isEmpty())
+						&& (intraModuleUIBQueue.peekFirst().executionEdgeIndex == entryIndex)) {
+					RawUnexpectedIndirectBranch uib = intraModuleUIBQueue.removeFirst();
+					uib.clusterEdge = edge;
+					establishUIBs(fromNodeId.cluster).add(uib);
+				}
 			} else {
 				Log.log("Error! Intra-module edge from %s to %s crosses a cluster boundary (%s to %s)!",
 						fromNodeId.node, toNodeId.node, fromNodeId.cluster, toNodeId.cluster);
@@ -403,27 +503,34 @@ public class RawGraphTransformer {
 						fromNodeId.cluster.getUnitFilename(), absoluteFromTag, fromTagVersion, type.code, ordinal,
 						toNodeId.cluster.getUnitFilename(), absoluteToTag, toTagVersion);
 
-			if (fromNodeId.cluster == toNodeId.cluster) {
-				establishEdgeSet(fromNodeId.cluster).add(new RawEdge(fromNodeId, toNodeId, type, ordinal));
+			if (fromNodeId.cluster == toNodeId.cluster) { // TODO: why is this possible? what about UIB?
+				addEdge(fromNodeId.cluster, fromNodeId, toNodeId, type, ordinal);
 			} else if (fromNodeId.cluster.isAnonymous() && toNodeId.cluster.isAnonymous()) {
-				establishEdgeSet(ConfiguredSoftwareDistributions.ANONYMOUS_CLUSTER).add(
-						new RawEdge(fromNodeId, toNodeId, type, ordinal));
+				addEdge(ConfiguredSoftwareDistributions.ANONYMOUS_CLUSTER, fromNodeId, toNodeId, type, ordinal);
 			} else {
 				ClusterBoundaryNode entry = new ClusterBoundaryNode(hash, MetaNodeType.CLUSTER_ENTRY);
 				IndexedClusterNode entryId = nodesByCluster.get(toNodeId.cluster).addNode(entry);
-				establishEdgeSet(toNodeId.cluster).add(new RawEdge(entryId, toNodeId, EdgeType.CLUSTER_ENTRY, 0));
+				RawEdge rawEntry = addEdge(toNodeId.cluster, entryId, toNodeId, EdgeType.CLUSTER_ENTRY, 0);
 
-				// if ((fromNodeId.node.getRelativeTag() != ClusterNode.PROCESS_ENTRY_SINGLETON)
-				// && (fromNodeId.node.getRelativeTag() != ClusterNode.SYSTEM_SINGLETON)) {
 				ClusterBoundaryNode exit = new ClusterBoundaryNode(hash, MetaNodeType.CLUSTER_EXIT);
 				IndexedClusterNode exitId = nodesByCluster.get(fromNodeId.cluster).addNode(exit);
-				establishEdgeSet(fromNodeId.cluster).add(new RawEdge(fromNodeId, exitId, type, ordinal));
-				// }
+				RawEdge rawExit = addEdge(fromNodeId.cluster, fromNodeId, exitId, type, ordinal);
+
+				if ((!crossModuleUIBQueue.isEmpty())
+						&& (crossModuleUIBQueue.peekFirst().executionEdgeIndex == entryIndex)) {
+					RawUnexpectedIndirectBranch uib = crossModuleUIBQueue.removeFirst();
+					uib.clusterEdge = rawEntry;
+					establishUIBs(toNodeId.cluster).add(uib);
+
+					uib = new RawUnexpectedIndirectBranch(uib);
+					uib.clusterEdge = rawExit;
+					establishUIBs(fromNodeId.cluster).add(uib);
+				}
 			}
 		}
 	}
 
-	private RawClusterData establishNodeData(AutonomousSoftwareDistribution cluster) {
+	private RawClusterData establishClusterData(AutonomousSoftwareDistribution cluster) {
 		RawClusterData data = nodesByCluster.get(cluster);
 		if (data == null) {
 			data = new RawClusterData(cluster);
@@ -432,13 +539,35 @@ public class RawGraphTransformer {
 		return data;
 	}
 
-	private Set<RawEdge> establishEdgeSet(AutonomousSoftwareDistribution cluster) {
-		Set<RawEdge> set = edgesByCluster.get(cluster);
+	private RawEdge addEdge(AutonomousSoftwareDistribution cluster, IndexedClusterNode fromNode,
+			IndexedClusterNode toNode, EdgeType type, int ordinal) {
+		Map<RawEdge, RawEdge> clusterEdges = establishEdgeSet(cluster);
+		RawEdge edge = new RawEdge(fromNode, toNode, type, ordinal);
+		RawEdge existing = clusterEdges.get(edge);
+		if (existing == null) {
+			clusterEdges.put(edge, edge);
+			return edge;
+		} else {
+			return existing;
+		}
+	}
+
+	private Map<RawEdge, RawEdge> establishEdgeSet(AutonomousSoftwareDistribution cluster) {
+		Map<RawEdge, RawEdge> set = edgesByCluster.get(cluster);
 		if (set == null) {
-			set = new HashSet<RawEdge>();
+			set = new HashMap<RawEdge, RawEdge>();
 			edgesByCluster.put(cluster, set);
 		}
 		return set;
+	}
+
+	private UnexpectedIndirectBranches establishUIBs(AutonomousSoftwareDistribution cluster) {
+		UnexpectedIndirectBranches uibs = uibsByCluster.get(cluster);
+		if (uibs == null) {
+			uibs = new UnexpectedIndirectBranches();
+			uibsByCluster.put(cluster, uibs);
+		}
+		return uibs;
 	}
 
 	private IndexedClusterNode identifyNode(long absoluteTag, int tagVersion, long entryIndex,
@@ -446,7 +575,7 @@ public class RawGraphTransformer {
 		if ((absoluteTag >= ClusterNode.SYSCALL_SINGLETON_START) && (absoluteTag < ClusterNode.SYSCALL_SINGLETON_END)) {
 			IndexedClusterNode nodeId = syscallSingletons.get(absoluteTag);
 			if (nodeId == null) {
-				RawClusterData nodeData = establishNodeData(ConfiguredSoftwareDistributions.SYSTEM_CLUSTER);
+				RawClusterData nodeData = establishClusterData(ConfiguredSoftwareDistributions.SYSTEM_CLUSTER);
 				ClusterBasicBlock node = new ClusterBasicBlock(SoftwareModule.SYSTEM_MODULE, absoluteTag, 0, 0L,
 						MetaNodeType.SINGLETON);
 				nodeId = nodeData.addNode(node);
@@ -507,11 +636,55 @@ public class RawGraphTransformer {
 	}
 
 	private void writeEdges() throws IOException {
-		for (Map.Entry<AutonomousSoftwareDistribution, Set<RawEdge>> clusterEdgeList : edgesByCluster.entrySet()) {
+		for (Map.Entry<AutonomousSoftwareDistribution, Map<RawEdge, RawEdge>> clusterEdgeList : edgesByCluster
+				.entrySet()) {
+			// List<RawEdge> orderedEdges = new ArrayList<RawEdge>(clusterEdgeList.getValue().values());
+			// Collections.sort(orderedEdges, RawEdge.EdgeIndexSorter.INSTANCE);
+			int edgeIndex = 0;
 			ClusterDataWriter<IndexedClusterNode> writer = graphWriters.getWriter(clusterEdgeList.getKey());
-			for (RawEdge edge : clusterEdgeList.getValue()) {
+			for (RawEdge edge : clusterEdgeList.getValue().values()) {
+				edge.setEdgeIndex(edgeIndex++);
 				writer.writeEdge(edge);
 			}
+		}
+	}
+
+	private void writeMetadata() throws IOException {
+		UnexpectedIndirectBranches uibsMain = null;
+		for (Map.Entry<AutonomousSoftwareDistribution, UnexpectedIndirectBranches> clusterUIBs : uibsByCluster
+				.entrySet()) {
+			UnexpectedIndirectBranches uibs = clusterUIBs.getValue();
+			if (clusterUIBs.getKey() == mainCluster) {
+				uibsMain = uibs;
+				continue;
+			}
+
+			ClusterDataWriter<IndexedClusterNode> writer = graphWriters.getWriter(clusterUIBs.getKey());
+			writer.writeSequenceMetadataHeader(1, true);
+			Collection<RawUnexpectedIndirectBranch> uibsSorted = uibs.sortAndMerge();
+			writer.writeExecutionMetadataHeader(UUID.randomUUID(), uibsSorted.size(), 0);
+			for (RawUnexpectedIndirectBranch uib : uibsSorted)
+				writer.writeUIB(uib.getClusterEdgeIndex(), uib.isAdmitted, uib.getTraversalCount(),
+						uib.getInstanceCount());
+		}
+		if (mainCluster != null) {
+			if ((uibsMain != null) || !uibIntervals.isEmpty()) {
+				ClusterDataWriter<IndexedClusterNode> writer = graphWriters.getWriter(mainCluster);
+				writer.writeSequenceMetadataHeader(1, true);
+				if (uibsMain != null) {
+					Collection<RawUnexpectedIndirectBranch> uibsSorted = uibsMain.sortAndMerge();
+					writer.writeExecutionMetadataHeader(UUID.randomUUID(), uibsMain == null ? 0 : uibsSorted.size(),
+							uibIntervals.size());
+					for (RawUnexpectedIndirectBranch uib : uibsSorted)
+						writer.writeUIB(uib.getClusterEdgeIndex(), uib.isAdmitted, uib.getTraversalCount(),
+								uib.getInstanceCount());
+				}
+				for (RawUnexpectedIndirectBranchInterval interval : uibIntervals) {
+					writer.writeUIBInterval(interval.span, interval.count, interval.maxConsecutive);
+				}
+			}
+		} else {
+			Log.log("Warning: main cluster not found!");
 		}
 	}
 
@@ -525,6 +698,8 @@ public class RawGraphTransformer {
 
 	private RawGraphEntry.Writer<?> createWriter(LittleEndianOutputStream output, int recordSize) {
 		switch (recordSize) {
+			case 1:
+				return new RawGraphEntry.OneWordWriter(output);
 			case 2:
 				return new RawGraphEntry.TwoWordWriter(output);
 			case 3:

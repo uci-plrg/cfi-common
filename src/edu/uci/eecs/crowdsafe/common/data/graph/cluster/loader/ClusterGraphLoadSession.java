@@ -11,9 +11,11 @@ import edu.uci.eecs.crowdsafe.common.data.graph.ModuleGraphCluster;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterGraph;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterModuleList;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterNode;
+import edu.uci.eecs.crowdsafe.common.data.graph.cluster.metadata.ClusterMetadataSequence;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.ExecutionNode;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.ProcessExecutionModuleSet;
 import edu.uci.eecs.crowdsafe.common.exception.InvalidGraphException;
+import edu.uci.eecs.crowdsafe.common.io.LittleEndianInputStream;
 import edu.uci.eecs.crowdsafe.common.io.cluster.ClusterTraceDataSource;
 import edu.uci.eecs.crowdsafe.common.io.cluster.ClusterTraceStreamType;
 import edu.uci.eecs.crowdsafe.common.io.execution.ExecutionTraceDataSource;
@@ -75,6 +77,7 @@ public class ClusterGraphLoadSession {
 
 		ClusterGraph builder;
 		final List<ClusterNode<?>> nodeList = new ArrayList<ClusterNode<?>>();
+		final List<Edge<ClusterNode<?>>> edgeList = new ArrayList<Edge<ClusterNode<?>>>();
 
 		GraphLoader(AutonomousSoftwareDistribution cluster, GraphLoadEventListener listener) {
 			this.cluster = cluster;
@@ -91,6 +94,7 @@ public class ClusterGraphLoadSession {
 			try {
 				loadGraphNodes(modules);
 				loadEdges(modules);
+				loadMetadata();
 			} catch (IOException e) {
 				throw e;
 			} catch (Exception e) {
@@ -131,7 +135,8 @@ public class ClusterGraphLoadSession {
 			try {
 				while (edgeFactory.ready()) {
 					try {
-						Edge<?> edge = edgeFactory.createEdge();
+						Edge<ClusterNode<?>> edge = edgeFactory.createEdge();
+						edgeList.add(edge);
 
 						if (listener != null)
 							listener.edgeCreation(edge);
@@ -142,6 +147,24 @@ public class ClusterGraphLoadSession {
 				}
 			} finally {
 				edgeFactory.close();
+			}
+		}
+
+		private void loadMetadata() throws IOException {
+			LittleEndianInputStream input = dataSource.getLittleEndianInputStream(cluster, ClusterTraceStreamType.META);
+			if ((input == null) || !input.ready())
+				return;
+
+			ClusterGraphMetadataLoader metadataLoader = new ClusterGraphMetadataLoader(edgeList, input);
+
+			try {
+				while (metadataLoader.ready()) {
+					ClusterMetadataSequence sequence = metadataLoader.loadSequence();
+					if (sequence != null)
+						builder.graph.metadata.mergeSequence(sequence);
+				}
+			} finally {
+				metadataLoader.close();
 			}
 		}
 	}

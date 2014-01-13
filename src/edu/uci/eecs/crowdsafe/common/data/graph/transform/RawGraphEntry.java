@@ -23,6 +23,17 @@ interface RawGraphEntry {
 		}
 	}
 
+	static class OneWordFactory extends Factory<OneWordEntry> {
+		OneWordFactory(LittleEndianInputStream input) {
+			super(input, 1);
+		}
+
+		@Override
+		OneWordEntry createEntry() throws IOException {
+			return new OneWordEntry(input.readLong());
+		}
+	}
+
 	static class TwoWordFactory extends Factory<TwoWordEntry> {
 		TwoWordFactory(LittleEndianInputStream input) {
 			super(input, 2);
@@ -59,6 +70,17 @@ interface RawGraphEntry {
 		}
 	}
 
+	static class OneWordWriter extends Writer<OneWordEntry> {
+		OneWordWriter(LittleEndianOutputStream output) {
+			super(output);
+		}
+
+		@Override
+		void writeEntry(OneWordEntry entry) throws IOException {
+			output.writeLong(entry.first);
+		}
+	}
+
 	static class TwoWordWriter extends Writer<TwoWordEntry> {
 		TwoWordWriter(LittleEndianOutputStream output) {
 			super(output);
@@ -82,6 +104,36 @@ interface RawGraphEntry {
 			output.writeLong(entry.second);
 			output.writeLong(entry.third);
 		}
+	}
+
+	static class OneWordEntry implements RawGraphEntry {
+		final long first;
+		final int hash;
+
+		public OneWordEntry(long first) {
+			this.first = first;
+			hash = 31 + (int) (first ^ (first >>> 32));
+		}
+
+		@Override
+		public int hashCode() {
+			return hash;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			OneWordEntry other = (OneWordEntry) obj;
+			if (first != other.first)
+				return false;
+			return true;
+		}
+
 	}
 
 	static class TwoWordEntry implements RawGraphEntry {

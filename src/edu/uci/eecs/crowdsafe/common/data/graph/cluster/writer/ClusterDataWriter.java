@@ -6,12 +6,19 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import edu.uci.eecs.crowdsafe.common.data.dist.AutonomousSoftwareDistribution;
 import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareModule;
 import edu.uci.eecs.crowdsafe.common.data.graph.EdgeType;
 import edu.uci.eecs.crowdsafe.common.data.graph.NodeIdentifier;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterBoundaryNode;
+import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterNode;
+import edu.uci.eecs.crowdsafe.common.data.graph.cluster.metadata.ClusterMetadata;
+import edu.uci.eecs.crowdsafe.common.data.graph.cluster.metadata.ClusterMetadataExecution;
+import edu.uci.eecs.crowdsafe.common.data.graph.cluster.metadata.ClusterMetadataSequence;
+import edu.uci.eecs.crowdsafe.common.data.graph.cluster.metadata.ClusterUIB;
+import edu.uci.eecs.crowdsafe.common.data.graph.cluster.metadata.ClusterUIBInterval;
 import edu.uci.eecs.crowdsafe.common.io.LittleEndianOutputStream;
 import edu.uci.eecs.crowdsafe.common.io.cluster.ClusterTraceDataSink;
 import edu.uci.eecs.crowdsafe.common.io.cluster.ClusterTraceDirectory;
@@ -51,9 +58,6 @@ public class ClusterDataWriter<NodeType extends NodeIdentifier> {
 		}
 
 		public void establishClusterWriters(ClusterData<NodeType> data) throws IOException {
-			if (data == null)
-				toString();
-
 			ClusterDataWriter<NodeType> writer = getWriter(data.getCluster());
 			if (writer == null) {
 				dataSink.addCluster(data.getCluster(), filenameFormat);
@@ -75,6 +79,7 @@ public class ClusterDataWriter<NodeType extends NodeIdentifier> {
 
 	final LittleEndianOutputStream nodeStream;
 	final LittleEndianOutputStream edgeStream;
+	final LittleEndianOutputStream metaStream;
 	final BufferedWriter moduleWriter;
 
 	private final ClusterData<NodeType> data;
@@ -84,6 +89,7 @@ public class ClusterDataWriter<NodeType extends NodeIdentifier> {
 
 		nodeStream = dataSink.getLittleEndianOutputStream(data.getCluster(), ClusterTraceStreamType.GRAPH_NODE);
 		edgeStream = dataSink.getLittleEndianOutputStream(data.getCluster(), ClusterTraceStreamType.GRAPH_EDGE);
+		metaStream = dataSink.getLittleEndianOutputStream(data.getCluster(), ClusterTraceStreamType.META);
 		moduleWriter = new BufferedWriter(new OutputStreamWriter(dataSink.getDataOutputStream(data.getCluster(),
 				ClusterTraceStreamType.MODULE)));
 	}
@@ -105,6 +111,55 @@ public class ClusterDataWriter<NodeType extends NodeIdentifier> {
 		edgeStream.writeLong(word);
 	}
 
+	public void writeSequenceMetadataHeader(int executionCount, boolean isRoot) throws IOException {
+		long header = (((long) executionCount) << 0x20);
+		if (isRoot)
+			header |= 1;
+		metaStream.writeLong(header);
+	}
+
+	public void writeExecutionMetadataHeader(UUID executionId, int uibCount, int intervalCount) throws IOException {
+		long entryCounts = uibCount;
+		entryCounts |= (((long) intervalCount) << 0x20);
+		metaStream.writeLong(entryCounts);
+
+		metaStream.writeLong(executionId.getMostSignificantBits());
+		metaStream.writeLong(executionId.getLeastSignificantBits());
+	}
+
+	public void writeMetadataHistory(ClusterMetadata metadata,
+			Map<edu.uci.eecs.crowdsafe.common.data.graph.Edge<ClusterNode<?>>, Integer> edgeIndexMap)
+			throws IOException {
+		for (ClusterMetadataSequence sequence : metadata.sequences.values()) {
+			writeSequenceMetadataHeader(sequence.executions.size(), sequence.isRoot());
+			for (ClusterMetadataExecution execution : sequence.executions) {
+				writeExecutionMetadataHeader(execution.id, execution.uibs.size(), execution.intervals.size());
+				for (ClusterUIB uib : execution.uibs) {
+					writeUIB(edgeIndexMap.get(uib.edge), uib.isAdmitted, uib.traversalCount, uib.instanceCount);
+				}
+				for (ClusterUIBInterval interval : execution.intervals) {
+					writeUIBInterval(interval.span, interval.count, interval.maxConsecutive);
+				}
+			}
+		}
+	}
+
+	public void writeUIB(int edgeIndex, boolean isAdmitted, int traversalCount, int instanceCount) throws IOException { // TODO...
+		long word = edgeIndex;
+		word |= (((long) (instanceCount & 0xfff)) << 0x14);
+		word |= (((long) traversalCount) << 0x20);
+		if (isAdmitted)
+			word |= 0x8000000000000000L;
+		metaStream.writeLong(word);
+	}
+
+	public void writeUIBInterval(int span, int count, int maxConsecutive) throws IOException {
+		long word = span;
+		word |= (maxConsecutive << 0x10);
+		word |= (((long) count) << 0x20);
+		metaStream.writeLong(word);
+	}
+
 	public void writeModules() throws IOException {
 		for (SoftwareModule module : data.getSortedModuleList()) {
 			if (module.equals(ClusterBoundaryNode.BOUNDARY_MODULE))
@@ -119,6 +174,8 @@ public class ClusterDataWriter<NodeType extends NodeIdentifier> {
 		nodeStream.close();
 		edgeStream.flush();
 		edgeStream.close();
+		metaStream.flush();
+		metaStream.close();
 		moduleWriter.flush();
 		moduleWriter.close();
 	}

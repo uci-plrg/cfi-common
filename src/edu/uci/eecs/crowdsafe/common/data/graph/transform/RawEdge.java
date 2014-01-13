@@ -1,9 +1,22 @@
 package edu.uci.eecs.crowdsafe.common.data.graph.transform;
 
+import java.util.Comparator;
+
 import edu.uci.eecs.crowdsafe.common.data.graph.EdgeType;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.writer.ClusterDataWriter;
 
 public class RawEdge implements ClusterDataWriter.Edge<IndexedClusterNode> {
+
+	static class EdgeIndexSorter implements Comparator<RawEdge> {
+		static EdgeIndexSorter INSTANCE = new EdgeIndexSorter();
+
+		@Override
+		public int compare(RawEdge first, RawEdge second) {
+			return first.edgeIndex - second.edgeIndex;
+		}
+	}
+
+	private int edgeIndex;
 	public final IndexedClusterNode fromNode;
 	public final IndexedClusterNode toNode;
 	public final EdgeType type;
@@ -12,18 +25,8 @@ public class RawEdge implements ClusterDataWriter.Edge<IndexedClusterNode> {
 	RawEdge(IndexedClusterNode fromNode, IndexedClusterNode toNode, EdgeType type, int ordinal) {
 		this.fromNode = fromNode;
 		this.toNode = toNode;
-
-		// TODO: hack!
-		/**
-		 * <pre>
-		if (fromNode.cluster.isAnonymous() && (type == EdgeType.CALL_CONTINUATION)) {
-			this.type = EdgeType.DIRECT;
-			this.ordinal = 2;
-		} else {
-		 */
 		this.type = type;
 		this.ordinal = ordinal;
-		// }
 	}
 
 	@Override
@@ -44,6 +47,14 @@ public class RawEdge implements ClusterDataWriter.Edge<IndexedClusterNode> {
 	@Override
 	public int getOrdinal() {
 		return ordinal;
+	}
+
+	public int getEdgeIndex() {
+		return edgeIndex;
+	}
+
+	public void setEdgeIndex(int edgeIndex) {
+		this.edgeIndex = edgeIndex;
 	}
 
 	@Override

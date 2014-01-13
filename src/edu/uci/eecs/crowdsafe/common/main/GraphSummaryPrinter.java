@@ -91,7 +91,8 @@ public class GraphSummaryPrinter {
 
 	private Graph.Process summarizeExecutionGraph(File directory) throws IOException {
 		ExecutionTraceDataSource dataSource = new ExecutionTraceDirectory(directory,
-				ProcessExecutionGraph.EXECUTION_GRAPH_FILE_TYPES);
+				ProcessExecutionGraph.EXECUTION_GRAPH_FILE_TYPES,
+				ProcessExecutionGraph.EXECUTION_GRAPH_REQUIRED_FILE_TYPES);
 		ProcessGraphLoadSession loadSession = new ProcessGraphLoadSession();
 		ProcessExecutionGraph graph = loadSession.loadGraph(dataSource, null);
 		return graph.summarizeProcess();

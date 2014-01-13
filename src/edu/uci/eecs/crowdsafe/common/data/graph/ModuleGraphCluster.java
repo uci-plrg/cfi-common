@@ -11,6 +11,8 @@ import java.util.Set;
 
 import edu.uci.eecs.crowdsafe.common.data.dist.AutonomousSoftwareDistribution;
 import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareUnit;
+import edu.uci.eecs.crowdsafe.common.data.graph.cluster.metadata.ClusterMetadata;
+import edu.uci.eecs.crowdsafe.common.data.graph.cluster.metadata.ClusterMetadataSequence;
 import edu.uci.eecs.crowdsafe.common.data.results.Graph;
 import edu.uci.eecs.crowdsafe.common.data.results.NodeResultsFactory;
 import edu.uci.eecs.crowdsafe.common.log.Log;
@@ -35,6 +37,8 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 	// Maps from the signature hash of the cross-module edge to entry/exit points
 	private final Map<Long, EdgeEndpointType> entryNodes = new HashMap<Long, EdgeEndpointType>();
 	private final Map<Long, EdgeEndpointType> exitNodes = new HashMap<Long, EdgeEndpointType>();
+	
+	public final ClusterMetadata metadata = new ClusterMetadata();
 
 	protected final GraphData<EdgeEndpointType> graphData;
 
@@ -68,7 +72,7 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 	public Collection<ModuleGraph> getGraphs() {
 		return graphs.values();
 	}
-
+	
 	public boolean isCompatible(ModuleGraphCluster<?> other) {
 		if (!cluster.equals(other.cluster))
 			return false;
