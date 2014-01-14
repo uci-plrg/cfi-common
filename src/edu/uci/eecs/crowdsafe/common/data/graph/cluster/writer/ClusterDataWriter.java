@@ -19,6 +19,7 @@ import edu.uci.eecs.crowdsafe.common.data.graph.cluster.metadata.ClusterMetadata
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.metadata.ClusterMetadataSequence;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.metadata.ClusterUIB;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.metadata.ClusterUIBInterval;
+import edu.uci.eecs.crowdsafe.common.data.graph.cluster.metadata.EvaluationType;
 import edu.uci.eecs.crowdsafe.common.io.LittleEndianOutputStream;
 import edu.uci.eecs.crowdsafe.common.io.cluster.ClusterTraceDataSink;
 import edu.uci.eecs.crowdsafe.common.io.cluster.ClusterTraceDirectory;
@@ -133,20 +134,20 @@ public class ClusterDataWriter<NodeType extends NodeIdentifier> {
 		for (ClusterMetadataSequence sequence : metadata.sequences.values()) {
 			writeSequenceMetadataHeader(sequence.executions.size(), sequence.isRoot());
 			for (ClusterMetadataExecution execution : sequence.executions) {
-				writeExecutionMetadataHeader(execution.id, execution.uibs.size(), execution.intervals.size());
+				writeExecutionMetadataHeader(execution.id, execution.uibs.size(), execution.getIntervalCount());
 				for (ClusterUIB uib : execution.uibs) {
 					writeUIB(edgeIndexMap.get(uib.edge), uib.isAdmitted, uib.traversalCount, uib.instanceCount);
 				}
-				for (ClusterUIBInterval.Type type : ClusterUIBInterval.Type.values()) {
+				for (EvaluationType type : EvaluationType.values()) {
 					for (ClusterUIBInterval interval : execution.getIntervals(type)) {
-						writeUIBInterval(interval.span, interval.count, interval.maxConsecutive);
+						writeUIBInterval(interval.type.id, interval.span, interval.count, interval.maxConsecutive);
 					}
 				}
 			}
 		}
 	}
 
-	public void writeUIB(int edgeIndex, boolean isAdmitted, int traversalCount, int instanceCount) throws IOException { // TODO...
+	public void writeUIB(int edgeIndex, boolean isAdmitted, int traversalCount, int instanceCount) throws IOException {
 		long word = edgeIndex;
 		word |= (((long) (instanceCount & 0xfff)) << 0x14);
 		word |= (((long) traversalCount) << 0x20);
@@ -155,8 +156,10 @@ public class ClusterDataWriter<NodeType extends NodeIdentifier> {
 		metaStream.writeLong(word);
 	}
 
-	public void writeUIBInterval(int span, int count, int maxConsecutive) throws IOException {
-		long word = span;
+	public void writeUIBInterval(int typeId, int span, int count, int maxConsecutive)
+			throws IOException {
+		long word = typeId;
+		word |= (((long) span) << 8);
 		word |= (maxConsecutive << 0x10);
 		word |= (((long) count) << 0x20);
 		metaStream.writeLong(word);

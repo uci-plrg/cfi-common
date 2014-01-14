@@ -132,40 +132,40 @@ public final class Graph {
   public enum EvaluationType
       implements com.google.protobuf.ProtocolMessageEnum {
     /**
-     * <code>TOTAL = 0;</code>
+     * <code>UIB_TOTAL = 0;</code>
      */
-    TOTAL(0, 0),
+    UIB_TOTAL(0, 0),
     /**
-     * <code>ADMITTED = 1;</code>
+     * <code>UIB_ADMITTED = 1;</code>
      */
-    ADMITTED(1, 1),
+    UIB_ADMITTED(1, 1),
     /**
-     * <code>SUSPICIOUS = 2;</code>
+     * <code>UIB_SUSPICIOUS = 2;</code>
      */
-    SUSPICIOUS(2, 2),
+    UIB_SUSPICIOUS(2, 2),
     ;
 
     /**
-     * <code>TOTAL = 0;</code>
+     * <code>UIB_TOTAL = 0;</code>
      */
-    public static final int TOTAL_VALUE = 0;
+    public static final int UIB_TOTAL_VALUE = 0;
     /**
-     * <code>ADMITTED = 1;</code>
+     * <code>UIB_ADMITTED = 1;</code>
      */
-    public static final int ADMITTED_VALUE = 1;
+    public static final int UIB_ADMITTED_VALUE = 1;
     /**
-     * <code>SUSPICIOUS = 2;</code>
+     * <code>UIB_SUSPICIOUS = 2;</code>
      */
-    public static final int SUSPICIOUS_VALUE = 2;
+    public static final int UIB_SUSPICIOUS_VALUE = 2;
 
 
     public final int getNumber() { return value; }
 
     public static EvaluationType valueOf(int value) {
       switch (value) {
-        case 0: return TOTAL;
-        case 1: return ADMITTED;
-        case 2: return SUSPICIOUS;
+        case 0: return UIB_TOTAL;
+        case 1: return UIB_ADMITTED;
+        case 2: return UIB_SUSPICIOUS;
         default: return null;
       }
     }
@@ -8334,7 +8334,7 @@ public final class Graph {
     }
 
     private void initFields() {
-      type_ = edu.uci.eecs.crowdsafe.common.data.results.Graph.EvaluationType.TOTAL;
+      type_ = edu.uci.eecs.crowdsafe.common.data.results.Graph.EvaluationType.UIB_TOTAL;
       instanceCount_ = 0;
       traversalCount_ = 0;
     }
@@ -8496,7 +8496,7 @@ public final class Graph {
 
       public Builder clear() {
         super.clear();
-        type_ = edu.uci.eecs.crowdsafe.common.data.results.Graph.EvaluationType.TOTAL;
+        type_ = edu.uci.eecs.crowdsafe.common.data.results.Graph.EvaluationType.UIB_TOTAL;
         bitField0_ = (bitField0_ & ~0x00000001);
         instanceCount_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -8595,7 +8595,7 @@ public final class Graph {
       private int bitField0_;
 
       // optional .crowd_safe_data_analysis.EvaluationType type = 1;
-      private edu.uci.eecs.crowdsafe.common.data.results.Graph.EvaluationType type_ = edu.uci.eecs.crowdsafe.common.data.results.Graph.EvaluationType.TOTAL;
+      private edu.uci.eecs.crowdsafe.common.data.results.Graph.EvaluationType type_ = edu.uci.eecs.crowdsafe.common.data.results.Graph.EvaluationType.UIB_TOTAL;
       /**
        * <code>optional .crowd_safe_data_analysis.EvaluationType type = 1;</code>
        */
@@ -8625,7 +8625,7 @@ public final class Graph {
        */
       public Builder clearType() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        type_ = edu.uci.eecs.crowdsafe.common.data.results.Graph.EvaluationType.TOTAL;
+        type_ = edu.uci.eecs.crowdsafe.common.data.results.Graph.EvaluationType.UIB_TOTAL;
         onChanged();
         return this;
       }
@@ -8735,54 +8735,54 @@ public final class Graph {
     edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservationOrBuilder getTotalObservedOrBuilder(
         int index);
 
-    // repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 2;
+    // repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 2;
     /**
-     * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 2;</code>
+     * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 2;</code>
+     */
+    java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation> 
+        getIntraModuleObservedList();
+    /**
+     * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 2;</code>
+     */
+    edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation getIntraModuleObserved(int index);
+    /**
+     * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 2;</code>
+     */
+    int getIntraModuleObservedCount();
+    /**
+     * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 2;</code>
+     */
+    java.util.List<? extends edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservationOrBuilder> 
+        getIntraModuleObservedOrBuilderList();
+    /**
+     * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 2;</code>
+     */
+    edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservationOrBuilder getIntraModuleObservedOrBuilder(
+        int index);
+
+    // repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 3;
+    /**
+     * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 3;</code>
      */
     java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation> 
         getInterModuleObservedList();
     /**
-     * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 2;</code>
+     * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 3;</code>
      */
     edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation getInterModuleObserved(int index);
     /**
-     * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 2;</code>
+     * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 3;</code>
      */
     int getInterModuleObservedCount();
     /**
-     * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 2;</code>
+     * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 3;</code>
      */
     java.util.List<? extends edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservationOrBuilder> 
         getInterModuleObservedOrBuilderList();
     /**
-     * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 2;</code>
+     * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 3;</code>
      */
     edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservationOrBuilder getInterModuleObservedOrBuilder(
-        int index);
-
-    // repeated .crowd_safe_data_analysis.UIBObservation cross_module_observed = 3;
-    /**
-     * <code>repeated .crowd_safe_data_analysis.UIBObservation cross_module_observed = 3;</code>
-     */
-    java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation> 
-        getCrossModuleObservedList();
-    /**
-     * <code>repeated .crowd_safe_data_analysis.UIBObservation cross_module_observed = 3;</code>
-     */
-    edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation getCrossModuleObserved(int index);
-    /**
-     * <code>repeated .crowd_safe_data_analysis.UIBObservation cross_module_observed = 3;</code>
-     */
-    int getCrossModuleObservedCount();
-    /**
-     * <code>repeated .crowd_safe_data_analysis.UIBObservation cross_module_observed = 3;</code>
-     */
-    java.util.List<? extends edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservationOrBuilder> 
-        getCrossModuleObservedOrBuilderList();
-    /**
-     * <code>repeated .crowd_safe_data_analysis.UIBObservation cross_module_observed = 3;</code>
-     */
-    edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservationOrBuilder getCrossModuleObservedOrBuilder(
         int index);
   }
   /**
@@ -8846,18 +8846,18 @@ public final class Graph {
             }
             case 18: {
               if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-                interModuleObserved_ = new java.util.ArrayList<edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation>();
+                intraModuleObserved_ = new java.util.ArrayList<edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation>();
                 mutable_bitField0_ |= 0x00000002;
               }
-              interModuleObserved_.add(input.readMessage(edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.PARSER, extensionRegistry));
+              intraModuleObserved_.add(input.readMessage(edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.PARSER, extensionRegistry));
               break;
             }
             case 26: {
               if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-                crossModuleObserved_ = new java.util.ArrayList<edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation>();
+                interModuleObserved_ = new java.util.ArrayList<edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation>();
                 mutable_bitField0_ |= 0x00000004;
               }
-              crossModuleObserved_.add(input.readMessage(edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.PARSER, extensionRegistry));
+              interModuleObserved_.add(input.readMessage(edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.PARSER, extensionRegistry));
               break;
             }
           }
@@ -8872,10 +8872,10 @@ public final class Graph {
           totalObserved_ = java.util.Collections.unmodifiableList(totalObserved_);
         }
         if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-          interModuleObserved_ = java.util.Collections.unmodifiableList(interModuleObserved_);
+          intraModuleObserved_ = java.util.Collections.unmodifiableList(intraModuleObserved_);
         }
         if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-          crossModuleObserved_ = java.util.Collections.unmodifiableList(crossModuleObserved_);
+          interModuleObserved_ = java.util.Collections.unmodifiableList(interModuleObserved_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -8944,82 +8944,82 @@ public final class Graph {
       return totalObserved_.get(index);
     }
 
-    // repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 2;
-    public static final int INTER_MODULE_OBSERVED_FIELD_NUMBER = 2;
+    // repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 2;
+    public static final int INTRA_MODULE_OBSERVED_FIELD_NUMBER = 2;
+    private java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation> intraModuleObserved_;
+    /**
+     * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 2;</code>
+     */
+    public java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation> getIntraModuleObservedList() {
+      return intraModuleObserved_;
+    }
+    /**
+     * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 2;</code>
+     */
+    public java.util.List<? extends edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservationOrBuilder> 
+        getIntraModuleObservedOrBuilderList() {
+      return intraModuleObserved_;
+    }
+    /**
+     * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 2;</code>
+     */
+    public int getIntraModuleObservedCount() {
+      return intraModuleObserved_.size();
+    }
+    /**
+     * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 2;</code>
+     */
+    public edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation getIntraModuleObserved(int index) {
+      return intraModuleObserved_.get(index);
+    }
+    /**
+     * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 2;</code>
+     */
+    public edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservationOrBuilder getIntraModuleObservedOrBuilder(
+        int index) {
+      return intraModuleObserved_.get(index);
+    }
+
+    // repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 3;
+    public static final int INTER_MODULE_OBSERVED_FIELD_NUMBER = 3;
     private java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation> interModuleObserved_;
     /**
-     * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 2;</code>
+     * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 3;</code>
      */
     public java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation> getInterModuleObservedList() {
       return interModuleObserved_;
     }
     /**
-     * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 2;</code>
+     * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 3;</code>
      */
     public java.util.List<? extends edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservationOrBuilder> 
         getInterModuleObservedOrBuilderList() {
       return interModuleObserved_;
     }
     /**
-     * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 2;</code>
+     * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 3;</code>
      */
     public int getInterModuleObservedCount() {
       return interModuleObserved_.size();
     }
     /**
-     * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 2;</code>
+     * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 3;</code>
      */
     public edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation getInterModuleObserved(int index) {
       return interModuleObserved_.get(index);
     }
     /**
-     * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 2;</code>
+     * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 3;</code>
      */
     public edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservationOrBuilder getInterModuleObservedOrBuilder(
         int index) {
       return interModuleObserved_.get(index);
     }
 
-    // repeated .crowd_safe_data_analysis.UIBObservation cross_module_observed = 3;
-    public static final int CROSS_MODULE_OBSERVED_FIELD_NUMBER = 3;
-    private java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation> crossModuleObserved_;
-    /**
-     * <code>repeated .crowd_safe_data_analysis.UIBObservation cross_module_observed = 3;</code>
-     */
-    public java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation> getCrossModuleObservedList() {
-      return crossModuleObserved_;
-    }
-    /**
-     * <code>repeated .crowd_safe_data_analysis.UIBObservation cross_module_observed = 3;</code>
-     */
-    public java.util.List<? extends edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservationOrBuilder> 
-        getCrossModuleObservedOrBuilderList() {
-      return crossModuleObserved_;
-    }
-    /**
-     * <code>repeated .crowd_safe_data_analysis.UIBObservation cross_module_observed = 3;</code>
-     */
-    public int getCrossModuleObservedCount() {
-      return crossModuleObserved_.size();
-    }
-    /**
-     * <code>repeated .crowd_safe_data_analysis.UIBObservation cross_module_observed = 3;</code>
-     */
-    public edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation getCrossModuleObserved(int index) {
-      return crossModuleObserved_.get(index);
-    }
-    /**
-     * <code>repeated .crowd_safe_data_analysis.UIBObservation cross_module_observed = 3;</code>
-     */
-    public edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservationOrBuilder getCrossModuleObservedOrBuilder(
-        int index) {
-      return crossModuleObserved_.get(index);
-    }
-
     private void initFields() {
       totalObserved_ = java.util.Collections.emptyList();
+      intraModuleObserved_ = java.util.Collections.emptyList();
       interModuleObserved_ = java.util.Collections.emptyList();
-      crossModuleObserved_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -9036,11 +9036,11 @@ public final class Graph {
       for (int i = 0; i < totalObserved_.size(); i++) {
         output.writeMessage(1, totalObserved_.get(i));
       }
-      for (int i = 0; i < interModuleObserved_.size(); i++) {
-        output.writeMessage(2, interModuleObserved_.get(i));
+      for (int i = 0; i < intraModuleObserved_.size(); i++) {
+        output.writeMessage(2, intraModuleObserved_.get(i));
       }
-      for (int i = 0; i < crossModuleObserved_.size(); i++) {
-        output.writeMessage(3, crossModuleObserved_.get(i));
+      for (int i = 0; i < interModuleObserved_.size(); i++) {
+        output.writeMessage(3, interModuleObserved_.get(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -9055,13 +9055,13 @@ public final class Graph {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(1, totalObserved_.get(i));
       }
+      for (int i = 0; i < intraModuleObserved_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, intraModuleObserved_.get(i));
+      }
       for (int i = 0; i < interModuleObserved_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(2, interModuleObserved_.get(i));
-      }
-      for (int i = 0; i < crossModuleObserved_.size(); i++) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(3, crossModuleObserved_.get(i));
+          .computeMessageSize(3, interModuleObserved_.get(i));
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -9172,8 +9172,8 @@ public final class Graph {
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
           getTotalObservedFieldBuilder();
+          getIntraModuleObservedFieldBuilder();
           getInterModuleObservedFieldBuilder();
-          getCrossModuleObservedFieldBuilder();
         }
       }
       private static Builder create() {
@@ -9188,17 +9188,17 @@ public final class Graph {
         } else {
           totalObservedBuilder_.clear();
         }
-        if (interModuleObservedBuilder_ == null) {
-          interModuleObserved_ = java.util.Collections.emptyList();
+        if (intraModuleObservedBuilder_ == null) {
+          intraModuleObserved_ = java.util.Collections.emptyList();
           bitField0_ = (bitField0_ & ~0x00000002);
         } else {
-          interModuleObservedBuilder_.clear();
+          intraModuleObservedBuilder_.clear();
         }
-        if (crossModuleObservedBuilder_ == null) {
-          crossModuleObserved_ = java.util.Collections.emptyList();
+        if (interModuleObservedBuilder_ == null) {
+          interModuleObserved_ = java.util.Collections.emptyList();
           bitField0_ = (bitField0_ & ~0x00000004);
         } else {
-          crossModuleObservedBuilder_.clear();
+          interModuleObservedBuilder_.clear();
         }
         return this;
       }
@@ -9236,23 +9236,23 @@ public final class Graph {
         } else {
           result.totalObserved_ = totalObservedBuilder_.build();
         }
-        if (interModuleObservedBuilder_ == null) {
+        if (intraModuleObservedBuilder_ == null) {
           if (((bitField0_ & 0x00000002) == 0x00000002)) {
-            interModuleObserved_ = java.util.Collections.unmodifiableList(interModuleObserved_);
+            intraModuleObserved_ = java.util.Collections.unmodifiableList(intraModuleObserved_);
             bitField0_ = (bitField0_ & ~0x00000002);
+          }
+          result.intraModuleObserved_ = intraModuleObserved_;
+        } else {
+          result.intraModuleObserved_ = intraModuleObservedBuilder_.build();
+        }
+        if (interModuleObservedBuilder_ == null) {
+          if (((bitField0_ & 0x00000004) == 0x00000004)) {
+            interModuleObserved_ = java.util.Collections.unmodifiableList(interModuleObserved_);
+            bitField0_ = (bitField0_ & ~0x00000004);
           }
           result.interModuleObserved_ = interModuleObserved_;
         } else {
           result.interModuleObserved_ = interModuleObservedBuilder_.build();
-        }
-        if (crossModuleObservedBuilder_ == null) {
-          if (((bitField0_ & 0x00000004) == 0x00000004)) {
-            crossModuleObserved_ = java.util.Collections.unmodifiableList(crossModuleObserved_);
-            bitField0_ = (bitField0_ & ~0x00000004);
-          }
-          result.crossModuleObserved_ = crossModuleObserved_;
-        } else {
-          result.crossModuleObserved_ = crossModuleObservedBuilder_.build();
         }
         onBuilt();
         return result;
@@ -9295,11 +9295,37 @@ public final class Graph {
             }
           }
         }
+        if (intraModuleObservedBuilder_ == null) {
+          if (!other.intraModuleObserved_.isEmpty()) {
+            if (intraModuleObserved_.isEmpty()) {
+              intraModuleObserved_ = other.intraModuleObserved_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+            } else {
+              ensureIntraModuleObservedIsMutable();
+              intraModuleObserved_.addAll(other.intraModuleObserved_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.intraModuleObserved_.isEmpty()) {
+            if (intraModuleObservedBuilder_.isEmpty()) {
+              intraModuleObservedBuilder_.dispose();
+              intraModuleObservedBuilder_ = null;
+              intraModuleObserved_ = other.intraModuleObserved_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+              intraModuleObservedBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getIntraModuleObservedFieldBuilder() : null;
+            } else {
+              intraModuleObservedBuilder_.addAllMessages(other.intraModuleObserved_);
+            }
+          }
+        }
         if (interModuleObservedBuilder_ == null) {
           if (!other.interModuleObserved_.isEmpty()) {
             if (interModuleObserved_.isEmpty()) {
               interModuleObserved_ = other.interModuleObserved_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000004);
             } else {
               ensureInterModuleObservedIsMutable();
               interModuleObserved_.addAll(other.interModuleObserved_);
@@ -9312,38 +9338,12 @@ public final class Graph {
               interModuleObservedBuilder_.dispose();
               interModuleObservedBuilder_ = null;
               interModuleObserved_ = other.interModuleObserved_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000004);
               interModuleObservedBuilder_ = 
                 com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
                    getInterModuleObservedFieldBuilder() : null;
             } else {
               interModuleObservedBuilder_.addAllMessages(other.interModuleObserved_);
-            }
-          }
-        }
-        if (crossModuleObservedBuilder_ == null) {
-          if (!other.crossModuleObserved_.isEmpty()) {
-            if (crossModuleObserved_.isEmpty()) {
-              crossModuleObserved_ = other.crossModuleObserved_;
-              bitField0_ = (bitField0_ & ~0x00000004);
-            } else {
-              ensureCrossModuleObservedIsMutable();
-              crossModuleObserved_.addAll(other.crossModuleObserved_);
-            }
-            onChanged();
-          }
-        } else {
-          if (!other.crossModuleObserved_.isEmpty()) {
-            if (crossModuleObservedBuilder_.isEmpty()) {
-              crossModuleObservedBuilder_.dispose();
-              crossModuleObservedBuilder_ = null;
-              crossModuleObserved_ = other.crossModuleObserved_;
-              bitField0_ = (bitField0_ & ~0x00000004);
-              crossModuleObservedBuilder_ = 
-                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
-                   getCrossModuleObservedFieldBuilder() : null;
-            } else {
-              crossModuleObservedBuilder_.addAllMessages(other.crossModuleObserved_);
             }
           }
         }
@@ -9614,13 +9614,253 @@ public final class Graph {
         return totalObservedBuilder_;
       }
 
-      // repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 2;
+      // repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 2;
+      private java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation> intraModuleObserved_ =
+        java.util.Collections.emptyList();
+      private void ensureIntraModuleObservedIsMutable() {
+        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+          intraModuleObserved_ = new java.util.ArrayList<edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation>(intraModuleObserved_);
+          bitField0_ |= 0x00000002;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation, edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.Builder, edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservationOrBuilder> intraModuleObservedBuilder_;
+
+      /**
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 2;</code>
+       */
+      public java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation> getIntraModuleObservedList() {
+        if (intraModuleObservedBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(intraModuleObserved_);
+        } else {
+          return intraModuleObservedBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 2;</code>
+       */
+      public int getIntraModuleObservedCount() {
+        if (intraModuleObservedBuilder_ == null) {
+          return intraModuleObserved_.size();
+        } else {
+          return intraModuleObservedBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 2;</code>
+       */
+      public edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation getIntraModuleObserved(int index) {
+        if (intraModuleObservedBuilder_ == null) {
+          return intraModuleObserved_.get(index);
+        } else {
+          return intraModuleObservedBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 2;</code>
+       */
+      public Builder setIntraModuleObserved(
+          int index, edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation value) {
+        if (intraModuleObservedBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureIntraModuleObservedIsMutable();
+          intraModuleObserved_.set(index, value);
+          onChanged();
+        } else {
+          intraModuleObservedBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 2;</code>
+       */
+      public Builder setIntraModuleObserved(
+          int index, edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.Builder builderForValue) {
+        if (intraModuleObservedBuilder_ == null) {
+          ensureIntraModuleObservedIsMutable();
+          intraModuleObserved_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          intraModuleObservedBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 2;</code>
+       */
+      public Builder addIntraModuleObserved(edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation value) {
+        if (intraModuleObservedBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureIntraModuleObservedIsMutable();
+          intraModuleObserved_.add(value);
+          onChanged();
+        } else {
+          intraModuleObservedBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 2;</code>
+       */
+      public Builder addIntraModuleObserved(
+          int index, edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation value) {
+        if (intraModuleObservedBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureIntraModuleObservedIsMutable();
+          intraModuleObserved_.add(index, value);
+          onChanged();
+        } else {
+          intraModuleObservedBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 2;</code>
+       */
+      public Builder addIntraModuleObserved(
+          edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.Builder builderForValue) {
+        if (intraModuleObservedBuilder_ == null) {
+          ensureIntraModuleObservedIsMutable();
+          intraModuleObserved_.add(builderForValue.build());
+          onChanged();
+        } else {
+          intraModuleObservedBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 2;</code>
+       */
+      public Builder addIntraModuleObserved(
+          int index, edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.Builder builderForValue) {
+        if (intraModuleObservedBuilder_ == null) {
+          ensureIntraModuleObservedIsMutable();
+          intraModuleObserved_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          intraModuleObservedBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 2;</code>
+       */
+      public Builder addAllIntraModuleObserved(
+          java.lang.Iterable<? extends edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation> values) {
+        if (intraModuleObservedBuilder_ == null) {
+          ensureIntraModuleObservedIsMutable();
+          super.addAll(values, intraModuleObserved_);
+          onChanged();
+        } else {
+          intraModuleObservedBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 2;</code>
+       */
+      public Builder clearIntraModuleObserved() {
+        if (intraModuleObservedBuilder_ == null) {
+          intraModuleObserved_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+          onChanged();
+        } else {
+          intraModuleObservedBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 2;</code>
+       */
+      public Builder removeIntraModuleObserved(int index) {
+        if (intraModuleObservedBuilder_ == null) {
+          ensureIntraModuleObservedIsMutable();
+          intraModuleObserved_.remove(index);
+          onChanged();
+        } else {
+          intraModuleObservedBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 2;</code>
+       */
+      public edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.Builder getIntraModuleObservedBuilder(
+          int index) {
+        return getIntraModuleObservedFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 2;</code>
+       */
+      public edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservationOrBuilder getIntraModuleObservedOrBuilder(
+          int index) {
+        if (intraModuleObservedBuilder_ == null) {
+          return intraModuleObserved_.get(index);  } else {
+          return intraModuleObservedBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 2;</code>
+       */
+      public java.util.List<? extends edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservationOrBuilder> 
+           getIntraModuleObservedOrBuilderList() {
+        if (intraModuleObservedBuilder_ != null) {
+          return intraModuleObservedBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(intraModuleObserved_);
+        }
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 2;</code>
+       */
+      public edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.Builder addIntraModuleObservedBuilder() {
+        return getIntraModuleObservedFieldBuilder().addBuilder(
+            edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 2;</code>
+       */
+      public edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.Builder addIntraModuleObservedBuilder(
+          int index) {
+        return getIntraModuleObservedFieldBuilder().addBuilder(
+            index, edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 2;</code>
+       */
+      public java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.Builder> 
+           getIntraModuleObservedBuilderList() {
+        return getIntraModuleObservedFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation, edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.Builder, edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservationOrBuilder> 
+          getIntraModuleObservedFieldBuilder() {
+        if (intraModuleObservedBuilder_ == null) {
+          intraModuleObservedBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation, edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.Builder, edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservationOrBuilder>(
+                  intraModuleObserved_,
+                  ((bitField0_ & 0x00000002) == 0x00000002),
+                  getParentForChildren(),
+                  isClean());
+          intraModuleObserved_ = null;
+        }
+        return intraModuleObservedBuilder_;
+      }
+
+      // repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 3;
       private java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation> interModuleObserved_ =
         java.util.Collections.emptyList();
       private void ensureInterModuleObservedIsMutable() {
-        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
           interModuleObserved_ = new java.util.ArrayList<edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation>(interModuleObserved_);
-          bitField0_ |= 0x00000002;
+          bitField0_ |= 0x00000004;
          }
       }
 
@@ -9628,7 +9868,7 @@ public final class Graph {
           edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation, edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.Builder, edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservationOrBuilder> interModuleObservedBuilder_;
 
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 2;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 3;</code>
        */
       public java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation> getInterModuleObservedList() {
         if (interModuleObservedBuilder_ == null) {
@@ -9638,7 +9878,7 @@ public final class Graph {
         }
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 2;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 3;</code>
        */
       public int getInterModuleObservedCount() {
         if (interModuleObservedBuilder_ == null) {
@@ -9648,7 +9888,7 @@ public final class Graph {
         }
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 2;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 3;</code>
        */
       public edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation getInterModuleObserved(int index) {
         if (interModuleObservedBuilder_ == null) {
@@ -9658,7 +9898,7 @@ public final class Graph {
         }
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 2;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 3;</code>
        */
       public Builder setInterModuleObserved(
           int index, edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation value) {
@@ -9675,7 +9915,7 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 2;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 3;</code>
        */
       public Builder setInterModuleObserved(
           int index, edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.Builder builderForValue) {
@@ -9689,7 +9929,7 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 2;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 3;</code>
        */
       public Builder addInterModuleObserved(edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation value) {
         if (interModuleObservedBuilder_ == null) {
@@ -9705,7 +9945,7 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 2;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 3;</code>
        */
       public Builder addInterModuleObserved(
           int index, edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation value) {
@@ -9722,7 +9962,7 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 2;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 3;</code>
        */
       public Builder addInterModuleObserved(
           edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.Builder builderForValue) {
@@ -9736,7 +9976,7 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 2;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 3;</code>
        */
       public Builder addInterModuleObserved(
           int index, edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.Builder builderForValue) {
@@ -9750,7 +9990,7 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 2;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 3;</code>
        */
       public Builder addAllInterModuleObserved(
           java.lang.Iterable<? extends edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation> values) {
@@ -9764,12 +10004,12 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 2;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 3;</code>
        */
       public Builder clearInterModuleObserved() {
         if (interModuleObservedBuilder_ == null) {
           interModuleObserved_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000004);
           onChanged();
         } else {
           interModuleObservedBuilder_.clear();
@@ -9777,7 +10017,7 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 2;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 3;</code>
        */
       public Builder removeInterModuleObserved(int index) {
         if (interModuleObservedBuilder_ == null) {
@@ -9790,14 +10030,14 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 2;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 3;</code>
        */
       public edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.Builder getInterModuleObservedBuilder(
           int index) {
         return getInterModuleObservedFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 2;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 3;</code>
        */
       public edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservationOrBuilder getInterModuleObservedOrBuilder(
           int index) {
@@ -9807,7 +10047,7 @@ public final class Graph {
         }
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 2;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 3;</code>
        */
       public java.util.List<? extends edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservationOrBuilder> 
            getInterModuleObservedOrBuilderList() {
@@ -9818,14 +10058,14 @@ public final class Graph {
         }
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 2;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 3;</code>
        */
       public edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.Builder addInterModuleObservedBuilder() {
         return getInterModuleObservedFieldBuilder().addBuilder(
             edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.getDefaultInstance());
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 2;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 3;</code>
        */
       public edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.Builder addInterModuleObservedBuilder(
           int index) {
@@ -9833,7 +10073,7 @@ public final class Graph {
             index, edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.getDefaultInstance());
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 2;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 3;</code>
        */
       public java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.Builder> 
            getInterModuleObservedBuilderList() {
@@ -9846,252 +10086,12 @@ public final class Graph {
           interModuleObservedBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
               edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation, edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.Builder, edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservationOrBuilder>(
                   interModuleObserved_,
-                  ((bitField0_ & 0x00000002) == 0x00000002),
+                  ((bitField0_ & 0x00000004) == 0x00000004),
                   getParentForChildren(),
                   isClean());
           interModuleObserved_ = null;
         }
         return interModuleObservedBuilder_;
-      }
-
-      // repeated .crowd_safe_data_analysis.UIBObservation cross_module_observed = 3;
-      private java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation> crossModuleObserved_ =
-        java.util.Collections.emptyList();
-      private void ensureCrossModuleObservedIsMutable() {
-        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
-          crossModuleObserved_ = new java.util.ArrayList<edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation>(crossModuleObserved_);
-          bitField0_ |= 0x00000004;
-         }
-      }
-
-      private com.google.protobuf.RepeatedFieldBuilder<
-          edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation, edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.Builder, edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservationOrBuilder> crossModuleObservedBuilder_;
-
-      /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation cross_module_observed = 3;</code>
-       */
-      public java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation> getCrossModuleObservedList() {
-        if (crossModuleObservedBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(crossModuleObserved_);
-        } else {
-          return crossModuleObservedBuilder_.getMessageList();
-        }
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation cross_module_observed = 3;</code>
-       */
-      public int getCrossModuleObservedCount() {
-        if (crossModuleObservedBuilder_ == null) {
-          return crossModuleObserved_.size();
-        } else {
-          return crossModuleObservedBuilder_.getCount();
-        }
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation cross_module_observed = 3;</code>
-       */
-      public edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation getCrossModuleObserved(int index) {
-        if (crossModuleObservedBuilder_ == null) {
-          return crossModuleObserved_.get(index);
-        } else {
-          return crossModuleObservedBuilder_.getMessage(index);
-        }
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation cross_module_observed = 3;</code>
-       */
-      public Builder setCrossModuleObserved(
-          int index, edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation value) {
-        if (crossModuleObservedBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureCrossModuleObservedIsMutable();
-          crossModuleObserved_.set(index, value);
-          onChanged();
-        } else {
-          crossModuleObservedBuilder_.setMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation cross_module_observed = 3;</code>
-       */
-      public Builder setCrossModuleObserved(
-          int index, edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.Builder builderForValue) {
-        if (crossModuleObservedBuilder_ == null) {
-          ensureCrossModuleObservedIsMutable();
-          crossModuleObserved_.set(index, builderForValue.build());
-          onChanged();
-        } else {
-          crossModuleObservedBuilder_.setMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation cross_module_observed = 3;</code>
-       */
-      public Builder addCrossModuleObserved(edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation value) {
-        if (crossModuleObservedBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureCrossModuleObservedIsMutable();
-          crossModuleObserved_.add(value);
-          onChanged();
-        } else {
-          crossModuleObservedBuilder_.addMessage(value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation cross_module_observed = 3;</code>
-       */
-      public Builder addCrossModuleObserved(
-          int index, edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation value) {
-        if (crossModuleObservedBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureCrossModuleObservedIsMutable();
-          crossModuleObserved_.add(index, value);
-          onChanged();
-        } else {
-          crossModuleObservedBuilder_.addMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation cross_module_observed = 3;</code>
-       */
-      public Builder addCrossModuleObserved(
-          edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.Builder builderForValue) {
-        if (crossModuleObservedBuilder_ == null) {
-          ensureCrossModuleObservedIsMutable();
-          crossModuleObserved_.add(builderForValue.build());
-          onChanged();
-        } else {
-          crossModuleObservedBuilder_.addMessage(builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation cross_module_observed = 3;</code>
-       */
-      public Builder addCrossModuleObserved(
-          int index, edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.Builder builderForValue) {
-        if (crossModuleObservedBuilder_ == null) {
-          ensureCrossModuleObservedIsMutable();
-          crossModuleObserved_.add(index, builderForValue.build());
-          onChanged();
-        } else {
-          crossModuleObservedBuilder_.addMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation cross_module_observed = 3;</code>
-       */
-      public Builder addAllCrossModuleObserved(
-          java.lang.Iterable<? extends edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation> values) {
-        if (crossModuleObservedBuilder_ == null) {
-          ensureCrossModuleObservedIsMutable();
-          super.addAll(values, crossModuleObserved_);
-          onChanged();
-        } else {
-          crossModuleObservedBuilder_.addAllMessages(values);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation cross_module_observed = 3;</code>
-       */
-      public Builder clearCrossModuleObserved() {
-        if (crossModuleObservedBuilder_ == null) {
-          crossModuleObserved_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000004);
-          onChanged();
-        } else {
-          crossModuleObservedBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation cross_module_observed = 3;</code>
-       */
-      public Builder removeCrossModuleObserved(int index) {
-        if (crossModuleObservedBuilder_ == null) {
-          ensureCrossModuleObservedIsMutable();
-          crossModuleObserved_.remove(index);
-          onChanged();
-        } else {
-          crossModuleObservedBuilder_.remove(index);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation cross_module_observed = 3;</code>
-       */
-      public edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.Builder getCrossModuleObservedBuilder(
-          int index) {
-        return getCrossModuleObservedFieldBuilder().getBuilder(index);
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation cross_module_observed = 3;</code>
-       */
-      public edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservationOrBuilder getCrossModuleObservedOrBuilder(
-          int index) {
-        if (crossModuleObservedBuilder_ == null) {
-          return crossModuleObserved_.get(index);  } else {
-          return crossModuleObservedBuilder_.getMessageOrBuilder(index);
-        }
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation cross_module_observed = 3;</code>
-       */
-      public java.util.List<? extends edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservationOrBuilder> 
-           getCrossModuleObservedOrBuilderList() {
-        if (crossModuleObservedBuilder_ != null) {
-          return crossModuleObservedBuilder_.getMessageOrBuilderList();
-        } else {
-          return java.util.Collections.unmodifiableList(crossModuleObserved_);
-        }
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation cross_module_observed = 3;</code>
-       */
-      public edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.Builder addCrossModuleObservedBuilder() {
-        return getCrossModuleObservedFieldBuilder().addBuilder(
-            edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation cross_module_observed = 3;</code>
-       */
-      public edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.Builder addCrossModuleObservedBuilder(
-          int index) {
-        return getCrossModuleObservedFieldBuilder().addBuilder(
-            index, edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation cross_module_observed = 3;</code>
-       */
-      public java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.Builder> 
-           getCrossModuleObservedBuilderList() {
-        return getCrossModuleObservedFieldBuilder().getBuilderList();
-      }
-      private com.google.protobuf.RepeatedFieldBuilder<
-          edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation, edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.Builder, edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservationOrBuilder> 
-          getCrossModuleObservedFieldBuilder() {
-        if (crossModuleObservedBuilder_ == null) {
-          crossModuleObservedBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
-              edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation, edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.Builder, edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservationOrBuilder>(
-                  crossModuleObserved_,
-                  ((bitField0_ & 0x00000004) == 0x00000004),
-                  getParentForChildren(),
-                  isClean());
-          crossModuleObserved_ = null;
-        }
-        return crossModuleObservedBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:crowd_safe_data_analysis.ModuleMetadata)
@@ -12299,7 +12299,7 @@ public final class Graph {
     }
 
     private void initFields() {
-      type_ = edu.uci.eecs.crowdsafe.common.data.results.Graph.EvaluationType.TOTAL;
+      type_ = edu.uci.eecs.crowdsafe.common.data.results.Graph.EvaluationType.UIB_TOTAL;
       interval_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
@@ -12454,7 +12454,7 @@ public final class Graph {
 
       public Builder clear() {
         super.clear();
-        type_ = edu.uci.eecs.crowdsafe.common.data.results.Graph.EvaluationType.TOTAL;
+        type_ = edu.uci.eecs.crowdsafe.common.data.results.Graph.EvaluationType.UIB_TOTAL;
         bitField0_ = (bitField0_ & ~0x00000001);
         if (intervalBuilder_ == null) {
           interval_ = java.util.Collections.emptyList();
@@ -12576,7 +12576,7 @@ public final class Graph {
       private int bitField0_;
 
       // optional .crowd_safe_data_analysis.EvaluationType type = 1;
-      private edu.uci.eecs.crowdsafe.common.data.results.Graph.EvaluationType type_ = edu.uci.eecs.crowdsafe.common.data.results.Graph.EvaluationType.TOTAL;
+      private edu.uci.eecs.crowdsafe.common.data.results.Graph.EvaluationType type_ = edu.uci.eecs.crowdsafe.common.data.results.Graph.EvaluationType.UIB_TOTAL;
       /**
        * <code>optional .crowd_safe_data_analysis.EvaluationType type = 1;</code>
        */
@@ -12606,7 +12606,7 @@ public final class Graph {
        */
       public Builder clearType() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        type_ = edu.uci.eecs.crowdsafe.common.data.results.Graph.EvaluationType.TOTAL;
+        type_ = edu.uci.eecs.crowdsafe.common.data.results.Graph.EvaluationType.UIB_TOTAL;
         onChanged();
         return this;
       }
@@ -15101,9 +15101,9 @@ public final class Graph {
       "is.EvaluationType\022\026\n\016instance_count\030\002 \001(" +
       "\005\022\027\n\017traversal_count\030\003 \001(\005\"\344\001\n\016ModuleMet" +
       "adata\022@\n\016total_observed\030\001 \003(\0132(.crowd_sa" +
-      "fe_data_analysis.UIBObservation\022G\n\025inter",
+      "fe_data_analysis.UIBObservation\022G\n\025intra",
       "_module_observed\030\002 \003(\0132(.crowd_safe_data" +
-      "_analysis.UIBObservation\022G\n\025cross_module" +
+      "_analysis.UIBObservation\022G\n\025inter_module" +
       "_observed\030\003 \003(\0132(.crowd_safe_data_analys" +
       "is.UIBObservation\"f\n\026ModuleMetadataSeque" +
       "nce\022\017\n\007is_root\030\001 \001(\010\022;\n\texecution\030\002 \003(\0132" +
@@ -15125,10 +15125,10 @@ public final class Graph {
       "sMetadataSequence*\200\001\n\010EdgeType\022\014\n\010INDIRE" +
       "CT\020\000\022\n\n\006DIRECT\020\001\022\025\n\021CALL_CONTINUATION\020\002\022" +
       "\032\n\026EXCEPTION_CONTINUATION\020\003\022\025\n\021UNEXPECTE" +
-      "D_RETURN\020\004\022\020\n\014MODULE_ENTRY\020\005*9\n\016Evaluati" +
-      "onType\022\t\n\005TOTAL\020\000\022\014\n\010ADMITTED\020\001\022\016\n\nSUSPI" +
-      "CIOUS\020\002B3\n*edu.uci.eecs.crowdsafe.common" +
-      ".data.resultsB\005Graph"
+      "D_RETURN\020\004\022\020\n\014MODULE_ENTRY\020\005*E\n\016Evaluati" +
+      "onType\022\r\n\tUIB_TOTAL\020\000\022\020\n\014UIB_ADMITTED\020\001\022" +
+      "\022\n\016UIB_SUSPICIOUS\020\002B3\n*edu.uci.eecs.crow" +
+      "dsafe.common.data.resultsB\005Graph"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -15194,7 +15194,7 @@ public final class Graph {
           internal_static_crowd_safe_data_analysis_ModuleMetadata_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_crowd_safe_data_analysis_ModuleMetadata_descriptor,
-              new java.lang.String[] { "TotalObserved", "InterModuleObserved", "CrossModuleObserved", });
+              new java.lang.String[] { "TotalObserved", "IntraModuleObserved", "InterModuleObserved", });
           internal_static_crowd_safe_data_analysis_ModuleMetadataSequence_descriptor =
             getDescriptor().getMessageTypes().get(10);
           internal_static_crowd_safe_data_analysis_ModuleMetadataSequence_fieldAccessorTable = new

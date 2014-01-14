@@ -22,10 +22,10 @@ public class ClusterMetadataSequence {
 	public void setRoot(boolean isRoot) {
 		this.isRoot = isRoot;
 	}
-	
+
 	boolean hasIntervals() {
 		for (ClusterMetadataExecution execution : executions) {
-			if (!execution.intervals.isEmpty())
+			if (execution.getIntervalCount() > 0)
 				return true;
 		}
 		return false;

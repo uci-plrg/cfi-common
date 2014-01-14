@@ -680,7 +680,7 @@ public class RawGraphTransformer {
 								uib.getInstanceCount());
 				}
 				for (RawUnexpectedIndirectBranchInterval interval : uibIntervals) {
-					writer.writeUIBInterval(interval.span, interval.count, interval.maxConsecutive);
+					writer.writeUIBInterval(interval.type.id, interval.span, interval.count, interval.maxConsecutive);
 				}
 			}
 		} else {

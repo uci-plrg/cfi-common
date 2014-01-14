@@ -46,17 +46,21 @@ public class Edge<EndpointType extends Node<?>> implements ClusterDataWriter.Edg
 	public int getOrdinal() {
 		return ordinal;
 	}
-	
+
 	public boolean isContinuation() {
 		return edgeType.isContinuation();
 	}
-	
+
 	public boolean isDirect() {
 		return edgeType == EdgeType.DIRECT;
 	}
-	
+
 	public boolean isIndirect() {
 		return edgeType == EdgeType.INDIRECT;
+	}
+
+	public boolean isCrossModule() {
+		return ((fromNode.getType() == MetaNodeType.CLUSTER_ENTRY) || (toNode.getType() == MetaNodeType.CLUSTER_EXIT));
 	}
 
 	public boolean isModuleRelativeEquivalent(Edge<?> other) {

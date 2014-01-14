@@ -3,9 +3,15 @@ package edu.uci.eecs.crowdsafe.common.data.graph.transform;
 public class RawUnexpectedIndirectBranchInterval {
 
 	public enum Type {
-		TOTAL,
-		ADMITTED,
-		SUSPICIOUS;
+		TOTAL(0),
+		ADMITTED(1),
+		SUSPICIOUS(2);
+		
+		public final int id;
+		
+		private Type(int id) {
+			this.id = id;
+		}
 
 		static Type forId(int id) {
 			switch (id) {

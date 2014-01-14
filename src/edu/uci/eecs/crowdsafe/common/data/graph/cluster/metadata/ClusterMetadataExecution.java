@@ -10,15 +10,23 @@ import java.util.UUID;
 public class ClusterMetadataExecution {
 
 	public final UUID id;
-	public final Map<ClusterUIBInterval.Type, List<ClusterUIBInterval>> intervals = new EnumMap<ClusterUIBInterval.Type, List<ClusterUIBInterval>>(
-			ClusterUIBInterval.Type.class);
+	private final Map<EvaluationType, List<ClusterUIBInterval>> intervals = new EnumMap<EvaluationType, List<ClusterUIBInterval>>(
+			EvaluationType.class);
 	public final List<ClusterUIB> uibs = new ArrayList<ClusterUIB>();
 
 	public ClusterMetadataExecution() {
 		this(UUID.randomUUID());
 	}
+	
+	public int getIntervalCount() {
+		int count = 0;
+		for (List<ClusterUIBInterval> group : intervals.values()) {
+			count += group.size();
+		}
+		return count;
+	}
 
-	public List<ClusterUIBInterval> getIntervals(ClusterUIBInterval.Type type) {
+	public List<ClusterUIBInterval> getIntervals(EvaluationType type) {
 		if (intervals.isEmpty())
 			return Collections.emptyList();
 
@@ -27,7 +35,7 @@ public class ClusterMetadataExecution {
 
 	public void addInterval(ClusterUIBInterval interval) {
 		if (intervals.isEmpty())
-			for (ClusterUIBInterval.Type type : ClusterUIBInterval.Type.values())
+			for (EvaluationType type : EvaluationType.values())
 				intervals.put(type, new ArrayList<ClusterUIBInterval>());
 
 		intervals.get(interval.type).add(interval);

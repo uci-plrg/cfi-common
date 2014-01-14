@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import edu.uci.eecs.crowdsafe.common.data.results.Graph;
+
 public class ClusterMetadata {
 
 	private boolean isMain = false;
@@ -49,5 +51,36 @@ public class ClusterMetadata {
 
 	public ClusterMetadataExecution getSingletonExecution() {
 		return rootSequence.executions.get(0);
+	}
+
+	public Graph.ProcessMetadataHistory summarizeIntervals() {
+		Graph.ProcessMetadataHistory.Builder metadataHistoryBuilder = Graph.ProcessMetadataHistory.newBuilder();
+		Graph.ProcessMetadataSequence.Builder metadataSequenceBuilder = Graph.ProcessMetadataSequence.newBuilder();
+		Graph.ProcessMetadata.Builder metadataBuilder = Graph.ProcessMetadata.newBuilder();
+		Graph.IntervalGroup.Builder intervalGroupBuilder = Graph.IntervalGroup.newBuilder();
+		Graph.Interval.Builder intervalBuilder = Graph.Interval.newBuilder();
+
+		for (ClusterMetadataSequence sequence : sequences.values()) {
+			for (ClusterMetadataExecution execution : sequence.executions) {
+				for (EvaluationType type : EvaluationType.values()) {
+					intervalGroupBuilder.setType(type.getResultType());
+					for (ClusterUIBInterval interval : execution.getIntervals(type)) {
+						intervalBuilder.setSpan(interval.span);
+						intervalBuilder.setOccurences(interval.count);
+						intervalBuilder.setMaxConsecutive(interval.maxConsecutive);
+						intervalGroupBuilder.addInterval(intervalBuilder.build());
+						intervalBuilder.clear();
+					}
+					metadataBuilder.addIntervalGroup(intervalGroupBuilder.build());
+					intervalGroupBuilder.clear();
+				}
+				metadataSequenceBuilder.addExecution(metadataBuilder.build());
+				metadataBuilder.clear();
+			}
+			metadataHistoryBuilder.addSequence(metadataSequenceBuilder.build());
+			metadataSequenceBuilder.clear();
+		}
+
+		return metadataHistoryBuilder.build();
 	}
 }

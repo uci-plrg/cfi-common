@@ -68,9 +68,9 @@ message EdgeTypeCount {
 }
 
 enum EvaluationType {
-	TOTAL = 0;
-	ADMITTED = 1;
-	SUSPICIOUS = 2;
+	UIB_TOTAL = 0;
+	UIB_ADMITTED = 1;
+	UIB_SUSPICIOUS = 2;
 }
 
 message UIBObservation {
@@ -81,8 +81,8 @@ message UIBObservation {
 
 message ModuleMetadata {
 	repeated UIBObservation total_observed = 1;
-	repeated UIBObservation inter_module_observed = 2;
-	repeated UIBObservation cross_module_observed = 3;
+	repeated UIBObservation intra_module_observed = 2;
+	repeated UIBObservation inter_module_observed = 3;
 }
 
 message ModuleMetadataSequence {
