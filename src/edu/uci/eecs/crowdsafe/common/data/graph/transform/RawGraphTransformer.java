@@ -230,6 +230,7 @@ public class RawGraphTransformer {
 		ModuleInstance mainModule = executionModules.getModule(mainModuleStartAddress, 0,
 				ExecutionTraceStreamType.GRAPH_NODE);
 		mainCluster = ConfiguredSoftwareDistributions.getInstance().distributionsByUnit.get(mainModule.unit);
+		graphWriters.establishClusterWriters(establishClusterData(mainCluster));
 		Log.log("Main cluster is %s", mainCluster);
 
 		RawGraphEntry.OneWordFactory factory = new RawGraphEntry.OneWordFactory(input);
@@ -664,19 +665,24 @@ public class RawGraphTransformer {
 			Collection<RawUnexpectedIndirectBranch> uibsSorted = uibs.sortAndMerge();
 			writer.writeExecutionMetadataHeader(UUID.randomUUID(), uibsSorted.size(), 0);
 			for (RawUnexpectedIndirectBranch uib : uibsSorted)
-				writer.writeUIB(uib.getClusterEdgeIndex(), uib.isAdmitted, uib.getTraversalCount(),
+				writer.writeUIB(uib.getClusterEdgeIndex(), uib.isAdmitted(), uib.getTraversalCount(),
 						uib.getInstanceCount());
 		}
 		if (mainCluster != null) {
 			if ((uibsMain != null) || !uibIntervals.isEmpty()) {
 				ClusterDataWriter<IndexedClusterNode> writer = graphWriters.getWriter(mainCluster);
+				// if (writer == null)
+				// writer = graphWriters.createMetadataWriter(mainCluster);
 				writer.writeSequenceMetadataHeader(1, true);
+				Collection<RawUnexpectedIndirectBranch> uibsSorted = null;
 				if (uibsMain != null) {
-					Collection<RawUnexpectedIndirectBranch> uibsSorted = uibsMain.sortAndMerge();
-					writer.writeExecutionMetadataHeader(UUID.randomUUID(), uibsMain == null ? 0 : uibsSorted.size(),
-							uibIntervals.size());
+					uibsSorted = uibsMain.sortAndMerge();
+				}
+				writer.writeExecutionMetadataHeader(UUID.randomUUID(), uibsSorted == null ? 0 : uibsSorted.size(),
+						uibIntervals.size());
+				if (uibsSorted != null) {
 					for (RawUnexpectedIndirectBranch uib : uibsSorted)
-						writer.writeUIB(uib.getClusterEdgeIndex(), uib.isAdmitted, uib.getTraversalCount(),
+						writer.writeUIB(uib.getClusterEdgeIndex(), uib.isAdmitted(), uib.getTraversalCount(),
 								uib.getInstanceCount());
 				}
 				for (RawUnexpectedIndirectBranchInterval interval : uibIntervals) {

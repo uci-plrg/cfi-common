@@ -3,6 +3,7 @@ package edu.uci.eecs.crowdsafe.common.data.graph.transform;
 import java.util.Comparator;
 
 import edu.uci.eecs.crowdsafe.common.data.graph.MetaNodeType;
+import edu.uci.eecs.crowdsafe.common.log.Log;
 
 public class RawUnexpectedIndirectBranch {
 
@@ -34,7 +35,7 @@ public class RawUnexpectedIndirectBranch {
 
 	final int executionEdgeIndex;
 	public final boolean isCrossModule;
-	public final boolean isAdmitted;
+	private boolean isAdmitted;
 	private int traversalCount;
 	private int instanceCount = 1;
 
@@ -58,12 +59,19 @@ public class RawUnexpectedIndirectBranch {
 		if (isCrossModule != other.isCrossModule)
 			throw new IllegalArgumentException(
 					"Attempt to merge incompatible UIBs: (cross-module x intra-module) on edge " + clusterEdge);
-		if ((isAdmitted != other.isAdmitted) && (clusterEdge.getToNode().getType() != MetaNodeType.CLUSTER_EXIT))
-			throw new IllegalArgumentException("Attempt to merge incompatible UIBs: (admitted x suspicious) on edge "
-					+ clusterEdge);
+		if (isAdmitted != other.isAdmitted) {
+			if (clusterEdge.getToNode().getType() != MetaNodeType.CLUSTER_EXIT)
+				Log.log("Warning: merging incompatible UIBs: (admitted x suspicious) on edge " + clusterEdge);
+
+			isAdmitted = false;
+		}
 
 		traversalCount += other.traversalCount;
 		instanceCount++;
+	}
+
+	public boolean isAdmitted() {
+		return isAdmitted;
 	}
 
 	public int getClusterEdgeIndex() {

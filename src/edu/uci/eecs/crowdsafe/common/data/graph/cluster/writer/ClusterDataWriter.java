@@ -156,8 +156,7 @@ public class ClusterDataWriter<NodeType extends NodeIdentifier> {
 		metaStream.writeLong(word);
 	}
 
-	public void writeUIBInterval(int typeId, int span, int count, int maxConsecutive)
-			throws IOException {
+	public void writeUIBInterval(int typeId, int span, int count, int maxConsecutive) throws IOException {
 		long word = typeId;
 		word |= (((long) span) << 8);
 		word |= (maxConsecutive << 0x10);
