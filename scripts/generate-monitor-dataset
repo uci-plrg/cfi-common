@@ -8,11 +8,12 @@ function usage() {
 
 check_help $1 usage
 
-while getopts "lo:" option
+while getopts "lo:q:" option
 do
   case $option in
     l ) logfile=$OPTARG;;
     o ) output_file=$OPTARG;;
+    q ) quick=$OPTARG;;
     * ) usage; exit;;
   esac
 done
@@ -24,6 +25,13 @@ main_class="edu.uci.eecs.crowdsafe.common.main.MonitorDataTransformer"
 
 graph_dir=$1
 
+if [ ! -z "$quick" ]
+then
+  output_file=/stash/experiments/$(basename $(pwd))".monitor.dat"
+  graph_dir="dataset."$quick
+  echo "Quick transform "$graph_dir" into "$output_file
+fi
+
 [ -z $graph_dir ] && usage && exit
 [ -z $output_file ] && usage && exit
 
@@ -32,7 +40,7 @@ echo "Logging to "$logfile
 
 [ -d $output_file ] && output_file=${output_file%/}"/"$(basename $graph_dir)".monitor.dat"
 
-echo "Transforming monitor data into "$output_file
+echo "Transforming graph '"$graph_dir"' into '"$output_file"'"
 
 #echo "java -cp $cp $main_class $@"
 java -Xms512M -Xmx2048M -cp $cp $main_class -o $output_file $graph_dir &> $logfile
