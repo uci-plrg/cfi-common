@@ -8784,6 +8784,26 @@ public final class Graph {
      */
     edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservationOrBuilder getInterModuleObservedOrBuilder(
         int index);
+
+    // optional int64 id_low = 4;
+    /**
+     * <code>optional int64 id_low = 4;</code>
+     */
+    boolean hasIdLow();
+    /**
+     * <code>optional int64 id_low = 4;</code>
+     */
+    long getIdLow();
+
+    // optional int64 id_high = 5;
+    /**
+     * <code>optional int64 id_high = 5;</code>
+     */
+    boolean hasIdHigh();
+    /**
+     * <code>optional int64 id_high = 5;</code>
+     */
+    long getIdHigh();
   }
   /**
    * Protobuf type {@code crowd_safe_data_analysis.ModuleMetadata}
@@ -8860,6 +8880,16 @@ public final class Graph {
               interModuleObserved_.add(input.readMessage(edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.PARSER, extensionRegistry));
               break;
             }
+            case 32: {
+              bitField0_ |= 0x00000001;
+              idLow_ = input.readInt64();
+              break;
+            }
+            case 40: {
+              bitField0_ |= 0x00000002;
+              idHigh_ = input.readInt64();
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -8908,6 +8938,7 @@ public final class Graph {
       return PARSER;
     }
 
+    private int bitField0_;
     // repeated .crowd_safe_data_analysis.UIBObservation total_observed = 1;
     public static final int TOTAL_OBSERVED_FIELD_NUMBER = 1;
     private java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation> totalObserved_;
@@ -9016,10 +9047,44 @@ public final class Graph {
       return interModuleObserved_.get(index);
     }
 
+    // optional int64 id_low = 4;
+    public static final int ID_LOW_FIELD_NUMBER = 4;
+    private long idLow_;
+    /**
+     * <code>optional int64 id_low = 4;</code>
+     */
+    public boolean hasIdLow() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>optional int64 id_low = 4;</code>
+     */
+    public long getIdLow() {
+      return idLow_;
+    }
+
+    // optional int64 id_high = 5;
+    public static final int ID_HIGH_FIELD_NUMBER = 5;
+    private long idHigh_;
+    /**
+     * <code>optional int64 id_high = 5;</code>
+     */
+    public boolean hasIdHigh() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional int64 id_high = 5;</code>
+     */
+    public long getIdHigh() {
+      return idHigh_;
+    }
+
     private void initFields() {
       totalObserved_ = java.util.Collections.emptyList();
       intraModuleObserved_ = java.util.Collections.emptyList();
       interModuleObserved_ = java.util.Collections.emptyList();
+      idLow_ = 0L;
+      idHigh_ = 0L;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -9042,6 +9107,12 @@ public final class Graph {
       for (int i = 0; i < interModuleObserved_.size(); i++) {
         output.writeMessage(3, interModuleObserved_.get(i));
       }
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt64(4, idLow_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt64(5, idHigh_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -9062,6 +9133,14 @@ public final class Graph {
       for (int i = 0; i < interModuleObserved_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(3, interModuleObserved_.get(i));
+      }
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(4, idLow_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(5, idHigh_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -9200,6 +9279,10 @@ public final class Graph {
         } else {
           interModuleObservedBuilder_.clear();
         }
+        idLow_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        idHigh_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
 
@@ -9227,6 +9310,7 @@ public final class Graph {
       public edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadata buildPartial() {
         edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadata result = new edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadata(this);
         int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
         if (totalObservedBuilder_ == null) {
           if (((bitField0_ & 0x00000001) == 0x00000001)) {
             totalObserved_ = java.util.Collections.unmodifiableList(totalObserved_);
@@ -9254,6 +9338,15 @@ public final class Graph {
         } else {
           result.interModuleObserved_ = interModuleObservedBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.idLow_ = idLow_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.idHigh_ = idHigh_;
+        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -9346,6 +9439,12 @@ public final class Graph {
               interModuleObservedBuilder_.addAllMessages(other.interModuleObserved_);
             }
           }
+        }
+        if (other.hasIdLow()) {
+          setIdLow(other.getIdLow());
+        }
+        if (other.hasIdHigh()) {
+          setIdHigh(other.getIdHigh());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -10092,6 +10191,72 @@ public final class Graph {
           interModuleObserved_ = null;
         }
         return interModuleObservedBuilder_;
+      }
+
+      // optional int64 id_low = 4;
+      private long idLow_ ;
+      /**
+       * <code>optional int64 id_low = 4;</code>
+       */
+      public boolean hasIdLow() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional int64 id_low = 4;</code>
+       */
+      public long getIdLow() {
+        return idLow_;
+      }
+      /**
+       * <code>optional int64 id_low = 4;</code>
+       */
+      public Builder setIdLow(long value) {
+        bitField0_ |= 0x00000008;
+        idLow_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int64 id_low = 4;</code>
+       */
+      public Builder clearIdLow() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        idLow_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      // optional int64 id_high = 5;
+      private long idHigh_ ;
+      /**
+       * <code>optional int64 id_high = 5;</code>
+       */
+      public boolean hasIdHigh() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional int64 id_high = 5;</code>
+       */
+      public long getIdHigh() {
+        return idHigh_;
+      }
+      /**
+       * <code>optional int64 id_high = 5;</code>
+       */
+      public Builder setIdHigh(long value) {
+        bitField0_ |= 0x00000010;
+        idHigh_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int64 id_high = 5;</code>
+       */
+      public Builder clearIdHigh() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        idHigh_ = 0L;
+        onChanged();
+        return this;
       }
 
       // @@protoc_insertion_point(builder_scope:crowd_safe_data_analysis.ModuleMetadata)
@@ -12889,6 +13054,26 @@ public final class Graph {
      */
     edu.uci.eecs.crowdsafe.common.data.results.Graph.IntervalGroupOrBuilder getIntervalGroupOrBuilder(
         int index);
+
+    // optional int64 id_low = 2;
+    /**
+     * <code>optional int64 id_low = 2;</code>
+     */
+    boolean hasIdLow();
+    /**
+     * <code>optional int64 id_low = 2;</code>
+     */
+    long getIdLow();
+
+    // optional int64 id_high = 3;
+    /**
+     * <code>optional int64 id_high = 3;</code>
+     */
+    boolean hasIdHigh();
+    /**
+     * <code>optional int64 id_high = 3;</code>
+     */
+    long getIdHigh();
   }
   /**
    * Protobuf type {@code crowd_safe_data_analysis.ProcessMetadata}
@@ -12949,6 +13134,16 @@ public final class Graph {
               intervalGroup_.add(input.readMessage(edu.uci.eecs.crowdsafe.common.data.results.Graph.IntervalGroup.PARSER, extensionRegistry));
               break;
             }
+            case 16: {
+              bitField0_ |= 0x00000001;
+              idLow_ = input.readInt64();
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000002;
+              idHigh_ = input.readInt64();
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -12991,6 +13186,7 @@ public final class Graph {
       return PARSER;
     }
 
+    private int bitField0_;
     // repeated .crowd_safe_data_analysis.IntervalGroup interval_group = 1;
     public static final int INTERVAL_GROUP_FIELD_NUMBER = 1;
     private java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.IntervalGroup> intervalGroup_;
@@ -13027,8 +13223,42 @@ public final class Graph {
       return intervalGroup_.get(index);
     }
 
+    // optional int64 id_low = 2;
+    public static final int ID_LOW_FIELD_NUMBER = 2;
+    private long idLow_;
+    /**
+     * <code>optional int64 id_low = 2;</code>
+     */
+    public boolean hasIdLow() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>optional int64 id_low = 2;</code>
+     */
+    public long getIdLow() {
+      return idLow_;
+    }
+
+    // optional int64 id_high = 3;
+    public static final int ID_HIGH_FIELD_NUMBER = 3;
+    private long idHigh_;
+    /**
+     * <code>optional int64 id_high = 3;</code>
+     */
+    public boolean hasIdHigh() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional int64 id_high = 3;</code>
+     */
+    public long getIdHigh() {
+      return idHigh_;
+    }
+
     private void initFields() {
       intervalGroup_ = java.util.Collections.emptyList();
+      idLow_ = 0L;
+      idHigh_ = 0L;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -13045,6 +13275,12 @@ public final class Graph {
       for (int i = 0; i < intervalGroup_.size(); i++) {
         output.writeMessage(1, intervalGroup_.get(i));
       }
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt64(2, idLow_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt64(3, idHigh_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -13057,6 +13293,14 @@ public final class Graph {
       for (int i = 0; i < intervalGroup_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(1, intervalGroup_.get(i));
+      }
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(2, idLow_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(3, idHigh_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -13181,6 +13425,10 @@ public final class Graph {
         } else {
           intervalGroupBuilder_.clear();
         }
+        idLow_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        idHigh_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
 
@@ -13208,6 +13456,7 @@ public final class Graph {
       public edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadata buildPartial() {
         edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadata result = new edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadata(this);
         int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
         if (intervalGroupBuilder_ == null) {
           if (((bitField0_ & 0x00000001) == 0x00000001)) {
             intervalGroup_ = java.util.Collections.unmodifiableList(intervalGroup_);
@@ -13217,6 +13466,15 @@ public final class Graph {
         } else {
           result.intervalGroup_ = intervalGroupBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.idLow_ = idLow_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.idHigh_ = idHigh_;
+        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -13257,6 +13515,12 @@ public final class Graph {
               intervalGroupBuilder_.addAllMessages(other.intervalGroup_);
             }
           }
+        }
+        if (other.hasIdLow()) {
+          setIdLow(other.getIdLow());
+        }
+        if (other.hasIdHigh()) {
+          setIdHigh(other.getIdHigh());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -13523,6 +13787,72 @@ public final class Graph {
           intervalGroup_ = null;
         }
         return intervalGroupBuilder_;
+      }
+
+      // optional int64 id_low = 2;
+      private long idLow_ ;
+      /**
+       * <code>optional int64 id_low = 2;</code>
+       */
+      public boolean hasIdLow() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional int64 id_low = 2;</code>
+       */
+      public long getIdLow() {
+        return idLow_;
+      }
+      /**
+       * <code>optional int64 id_low = 2;</code>
+       */
+      public Builder setIdLow(long value) {
+        bitField0_ |= 0x00000002;
+        idLow_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int64 id_low = 2;</code>
+       */
+      public Builder clearIdLow() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        idLow_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      // optional int64 id_high = 3;
+      private long idHigh_ ;
+      /**
+       * <code>optional int64 id_high = 3;</code>
+       */
+      public boolean hasIdHigh() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional int64 id_high = 3;</code>
+       */
+      public long getIdHigh() {
+        return idHigh_;
+      }
+      /**
+       * <code>optional int64 id_high = 3;</code>
+       */
+      public Builder setIdHigh(long value) {
+        bitField0_ |= 0x00000004;
+        idHigh_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int64 id_high = 3;</code>
+       */
+      public Builder clearIdHigh() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        idHigh_ = 0L;
+        onChanged();
+        return this;
       }
 
       // @@protoc_insertion_point(builder_scope:crowd_safe_data_analysis.ProcessMetadata)
@@ -15099,36 +15429,38 @@ public final class Graph {
       "EdgeType\022\r\n\005count\030\002 \001(\005\"y\n\016UIBObservatio" +
       "n\0226\n\004type\030\001 \001(\0162(.crowd_safe_data_analys" +
       "is.EvaluationType\022\026\n\016instance_count\030\002 \001(" +
-      "\005\022\027\n\017traversal_count\030\003 \001(\005\"\344\001\n\016ModuleMet" +
+      "\005\022\027\n\017traversal_count\030\003 \001(\005\"\205\002\n\016ModuleMet" +
       "adata\022@\n\016total_observed\030\001 \003(\0132(.crowd_sa" +
       "fe_data_analysis.UIBObservation\022G\n\025intra",
       "_module_observed\030\002 \003(\0132(.crowd_safe_data" +
       "_analysis.UIBObservation\022G\n\025inter_module" +
       "_observed\030\003 \003(\0132(.crowd_safe_data_analys" +
-      "is.UIBObservation\"f\n\026ModuleMetadataSeque" +
-      "nce\022\017\n\007is_root\030\001 \001(\010\022;\n\texecution\030\002 \003(\0132" +
-      "(.crowd_safe_data_analysis.ModuleMetadat" +
-      "a\"[\n\025ModuleMetadataHistory\022B\n\010sequence\030\001" +
-      " \003(\01320.crowd_safe_data_analysis.ModuleMe" +
-      "tadataSequence\"E\n\010Interval\022\014\n\004span\030\001 \001(\005" +
-      "\022\022\n\noccurences\030\002 \001(\005\022\027\n\017max_consecutive\030",
-      "\003 \001(\005\"}\n\rIntervalGroup\0226\n\004type\030\001 \001(\0162(.c" +
-      "rowd_safe_data_analysis.EvaluationType\0224" +
-      "\n\010interval\030\002 \003(\0132\".crowd_safe_data_analy" +
-      "sis.Interval\"R\n\017ProcessMetadata\022?\n\016inter" +
-      "val_group\030\001 \003(\0132\'.crowd_safe_data_analys" +
-      "is.IntervalGroup\"h\n\027ProcessMetadataSeque" +
-      "nce\022\017\n\007is_root\030\001 \001(\010\022<\n\texecution\030\002 \003(\0132" +
-      ").crowd_safe_data_analysis.ProcessMetada" +
-      "ta\"]\n\026ProcessMetadataHistory\022C\n\010sequence" +
-      "\030\001 \003(\01321.crowd_safe_data_analysis.Proces",
-      "sMetadataSequence*\200\001\n\010EdgeType\022\014\n\010INDIRE" +
-      "CT\020\000\022\n\n\006DIRECT\020\001\022\025\n\021CALL_CONTINUATION\020\002\022" +
-      "\032\n\026EXCEPTION_CONTINUATION\020\003\022\025\n\021UNEXPECTE" +
-      "D_RETURN\020\004\022\020\n\014MODULE_ENTRY\020\005*E\n\016Evaluati" +
-      "onType\022\r\n\tUIB_TOTAL\020\000\022\020\n\014UIB_ADMITTED\020\001\022" +
-      "\022\n\016UIB_SUSPICIOUS\020\002B3\n*edu.uci.eecs.crow" +
-      "dsafe.common.data.resultsB\005Graph"
+      "is.UIBObservation\022\016\n\006id_low\030\004 \001(\003\022\017\n\007id_" +
+      "high\030\005 \001(\003\"f\n\026ModuleMetadataSequence\022\017\n\007" +
+      "is_root\030\001 \001(\010\022;\n\texecution\030\002 \003(\0132(.crowd" +
+      "_safe_data_analysis.ModuleMetadata\"[\n\025Mo" +
+      "duleMetadataHistory\022B\n\010sequence\030\001 \003(\01320." +
+      "crowd_safe_data_analysis.ModuleMetadataS" +
+      "equence\"E\n\010Interval\022\014\n\004span\030\001 \001(\005\022\022\n\nocc",
+      "urences\030\002 \001(\005\022\027\n\017max_consecutive\030\003 \001(\005\"}" +
+      "\n\rIntervalGroup\0226\n\004type\030\001 \001(\0162(.crowd_sa" +
+      "fe_data_analysis.EvaluationType\0224\n\010inter" +
+      "val\030\002 \003(\0132\".crowd_safe_data_analysis.Int" +
+      "erval\"s\n\017ProcessMetadata\022?\n\016interval_gro" +
+      "up\030\001 \003(\0132\'.crowd_safe_data_analysis.Inte" +
+      "rvalGroup\022\016\n\006id_low\030\002 \001(\003\022\017\n\007id_high\030\003 \001" +
+      "(\003\"h\n\027ProcessMetadataSequence\022\017\n\007is_root" +
+      "\030\001 \001(\010\022<\n\texecution\030\002 \003(\0132).crowd_safe_d" +
+      "ata_analysis.ProcessMetadata\"]\n\026ProcessM",
+      "etadataHistory\022C\n\010sequence\030\001 \003(\01321.crowd" +
+      "_safe_data_analysis.ProcessMetadataSeque" +
+      "nce*\200\001\n\010EdgeType\022\014\n\010INDIRECT\020\000\022\n\n\006DIRECT" +
+      "\020\001\022\025\n\021CALL_CONTINUATION\020\002\022\032\n\026EXCEPTION_C" +
+      "ONTINUATION\020\003\022\025\n\021UNEXPECTED_RETURN\020\004\022\020\n\014" +
+      "MODULE_ENTRY\020\005*E\n\016EvaluationType\022\r\n\tUIB_" +
+      "TOTAL\020\000\022\020\n\014UIB_ADMITTED\020\001\022\022\n\016UIB_SUSPICI" +
+      "OUS\020\002B3\n*edu.uci.eecs.crowdsafe.common.d" +
+      "ata.resultsB\005Graph"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -15194,7 +15526,7 @@ public final class Graph {
           internal_static_crowd_safe_data_analysis_ModuleMetadata_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_crowd_safe_data_analysis_ModuleMetadata_descriptor,
-              new java.lang.String[] { "TotalObserved", "IntraModuleObserved", "InterModuleObserved", });
+              new java.lang.String[] { "TotalObserved", "IntraModuleObserved", "InterModuleObserved", "IdLow", "IdHigh", });
           internal_static_crowd_safe_data_analysis_ModuleMetadataSequence_descriptor =
             getDescriptor().getMessageTypes().get(10);
           internal_static_crowd_safe_data_analysis_ModuleMetadataSequence_fieldAccessorTable = new
@@ -15224,7 +15556,7 @@ public final class Graph {
           internal_static_crowd_safe_data_analysis_ProcessMetadata_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_crowd_safe_data_analysis_ProcessMetadata_descriptor,
-              new java.lang.String[] { "IntervalGroup", });
+              new java.lang.String[] { "IntervalGroup", "IdLow", "IdHigh", });
           internal_static_crowd_safe_data_analysis_ProcessMetadataSequence_descriptor =
             getDescriptor().getMessageTypes().get(15);
           internal_static_crowd_safe_data_analysis_ProcessMetadataSequence_fieldAccessorTable = new

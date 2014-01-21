@@ -83,6 +83,8 @@ message ModuleMetadata {
 	repeated UIBObservation total_observed = 1;
 	repeated UIBObservation intra_module_observed = 2;
 	repeated UIBObservation inter_module_observed = 3;
+	optional int64 id_low = 4;
+	optional int64 id_high = 5;
 }
 
 message ModuleMetadataSequence {
@@ -107,6 +109,8 @@ message IntervalGroup {
 
 message ProcessMetadata {
 	repeated IntervalGroup interval_group = 1;
+	optional int64 id_low = 2;
+	optional int64 id_high = 3;
 }
 
 message ProcessMetadataSequence {

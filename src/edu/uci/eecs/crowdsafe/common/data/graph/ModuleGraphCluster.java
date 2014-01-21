@@ -464,6 +464,8 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 		for (ClusterMetadataSequence sequence : metadata.sequences.values()) {
 			metadataSequenceBuilder.setIsRoot(sequence.isRoot());
 			for (ClusterMetadataExecution execution : sequence.executions) {
+				metadataBuilder.setIdHigh(execution.id.getMostSignificantBits());
+				metadataBuilder.setIdLow(execution.id.getLeastSignificantBits());
 				for (ClusterUIB uib : execution.uibs) {
 					totalInstanceCounts.get(EvaluationType.TOTAL).add(uib.instanceCount);
 					totalTraversalCounts.get(EvaluationType.TOTAL).add(uib.traversalCount);

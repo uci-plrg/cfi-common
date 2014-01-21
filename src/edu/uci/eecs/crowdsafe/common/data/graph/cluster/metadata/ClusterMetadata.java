@@ -62,6 +62,8 @@ public class ClusterMetadata {
 
 		for (ClusterMetadataSequence sequence : sequences.values()) {
 			for (ClusterMetadataExecution execution : sequence.executions) {
+				metadataBuilder.setIdHigh(execution.id.getMostSignificantBits());
+				metadataBuilder.setIdLow(execution.id.getLeastSignificantBits());
 				for (EvaluationType type : EvaluationType.values()) {
 					intervalGroupBuilder.setType(type.getResultType());
 					for (ClusterUIBInterval interval : execution.getIntervals(type)) {
