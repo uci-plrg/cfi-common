@@ -24,6 +24,7 @@ import edu.uci.eecs.crowdsafe.common.io.LittleEndianOutputStream;
 import edu.uci.eecs.crowdsafe.common.io.cluster.ClusterTraceDataSink;
 import edu.uci.eecs.crowdsafe.common.io.cluster.ClusterTraceDirectory;
 import edu.uci.eecs.crowdsafe.common.io.cluster.ClusterTraceStreamType;
+import edu.uci.eecs.crowdsafe.common.log.Log;
 
 public class ClusterDataWriter<NodeType extends NodeIdentifier> {
 

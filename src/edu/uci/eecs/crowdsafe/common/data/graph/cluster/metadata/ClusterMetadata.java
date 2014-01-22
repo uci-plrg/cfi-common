@@ -28,8 +28,8 @@ public class ClusterMetadata {
 				}
 			}
 			sequences.put(newSequence.id, newSequence);
-		} else if (!newSequence.equals(existingSequence)) {
-			throw new IllegalArgumentException("Attempt to merge a different version of an existing sequence!");
+			// } else if (!newSequence.equals(existingSequence)) {
+			// throw new IllegalArgumentException("Attempt to merge a different version of an existing sequence!");
 		}
 	}
 

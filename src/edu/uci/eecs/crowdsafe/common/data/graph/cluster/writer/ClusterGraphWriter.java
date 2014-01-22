@@ -12,7 +12,11 @@ import edu.uci.eecs.crowdsafe.common.data.graph.Edge;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterGraph;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterModule;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterNode;
+import edu.uci.eecs.crowdsafe.common.data.graph.cluster.metadata.ClusterMetadataExecution;
+import edu.uci.eecs.crowdsafe.common.data.graph.cluster.metadata.ClusterMetadataSequence;
+import edu.uci.eecs.crowdsafe.common.data.graph.cluster.metadata.ClusterUIB;
 import edu.uci.eecs.crowdsafe.common.io.cluster.ClusterTraceDataSink;
+import edu.uci.eecs.crowdsafe.common.log.Log;
 
 public class ClusterGraphWriter implements ClusterDataWriter.ClusterData<ClusterNode<?>> {
 
@@ -44,6 +48,17 @@ public class ClusterGraphWriter implements ClusterDataWriter.ClusterData<Cluster
 		for (Edge<ClusterNode<?>> edge : allEdges) {
 			dataWriter.writeEdge(edge);
 			edgeIndexMap.put(edge, edgeIndex++);
+		}
+		for (ClusterMetadataSequence sequence : graph.graph.metadata.sequences.values()) {
+			for (ClusterMetadataExecution execution : sequence.executions) {
+				for (int i = execution.uibs.size() - 1; i >= 0; i--) {
+					ClusterUIB uib = execution.uibs.get(i);
+					if (edgeIndexMap.get(uib.edge) == null) {
+						Log.log("Error! Found a UIB for missing edge %s.", uib.edge);
+						execution.uibs.remove(i);
+					}
+				}
+			}
 		}
 
 		dataWriter.writeMetadataHistory(graph.graph.metadata, edgeIndexMap);

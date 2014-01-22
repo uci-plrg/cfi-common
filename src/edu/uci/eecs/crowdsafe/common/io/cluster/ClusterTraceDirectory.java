@@ -96,7 +96,7 @@ public class ClusterTraceDirectory implements ClusterTraceDataSource, ClusterTra
 			if (files.getValue().size() < ALL_STREAM_TYPES.size()) {
 				Set<ClusterTraceStreamType> requiredTypes = EnumSet.copyOf(streamTypes);
 				requiredTypes.removeAll(files.getValue().keySet());
-				Log.log("Directory %s contains some but not all files for cluster %s.\n\tMissing types are %s.\n\tSkipping this cluster.",
+				Log.log("Error! Directory %s contains some but not all files for cluster %s.\n\tMissing types are %s.\n\tSkipping this cluster.",
 						directory.getAbsolutePath(), files.getKey().name, requiredTypes);
 				filesByCluster.remove(files.getKey());
 			}
