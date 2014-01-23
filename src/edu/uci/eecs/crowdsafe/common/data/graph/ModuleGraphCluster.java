@@ -365,6 +365,15 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 		}
 	}
 
+	public void logUnknownSuspiciousUIB() {
+		if (metadata.isSingletonExecution()) {
+			for (ClusterUIB uib : metadata.getSingletonExecution().uibs) {
+				if (!uib.isAdmitted)
+					Log.log("<UIB: U->U %dI %dT of %s", uib.instanceCount, uib.traversalCount, uib.edge);
+			}
+		}
+	}
+
 	public Graph.Cluster summarize(boolean reportUnreachableSubgraphs) {
 		if (!analyzed)
 			throw new IllegalStateException("Cannot summarize a graph that has not been analyzed!");
@@ -505,13 +514,13 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 					uibBuilder.setTraversalCount(totalTraversalCounts.get(type).getVal());
 					metadataBuilder.addTotalObserved(uibBuilder.build());
 					uibBuilder.clear();
-					
+
 					uibBuilder.setType(type.getResultType());
 					uibBuilder.setInstanceCount(crossModuleInstanceCounts.get(type).getVal());
 					uibBuilder.setTraversalCount(crossModuleTraversalCounts.get(type).getVal());
 					metadataBuilder.addInterModuleObserved(uibBuilder.build());
 					uibBuilder.clear();
-					
+
 					uibBuilder.setType(type.getResultType());
 					uibBuilder.setInstanceCount(intraModuleInstanceCounts.get(type).getVal());
 					uibBuilder.setTraversalCount(intraModuleTraversalCounts.get(type).getVal());

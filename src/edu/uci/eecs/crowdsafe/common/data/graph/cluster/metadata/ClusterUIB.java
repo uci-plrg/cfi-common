@@ -16,5 +16,4 @@ public class ClusterUIB {
 		this.traversalCount = traversalCount;
 		this.instanceCount = instanceCount;
 	}
-
 }
