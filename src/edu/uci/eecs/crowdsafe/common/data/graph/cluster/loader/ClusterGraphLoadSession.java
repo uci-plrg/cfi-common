@@ -158,10 +158,14 @@ public class ClusterGraphLoadSession {
 			ClusterGraphMetadataLoader metadataLoader = new ClusterGraphMetadataLoader(edgeList, input);
 
 			try {
-				while (metadataLoader.ready()) {
-					ClusterMetadataSequence sequence = metadataLoader.loadSequence();
-					if (sequence != null)
-						builder.graph.metadata.mergeSequence(sequence);
+				if (metadataLoader.ready()) {
+					builder.graph.metadata.setMain(metadataLoader.isMetadataMain());
+
+					while (metadataLoader.ready()) {
+						ClusterMetadataSequence sequence = metadataLoader.loadSequence();
+						if (sequence != null)
+							builder.graph.metadata.mergeSequence(sequence);
+					}
 				}
 			} finally {
 				metadataLoader.close();

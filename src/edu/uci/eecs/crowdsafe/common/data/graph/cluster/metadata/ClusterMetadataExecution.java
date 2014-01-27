@@ -10,15 +10,24 @@ import java.util.UUID;
 public class ClusterMetadataExecution {
 
 	public final UUID id;
-	private final Map<EvaluationType, List<ClusterUIBInterval>> intervals = new EnumMap<EvaluationType, List<ClusterUIBInterval>>(
-			EvaluationType.class);
+
+	// non-null means the execution represents a main module, even if the map remains empty of intervals
+	private Map<EvaluationType, List<ClusterUIBInterval>> intervals = null;
+
 	public final List<ClusterUIB> uibs = new ArrayList<ClusterUIB>();
 
 	public ClusterMetadataExecution() {
 		this(UUID.randomUUID());
 	}
-	
+
+	public ClusterMetadataExecution(UUID id) {
+		this.id = id;
+	}
+
 	public int getIntervalCount() {
+		if (intervals == null)
+			return 0;
+
 		int count = 0;
 		for (List<ClusterUIBInterval> group : intervals.values()) {
 			count += group.size();
@@ -27,21 +36,23 @@ public class ClusterMetadataExecution {
 	}
 
 	public List<ClusterUIBInterval> getIntervals(EvaluationType type) {
-		if (intervals.isEmpty())
+		if (intervals == null)
 			return Collections.emptyList();
 
 		return intervals.get(type);
 	}
 
 	public void addInterval(ClusterUIBInterval interval) {
-		if (intervals.isEmpty())
-			for (EvaluationType type : EvaluationType.values())
-				intervals.put(type, new ArrayList<ClusterUIBInterval>());
+		initializeIntervals();
 
 		intervals.get(interval.type).add(interval);
 	}
 
-	public ClusterMetadataExecution(UUID id) {
-		this.id = id;
+	private void initializeIntervals() {
+		if (intervals == null) {
+			intervals = new EnumMap<EvaluationType, List<ClusterUIBInterval>>(EvaluationType.class);
+			for (EvaluationType type : EvaluationType.values())
+				intervals.put(type, new ArrayList<ClusterUIBInterval>());
+		}
 	}
 }

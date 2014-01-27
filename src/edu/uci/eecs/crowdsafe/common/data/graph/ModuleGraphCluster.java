@@ -1,5 +1,8 @@
 package edu.uci.eecs.crowdsafe.common.data.graph;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.EnumMap;
@@ -27,8 +30,8 @@ import edu.uci.eecs.crowdsafe.common.util.MutableInteger;
 
 public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>> {
 
-	private static class ModuleGraphSorter implements Comparator<ModuleGraph> {
-		static final ModuleGraphSorter INSTANCE = new ModuleGraphSorter();
+	public static class ModuleGraphSorter implements Comparator<ModuleGraph> {
+		public static final ModuleGraphSorter INSTANCE = new ModuleGraphSorter();
 
 		@Override
 		public int compare(ModuleGraph first, ModuleGraph second) {
@@ -365,6 +368,45 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 		}
 	}
 
+	public void writeDotFile(File file, String label) throws IOException {
+		PrintWriter out = new PrintWriter(file);
+		out.println("digraph main{");
+		out.println("node [shape=box fontsize=10];");
+
+		int nodeIndex = 0;
+		Map<EdgeEndpointType, Integer> nodeIndexMap = new HashMap<EdgeEndpointType, Integer>();
+		for (EdgeEndpointType node : getAllNodes()) {
+			nodeIndexMap.put(node, nodeIndex);
+			out.println(String.format("Node%d [ label=\"0x%x\"", nodeIndex, node.getHash()));
+
+			OrdinalEdgeList<EdgeEndpointType> edgeList = node.getOutgoingEdges();
+			try {
+				for (Edge<EdgeEndpointType> edge : edgeList)
+					out.println(String.format("Node%d->Node%d [ label=\"%s%d\" ];",
+							nodeIndexMap.get(edge.getFromNode()), nodeIndexMap.get(edge.getToNode()),
+							edge.getEdgeType().code, edge.getOrdinal()));
+			} finally {
+				edgeList.release();
+			}
+			edgeList = node.getIncomingEdges();
+			try {
+				for (Edge<EdgeEndpointType> edge : edgeList) {
+					if (edge.getEdgeType() == EdgeType.CLUSTER_ENTRY)
+						out.println(String.format("Node%d->Node%d [ label=\"%s%d\" ];",
+								nodeIndexMap.get(edge.getFromNode()), nodeIndexMap.get(edge.getToNode()),
+								edge.getEdgeType().code, edge.getOrdinal()));
+				}
+			} finally {
+				edgeList.release();
+			}
+
+			nodeIndex++;
+		}
+		out.println("color=blue");
+		out.println(String.format("label=\"%s\"", label));
+		out.println("}");
+	}
+
 	public void logUnknownSuspiciousUIB() {
 		if (metadata.isSingletonExecution()) {
 			for (ClusterUIB uib : metadata.getSingletonExecution().uibs) {
@@ -392,10 +434,8 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 		Graph.ModuleMetadata.Builder metadataBuilder = Graph.ModuleMetadata.newBuilder();
 		Graph.UIBObservation.Builder uibBuilder = Graph.UIBObservation.newBuilder();
 
-		int clusterNodeCount = getNodeCount();
-
 		clusterBuilder.setDistributionName(cluster.name);
-		clusterBuilder.setNodeCount(clusterNodeCount);
+		clusterBuilder.setNodeCount(getNodeCount());
 		clusterBuilder.setExecutableNodeCount(getExecutableNodeCount());
 		clusterBuilder.setEntryPointCount(getEntryHashes().size());
 

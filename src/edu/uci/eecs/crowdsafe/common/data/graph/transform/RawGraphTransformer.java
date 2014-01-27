@@ -661,6 +661,7 @@ public class RawGraphTransformer {
 			}
 
 			ClusterDataWriter<IndexedClusterNode> writer = graphWriters.getWriter(clusterUIBs.getKey());
+			writer.writeMetadataHeader(false);
 			writer.writeSequenceMetadataHeader(1, true);
 			Collection<RawUnexpectedIndirectBranch> uibsSorted = uibs.sortAndMerge();
 			writer.writeExecutionMetadataHeader(UUID.randomUUID(), uibsSorted.size(), 0);
@@ -669,25 +670,24 @@ public class RawGraphTransformer {
 						uib.getInstanceCount());
 		}
 		if (mainCluster != null) {
-			if ((uibsMain != null) || !uibIntervals.isEmpty()) {
-				ClusterDataWriter<IndexedClusterNode> writer = graphWriters.getWriter(mainCluster);
-				// if (writer == null)
-				// writer = graphWriters.createMetadataWriter(mainCluster);
-				writer.writeSequenceMetadataHeader(1, true);
-				Collection<RawUnexpectedIndirectBranch> uibsSorted = null;
-				if (uibsMain != null) {
-					uibsSorted = uibsMain.sortAndMerge();
-				}
-				writer.writeExecutionMetadataHeader(UUID.randomUUID(), uibsSorted == null ? 0 : uibsSorted.size(),
-						uibIntervals.size());
-				if (uibsSorted != null) {
-					for (RawUnexpectedIndirectBranch uib : uibsSorted)
-						writer.writeUIB(uib.getClusterEdgeIndex(), uib.isAdmitted(), uib.getTraversalCount(),
-								uib.getInstanceCount());
-				}
-				for (RawUnexpectedIndirectBranchInterval interval : uibIntervals) {
-					writer.writeUIBInterval(interval.type.id, interval.span, interval.count, interval.maxConsecutive);
-				}
+			ClusterDataWriter<IndexedClusterNode> writer = graphWriters.getWriter(mainCluster);
+			// if (writer == null)
+			// writer = graphWriters.createMetadataWriter(mainCluster);
+			writer.writeMetadataHeader(true);
+			writer.writeSequenceMetadataHeader(1, true);
+			Collection<RawUnexpectedIndirectBranch> uibsSorted = null;
+			if (uibsMain != null) {
+				uibsSorted = uibsMain.sortAndMerge();
+			}
+			writer.writeExecutionMetadataHeader(UUID.randomUUID(), uibsSorted == null ? 0 : uibsSorted.size(),
+					uibIntervals.size());
+			if (uibsSorted != null) {
+				for (RawUnexpectedIndirectBranch uib : uibsSorted)
+					writer.writeUIB(uib.getClusterEdgeIndex(), uib.isAdmitted(), uib.getTraversalCount(),
+							uib.getInstanceCount());
+			}
+			for (RawUnexpectedIndirectBranchInterval interval : uibIntervals) {
+				writer.writeUIBInterval(interval.type.id, interval.span, interval.count, interval.maxConsecutive);
 			}
 		} else {
 			Log.log("Warning: main cluster not found!");

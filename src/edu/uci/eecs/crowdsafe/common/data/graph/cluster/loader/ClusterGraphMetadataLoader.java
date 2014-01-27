@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import edu.uci.eecs.crowdsafe.common.data.graph.Edge;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterNode;
+import edu.uci.eecs.crowdsafe.common.data.graph.cluster.metadata.ClusterMetadata;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.metadata.ClusterMetadataExecution;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.metadata.ClusterMetadataSequence;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.metadata.ClusterUIB;
@@ -27,6 +28,11 @@ public class ClusterGraphMetadataLoader {
 
 	boolean ready() throws IOException {
 		return input.ready(ENTRY_BYTE_COUNT);
+	}
+	
+	boolean isMetadataMain() throws IOException {
+		long header = input.readLong();
+		return (header == 1L); // MAIN
 	}
 
 	ClusterMetadataSequence loadSequence() throws IOException {
@@ -67,6 +73,7 @@ public class ClusterGraphMetadataLoader {
 			execution.uibs.add(uib);
 		}
 
+		//execution.initializeIntervals(); // marks the execution as main
 		for (int i = 0; i < intervalCount; i++) {
 			long intervalData = input.readLong();
 			int typeId = ((int) (intervalData & 0xffL));

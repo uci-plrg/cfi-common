@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import edu.uci.eecs.crowdsafe.common.data.results.Graph;
+import edu.uci.eecs.crowdsafe.common.log.Log;
 
 public class ClusterMetadata {
 
@@ -21,8 +22,6 @@ public class ClusterMetadata {
 			if (newSequence.isRoot()) {
 				if (rootSequence == null) {
 					rootSequence = newSequence;
-					if (rootSequence.hasIntervals())
-						isMain = true;
 				} else {
 					newSequence.setRoot(false);
 				}
@@ -39,6 +38,10 @@ public class ClusterMetadata {
 
 	public boolean isMain() {
 		return isMain;
+	}
+
+	public void setMain(boolean isMain) {
+		this.isMain = isMain;
 	}
 
 	public boolean isEmpty() {
@@ -60,8 +63,14 @@ public class ClusterMetadata {
 		Graph.IntervalGroup.Builder intervalGroupBuilder = Graph.IntervalGroup.newBuilder();
 		Graph.Interval.Builder intervalBuilder = Graph.Interval.newBuilder();
 
+		int i = 0;
 		for (ClusterMetadataSequence sequence : sequences.values()) {
+			metadataSequenceBuilder.setIsRoot(sequence.isRoot());
 			for (ClusterMetadataExecution execution : sequence.executions) {
+
+				if (isMain)
+					Log.log("Writing execution %s into result metadata sequence %d", execution.id, i++);
+
 				metadataBuilder.setIdHigh(execution.id.getMostSignificantBits());
 				metadataBuilder.setIdLow(execution.id.getLeastSignificantBits());
 				for (EvaluationType type : EvaluationType.values()) {

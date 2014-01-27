@@ -23,14 +23,6 @@ public class ClusterMetadataSequence {
 		this.isRoot = isRoot;
 	}
 
-	boolean hasIntervals() {
-		for (ClusterMetadataExecution execution : executions) {
-			if (execution.getIntervalCount() > 0)
-				return true;
-		}
-		return false;
-	}
-
 	public void addExecution(ClusterMetadataExecution execution) {
 		for (ClusterMetadataExecution existing : this.executions) {
 			if (existing.id.equals(execution.id))

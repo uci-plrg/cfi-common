@@ -112,6 +112,10 @@ public class ClusterDataWriter<NodeType extends NodeIdentifier> {
 		word |= ((long) edge.getOrdinal()) << 0x3c;
 		edgeStream.writeLong(word);
 	}
+	
+	public void writeMetadataHeader(boolean isMain) throws IOException {
+		metaStream.writeLong(isMain ? 1L : 0L); // MAIN
+	}
 
 	public void writeSequenceMetadataHeader(int executionCount, boolean isRoot) throws IOException {
 		long header = (((long) executionCount) << 0x20);
@@ -132,6 +136,7 @@ public class ClusterDataWriter<NodeType extends NodeIdentifier> {
 	public void writeMetadataHistory(ClusterMetadata metadata,
 			Map<edu.uci.eecs.crowdsafe.common.data.graph.Edge<ClusterNode<?>>, Integer> edgeIndexMap)
 			throws IOException {
+		writeMetadataHeader(metadata.isMain());
 		for (ClusterMetadataSequence sequence : metadata.sequences.values()) {
 			writeSequenceMetadataHeader(sequence.executions.size(), sequence.isRoot());
 			for (ClusterMetadataExecution execution : sequence.executions) {
