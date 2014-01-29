@@ -267,6 +267,9 @@ public class MonitorDatasetGenerator {
 				} finally {
 					edges.release();
 				}
+				
+				while (intraModule.size() >= INTRA_MODULE_EDGE_MASK)
+					intraModule.remove(intraModule.size()-1); // hack!
 
 				if (intraModule.size() >= INTRA_MODULE_EDGE_MASK)
 					throw new IllegalStateException(String.format(

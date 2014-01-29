@@ -59,9 +59,12 @@ function decode_project_dirs() {
   IFS=' '
 }
 
-if [ ! -z $CROWD_SAFE_JAR_DIR ]
+if [ -z $CROWD_SAFE_JAR_DIR ]
 then
+  echo " --- LOCAL --- Running with jars from the local build"
+else
   cs_jar_dir=$CROWD_SAFE_JAR_DIR
+  echo " --- JAR --- Running with jars from "$CROWD_SAFE_JAR_DIR
   append_jars $cs_jar_dir
 fi
 
