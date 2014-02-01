@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 import edu.uci.eecs.crowdsafe.common.config.CrowdSafeConfiguration;
+import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterNode;
+import edu.uci.eecs.crowdsafe.common.util.CrowdSafeTraceUtil;
 
 public class ConfiguredSoftwareDistributions {
 
@@ -50,6 +52,7 @@ public class ConfiguredSoftwareDistributions {
 	public final Map<Long, SoftwareUnit> unitsByAnonymousEntryHash = new HashMap<Long, SoftwareUnit>();
 	public final Map<Long, SoftwareUnit> unitsByAnonymousExitHash = new HashMap<Long, SoftwareUnit>();
 	public final Map<Long, SoftwareUnit> unitsByInterceptionHash = new HashMap<Long, SoftwareUnit>();
+	public final Map<Long, Integer> sysnumsBySyscallHash = new HashMap<Long, Integer>();
 	public final Map<SoftwareUnit, AutonomousSoftwareDistribution> distributionsByUnit = new HashMap<SoftwareUnit, AutonomousSoftwareDistribution>();
 
 	// public final List<SoftwareUnit> anonymousBlackBoxOwners = new ArrayList<SoftwareUnit>();
@@ -66,6 +69,9 @@ public class ConfiguredSoftwareDistributions {
 			distributions.put(ANONYMOUS_CLUSTER.name, ANONYMOUS_CLUSTER);
 			installCluster(ANONYMOUS_CLUSTER, SoftwareModule.ANONYMOUS_MODULE.unit);
 		}
+
+		for (int i = 0; i < ClusterNode.SYSCALL_COUNT; i++)
+			sysnumsBySyscallHash.put(CrowdSafeTraceUtil.stringHash(String.format("syscall#%d", i)), i);
 	}
 
 	/**
@@ -173,10 +179,14 @@ public class ConfiguredSoftwareDistributions {
 
 	public AutonomousSoftwareDistribution getClusterByAnonymousExitHash(long hash) {
 		SoftwareUnit unit = unitsByAnonymousExitHash.get(hash);
-		if (unit == null)
-			return null;
-		else
+		if (unit == null) {
+			if (sysnumsBySyscallHash.containsKey(hash))
+				return SYSTEM_CLUSTER;
+			else
+				return null;
+		} else {
 			return distributionsByUnit.get(unit);
+		}
 	}
 
 	public AutonomousSoftwareDistribution getClusterByInterceptionHash(long hash) {

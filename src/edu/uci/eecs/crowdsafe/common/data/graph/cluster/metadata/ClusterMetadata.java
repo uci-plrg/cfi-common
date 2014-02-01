@@ -67,10 +67,6 @@ public class ClusterMetadata {
 		for (ClusterMetadataSequence sequence : sequences.values()) {
 			metadataSequenceBuilder.setIsRoot(sequence.isRoot());
 			for (ClusterMetadataExecution execution : sequence.executions) {
-
-				if (isMain)
-					Log.log("Writing execution %s into result metadata sequence %d", execution.id, i++);
-
 				metadataBuilder.setIdHigh(execution.id.getMostSignificantBits());
 				metadataBuilder.setIdLow(execution.id.getLeastSignificantBits());
 				for (EvaluationType type : EvaluationType.values()) {

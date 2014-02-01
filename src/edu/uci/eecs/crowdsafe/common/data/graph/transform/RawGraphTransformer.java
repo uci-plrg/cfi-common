@@ -516,6 +516,9 @@ public class RawGraphTransformer {
 				ClusterBoundaryNode exit = new ClusterBoundaryNode(hash, MetaNodeType.CLUSTER_EXIT);
 				IndexedClusterNode exitId = nodesByCluster.get(fromNodeId.cluster).addNode(exit);
 				RawEdge rawExit = addEdge(fromNodeId.cluster, fromNodeId, exitId, type, ordinal);
+				
+				if (toNodeId.cluster == ConfiguredSoftwareDistributions.SYSTEM_CLUSTER)
+					Log.log("Creating an edge into the system cluster: %s", rawExit);
 
 				if ((!crossModuleUIBQueue.isEmpty())
 						&& (crossModuleUIBQueue.peekFirst().executionEdgeIndex == entryIndex)) {

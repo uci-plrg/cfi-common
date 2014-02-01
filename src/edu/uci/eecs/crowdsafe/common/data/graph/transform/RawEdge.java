@@ -90,6 +90,6 @@ public class RawEdge implements ClusterDataWriter.Edge<IndexedClusterNode> {
 
 	@Override
 	public String toString() {
-		return String.format("%s(%s)--%d-->%s", fromNode, type, ordinal, toNode);
+		return String.format("%s--%s(%d)-->%s", fromNode, type.code, ordinal, toNode);
 	}
 }
