@@ -98,7 +98,7 @@ message ModuleMetadataHistory {
 
 message Interval {
 	optional int32 span = 1;
-	optional int32 occurences = 2;
+	optional int32 occurrences = 2;
 	optional int32 max_consecutive = 3;
 }
 

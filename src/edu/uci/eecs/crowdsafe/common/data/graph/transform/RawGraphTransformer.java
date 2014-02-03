@@ -655,6 +655,7 @@ public class RawGraphTransformer {
 
 	private void writeMetadata() throws IOException {
 		UnexpectedIndirectBranches uibsMain = null;
+		UUID executionId = UUID.randomUUID();
 		for (Map.Entry<AutonomousSoftwareDistribution, UnexpectedIndirectBranches> clusterUIBs : uibsByCluster
 				.entrySet()) {
 			UnexpectedIndirectBranches uibs = clusterUIBs.getValue();
@@ -667,7 +668,7 @@ public class RawGraphTransformer {
 			writer.writeMetadataHeader(false);
 			writer.writeSequenceMetadataHeader(1, true);
 			Collection<RawUnexpectedIndirectBranch> uibsSorted = uibs.sortAndMerge();
-			writer.writeExecutionMetadataHeader(UUID.randomUUID(), uibsSorted.size(), 0);
+			writer.writeExecutionMetadataHeader(executionId, uibsSorted.size(), 0);
 			for (RawUnexpectedIndirectBranch uib : uibsSorted)
 				writer.writeUIB(uib.getClusterEdgeIndex(), uib.isAdmitted(), uib.getTraversalCount(),
 						uib.getInstanceCount());
@@ -682,7 +683,7 @@ public class RawGraphTransformer {
 			if (uibsMain != null) {
 				uibsSorted = uibsMain.sortAndMerge();
 			}
-			writer.writeExecutionMetadataHeader(UUID.randomUUID(), uibsSorted == null ? 0 : uibsSorted.size(),
+			writer.writeExecutionMetadataHeader(executionId, uibsSorted == null ? 0 : uibsSorted.size(),
 					uibIntervals.size());
 			if (uibsSorted != null) {
 				for (RawUnexpectedIndirectBranch uib : uibsSorted)
