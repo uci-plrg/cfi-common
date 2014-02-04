@@ -429,8 +429,6 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 		Graph.EdgeTypeCount.Builder edgeTypeCountBuilder = Graph.EdgeTypeCount.newBuilder();
 		NodeResultsFactory nodeFactory = new NodeResultsFactory(moduleBuilder, nodeBuilder);
 
-		Graph.ModuleMetadataHistory.Builder metadataHistoryBuilder = Graph.ModuleMetadataHistory.newBuilder();
-		Graph.ModuleMetadataSequence.Builder metadataSequenceBuilder = Graph.ModuleMetadataSequence.newBuilder();
 		Graph.ModuleMetadata.Builder metadataBuilder = Graph.ModuleMetadata.newBuilder();
 		Graph.UIBObservation.Builder uibBuilder = Graph.UIBObservation.newBuilder();
 
@@ -510,72 +508,77 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 			intraModuleInstanceCounts.put(type, new MutableInteger(0));
 			intraModuleTraversalCounts.put(type, new MutableInteger(0));
 		}
-		for (ClusterMetadataSequence sequence : metadata.sequences.values()) {
-			metadataSequenceBuilder.setIsRoot(sequence.isRoot());
-			for (ClusterMetadataExecution execution : sequence.executions) {
-				metadataBuilder.setIdHigh(execution.id.getMostSignificantBits());
-				metadataBuilder.setIdLow(execution.id.getLeastSignificantBits());
-				for (ClusterUIB uib : execution.uibs) {
-					totalInstanceCounts.get(EvaluationType.TOTAL).add(uib.instanceCount);
-					totalTraversalCounts.get(EvaluationType.TOTAL).add(uib.traversalCount);
+
+		if (metadata.getRootSequence() == null) {
+			metadataBuilder.setSequenceIdHigh(0L);
+			metadataBuilder.setSequenceIdLow(0L);
+			metadataBuilder.setExecutionIdHigh(0L);
+			metadataBuilder.setExecutionIdLow(0L);
+			metadataBuilder.setExecutionIndex(-1);
+		} else {
+			ClusterMetadataExecution execution = metadata.getRootSequence().getHeadExecution();
+			metadataBuilder.setSequenceIdHigh(metadata.getRootSequence().id.getMostSignificantBits());
+			metadataBuilder.setSequenceIdLow(metadata.getRootSequence().id.getLeastSignificantBits());
+			metadataBuilder.setExecutionIdHigh(execution.id.getMostSignificantBits());
+			metadataBuilder.setExecutionIdLow(execution.id.getLeastSignificantBits());
+			metadataBuilder.setExecutionIndex(metadata.getRootSequence().executions.size());
+
+			for (ClusterUIB uib : execution.uibs) {
+				totalInstanceCounts.get(EvaluationType.TOTAL).add(uib.instanceCount);
+				totalTraversalCounts.get(EvaluationType.TOTAL).add(uib.traversalCount);
+				if (uib.edge.isCrossModule()) {
+					crossModuleInstanceCounts.get(EvaluationType.TOTAL).add(uib.instanceCount);
+					crossModuleTraversalCounts.get(EvaluationType.TOTAL).add(uib.traversalCount);
+				} else {
+					intraModuleInstanceCounts.get(EvaluationType.TOTAL).add(uib.instanceCount);
+					intraModuleTraversalCounts.get(EvaluationType.TOTAL).add(uib.traversalCount);
+				}
+
+				if (uib.isAdmitted) {
+					totalInstanceCounts.get(EvaluationType.ADMITTED).add(uib.instanceCount);
+					totalTraversalCounts.get(EvaluationType.ADMITTED).add(uib.traversalCount);
 					if (uib.edge.isCrossModule()) {
-						crossModuleInstanceCounts.get(EvaluationType.TOTAL).add(uib.instanceCount);
-						crossModuleTraversalCounts.get(EvaluationType.TOTAL).add(uib.traversalCount);
+						crossModuleInstanceCounts.get(EvaluationType.ADMITTED).add(uib.instanceCount);
+						crossModuleTraversalCounts.get(EvaluationType.ADMITTED).add(uib.traversalCount);
 					} else {
-						intraModuleInstanceCounts.get(EvaluationType.TOTAL).add(uib.instanceCount);
-						intraModuleTraversalCounts.get(EvaluationType.TOTAL).add(uib.traversalCount);
+						intraModuleInstanceCounts.get(EvaluationType.ADMITTED).add(uib.instanceCount);
+						intraModuleTraversalCounts.get(EvaluationType.ADMITTED).add(uib.traversalCount);
 					}
-
-					if (uib.isAdmitted) {
-						totalInstanceCounts.get(EvaluationType.ADMITTED).add(uib.instanceCount);
-						totalTraversalCounts.get(EvaluationType.ADMITTED).add(uib.traversalCount);
-						if (uib.edge.isCrossModule()) {
-							crossModuleInstanceCounts.get(EvaluationType.ADMITTED).add(uib.instanceCount);
-							crossModuleTraversalCounts.get(EvaluationType.ADMITTED).add(uib.traversalCount);
-						} else {
-							intraModuleInstanceCounts.get(EvaluationType.ADMITTED).add(uib.instanceCount);
-							intraModuleTraversalCounts.get(EvaluationType.ADMITTED).add(uib.traversalCount);
-						}
+				} else {
+					totalInstanceCounts.get(EvaluationType.SUSPICIOUS).add(uib.instanceCount);
+					totalTraversalCounts.get(EvaluationType.SUSPICIOUS).add(uib.traversalCount);
+					if (uib.edge.isCrossModule()) {
+						crossModuleInstanceCounts.get(EvaluationType.SUSPICIOUS).add(uib.instanceCount);
+						crossModuleTraversalCounts.get(EvaluationType.SUSPICIOUS).add(uib.traversalCount);
 					} else {
-						totalInstanceCounts.get(EvaluationType.SUSPICIOUS).add(uib.instanceCount);
-						totalTraversalCounts.get(EvaluationType.SUSPICIOUS).add(uib.traversalCount);
-						if (uib.edge.isCrossModule()) {
-							crossModuleInstanceCounts.get(EvaluationType.SUSPICIOUS).add(uib.instanceCount);
-							crossModuleTraversalCounts.get(EvaluationType.SUSPICIOUS).add(uib.traversalCount);
-						} else {
-							intraModuleInstanceCounts.get(EvaluationType.SUSPICIOUS).add(uib.instanceCount);
-							intraModuleTraversalCounts.get(EvaluationType.SUSPICIOUS).add(uib.traversalCount);
-						}
+						intraModuleInstanceCounts.get(EvaluationType.SUSPICIOUS).add(uib.instanceCount);
+						intraModuleTraversalCounts.get(EvaluationType.SUSPICIOUS).add(uib.traversalCount);
 					}
 				}
-				for (EvaluationType type : EvaluationType.values()) {
-					uibBuilder.setType(type.getResultType());
-					uibBuilder.setInstanceCount(totalInstanceCounts.get(type).getVal());
-					uibBuilder.setTraversalCount(totalTraversalCounts.get(type).getVal());
-					metadataBuilder.addTotalObserved(uibBuilder.build());
-					uibBuilder.clear();
-
-					uibBuilder.setType(type.getResultType());
-					uibBuilder.setInstanceCount(crossModuleInstanceCounts.get(type).getVal());
-					uibBuilder.setTraversalCount(crossModuleTraversalCounts.get(type).getVal());
-					metadataBuilder.addInterModuleObserved(uibBuilder.build());
-					uibBuilder.clear();
-
-					uibBuilder.setType(type.getResultType());
-					uibBuilder.setInstanceCount(intraModuleInstanceCounts.get(type).getVal());
-					uibBuilder.setTraversalCount(intraModuleTraversalCounts.get(type).getVal());
-					metadataBuilder.addIntraModuleObserved(uibBuilder.build());
-					uibBuilder.clear();
-				}
-				metadataSequenceBuilder.addExecution(metadataBuilder.build());
-				metadataBuilder.clear();
 			}
-			metadataHistoryBuilder.addSequence(metadataSequenceBuilder.build());
-			metadataSequenceBuilder.clear();
+		}
+		
+		for (EvaluationType type : EvaluationType.values()) {
+			uibBuilder.setType(type.getResultType());
+			uibBuilder.setInstanceCount(totalInstanceCounts.get(type).getVal());
+			uibBuilder.setTraversalCount(totalTraversalCounts.get(type).getVal());
+			metadataBuilder.addTotalObserved(uibBuilder.build());
+			uibBuilder.clear();
+
+			uibBuilder.setType(type.getResultType());
+			uibBuilder.setInstanceCount(crossModuleInstanceCounts.get(type).getVal());
+			uibBuilder.setTraversalCount(crossModuleTraversalCounts.get(type).getVal());
+			metadataBuilder.addInterModuleObserved(uibBuilder.build());
+			uibBuilder.clear();
+
+			uibBuilder.setType(type.getResultType());
+			uibBuilder.setInstanceCount(intraModuleInstanceCounts.get(type).getVal());
+			uibBuilder.setTraversalCount(intraModuleTraversalCounts.get(type).getVal());
+			metadataBuilder.addIntraModuleObserved(uibBuilder.build());
+			uibBuilder.clear();
 		}
 
-		clusterBuilder.setMetadata(metadataHistoryBuilder.build());
-
+		clusterBuilder.setMetadata(metadataBuilder.build());
 		return clusterBuilder.build();
 	}
 

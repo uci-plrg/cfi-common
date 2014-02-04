@@ -270,19 +270,19 @@ public final class Graph {
     edu.uci.eecs.crowdsafe.common.data.results.Graph.ClusterOrBuilder getClusterOrBuilder(
         int index);
 
-    // optional .crowd_safe_data_analysis.ProcessMetadataHistory metadata = 4;
+    // optional .crowd_safe_data_analysis.ProcessMetadata metadata = 4;
     /**
-     * <code>optional .crowd_safe_data_analysis.ProcessMetadataHistory metadata = 4;</code>
+     * <code>optional .crowd_safe_data_analysis.ProcessMetadata metadata = 4;</code>
      */
     boolean hasMetadata();
     /**
-     * <code>optional .crowd_safe_data_analysis.ProcessMetadataHistory metadata = 4;</code>
+     * <code>optional .crowd_safe_data_analysis.ProcessMetadata metadata = 4;</code>
      */
-    edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataHistory getMetadata();
+    edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadata getMetadata();
     /**
-     * <code>optional .crowd_safe_data_analysis.ProcessMetadataHistory metadata = 4;</code>
+     * <code>optional .crowd_safe_data_analysis.ProcessMetadata metadata = 4;</code>
      */
-    edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataHistoryOrBuilder getMetadataOrBuilder();
+    edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataOrBuilder getMetadataOrBuilder();
   }
   /**
    * Protobuf type {@code crowd_safe_data_analysis.Process}
@@ -354,11 +354,11 @@ public final class Graph {
               break;
             }
             case 34: {
-              edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataHistory.Builder subBuilder = null;
+              edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadata.Builder subBuilder = null;
               if (((bitField0_ & 0x00000004) == 0x00000004)) {
                 subBuilder = metadata_.toBuilder();
               }
-              metadata_ = input.readMessage(edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataHistory.PARSER, extensionRegistry);
+              metadata_ = input.readMessage(edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadata.PARSER, extensionRegistry);
               if (subBuilder != null) {
                 subBuilder.mergeFrom(metadata_);
                 metadata_ = subBuilder.buildPartial();
@@ -504,25 +504,25 @@ public final class Graph {
       return cluster_.get(index);
     }
 
-    // optional .crowd_safe_data_analysis.ProcessMetadataHistory metadata = 4;
+    // optional .crowd_safe_data_analysis.ProcessMetadata metadata = 4;
     public static final int METADATA_FIELD_NUMBER = 4;
-    private edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataHistory metadata_;
+    private edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadata metadata_;
     /**
-     * <code>optional .crowd_safe_data_analysis.ProcessMetadataHistory metadata = 4;</code>
+     * <code>optional .crowd_safe_data_analysis.ProcessMetadata metadata = 4;</code>
      */
     public boolean hasMetadata() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>optional .crowd_safe_data_analysis.ProcessMetadataHistory metadata = 4;</code>
+     * <code>optional .crowd_safe_data_analysis.ProcessMetadata metadata = 4;</code>
      */
-    public edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataHistory getMetadata() {
+    public edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadata getMetadata() {
       return metadata_;
     }
     /**
-     * <code>optional .crowd_safe_data_analysis.ProcessMetadataHistory metadata = 4;</code>
+     * <code>optional .crowd_safe_data_analysis.ProcessMetadata metadata = 4;</code>
      */
-    public edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataHistoryOrBuilder getMetadataOrBuilder() {
+    public edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataOrBuilder getMetadataOrBuilder() {
       return metadata_;
     }
 
@@ -530,7 +530,7 @@ public final class Graph {
       id_ = 0;
       name_ = "";
       cluster_ = java.util.Collections.emptyList();
-      metadata_ = edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataHistory.getDefaultInstance();
+      metadata_ = edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadata.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -710,7 +710,7 @@ public final class Graph {
           clusterBuilder_.clear();
         }
         if (metadataBuilder_ == null) {
-          metadata_ = edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataHistory.getDefaultInstance();
+          metadata_ = edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadata.getDefaultInstance();
         } else {
           metadataBuilder_.clear();
         }
@@ -1195,20 +1195,20 @@ public final class Graph {
         return clusterBuilder_;
       }
 
-      // optional .crowd_safe_data_analysis.ProcessMetadataHistory metadata = 4;
-      private edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataHistory metadata_ = edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataHistory.getDefaultInstance();
+      // optional .crowd_safe_data_analysis.ProcessMetadata metadata = 4;
+      private edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadata metadata_ = edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadata.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
-          edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataHistory, edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataHistory.Builder, edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataHistoryOrBuilder> metadataBuilder_;
+          edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadata, edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadata.Builder, edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataOrBuilder> metadataBuilder_;
       /**
-       * <code>optional .crowd_safe_data_analysis.ProcessMetadataHistory metadata = 4;</code>
+       * <code>optional .crowd_safe_data_analysis.ProcessMetadata metadata = 4;</code>
        */
       public boolean hasMetadata() {
         return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
-       * <code>optional .crowd_safe_data_analysis.ProcessMetadataHistory metadata = 4;</code>
+       * <code>optional .crowd_safe_data_analysis.ProcessMetadata metadata = 4;</code>
        */
-      public edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataHistory getMetadata() {
+      public edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadata getMetadata() {
         if (metadataBuilder_ == null) {
           return metadata_;
         } else {
@@ -1216,9 +1216,9 @@ public final class Graph {
         }
       }
       /**
-       * <code>optional .crowd_safe_data_analysis.ProcessMetadataHistory metadata = 4;</code>
+       * <code>optional .crowd_safe_data_analysis.ProcessMetadata metadata = 4;</code>
        */
-      public Builder setMetadata(edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataHistory value) {
+      public Builder setMetadata(edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadata value) {
         if (metadataBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -1232,10 +1232,10 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>optional .crowd_safe_data_analysis.ProcessMetadataHistory metadata = 4;</code>
+       * <code>optional .crowd_safe_data_analysis.ProcessMetadata metadata = 4;</code>
        */
       public Builder setMetadata(
-          edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataHistory.Builder builderForValue) {
+          edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadata.Builder builderForValue) {
         if (metadataBuilder_ == null) {
           metadata_ = builderForValue.build();
           onChanged();
@@ -1246,14 +1246,14 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>optional .crowd_safe_data_analysis.ProcessMetadataHistory metadata = 4;</code>
+       * <code>optional .crowd_safe_data_analysis.ProcessMetadata metadata = 4;</code>
        */
-      public Builder mergeMetadata(edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataHistory value) {
+      public Builder mergeMetadata(edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadata value) {
         if (metadataBuilder_ == null) {
           if (((bitField0_ & 0x00000008) == 0x00000008) &&
-              metadata_ != edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataHistory.getDefaultInstance()) {
+              metadata_ != edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadata.getDefaultInstance()) {
             metadata_ =
-              edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataHistory.newBuilder(metadata_).mergeFrom(value).buildPartial();
+              edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadata.newBuilder(metadata_).mergeFrom(value).buildPartial();
           } else {
             metadata_ = value;
           }
@@ -1265,11 +1265,11 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>optional .crowd_safe_data_analysis.ProcessMetadataHistory metadata = 4;</code>
+       * <code>optional .crowd_safe_data_analysis.ProcessMetadata metadata = 4;</code>
        */
       public Builder clearMetadata() {
         if (metadataBuilder_ == null) {
-          metadata_ = edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataHistory.getDefaultInstance();
+          metadata_ = edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadata.getDefaultInstance();
           onChanged();
         } else {
           metadataBuilder_.clear();
@@ -1278,17 +1278,17 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>optional .crowd_safe_data_analysis.ProcessMetadataHistory metadata = 4;</code>
+       * <code>optional .crowd_safe_data_analysis.ProcessMetadata metadata = 4;</code>
        */
-      public edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataHistory.Builder getMetadataBuilder() {
+      public edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadata.Builder getMetadataBuilder() {
         bitField0_ |= 0x00000008;
         onChanged();
         return getMetadataFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .crowd_safe_data_analysis.ProcessMetadataHistory metadata = 4;</code>
+       * <code>optional .crowd_safe_data_analysis.ProcessMetadata metadata = 4;</code>
        */
-      public edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataHistoryOrBuilder getMetadataOrBuilder() {
+      public edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataOrBuilder getMetadataOrBuilder() {
         if (metadataBuilder_ != null) {
           return metadataBuilder_.getMessageOrBuilder();
         } else {
@@ -1296,14 +1296,14 @@ public final class Graph {
         }
       }
       /**
-       * <code>optional .crowd_safe_data_analysis.ProcessMetadataHistory metadata = 4;</code>
+       * <code>optional .crowd_safe_data_analysis.ProcessMetadata metadata = 4;</code>
        */
       private com.google.protobuf.SingleFieldBuilder<
-          edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataHistory, edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataHistory.Builder, edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataHistoryOrBuilder> 
+          edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadata, edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadata.Builder, edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataOrBuilder> 
           getMetadataFieldBuilder() {
         if (metadataBuilder_ == null) {
           metadataBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-              edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataHistory, edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataHistory.Builder, edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataHistoryOrBuilder>(
+              edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadata, edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadata.Builder, edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataOrBuilder>(
                   metadata_,
                   getParentForChildren(),
                   isClean());
@@ -1481,19 +1481,19 @@ public final class Graph {
     edu.uci.eecs.crowdsafe.common.data.results.Graph.EdgeTypeCountOrBuilder getInterModuleEdgeCountOrBuilder(
         int index);
 
-    // optional .crowd_safe_data_analysis.ModuleMetadataHistory metadata = 10;
+    // optional .crowd_safe_data_analysis.ModuleMetadata metadata = 10;
     /**
-     * <code>optional .crowd_safe_data_analysis.ModuleMetadataHistory metadata = 10;</code>
+     * <code>optional .crowd_safe_data_analysis.ModuleMetadata metadata = 10;</code>
      */
     boolean hasMetadata();
     /**
-     * <code>optional .crowd_safe_data_analysis.ModuleMetadataHistory metadata = 10;</code>
+     * <code>optional .crowd_safe_data_analysis.ModuleMetadata metadata = 10;</code>
      */
-    edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataHistory getMetadata();
+    edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadata getMetadata();
     /**
-     * <code>optional .crowd_safe_data_analysis.ModuleMetadataHistory metadata = 10;</code>
+     * <code>optional .crowd_safe_data_analysis.ModuleMetadata metadata = 10;</code>
      */
-    edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataHistoryOrBuilder getMetadataOrBuilder();
+    edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataOrBuilder getMetadataOrBuilder();
   }
   /**
    * Protobuf type {@code crowd_safe_data_analysis.Cluster}
@@ -1604,11 +1604,11 @@ public final class Graph {
               break;
             }
             case 82: {
-              edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataHistory.Builder subBuilder = null;
+              edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadata.Builder subBuilder = null;
               if (((bitField0_ & 0x00000020) == 0x00000020)) {
                 subBuilder = metadata_.toBuilder();
               }
-              metadata_ = input.readMessage(edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataHistory.PARSER, extensionRegistry);
+              metadata_ = input.readMessage(edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadata.PARSER, extensionRegistry);
               if (subBuilder != null) {
                 subBuilder.mergeFrom(metadata_);
                 metadata_ = subBuilder.buildPartial();
@@ -1919,25 +1919,25 @@ public final class Graph {
       return interModuleEdgeCount_.get(index);
     }
 
-    // optional .crowd_safe_data_analysis.ModuleMetadataHistory metadata = 10;
+    // optional .crowd_safe_data_analysis.ModuleMetadata metadata = 10;
     public static final int METADATA_FIELD_NUMBER = 10;
-    private edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataHistory metadata_;
+    private edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadata metadata_;
     /**
-     * <code>optional .crowd_safe_data_analysis.ModuleMetadataHistory metadata = 10;</code>
+     * <code>optional .crowd_safe_data_analysis.ModuleMetadata metadata = 10;</code>
      */
     public boolean hasMetadata() {
       return ((bitField0_ & 0x00000020) == 0x00000020);
     }
     /**
-     * <code>optional .crowd_safe_data_analysis.ModuleMetadataHistory metadata = 10;</code>
+     * <code>optional .crowd_safe_data_analysis.ModuleMetadata metadata = 10;</code>
      */
-    public edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataHistory getMetadata() {
+    public edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadata getMetadata() {
       return metadata_;
     }
     /**
-     * <code>optional .crowd_safe_data_analysis.ModuleMetadataHistory metadata = 10;</code>
+     * <code>optional .crowd_safe_data_analysis.ModuleMetadata metadata = 10;</code>
      */
-    public edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataHistoryOrBuilder getMetadataOrBuilder() {
+    public edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataOrBuilder getMetadataOrBuilder() {
       return metadata_;
     }
 
@@ -1951,7 +1951,7 @@ public final class Graph {
       unreachable_ = java.util.Collections.emptyList();
       intraModuleEdgeCount_ = java.util.Collections.emptyList();
       interModuleEdgeCount_ = java.util.Collections.emptyList();
-      metadata_ = edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataHistory.getDefaultInstance();
+      metadata_ = edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadata.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -2200,7 +2200,7 @@ public final class Graph {
           interModuleEdgeCountBuilder_.clear();
         }
         if (metadataBuilder_ == null) {
-          metadata_ = edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataHistory.getDefaultInstance();
+          metadata_ = edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadata.getDefaultInstance();
         } else {
           metadataBuilder_.clear();
         }
@@ -3630,20 +3630,20 @@ public final class Graph {
         return interModuleEdgeCountBuilder_;
       }
 
-      // optional .crowd_safe_data_analysis.ModuleMetadataHistory metadata = 10;
-      private edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataHistory metadata_ = edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataHistory.getDefaultInstance();
+      // optional .crowd_safe_data_analysis.ModuleMetadata metadata = 10;
+      private edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadata metadata_ = edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadata.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
-          edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataHistory, edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataHistory.Builder, edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataHistoryOrBuilder> metadataBuilder_;
+          edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadata, edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadata.Builder, edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataOrBuilder> metadataBuilder_;
       /**
-       * <code>optional .crowd_safe_data_analysis.ModuleMetadataHistory metadata = 10;</code>
+       * <code>optional .crowd_safe_data_analysis.ModuleMetadata metadata = 10;</code>
        */
       public boolean hasMetadata() {
         return ((bitField0_ & 0x00000200) == 0x00000200);
       }
       /**
-       * <code>optional .crowd_safe_data_analysis.ModuleMetadataHistory metadata = 10;</code>
+       * <code>optional .crowd_safe_data_analysis.ModuleMetadata metadata = 10;</code>
        */
-      public edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataHistory getMetadata() {
+      public edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadata getMetadata() {
         if (metadataBuilder_ == null) {
           return metadata_;
         } else {
@@ -3651,9 +3651,9 @@ public final class Graph {
         }
       }
       /**
-       * <code>optional .crowd_safe_data_analysis.ModuleMetadataHistory metadata = 10;</code>
+       * <code>optional .crowd_safe_data_analysis.ModuleMetadata metadata = 10;</code>
        */
-      public Builder setMetadata(edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataHistory value) {
+      public Builder setMetadata(edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadata value) {
         if (metadataBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -3667,10 +3667,10 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>optional .crowd_safe_data_analysis.ModuleMetadataHistory metadata = 10;</code>
+       * <code>optional .crowd_safe_data_analysis.ModuleMetadata metadata = 10;</code>
        */
       public Builder setMetadata(
-          edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataHistory.Builder builderForValue) {
+          edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadata.Builder builderForValue) {
         if (metadataBuilder_ == null) {
           metadata_ = builderForValue.build();
           onChanged();
@@ -3681,14 +3681,14 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>optional .crowd_safe_data_analysis.ModuleMetadataHistory metadata = 10;</code>
+       * <code>optional .crowd_safe_data_analysis.ModuleMetadata metadata = 10;</code>
        */
-      public Builder mergeMetadata(edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataHistory value) {
+      public Builder mergeMetadata(edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadata value) {
         if (metadataBuilder_ == null) {
           if (((bitField0_ & 0x00000200) == 0x00000200) &&
-              metadata_ != edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataHistory.getDefaultInstance()) {
+              metadata_ != edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadata.getDefaultInstance()) {
             metadata_ =
-              edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataHistory.newBuilder(metadata_).mergeFrom(value).buildPartial();
+              edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadata.newBuilder(metadata_).mergeFrom(value).buildPartial();
           } else {
             metadata_ = value;
           }
@@ -3700,11 +3700,11 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>optional .crowd_safe_data_analysis.ModuleMetadataHistory metadata = 10;</code>
+       * <code>optional .crowd_safe_data_analysis.ModuleMetadata metadata = 10;</code>
        */
       public Builder clearMetadata() {
         if (metadataBuilder_ == null) {
-          metadata_ = edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataHistory.getDefaultInstance();
+          metadata_ = edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadata.getDefaultInstance();
           onChanged();
         } else {
           metadataBuilder_.clear();
@@ -3713,17 +3713,17 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>optional .crowd_safe_data_analysis.ModuleMetadataHistory metadata = 10;</code>
+       * <code>optional .crowd_safe_data_analysis.ModuleMetadata metadata = 10;</code>
        */
-      public edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataHistory.Builder getMetadataBuilder() {
+      public edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadata.Builder getMetadataBuilder() {
         bitField0_ |= 0x00000200;
         onChanged();
         return getMetadataFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .crowd_safe_data_analysis.ModuleMetadataHistory metadata = 10;</code>
+       * <code>optional .crowd_safe_data_analysis.ModuleMetadata metadata = 10;</code>
        */
-      public edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataHistoryOrBuilder getMetadataOrBuilder() {
+      public edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataOrBuilder getMetadataOrBuilder() {
         if (metadataBuilder_ != null) {
           return metadataBuilder_.getMessageOrBuilder();
         } else {
@@ -3731,14 +3731,14 @@ public final class Graph {
         }
       }
       /**
-       * <code>optional .crowd_safe_data_analysis.ModuleMetadataHistory metadata = 10;</code>
+       * <code>optional .crowd_safe_data_analysis.ModuleMetadata metadata = 10;</code>
        */
       private com.google.protobuf.SingleFieldBuilder<
-          edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataHistory, edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataHistory.Builder, edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataHistoryOrBuilder> 
+          edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadata, edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadata.Builder, edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataOrBuilder> 
           getMetadataFieldBuilder() {
         if (metadataBuilder_ == null) {
           metadataBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-              edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataHistory, edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataHistory.Builder, edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataHistoryOrBuilder>(
+              edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadata, edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadata.Builder, edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataOrBuilder>(
                   metadata_,
                   getParentForChildren(),
                   isClean());
@@ -8710,100 +8710,130 @@ public final class Graph {
   public interface ModuleMetadataOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // repeated .crowd_safe_data_analysis.UIBObservation total_observed = 1;
+    // optional int64 sequence_id_low = 1;
     /**
-     * <code>repeated .crowd_safe_data_analysis.UIBObservation total_observed = 1;</code>
+     * <code>optional int64 sequence_id_low = 1;</code>
+     */
+    boolean hasSequenceIdLow();
+    /**
+     * <code>optional int64 sequence_id_low = 1;</code>
+     */
+    long getSequenceIdLow();
+
+    // optional int64 sequence_id_high = 2;
+    /**
+     * <code>optional int64 sequence_id_high = 2;</code>
+     */
+    boolean hasSequenceIdHigh();
+    /**
+     * <code>optional int64 sequence_id_high = 2;</code>
+     */
+    long getSequenceIdHigh();
+
+    // optional int64 execution_id_low = 3;
+    /**
+     * <code>optional int64 execution_id_low = 3;</code>
+     */
+    boolean hasExecutionIdLow();
+    /**
+     * <code>optional int64 execution_id_low = 3;</code>
+     */
+    long getExecutionIdLow();
+
+    // optional int64 execution_id_high = 4;
+    /**
+     * <code>optional int64 execution_id_high = 4;</code>
+     */
+    boolean hasExecutionIdHigh();
+    /**
+     * <code>optional int64 execution_id_high = 4;</code>
+     */
+    long getExecutionIdHigh();
+
+    // optional int32 execution_index = 5;
+    /**
+     * <code>optional int32 execution_index = 5;</code>
+     */
+    boolean hasExecutionIndex();
+    /**
+     * <code>optional int32 execution_index = 5;</code>
+     */
+    int getExecutionIndex();
+
+    // repeated .crowd_safe_data_analysis.UIBObservation total_observed = 6;
+    /**
+     * <code>repeated .crowd_safe_data_analysis.UIBObservation total_observed = 6;</code>
      */
     java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation> 
         getTotalObservedList();
     /**
-     * <code>repeated .crowd_safe_data_analysis.UIBObservation total_observed = 1;</code>
+     * <code>repeated .crowd_safe_data_analysis.UIBObservation total_observed = 6;</code>
      */
     edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation getTotalObserved(int index);
     /**
-     * <code>repeated .crowd_safe_data_analysis.UIBObservation total_observed = 1;</code>
+     * <code>repeated .crowd_safe_data_analysis.UIBObservation total_observed = 6;</code>
      */
     int getTotalObservedCount();
     /**
-     * <code>repeated .crowd_safe_data_analysis.UIBObservation total_observed = 1;</code>
+     * <code>repeated .crowd_safe_data_analysis.UIBObservation total_observed = 6;</code>
      */
     java.util.List<? extends edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservationOrBuilder> 
         getTotalObservedOrBuilderList();
     /**
-     * <code>repeated .crowd_safe_data_analysis.UIBObservation total_observed = 1;</code>
+     * <code>repeated .crowd_safe_data_analysis.UIBObservation total_observed = 6;</code>
      */
     edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservationOrBuilder getTotalObservedOrBuilder(
         int index);
 
-    // repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 2;
+    // repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 7;
     /**
-     * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 2;</code>
+     * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 7;</code>
      */
     java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation> 
         getIntraModuleObservedList();
     /**
-     * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 2;</code>
+     * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 7;</code>
      */
     edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation getIntraModuleObserved(int index);
     /**
-     * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 2;</code>
+     * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 7;</code>
      */
     int getIntraModuleObservedCount();
     /**
-     * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 2;</code>
+     * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 7;</code>
      */
     java.util.List<? extends edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservationOrBuilder> 
         getIntraModuleObservedOrBuilderList();
     /**
-     * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 2;</code>
+     * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 7;</code>
      */
     edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservationOrBuilder getIntraModuleObservedOrBuilder(
         int index);
 
-    // repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 3;
+    // repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 8;
     /**
-     * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 3;</code>
+     * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 8;</code>
      */
     java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation> 
         getInterModuleObservedList();
     /**
-     * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 3;</code>
+     * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 8;</code>
      */
     edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation getInterModuleObserved(int index);
     /**
-     * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 3;</code>
+     * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 8;</code>
      */
     int getInterModuleObservedCount();
     /**
-     * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 3;</code>
+     * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 8;</code>
      */
     java.util.List<? extends edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservationOrBuilder> 
         getInterModuleObservedOrBuilderList();
     /**
-     * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 3;</code>
+     * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 8;</code>
      */
     edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservationOrBuilder getInterModuleObservedOrBuilder(
         int index);
-
-    // optional int64 id_low = 4;
-    /**
-     * <code>optional int64 id_low = 4;</code>
-     */
-    boolean hasIdLow();
-    /**
-     * <code>optional int64 id_low = 4;</code>
-     */
-    long getIdLow();
-
-    // optional int64 id_high = 5;
-    /**
-     * <code>optional int64 id_high = 5;</code>
-     */
-    boolean hasIdHigh();
-    /**
-     * <code>optional int64 id_high = 5;</code>
-     */
-    long getIdHigh();
   }
   /**
    * Protobuf type {@code crowd_safe_data_analysis.ModuleMetadata}
@@ -8856,38 +8886,53 @@ public final class Graph {
               }
               break;
             }
-            case 10: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+            case 8: {
+              bitField0_ |= 0x00000001;
+              sequenceIdLow_ = input.readInt64();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              sequenceIdHigh_ = input.readInt64();
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000004;
+              executionIdLow_ = input.readInt64();
+              break;
+            }
+            case 32: {
+              bitField0_ |= 0x00000008;
+              executionIdHigh_ = input.readInt64();
+              break;
+            }
+            case 40: {
+              bitField0_ |= 0x00000010;
+              executionIndex_ = input.readInt32();
+              break;
+            }
+            case 50: {
+              if (!((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
                 totalObserved_ = new java.util.ArrayList<edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation>();
-                mutable_bitField0_ |= 0x00000001;
+                mutable_bitField0_ |= 0x00000020;
               }
               totalObserved_.add(input.readMessage(edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.PARSER, extensionRegistry));
               break;
             }
-            case 18: {
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+            case 58: {
+              if (!((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
                 intraModuleObserved_ = new java.util.ArrayList<edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation>();
-                mutable_bitField0_ |= 0x00000002;
+                mutable_bitField0_ |= 0x00000040;
               }
               intraModuleObserved_.add(input.readMessage(edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.PARSER, extensionRegistry));
               break;
             }
-            case 26: {
-              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+            case 66: {
+              if (!((mutable_bitField0_ & 0x00000080) == 0x00000080)) {
                 interModuleObserved_ = new java.util.ArrayList<edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation>();
-                mutable_bitField0_ |= 0x00000004;
+                mutable_bitField0_ |= 0x00000080;
               }
               interModuleObserved_.add(input.readMessage(edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.PARSER, extensionRegistry));
-              break;
-            }
-            case 32: {
-              bitField0_ |= 0x00000001;
-              idLow_ = input.readInt64();
-              break;
-            }
-            case 40: {
-              bitField0_ |= 0x00000002;
-              idHigh_ = input.readInt64();
               break;
             }
           }
@@ -8898,13 +8943,13 @@ public final class Graph {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
           totalObserved_ = java.util.Collections.unmodifiableList(totalObserved_);
         }
-        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
           intraModuleObserved_ = java.util.Collections.unmodifiableList(intraModuleObserved_);
         }
-        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+        if (((mutable_bitField0_ & 0x00000080) == 0x00000080)) {
           interModuleObserved_ = java.util.Collections.unmodifiableList(interModuleObserved_);
         }
         this.unknownFields = unknownFields.build();
@@ -8939,152 +8984,203 @@ public final class Graph {
     }
 
     private int bitField0_;
-    // repeated .crowd_safe_data_analysis.UIBObservation total_observed = 1;
-    public static final int TOTAL_OBSERVED_FIELD_NUMBER = 1;
+    // optional int64 sequence_id_low = 1;
+    public static final int SEQUENCE_ID_LOW_FIELD_NUMBER = 1;
+    private long sequenceIdLow_;
+    /**
+     * <code>optional int64 sequence_id_low = 1;</code>
+     */
+    public boolean hasSequenceIdLow() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>optional int64 sequence_id_low = 1;</code>
+     */
+    public long getSequenceIdLow() {
+      return sequenceIdLow_;
+    }
+
+    // optional int64 sequence_id_high = 2;
+    public static final int SEQUENCE_ID_HIGH_FIELD_NUMBER = 2;
+    private long sequenceIdHigh_;
+    /**
+     * <code>optional int64 sequence_id_high = 2;</code>
+     */
+    public boolean hasSequenceIdHigh() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional int64 sequence_id_high = 2;</code>
+     */
+    public long getSequenceIdHigh() {
+      return sequenceIdHigh_;
+    }
+
+    // optional int64 execution_id_low = 3;
+    public static final int EXECUTION_ID_LOW_FIELD_NUMBER = 3;
+    private long executionIdLow_;
+    /**
+     * <code>optional int64 execution_id_low = 3;</code>
+     */
+    public boolean hasExecutionIdLow() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional int64 execution_id_low = 3;</code>
+     */
+    public long getExecutionIdLow() {
+      return executionIdLow_;
+    }
+
+    // optional int64 execution_id_high = 4;
+    public static final int EXECUTION_ID_HIGH_FIELD_NUMBER = 4;
+    private long executionIdHigh_;
+    /**
+     * <code>optional int64 execution_id_high = 4;</code>
+     */
+    public boolean hasExecutionIdHigh() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional int64 execution_id_high = 4;</code>
+     */
+    public long getExecutionIdHigh() {
+      return executionIdHigh_;
+    }
+
+    // optional int32 execution_index = 5;
+    public static final int EXECUTION_INDEX_FIELD_NUMBER = 5;
+    private int executionIndex_;
+    /**
+     * <code>optional int32 execution_index = 5;</code>
+     */
+    public boolean hasExecutionIndex() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional int32 execution_index = 5;</code>
+     */
+    public int getExecutionIndex() {
+      return executionIndex_;
+    }
+
+    // repeated .crowd_safe_data_analysis.UIBObservation total_observed = 6;
+    public static final int TOTAL_OBSERVED_FIELD_NUMBER = 6;
     private java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation> totalObserved_;
     /**
-     * <code>repeated .crowd_safe_data_analysis.UIBObservation total_observed = 1;</code>
+     * <code>repeated .crowd_safe_data_analysis.UIBObservation total_observed = 6;</code>
      */
     public java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation> getTotalObservedList() {
       return totalObserved_;
     }
     /**
-     * <code>repeated .crowd_safe_data_analysis.UIBObservation total_observed = 1;</code>
+     * <code>repeated .crowd_safe_data_analysis.UIBObservation total_observed = 6;</code>
      */
     public java.util.List<? extends edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservationOrBuilder> 
         getTotalObservedOrBuilderList() {
       return totalObserved_;
     }
     /**
-     * <code>repeated .crowd_safe_data_analysis.UIBObservation total_observed = 1;</code>
+     * <code>repeated .crowd_safe_data_analysis.UIBObservation total_observed = 6;</code>
      */
     public int getTotalObservedCount() {
       return totalObserved_.size();
     }
     /**
-     * <code>repeated .crowd_safe_data_analysis.UIBObservation total_observed = 1;</code>
+     * <code>repeated .crowd_safe_data_analysis.UIBObservation total_observed = 6;</code>
      */
     public edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation getTotalObserved(int index) {
       return totalObserved_.get(index);
     }
     /**
-     * <code>repeated .crowd_safe_data_analysis.UIBObservation total_observed = 1;</code>
+     * <code>repeated .crowd_safe_data_analysis.UIBObservation total_observed = 6;</code>
      */
     public edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservationOrBuilder getTotalObservedOrBuilder(
         int index) {
       return totalObserved_.get(index);
     }
 
-    // repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 2;
-    public static final int INTRA_MODULE_OBSERVED_FIELD_NUMBER = 2;
+    // repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 7;
+    public static final int INTRA_MODULE_OBSERVED_FIELD_NUMBER = 7;
     private java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation> intraModuleObserved_;
     /**
-     * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 2;</code>
+     * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 7;</code>
      */
     public java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation> getIntraModuleObservedList() {
       return intraModuleObserved_;
     }
     /**
-     * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 2;</code>
+     * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 7;</code>
      */
     public java.util.List<? extends edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservationOrBuilder> 
         getIntraModuleObservedOrBuilderList() {
       return intraModuleObserved_;
     }
     /**
-     * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 2;</code>
+     * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 7;</code>
      */
     public int getIntraModuleObservedCount() {
       return intraModuleObserved_.size();
     }
     /**
-     * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 2;</code>
+     * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 7;</code>
      */
     public edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation getIntraModuleObserved(int index) {
       return intraModuleObserved_.get(index);
     }
     /**
-     * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 2;</code>
+     * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 7;</code>
      */
     public edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservationOrBuilder getIntraModuleObservedOrBuilder(
         int index) {
       return intraModuleObserved_.get(index);
     }
 
-    // repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 3;
-    public static final int INTER_MODULE_OBSERVED_FIELD_NUMBER = 3;
+    // repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 8;
+    public static final int INTER_MODULE_OBSERVED_FIELD_NUMBER = 8;
     private java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation> interModuleObserved_;
     /**
-     * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 3;</code>
+     * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 8;</code>
      */
     public java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation> getInterModuleObservedList() {
       return interModuleObserved_;
     }
     /**
-     * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 3;</code>
+     * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 8;</code>
      */
     public java.util.List<? extends edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservationOrBuilder> 
         getInterModuleObservedOrBuilderList() {
       return interModuleObserved_;
     }
     /**
-     * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 3;</code>
+     * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 8;</code>
      */
     public int getInterModuleObservedCount() {
       return interModuleObserved_.size();
     }
     /**
-     * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 3;</code>
+     * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 8;</code>
      */
     public edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation getInterModuleObserved(int index) {
       return interModuleObserved_.get(index);
     }
     /**
-     * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 3;</code>
+     * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 8;</code>
      */
     public edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservationOrBuilder getInterModuleObservedOrBuilder(
         int index) {
       return interModuleObserved_.get(index);
     }
 
-    // optional int64 id_low = 4;
-    public static final int ID_LOW_FIELD_NUMBER = 4;
-    private long idLow_;
-    /**
-     * <code>optional int64 id_low = 4;</code>
-     */
-    public boolean hasIdLow() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
-    }
-    /**
-     * <code>optional int64 id_low = 4;</code>
-     */
-    public long getIdLow() {
-      return idLow_;
-    }
-
-    // optional int64 id_high = 5;
-    public static final int ID_HIGH_FIELD_NUMBER = 5;
-    private long idHigh_;
-    /**
-     * <code>optional int64 id_high = 5;</code>
-     */
-    public boolean hasIdHigh() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
-    }
-    /**
-     * <code>optional int64 id_high = 5;</code>
-     */
-    public long getIdHigh() {
-      return idHigh_;
-    }
-
     private void initFields() {
+      sequenceIdLow_ = 0L;
+      sequenceIdHigh_ = 0L;
+      executionIdLow_ = 0L;
+      executionIdHigh_ = 0L;
+      executionIndex_ = 0;
       totalObserved_ = java.util.Collections.emptyList();
       intraModuleObserved_ = java.util.Collections.emptyList();
       interModuleObserved_ = java.util.Collections.emptyList();
-      idLow_ = 0L;
-      idHigh_ = 0L;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -9098,20 +9194,29 @@ public final class Graph {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       getSerializedSize();
-      for (int i = 0; i < totalObserved_.size(); i++) {
-        output.writeMessage(1, totalObserved_.get(i));
-      }
-      for (int i = 0; i < intraModuleObserved_.size(); i++) {
-        output.writeMessage(2, intraModuleObserved_.get(i));
-      }
-      for (int i = 0; i < interModuleObserved_.size(); i++) {
-        output.writeMessage(3, interModuleObserved_.get(i));
-      }
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeInt64(4, idLow_);
+        output.writeInt64(1, sequenceIdLow_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeInt64(5, idHigh_);
+        output.writeInt64(2, sequenceIdHigh_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeInt64(3, executionIdLow_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeInt64(4, executionIdHigh_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeInt32(5, executionIndex_);
+      }
+      for (int i = 0; i < totalObserved_.size(); i++) {
+        output.writeMessage(6, totalObserved_.get(i));
+      }
+      for (int i = 0; i < intraModuleObserved_.size(); i++) {
+        output.writeMessage(7, intraModuleObserved_.get(i));
+      }
+      for (int i = 0; i < interModuleObserved_.size(); i++) {
+        output.writeMessage(8, interModuleObserved_.get(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -9122,25 +9227,37 @@ public final class Graph {
       if (size != -1) return size;
 
       size = 0;
-      for (int i = 0; i < totalObserved_.size(); i++) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(1, totalObserved_.get(i));
-      }
-      for (int i = 0; i < intraModuleObserved_.size(); i++) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(2, intraModuleObserved_.get(i));
-      }
-      for (int i = 0; i < interModuleObserved_.size(); i++) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(3, interModuleObserved_.get(i));
-      }
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(4, idLow_);
+          .computeInt64Size(1, sequenceIdLow_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(5, idHigh_);
+          .computeInt64Size(2, sequenceIdHigh_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(3, executionIdLow_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(4, executionIdHigh_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(5, executionIndex_);
+      }
+      for (int i = 0; i < totalObserved_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(6, totalObserved_.get(i));
+      }
+      for (int i = 0; i < intraModuleObserved_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(7, intraModuleObserved_.get(i));
+      }
+      for (int i = 0; i < interModuleObserved_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(8, interModuleObserved_.get(i));
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -9261,28 +9378,34 @@ public final class Graph {
 
       public Builder clear() {
         super.clear();
+        sequenceIdLow_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        sequenceIdHigh_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        executionIdLow_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        executionIdHigh_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        executionIndex_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000010);
         if (totalObservedBuilder_ == null) {
           totalObserved_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
+          bitField0_ = (bitField0_ & ~0x00000020);
         } else {
           totalObservedBuilder_.clear();
         }
         if (intraModuleObservedBuilder_ == null) {
           intraModuleObserved_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000040);
         } else {
           intraModuleObservedBuilder_.clear();
         }
         if (interModuleObservedBuilder_ == null) {
           interModuleObserved_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000004);
+          bitField0_ = (bitField0_ & ~0x00000080);
         } else {
           interModuleObservedBuilder_.clear();
         }
-        idLow_ = 0L;
-        bitField0_ = (bitField0_ & ~0x00000008);
-        idHigh_ = 0L;
-        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
 
@@ -9311,41 +9434,53 @@ public final class Graph {
         edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadata result = new edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadata(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.sequenceIdLow_ = sequenceIdLow_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.sequenceIdHigh_ = sequenceIdHigh_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.executionIdLow_ = executionIdLow_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.executionIdHigh_ = executionIdHigh_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.executionIndex_ = executionIndex_;
         if (totalObservedBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          if (((bitField0_ & 0x00000020) == 0x00000020)) {
             totalObserved_ = java.util.Collections.unmodifiableList(totalObserved_);
-            bitField0_ = (bitField0_ & ~0x00000001);
+            bitField0_ = (bitField0_ & ~0x00000020);
           }
           result.totalObserved_ = totalObserved_;
         } else {
           result.totalObserved_ = totalObservedBuilder_.build();
         }
         if (intraModuleObservedBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          if (((bitField0_ & 0x00000040) == 0x00000040)) {
             intraModuleObserved_ = java.util.Collections.unmodifiableList(intraModuleObserved_);
-            bitField0_ = (bitField0_ & ~0x00000002);
+            bitField0_ = (bitField0_ & ~0x00000040);
           }
           result.intraModuleObserved_ = intraModuleObserved_;
         } else {
           result.intraModuleObserved_ = intraModuleObservedBuilder_.build();
         }
         if (interModuleObservedBuilder_ == null) {
-          if (((bitField0_ & 0x00000004) == 0x00000004)) {
+          if (((bitField0_ & 0x00000080) == 0x00000080)) {
             interModuleObserved_ = java.util.Collections.unmodifiableList(interModuleObserved_);
-            bitField0_ = (bitField0_ & ~0x00000004);
+            bitField0_ = (bitField0_ & ~0x00000080);
           }
           result.interModuleObserved_ = interModuleObserved_;
         } else {
           result.interModuleObserved_ = interModuleObservedBuilder_.build();
         }
-        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
-          to_bitField0_ |= 0x00000001;
-        }
-        result.idLow_ = idLow_;
-        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
-          to_bitField0_ |= 0x00000002;
-        }
-        result.idHigh_ = idHigh_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -9362,11 +9497,26 @@ public final class Graph {
 
       public Builder mergeFrom(edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadata other) {
         if (other == edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadata.getDefaultInstance()) return this;
+        if (other.hasSequenceIdLow()) {
+          setSequenceIdLow(other.getSequenceIdLow());
+        }
+        if (other.hasSequenceIdHigh()) {
+          setSequenceIdHigh(other.getSequenceIdHigh());
+        }
+        if (other.hasExecutionIdLow()) {
+          setExecutionIdLow(other.getExecutionIdLow());
+        }
+        if (other.hasExecutionIdHigh()) {
+          setExecutionIdHigh(other.getExecutionIdHigh());
+        }
+        if (other.hasExecutionIndex()) {
+          setExecutionIndex(other.getExecutionIndex());
+        }
         if (totalObservedBuilder_ == null) {
           if (!other.totalObserved_.isEmpty()) {
             if (totalObserved_.isEmpty()) {
               totalObserved_ = other.totalObserved_;
-              bitField0_ = (bitField0_ & ~0x00000001);
+              bitField0_ = (bitField0_ & ~0x00000020);
             } else {
               ensureTotalObservedIsMutable();
               totalObserved_.addAll(other.totalObserved_);
@@ -9379,7 +9529,7 @@ public final class Graph {
               totalObservedBuilder_.dispose();
               totalObservedBuilder_ = null;
               totalObserved_ = other.totalObserved_;
-              bitField0_ = (bitField0_ & ~0x00000001);
+              bitField0_ = (bitField0_ & ~0x00000020);
               totalObservedBuilder_ = 
                 com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
                    getTotalObservedFieldBuilder() : null;
@@ -9392,7 +9542,7 @@ public final class Graph {
           if (!other.intraModuleObserved_.isEmpty()) {
             if (intraModuleObserved_.isEmpty()) {
               intraModuleObserved_ = other.intraModuleObserved_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000040);
             } else {
               ensureIntraModuleObservedIsMutable();
               intraModuleObserved_.addAll(other.intraModuleObserved_);
@@ -9405,7 +9555,7 @@ public final class Graph {
               intraModuleObservedBuilder_.dispose();
               intraModuleObservedBuilder_ = null;
               intraModuleObserved_ = other.intraModuleObserved_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000040);
               intraModuleObservedBuilder_ = 
                 com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
                    getIntraModuleObservedFieldBuilder() : null;
@@ -9418,7 +9568,7 @@ public final class Graph {
           if (!other.interModuleObserved_.isEmpty()) {
             if (interModuleObserved_.isEmpty()) {
               interModuleObserved_ = other.interModuleObserved_;
-              bitField0_ = (bitField0_ & ~0x00000004);
+              bitField0_ = (bitField0_ & ~0x00000080);
             } else {
               ensureInterModuleObservedIsMutable();
               interModuleObserved_.addAll(other.interModuleObserved_);
@@ -9431,7 +9581,7 @@ public final class Graph {
               interModuleObservedBuilder_.dispose();
               interModuleObservedBuilder_ = null;
               interModuleObserved_ = other.interModuleObserved_;
-              bitField0_ = (bitField0_ & ~0x00000004);
+              bitField0_ = (bitField0_ & ~0x00000080);
               interModuleObservedBuilder_ = 
                 com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
                    getInterModuleObservedFieldBuilder() : null;
@@ -9439,12 +9589,6 @@ public final class Graph {
               interModuleObservedBuilder_.addAllMessages(other.interModuleObserved_);
             }
           }
-        }
-        if (other.hasIdLow()) {
-          setIdLow(other.getIdLow());
-        }
-        if (other.hasIdHigh()) {
-          setIdHigh(other.getIdHigh());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -9473,13 +9617,178 @@ public final class Graph {
       }
       private int bitField0_;
 
-      // repeated .crowd_safe_data_analysis.UIBObservation total_observed = 1;
+      // optional int64 sequence_id_low = 1;
+      private long sequenceIdLow_ ;
+      /**
+       * <code>optional int64 sequence_id_low = 1;</code>
+       */
+      public boolean hasSequenceIdLow() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>optional int64 sequence_id_low = 1;</code>
+       */
+      public long getSequenceIdLow() {
+        return sequenceIdLow_;
+      }
+      /**
+       * <code>optional int64 sequence_id_low = 1;</code>
+       */
+      public Builder setSequenceIdLow(long value) {
+        bitField0_ |= 0x00000001;
+        sequenceIdLow_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int64 sequence_id_low = 1;</code>
+       */
+      public Builder clearSequenceIdLow() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        sequenceIdLow_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      // optional int64 sequence_id_high = 2;
+      private long sequenceIdHigh_ ;
+      /**
+       * <code>optional int64 sequence_id_high = 2;</code>
+       */
+      public boolean hasSequenceIdHigh() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional int64 sequence_id_high = 2;</code>
+       */
+      public long getSequenceIdHigh() {
+        return sequenceIdHigh_;
+      }
+      /**
+       * <code>optional int64 sequence_id_high = 2;</code>
+       */
+      public Builder setSequenceIdHigh(long value) {
+        bitField0_ |= 0x00000002;
+        sequenceIdHigh_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int64 sequence_id_high = 2;</code>
+       */
+      public Builder clearSequenceIdHigh() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        sequenceIdHigh_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      // optional int64 execution_id_low = 3;
+      private long executionIdLow_ ;
+      /**
+       * <code>optional int64 execution_id_low = 3;</code>
+       */
+      public boolean hasExecutionIdLow() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional int64 execution_id_low = 3;</code>
+       */
+      public long getExecutionIdLow() {
+        return executionIdLow_;
+      }
+      /**
+       * <code>optional int64 execution_id_low = 3;</code>
+       */
+      public Builder setExecutionIdLow(long value) {
+        bitField0_ |= 0x00000004;
+        executionIdLow_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int64 execution_id_low = 3;</code>
+       */
+      public Builder clearExecutionIdLow() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        executionIdLow_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      // optional int64 execution_id_high = 4;
+      private long executionIdHigh_ ;
+      /**
+       * <code>optional int64 execution_id_high = 4;</code>
+       */
+      public boolean hasExecutionIdHigh() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional int64 execution_id_high = 4;</code>
+       */
+      public long getExecutionIdHigh() {
+        return executionIdHigh_;
+      }
+      /**
+       * <code>optional int64 execution_id_high = 4;</code>
+       */
+      public Builder setExecutionIdHigh(long value) {
+        bitField0_ |= 0x00000008;
+        executionIdHigh_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int64 execution_id_high = 4;</code>
+       */
+      public Builder clearExecutionIdHigh() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        executionIdHigh_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 execution_index = 5;
+      private int executionIndex_ ;
+      /**
+       * <code>optional int32 execution_index = 5;</code>
+       */
+      public boolean hasExecutionIndex() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional int32 execution_index = 5;</code>
+       */
+      public int getExecutionIndex() {
+        return executionIndex_;
+      }
+      /**
+       * <code>optional int32 execution_index = 5;</code>
+       */
+      public Builder setExecutionIndex(int value) {
+        bitField0_ |= 0x00000010;
+        executionIndex_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 execution_index = 5;</code>
+       */
+      public Builder clearExecutionIndex() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        executionIndex_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // repeated .crowd_safe_data_analysis.UIBObservation total_observed = 6;
       private java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation> totalObserved_ =
         java.util.Collections.emptyList();
       private void ensureTotalObservedIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+        if (!((bitField0_ & 0x00000020) == 0x00000020)) {
           totalObserved_ = new java.util.ArrayList<edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation>(totalObserved_);
-          bitField0_ |= 0x00000001;
+          bitField0_ |= 0x00000020;
          }
       }
 
@@ -9487,7 +9796,7 @@ public final class Graph {
           edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation, edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.Builder, edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservationOrBuilder> totalObservedBuilder_;
 
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation total_observed = 1;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation total_observed = 6;</code>
        */
       public java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation> getTotalObservedList() {
         if (totalObservedBuilder_ == null) {
@@ -9497,7 +9806,7 @@ public final class Graph {
         }
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation total_observed = 1;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation total_observed = 6;</code>
        */
       public int getTotalObservedCount() {
         if (totalObservedBuilder_ == null) {
@@ -9507,7 +9816,7 @@ public final class Graph {
         }
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation total_observed = 1;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation total_observed = 6;</code>
        */
       public edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation getTotalObserved(int index) {
         if (totalObservedBuilder_ == null) {
@@ -9517,7 +9826,7 @@ public final class Graph {
         }
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation total_observed = 1;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation total_observed = 6;</code>
        */
       public Builder setTotalObserved(
           int index, edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation value) {
@@ -9534,7 +9843,7 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation total_observed = 1;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation total_observed = 6;</code>
        */
       public Builder setTotalObserved(
           int index, edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.Builder builderForValue) {
@@ -9548,7 +9857,7 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation total_observed = 1;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation total_observed = 6;</code>
        */
       public Builder addTotalObserved(edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation value) {
         if (totalObservedBuilder_ == null) {
@@ -9564,7 +9873,7 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation total_observed = 1;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation total_observed = 6;</code>
        */
       public Builder addTotalObserved(
           int index, edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation value) {
@@ -9581,7 +9890,7 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation total_observed = 1;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation total_observed = 6;</code>
        */
       public Builder addTotalObserved(
           edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.Builder builderForValue) {
@@ -9595,7 +9904,7 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation total_observed = 1;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation total_observed = 6;</code>
        */
       public Builder addTotalObserved(
           int index, edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.Builder builderForValue) {
@@ -9609,7 +9918,7 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation total_observed = 1;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation total_observed = 6;</code>
        */
       public Builder addAllTotalObserved(
           java.lang.Iterable<? extends edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation> values) {
@@ -9623,12 +9932,12 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation total_observed = 1;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation total_observed = 6;</code>
        */
       public Builder clearTotalObserved() {
         if (totalObservedBuilder_ == null) {
           totalObserved_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
+          bitField0_ = (bitField0_ & ~0x00000020);
           onChanged();
         } else {
           totalObservedBuilder_.clear();
@@ -9636,7 +9945,7 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation total_observed = 1;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation total_observed = 6;</code>
        */
       public Builder removeTotalObserved(int index) {
         if (totalObservedBuilder_ == null) {
@@ -9649,14 +9958,14 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation total_observed = 1;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation total_observed = 6;</code>
        */
       public edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.Builder getTotalObservedBuilder(
           int index) {
         return getTotalObservedFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation total_observed = 1;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation total_observed = 6;</code>
        */
       public edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservationOrBuilder getTotalObservedOrBuilder(
           int index) {
@@ -9666,7 +9975,7 @@ public final class Graph {
         }
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation total_observed = 1;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation total_observed = 6;</code>
        */
       public java.util.List<? extends edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservationOrBuilder> 
            getTotalObservedOrBuilderList() {
@@ -9677,14 +9986,14 @@ public final class Graph {
         }
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation total_observed = 1;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation total_observed = 6;</code>
        */
       public edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.Builder addTotalObservedBuilder() {
         return getTotalObservedFieldBuilder().addBuilder(
             edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.getDefaultInstance());
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation total_observed = 1;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation total_observed = 6;</code>
        */
       public edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.Builder addTotalObservedBuilder(
           int index) {
@@ -9692,7 +10001,7 @@ public final class Graph {
             index, edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.getDefaultInstance());
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation total_observed = 1;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation total_observed = 6;</code>
        */
       public java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.Builder> 
            getTotalObservedBuilderList() {
@@ -9705,7 +10014,7 @@ public final class Graph {
           totalObservedBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
               edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation, edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.Builder, edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservationOrBuilder>(
                   totalObserved_,
-                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  ((bitField0_ & 0x00000020) == 0x00000020),
                   getParentForChildren(),
                   isClean());
           totalObserved_ = null;
@@ -9713,13 +10022,13 @@ public final class Graph {
         return totalObservedBuilder_;
       }
 
-      // repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 2;
+      // repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 7;
       private java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation> intraModuleObserved_ =
         java.util.Collections.emptyList();
       private void ensureIntraModuleObservedIsMutable() {
-        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+        if (!((bitField0_ & 0x00000040) == 0x00000040)) {
           intraModuleObserved_ = new java.util.ArrayList<edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation>(intraModuleObserved_);
-          bitField0_ |= 0x00000002;
+          bitField0_ |= 0x00000040;
          }
       }
 
@@ -9727,7 +10036,7 @@ public final class Graph {
           edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation, edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.Builder, edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservationOrBuilder> intraModuleObservedBuilder_;
 
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 2;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 7;</code>
        */
       public java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation> getIntraModuleObservedList() {
         if (intraModuleObservedBuilder_ == null) {
@@ -9737,7 +10046,7 @@ public final class Graph {
         }
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 2;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 7;</code>
        */
       public int getIntraModuleObservedCount() {
         if (intraModuleObservedBuilder_ == null) {
@@ -9747,7 +10056,7 @@ public final class Graph {
         }
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 2;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 7;</code>
        */
       public edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation getIntraModuleObserved(int index) {
         if (intraModuleObservedBuilder_ == null) {
@@ -9757,7 +10066,7 @@ public final class Graph {
         }
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 2;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 7;</code>
        */
       public Builder setIntraModuleObserved(
           int index, edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation value) {
@@ -9774,7 +10083,7 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 2;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 7;</code>
        */
       public Builder setIntraModuleObserved(
           int index, edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.Builder builderForValue) {
@@ -9788,7 +10097,7 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 2;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 7;</code>
        */
       public Builder addIntraModuleObserved(edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation value) {
         if (intraModuleObservedBuilder_ == null) {
@@ -9804,7 +10113,7 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 2;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 7;</code>
        */
       public Builder addIntraModuleObserved(
           int index, edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation value) {
@@ -9821,7 +10130,7 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 2;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 7;</code>
        */
       public Builder addIntraModuleObserved(
           edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.Builder builderForValue) {
@@ -9835,7 +10144,7 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 2;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 7;</code>
        */
       public Builder addIntraModuleObserved(
           int index, edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.Builder builderForValue) {
@@ -9849,7 +10158,7 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 2;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 7;</code>
        */
       public Builder addAllIntraModuleObserved(
           java.lang.Iterable<? extends edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation> values) {
@@ -9863,12 +10172,12 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 2;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 7;</code>
        */
       public Builder clearIntraModuleObserved() {
         if (intraModuleObservedBuilder_ == null) {
           intraModuleObserved_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000040);
           onChanged();
         } else {
           intraModuleObservedBuilder_.clear();
@@ -9876,7 +10185,7 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 2;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 7;</code>
        */
       public Builder removeIntraModuleObserved(int index) {
         if (intraModuleObservedBuilder_ == null) {
@@ -9889,14 +10198,14 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 2;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 7;</code>
        */
       public edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.Builder getIntraModuleObservedBuilder(
           int index) {
         return getIntraModuleObservedFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 2;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 7;</code>
        */
       public edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservationOrBuilder getIntraModuleObservedOrBuilder(
           int index) {
@@ -9906,7 +10215,7 @@ public final class Graph {
         }
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 2;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 7;</code>
        */
       public java.util.List<? extends edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservationOrBuilder> 
            getIntraModuleObservedOrBuilderList() {
@@ -9917,14 +10226,14 @@ public final class Graph {
         }
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 2;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 7;</code>
        */
       public edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.Builder addIntraModuleObservedBuilder() {
         return getIntraModuleObservedFieldBuilder().addBuilder(
             edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.getDefaultInstance());
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 2;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 7;</code>
        */
       public edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.Builder addIntraModuleObservedBuilder(
           int index) {
@@ -9932,7 +10241,7 @@ public final class Graph {
             index, edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.getDefaultInstance());
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 2;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation intra_module_observed = 7;</code>
        */
       public java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.Builder> 
            getIntraModuleObservedBuilderList() {
@@ -9945,7 +10254,7 @@ public final class Graph {
           intraModuleObservedBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
               edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation, edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.Builder, edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservationOrBuilder>(
                   intraModuleObserved_,
-                  ((bitField0_ & 0x00000002) == 0x00000002),
+                  ((bitField0_ & 0x00000040) == 0x00000040),
                   getParentForChildren(),
                   isClean());
           intraModuleObserved_ = null;
@@ -9953,13 +10262,13 @@ public final class Graph {
         return intraModuleObservedBuilder_;
       }
 
-      // repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 3;
+      // repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 8;
       private java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation> interModuleObserved_ =
         java.util.Collections.emptyList();
       private void ensureInterModuleObservedIsMutable() {
-        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
+        if (!((bitField0_ & 0x00000080) == 0x00000080)) {
           interModuleObserved_ = new java.util.ArrayList<edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation>(interModuleObserved_);
-          bitField0_ |= 0x00000004;
+          bitField0_ |= 0x00000080;
          }
       }
 
@@ -9967,7 +10276,7 @@ public final class Graph {
           edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation, edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.Builder, edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservationOrBuilder> interModuleObservedBuilder_;
 
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 3;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 8;</code>
        */
       public java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation> getInterModuleObservedList() {
         if (interModuleObservedBuilder_ == null) {
@@ -9977,7 +10286,7 @@ public final class Graph {
         }
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 3;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 8;</code>
        */
       public int getInterModuleObservedCount() {
         if (interModuleObservedBuilder_ == null) {
@@ -9987,7 +10296,7 @@ public final class Graph {
         }
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 3;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 8;</code>
        */
       public edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation getInterModuleObserved(int index) {
         if (interModuleObservedBuilder_ == null) {
@@ -9997,7 +10306,7 @@ public final class Graph {
         }
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 3;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 8;</code>
        */
       public Builder setInterModuleObserved(
           int index, edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation value) {
@@ -10014,7 +10323,7 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 3;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 8;</code>
        */
       public Builder setInterModuleObserved(
           int index, edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.Builder builderForValue) {
@@ -10028,7 +10337,7 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 3;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 8;</code>
        */
       public Builder addInterModuleObserved(edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation value) {
         if (interModuleObservedBuilder_ == null) {
@@ -10044,7 +10353,7 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 3;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 8;</code>
        */
       public Builder addInterModuleObserved(
           int index, edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation value) {
@@ -10061,7 +10370,7 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 3;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 8;</code>
        */
       public Builder addInterModuleObserved(
           edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.Builder builderForValue) {
@@ -10075,7 +10384,7 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 3;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 8;</code>
        */
       public Builder addInterModuleObserved(
           int index, edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.Builder builderForValue) {
@@ -10089,7 +10398,7 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 3;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 8;</code>
        */
       public Builder addAllInterModuleObserved(
           java.lang.Iterable<? extends edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation> values) {
@@ -10103,12 +10412,12 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 3;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 8;</code>
        */
       public Builder clearInterModuleObserved() {
         if (interModuleObservedBuilder_ == null) {
           interModuleObserved_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000004);
+          bitField0_ = (bitField0_ & ~0x00000080);
           onChanged();
         } else {
           interModuleObservedBuilder_.clear();
@@ -10116,7 +10425,7 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 3;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 8;</code>
        */
       public Builder removeInterModuleObserved(int index) {
         if (interModuleObservedBuilder_ == null) {
@@ -10129,14 +10438,14 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 3;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 8;</code>
        */
       public edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.Builder getInterModuleObservedBuilder(
           int index) {
         return getInterModuleObservedFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 3;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 8;</code>
        */
       public edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservationOrBuilder getInterModuleObservedOrBuilder(
           int index) {
@@ -10146,7 +10455,7 @@ public final class Graph {
         }
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 3;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 8;</code>
        */
       public java.util.List<? extends edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservationOrBuilder> 
            getInterModuleObservedOrBuilderList() {
@@ -10157,14 +10466,14 @@ public final class Graph {
         }
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 3;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 8;</code>
        */
       public edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.Builder addInterModuleObservedBuilder() {
         return getInterModuleObservedFieldBuilder().addBuilder(
             edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.getDefaultInstance());
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 3;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 8;</code>
        */
       public edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.Builder addInterModuleObservedBuilder(
           int index) {
@@ -10172,7 +10481,7 @@ public final class Graph {
             index, edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.getDefaultInstance());
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 3;</code>
+       * <code>repeated .crowd_safe_data_analysis.UIBObservation inter_module_observed = 8;</code>
        */
       public java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.Builder> 
            getInterModuleObservedBuilderList() {
@@ -10185,78 +10494,12 @@ public final class Graph {
           interModuleObservedBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
               edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation, edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.Builder, edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservationOrBuilder>(
                   interModuleObserved_,
-                  ((bitField0_ & 0x00000004) == 0x00000004),
+                  ((bitField0_ & 0x00000080) == 0x00000080),
                   getParentForChildren(),
                   isClean());
           interModuleObserved_ = null;
         }
         return interModuleObservedBuilder_;
-      }
-
-      // optional int64 id_low = 4;
-      private long idLow_ ;
-      /**
-       * <code>optional int64 id_low = 4;</code>
-       */
-      public boolean hasIdLow() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
-      }
-      /**
-       * <code>optional int64 id_low = 4;</code>
-       */
-      public long getIdLow() {
-        return idLow_;
-      }
-      /**
-       * <code>optional int64 id_low = 4;</code>
-       */
-      public Builder setIdLow(long value) {
-        bitField0_ |= 0x00000008;
-        idLow_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional int64 id_low = 4;</code>
-       */
-      public Builder clearIdLow() {
-        bitField0_ = (bitField0_ & ~0x00000008);
-        idLow_ = 0L;
-        onChanged();
-        return this;
-      }
-
-      // optional int64 id_high = 5;
-      private long idHigh_ ;
-      /**
-       * <code>optional int64 id_high = 5;</code>
-       */
-      public boolean hasIdHigh() {
-        return ((bitField0_ & 0x00000010) == 0x00000010);
-      }
-      /**
-       * <code>optional int64 id_high = 5;</code>
-       */
-      public long getIdHigh() {
-        return idHigh_;
-      }
-      /**
-       * <code>optional int64 id_high = 5;</code>
-       */
-      public Builder setIdHigh(long value) {
-        bitField0_ |= 0x00000010;
-        idHigh_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional int64 id_high = 5;</code>
-       */
-      public Builder clearIdHigh() {
-        bitField0_ = (bitField0_ & ~0x00000010);
-        idHigh_ = 0L;
-        onChanged();
-        return this;
       }
 
       // @@protoc_insertion_point(builder_scope:crowd_safe_data_analysis.ModuleMetadata)
@@ -10268,1438 +10511,6 @@ public final class Graph {
     }
 
     // @@protoc_insertion_point(class_scope:crowd_safe_data_analysis.ModuleMetadata)
-  }
-
-  public interface ModuleMetadataSequenceOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
-
-    // optional bool is_root = 1;
-    /**
-     * <code>optional bool is_root = 1;</code>
-     */
-    boolean hasIsRoot();
-    /**
-     * <code>optional bool is_root = 1;</code>
-     */
-    boolean getIsRoot();
-
-    // repeated .crowd_safe_data_analysis.ModuleMetadata execution = 2;
-    /**
-     * <code>repeated .crowd_safe_data_analysis.ModuleMetadata execution = 2;</code>
-     */
-    java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadata> 
-        getExecutionList();
-    /**
-     * <code>repeated .crowd_safe_data_analysis.ModuleMetadata execution = 2;</code>
-     */
-    edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadata getExecution(int index);
-    /**
-     * <code>repeated .crowd_safe_data_analysis.ModuleMetadata execution = 2;</code>
-     */
-    int getExecutionCount();
-    /**
-     * <code>repeated .crowd_safe_data_analysis.ModuleMetadata execution = 2;</code>
-     */
-    java.util.List<? extends edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataOrBuilder> 
-        getExecutionOrBuilderList();
-    /**
-     * <code>repeated .crowd_safe_data_analysis.ModuleMetadata execution = 2;</code>
-     */
-    edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataOrBuilder getExecutionOrBuilder(
-        int index);
-  }
-  /**
-   * Protobuf type {@code crowd_safe_data_analysis.ModuleMetadataSequence}
-   */
-  public static final class ModuleMetadataSequence extends
-      com.google.protobuf.GeneratedMessage
-      implements ModuleMetadataSequenceOrBuilder {
-    // Use ModuleMetadataSequence.newBuilder() to construct.
-    private ModuleMetadataSequence(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
-      super(builder);
-      this.unknownFields = builder.getUnknownFields();
-    }
-    private ModuleMetadataSequence(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final ModuleMetadataSequence defaultInstance;
-    public static ModuleMetadataSequence getDefaultInstance() {
-      return defaultInstance;
-    }
-
-    public ModuleMetadataSequence getDefaultInstanceForType() {
-      return defaultInstance;
-    }
-
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
-      return this.unknownFields;
-    }
-    private ModuleMetadataSequence(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-            case 8: {
-              bitField0_ |= 0x00000001;
-              isRoot_ = input.readBool();
-              break;
-            }
-            case 18: {
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-                execution_ = new java.util.ArrayList<edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadata>();
-                mutable_bitField0_ |= 0x00000002;
-              }
-              execution_.add(input.readMessage(edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadata.PARSER, extensionRegistry));
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
-      } finally {
-        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-          execution_ = java.util.Collections.unmodifiableList(execution_);
-        }
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return edu.uci.eecs.crowdsafe.common.data.results.Graph.internal_static_crowd_safe_data_analysis_ModuleMetadataSequence_descriptor;
-    }
-
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return edu.uci.eecs.crowdsafe.common.data.results.Graph.internal_static_crowd_safe_data_analysis_ModuleMetadataSequence_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequence.class, edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequence.Builder.class);
-    }
-
-    public static com.google.protobuf.Parser<ModuleMetadataSequence> PARSER =
-        new com.google.protobuf.AbstractParser<ModuleMetadataSequence>() {
-      public ModuleMetadataSequence parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new ModuleMetadataSequence(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<ModuleMetadataSequence> getParserForType() {
-      return PARSER;
-    }
-
-    private int bitField0_;
-    // optional bool is_root = 1;
-    public static final int IS_ROOT_FIELD_NUMBER = 1;
-    private boolean isRoot_;
-    /**
-     * <code>optional bool is_root = 1;</code>
-     */
-    public boolean hasIsRoot() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
-    }
-    /**
-     * <code>optional bool is_root = 1;</code>
-     */
-    public boolean getIsRoot() {
-      return isRoot_;
-    }
-
-    // repeated .crowd_safe_data_analysis.ModuleMetadata execution = 2;
-    public static final int EXECUTION_FIELD_NUMBER = 2;
-    private java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadata> execution_;
-    /**
-     * <code>repeated .crowd_safe_data_analysis.ModuleMetadata execution = 2;</code>
-     */
-    public java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadata> getExecutionList() {
-      return execution_;
-    }
-    /**
-     * <code>repeated .crowd_safe_data_analysis.ModuleMetadata execution = 2;</code>
-     */
-    public java.util.List<? extends edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataOrBuilder> 
-        getExecutionOrBuilderList() {
-      return execution_;
-    }
-    /**
-     * <code>repeated .crowd_safe_data_analysis.ModuleMetadata execution = 2;</code>
-     */
-    public int getExecutionCount() {
-      return execution_.size();
-    }
-    /**
-     * <code>repeated .crowd_safe_data_analysis.ModuleMetadata execution = 2;</code>
-     */
-    public edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadata getExecution(int index) {
-      return execution_.get(index);
-    }
-    /**
-     * <code>repeated .crowd_safe_data_analysis.ModuleMetadata execution = 2;</code>
-     */
-    public edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataOrBuilder getExecutionOrBuilder(
-        int index) {
-      return execution_.get(index);
-    }
-
-    private void initFields() {
-      isRoot_ = false;
-      execution_ = java.util.Collections.emptyList();
-    }
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
-
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeBool(1, isRoot_);
-      }
-      for (int i = 0; i < execution_.size(); i++) {
-        output.writeMessage(2, execution_.get(i));
-      }
-      getUnknownFields().writeTo(output);
-    }
-
-    private int memoizedSerializedSize = -1;
-    public int getSerializedSize() {
-      int size = memoizedSerializedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(1, isRoot_);
-      }
-      for (int i = 0; i < execution_.size(); i++) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(2, execution_.get(i));
-      }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
-      return size;
-    }
-
-    private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
-    }
-
-    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequence parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequence parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequence parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequence parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequence parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequence parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequence parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
-    }
-    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequence parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
-    }
-    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequence parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequence parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-
-    public static Builder newBuilder() { return Builder.create(); }
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequence prototype) {
-      return newBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() { return newBuilder(this); }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code crowd_safe_data_analysis.ModuleMetadataSequence}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequenceOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return edu.uci.eecs.crowdsafe.common.data.results.Graph.internal_static_crowd_safe_data_analysis_ModuleMetadataSequence_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return edu.uci.eecs.crowdsafe.common.data.results.Graph.internal_static_crowd_safe_data_analysis_ModuleMetadataSequence_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequence.class, edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequence.Builder.class);
-      }
-
-      // Construct using edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequence.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-          getExecutionFieldBuilder();
-        }
-      }
-      private static Builder create() {
-        return new Builder();
-      }
-
-      public Builder clear() {
-        super.clear();
-        isRoot_ = false;
-        bitField0_ = (bitField0_ & ~0x00000001);
-        if (executionBuilder_ == null) {
-          execution_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
-        } else {
-          executionBuilder_.clear();
-        }
-        return this;
-      }
-
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return edu.uci.eecs.crowdsafe.common.data.results.Graph.internal_static_crowd_safe_data_analysis_ModuleMetadataSequence_descriptor;
-      }
-
-      public edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequence getDefaultInstanceForType() {
-        return edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequence.getDefaultInstance();
-      }
-
-      public edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequence build() {
-        edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequence result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequence buildPartial() {
-        edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequence result = new edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequence(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
-          to_bitField0_ |= 0x00000001;
-        }
-        result.isRoot_ = isRoot_;
-        if (executionBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) == 0x00000002)) {
-            execution_ = java.util.Collections.unmodifiableList(execution_);
-            bitField0_ = (bitField0_ & ~0x00000002);
-          }
-          result.execution_ = execution_;
-        } else {
-          result.execution_ = executionBuilder_.build();
-        }
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
-      }
-
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequence) {
-          return mergeFrom((edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequence)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequence other) {
-        if (other == edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequence.getDefaultInstance()) return this;
-        if (other.hasIsRoot()) {
-          setIsRoot(other.getIsRoot());
-        }
-        if (executionBuilder_ == null) {
-          if (!other.execution_.isEmpty()) {
-            if (execution_.isEmpty()) {
-              execution_ = other.execution_;
-              bitField0_ = (bitField0_ & ~0x00000002);
-            } else {
-              ensureExecutionIsMutable();
-              execution_.addAll(other.execution_);
-            }
-            onChanged();
-          }
-        } else {
-          if (!other.execution_.isEmpty()) {
-            if (executionBuilder_.isEmpty()) {
-              executionBuilder_.dispose();
-              executionBuilder_ = null;
-              execution_ = other.execution_;
-              bitField0_ = (bitField0_ & ~0x00000002);
-              executionBuilder_ = 
-                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
-                   getExecutionFieldBuilder() : null;
-            } else {
-              executionBuilder_.addAllMessages(other.execution_);
-            }
-          }
-        }
-        this.mergeUnknownFields(other.getUnknownFields());
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequence parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequence) e.getUnfinishedMessage();
-          throw e;
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      private int bitField0_;
-
-      // optional bool is_root = 1;
-      private boolean isRoot_ ;
-      /**
-       * <code>optional bool is_root = 1;</code>
-       */
-      public boolean hasIsRoot() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
-      }
-      /**
-       * <code>optional bool is_root = 1;</code>
-       */
-      public boolean getIsRoot() {
-        return isRoot_;
-      }
-      /**
-       * <code>optional bool is_root = 1;</code>
-       */
-      public Builder setIsRoot(boolean value) {
-        bitField0_ |= 0x00000001;
-        isRoot_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional bool is_root = 1;</code>
-       */
-      public Builder clearIsRoot() {
-        bitField0_ = (bitField0_ & ~0x00000001);
-        isRoot_ = false;
-        onChanged();
-        return this;
-      }
-
-      // repeated .crowd_safe_data_analysis.ModuleMetadata execution = 2;
-      private java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadata> execution_ =
-        java.util.Collections.emptyList();
-      private void ensureExecutionIsMutable() {
-        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
-          execution_ = new java.util.ArrayList<edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadata>(execution_);
-          bitField0_ |= 0x00000002;
-         }
-      }
-
-      private com.google.protobuf.RepeatedFieldBuilder<
-          edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadata, edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadata.Builder, edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataOrBuilder> executionBuilder_;
-
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ModuleMetadata execution = 2;</code>
-       */
-      public java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadata> getExecutionList() {
-        if (executionBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(execution_);
-        } else {
-          return executionBuilder_.getMessageList();
-        }
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ModuleMetadata execution = 2;</code>
-       */
-      public int getExecutionCount() {
-        if (executionBuilder_ == null) {
-          return execution_.size();
-        } else {
-          return executionBuilder_.getCount();
-        }
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ModuleMetadata execution = 2;</code>
-       */
-      public edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadata getExecution(int index) {
-        if (executionBuilder_ == null) {
-          return execution_.get(index);
-        } else {
-          return executionBuilder_.getMessage(index);
-        }
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ModuleMetadata execution = 2;</code>
-       */
-      public Builder setExecution(
-          int index, edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadata value) {
-        if (executionBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureExecutionIsMutable();
-          execution_.set(index, value);
-          onChanged();
-        } else {
-          executionBuilder_.setMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ModuleMetadata execution = 2;</code>
-       */
-      public Builder setExecution(
-          int index, edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadata.Builder builderForValue) {
-        if (executionBuilder_ == null) {
-          ensureExecutionIsMutable();
-          execution_.set(index, builderForValue.build());
-          onChanged();
-        } else {
-          executionBuilder_.setMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ModuleMetadata execution = 2;</code>
-       */
-      public Builder addExecution(edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadata value) {
-        if (executionBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureExecutionIsMutable();
-          execution_.add(value);
-          onChanged();
-        } else {
-          executionBuilder_.addMessage(value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ModuleMetadata execution = 2;</code>
-       */
-      public Builder addExecution(
-          int index, edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadata value) {
-        if (executionBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureExecutionIsMutable();
-          execution_.add(index, value);
-          onChanged();
-        } else {
-          executionBuilder_.addMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ModuleMetadata execution = 2;</code>
-       */
-      public Builder addExecution(
-          edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadata.Builder builderForValue) {
-        if (executionBuilder_ == null) {
-          ensureExecutionIsMutable();
-          execution_.add(builderForValue.build());
-          onChanged();
-        } else {
-          executionBuilder_.addMessage(builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ModuleMetadata execution = 2;</code>
-       */
-      public Builder addExecution(
-          int index, edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadata.Builder builderForValue) {
-        if (executionBuilder_ == null) {
-          ensureExecutionIsMutable();
-          execution_.add(index, builderForValue.build());
-          onChanged();
-        } else {
-          executionBuilder_.addMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ModuleMetadata execution = 2;</code>
-       */
-      public Builder addAllExecution(
-          java.lang.Iterable<? extends edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadata> values) {
-        if (executionBuilder_ == null) {
-          ensureExecutionIsMutable();
-          super.addAll(values, execution_);
-          onChanged();
-        } else {
-          executionBuilder_.addAllMessages(values);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ModuleMetadata execution = 2;</code>
-       */
-      public Builder clearExecution() {
-        if (executionBuilder_ == null) {
-          execution_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
-          onChanged();
-        } else {
-          executionBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ModuleMetadata execution = 2;</code>
-       */
-      public Builder removeExecution(int index) {
-        if (executionBuilder_ == null) {
-          ensureExecutionIsMutable();
-          execution_.remove(index);
-          onChanged();
-        } else {
-          executionBuilder_.remove(index);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ModuleMetadata execution = 2;</code>
-       */
-      public edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadata.Builder getExecutionBuilder(
-          int index) {
-        return getExecutionFieldBuilder().getBuilder(index);
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ModuleMetadata execution = 2;</code>
-       */
-      public edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataOrBuilder getExecutionOrBuilder(
-          int index) {
-        if (executionBuilder_ == null) {
-          return execution_.get(index);  } else {
-          return executionBuilder_.getMessageOrBuilder(index);
-        }
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ModuleMetadata execution = 2;</code>
-       */
-      public java.util.List<? extends edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataOrBuilder> 
-           getExecutionOrBuilderList() {
-        if (executionBuilder_ != null) {
-          return executionBuilder_.getMessageOrBuilderList();
-        } else {
-          return java.util.Collections.unmodifiableList(execution_);
-        }
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ModuleMetadata execution = 2;</code>
-       */
-      public edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadata.Builder addExecutionBuilder() {
-        return getExecutionFieldBuilder().addBuilder(
-            edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadata.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ModuleMetadata execution = 2;</code>
-       */
-      public edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadata.Builder addExecutionBuilder(
-          int index) {
-        return getExecutionFieldBuilder().addBuilder(
-            index, edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadata.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ModuleMetadata execution = 2;</code>
-       */
-      public java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadata.Builder> 
-           getExecutionBuilderList() {
-        return getExecutionFieldBuilder().getBuilderList();
-      }
-      private com.google.protobuf.RepeatedFieldBuilder<
-          edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadata, edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadata.Builder, edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataOrBuilder> 
-          getExecutionFieldBuilder() {
-        if (executionBuilder_ == null) {
-          executionBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
-              edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadata, edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadata.Builder, edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataOrBuilder>(
-                  execution_,
-                  ((bitField0_ & 0x00000002) == 0x00000002),
-                  getParentForChildren(),
-                  isClean());
-          execution_ = null;
-        }
-        return executionBuilder_;
-      }
-
-      // @@protoc_insertion_point(builder_scope:crowd_safe_data_analysis.ModuleMetadataSequence)
-    }
-
-    static {
-      defaultInstance = new ModuleMetadataSequence(true);
-      defaultInstance.initFields();
-    }
-
-    // @@protoc_insertion_point(class_scope:crowd_safe_data_analysis.ModuleMetadataSequence)
-  }
-
-  public interface ModuleMetadataHistoryOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
-
-    // repeated .crowd_safe_data_analysis.ModuleMetadataSequence sequence = 1;
-    /**
-     * <code>repeated .crowd_safe_data_analysis.ModuleMetadataSequence sequence = 1;</code>
-     */
-    java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequence> 
-        getSequenceList();
-    /**
-     * <code>repeated .crowd_safe_data_analysis.ModuleMetadataSequence sequence = 1;</code>
-     */
-    edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequence getSequence(int index);
-    /**
-     * <code>repeated .crowd_safe_data_analysis.ModuleMetadataSequence sequence = 1;</code>
-     */
-    int getSequenceCount();
-    /**
-     * <code>repeated .crowd_safe_data_analysis.ModuleMetadataSequence sequence = 1;</code>
-     */
-    java.util.List<? extends edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequenceOrBuilder> 
-        getSequenceOrBuilderList();
-    /**
-     * <code>repeated .crowd_safe_data_analysis.ModuleMetadataSequence sequence = 1;</code>
-     */
-    edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequenceOrBuilder getSequenceOrBuilder(
-        int index);
-  }
-  /**
-   * Protobuf type {@code crowd_safe_data_analysis.ModuleMetadataHistory}
-   */
-  public static final class ModuleMetadataHistory extends
-      com.google.protobuf.GeneratedMessage
-      implements ModuleMetadataHistoryOrBuilder {
-    // Use ModuleMetadataHistory.newBuilder() to construct.
-    private ModuleMetadataHistory(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
-      super(builder);
-      this.unknownFields = builder.getUnknownFields();
-    }
-    private ModuleMetadataHistory(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final ModuleMetadataHistory defaultInstance;
-    public static ModuleMetadataHistory getDefaultInstance() {
-      return defaultInstance;
-    }
-
-    public ModuleMetadataHistory getDefaultInstanceForType() {
-      return defaultInstance;
-    }
-
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
-      return this.unknownFields;
-    }
-    private ModuleMetadataHistory(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-            case 10: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-                sequence_ = new java.util.ArrayList<edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequence>();
-                mutable_bitField0_ |= 0x00000001;
-              }
-              sequence_.add(input.readMessage(edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequence.PARSER, extensionRegistry));
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
-      } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-          sequence_ = java.util.Collections.unmodifiableList(sequence_);
-        }
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return edu.uci.eecs.crowdsafe.common.data.results.Graph.internal_static_crowd_safe_data_analysis_ModuleMetadataHistory_descriptor;
-    }
-
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return edu.uci.eecs.crowdsafe.common.data.results.Graph.internal_static_crowd_safe_data_analysis_ModuleMetadataHistory_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataHistory.class, edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataHistory.Builder.class);
-    }
-
-    public static com.google.protobuf.Parser<ModuleMetadataHistory> PARSER =
-        new com.google.protobuf.AbstractParser<ModuleMetadataHistory>() {
-      public ModuleMetadataHistory parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new ModuleMetadataHistory(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<ModuleMetadataHistory> getParserForType() {
-      return PARSER;
-    }
-
-    // repeated .crowd_safe_data_analysis.ModuleMetadataSequence sequence = 1;
-    public static final int SEQUENCE_FIELD_NUMBER = 1;
-    private java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequence> sequence_;
-    /**
-     * <code>repeated .crowd_safe_data_analysis.ModuleMetadataSequence sequence = 1;</code>
-     */
-    public java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequence> getSequenceList() {
-      return sequence_;
-    }
-    /**
-     * <code>repeated .crowd_safe_data_analysis.ModuleMetadataSequence sequence = 1;</code>
-     */
-    public java.util.List<? extends edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequenceOrBuilder> 
-        getSequenceOrBuilderList() {
-      return sequence_;
-    }
-    /**
-     * <code>repeated .crowd_safe_data_analysis.ModuleMetadataSequence sequence = 1;</code>
-     */
-    public int getSequenceCount() {
-      return sequence_.size();
-    }
-    /**
-     * <code>repeated .crowd_safe_data_analysis.ModuleMetadataSequence sequence = 1;</code>
-     */
-    public edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequence getSequence(int index) {
-      return sequence_.get(index);
-    }
-    /**
-     * <code>repeated .crowd_safe_data_analysis.ModuleMetadataSequence sequence = 1;</code>
-     */
-    public edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequenceOrBuilder getSequenceOrBuilder(
-        int index) {
-      return sequence_.get(index);
-    }
-
-    private void initFields() {
-      sequence_ = java.util.Collections.emptyList();
-    }
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
-
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      getSerializedSize();
-      for (int i = 0; i < sequence_.size(); i++) {
-        output.writeMessage(1, sequence_.get(i));
-      }
-      getUnknownFields().writeTo(output);
-    }
-
-    private int memoizedSerializedSize = -1;
-    public int getSerializedSize() {
-      int size = memoizedSerializedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      for (int i = 0; i < sequence_.size(); i++) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(1, sequence_.get(i));
-      }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
-      return size;
-    }
-
-    private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
-    }
-
-    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataHistory parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataHistory parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataHistory parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataHistory parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataHistory parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataHistory parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataHistory parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
-    }
-    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataHistory parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
-    }
-    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataHistory parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataHistory parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-
-    public static Builder newBuilder() { return Builder.create(); }
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataHistory prototype) {
-      return newBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() { return newBuilder(this); }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code crowd_safe_data_analysis.ModuleMetadataHistory}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataHistoryOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return edu.uci.eecs.crowdsafe.common.data.results.Graph.internal_static_crowd_safe_data_analysis_ModuleMetadataHistory_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return edu.uci.eecs.crowdsafe.common.data.results.Graph.internal_static_crowd_safe_data_analysis_ModuleMetadataHistory_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataHistory.class, edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataHistory.Builder.class);
-      }
-
-      // Construct using edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataHistory.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-          getSequenceFieldBuilder();
-        }
-      }
-      private static Builder create() {
-        return new Builder();
-      }
-
-      public Builder clear() {
-        super.clear();
-        if (sequenceBuilder_ == null) {
-          sequence_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
-        } else {
-          sequenceBuilder_.clear();
-        }
-        return this;
-      }
-
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return edu.uci.eecs.crowdsafe.common.data.results.Graph.internal_static_crowd_safe_data_analysis_ModuleMetadataHistory_descriptor;
-      }
-
-      public edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataHistory getDefaultInstanceForType() {
-        return edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataHistory.getDefaultInstance();
-      }
-
-      public edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataHistory build() {
-        edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataHistory result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataHistory buildPartial() {
-        edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataHistory result = new edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataHistory(this);
-        int from_bitField0_ = bitField0_;
-        if (sequenceBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) == 0x00000001)) {
-            sequence_ = java.util.Collections.unmodifiableList(sequence_);
-            bitField0_ = (bitField0_ & ~0x00000001);
-          }
-          result.sequence_ = sequence_;
-        } else {
-          result.sequence_ = sequenceBuilder_.build();
-        }
-        onBuilt();
-        return result;
-      }
-
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataHistory) {
-          return mergeFrom((edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataHistory)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataHistory other) {
-        if (other == edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataHistory.getDefaultInstance()) return this;
-        if (sequenceBuilder_ == null) {
-          if (!other.sequence_.isEmpty()) {
-            if (sequence_.isEmpty()) {
-              sequence_ = other.sequence_;
-              bitField0_ = (bitField0_ & ~0x00000001);
-            } else {
-              ensureSequenceIsMutable();
-              sequence_.addAll(other.sequence_);
-            }
-            onChanged();
-          }
-        } else {
-          if (!other.sequence_.isEmpty()) {
-            if (sequenceBuilder_.isEmpty()) {
-              sequenceBuilder_.dispose();
-              sequenceBuilder_ = null;
-              sequence_ = other.sequence_;
-              bitField0_ = (bitField0_ & ~0x00000001);
-              sequenceBuilder_ = 
-                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
-                   getSequenceFieldBuilder() : null;
-            } else {
-              sequenceBuilder_.addAllMessages(other.sequence_);
-            }
-          }
-        }
-        this.mergeUnknownFields(other.getUnknownFields());
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataHistory parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataHistory) e.getUnfinishedMessage();
-          throw e;
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      private int bitField0_;
-
-      // repeated .crowd_safe_data_analysis.ModuleMetadataSequence sequence = 1;
-      private java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequence> sequence_ =
-        java.util.Collections.emptyList();
-      private void ensureSequenceIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
-          sequence_ = new java.util.ArrayList<edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequence>(sequence_);
-          bitField0_ |= 0x00000001;
-         }
-      }
-
-      private com.google.protobuf.RepeatedFieldBuilder<
-          edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequence, edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequence.Builder, edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequenceOrBuilder> sequenceBuilder_;
-
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ModuleMetadataSequence sequence = 1;</code>
-       */
-      public java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequence> getSequenceList() {
-        if (sequenceBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(sequence_);
-        } else {
-          return sequenceBuilder_.getMessageList();
-        }
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ModuleMetadataSequence sequence = 1;</code>
-       */
-      public int getSequenceCount() {
-        if (sequenceBuilder_ == null) {
-          return sequence_.size();
-        } else {
-          return sequenceBuilder_.getCount();
-        }
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ModuleMetadataSequence sequence = 1;</code>
-       */
-      public edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequence getSequence(int index) {
-        if (sequenceBuilder_ == null) {
-          return sequence_.get(index);
-        } else {
-          return sequenceBuilder_.getMessage(index);
-        }
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ModuleMetadataSequence sequence = 1;</code>
-       */
-      public Builder setSequence(
-          int index, edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequence value) {
-        if (sequenceBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureSequenceIsMutable();
-          sequence_.set(index, value);
-          onChanged();
-        } else {
-          sequenceBuilder_.setMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ModuleMetadataSequence sequence = 1;</code>
-       */
-      public Builder setSequence(
-          int index, edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequence.Builder builderForValue) {
-        if (sequenceBuilder_ == null) {
-          ensureSequenceIsMutable();
-          sequence_.set(index, builderForValue.build());
-          onChanged();
-        } else {
-          sequenceBuilder_.setMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ModuleMetadataSequence sequence = 1;</code>
-       */
-      public Builder addSequence(edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequence value) {
-        if (sequenceBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureSequenceIsMutable();
-          sequence_.add(value);
-          onChanged();
-        } else {
-          sequenceBuilder_.addMessage(value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ModuleMetadataSequence sequence = 1;</code>
-       */
-      public Builder addSequence(
-          int index, edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequence value) {
-        if (sequenceBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureSequenceIsMutable();
-          sequence_.add(index, value);
-          onChanged();
-        } else {
-          sequenceBuilder_.addMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ModuleMetadataSequence sequence = 1;</code>
-       */
-      public Builder addSequence(
-          edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequence.Builder builderForValue) {
-        if (sequenceBuilder_ == null) {
-          ensureSequenceIsMutable();
-          sequence_.add(builderForValue.build());
-          onChanged();
-        } else {
-          sequenceBuilder_.addMessage(builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ModuleMetadataSequence sequence = 1;</code>
-       */
-      public Builder addSequence(
-          int index, edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequence.Builder builderForValue) {
-        if (sequenceBuilder_ == null) {
-          ensureSequenceIsMutable();
-          sequence_.add(index, builderForValue.build());
-          onChanged();
-        } else {
-          sequenceBuilder_.addMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ModuleMetadataSequence sequence = 1;</code>
-       */
-      public Builder addAllSequence(
-          java.lang.Iterable<? extends edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequence> values) {
-        if (sequenceBuilder_ == null) {
-          ensureSequenceIsMutable();
-          super.addAll(values, sequence_);
-          onChanged();
-        } else {
-          sequenceBuilder_.addAllMessages(values);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ModuleMetadataSequence sequence = 1;</code>
-       */
-      public Builder clearSequence() {
-        if (sequenceBuilder_ == null) {
-          sequence_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
-          onChanged();
-        } else {
-          sequenceBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ModuleMetadataSequence sequence = 1;</code>
-       */
-      public Builder removeSequence(int index) {
-        if (sequenceBuilder_ == null) {
-          ensureSequenceIsMutable();
-          sequence_.remove(index);
-          onChanged();
-        } else {
-          sequenceBuilder_.remove(index);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ModuleMetadataSequence sequence = 1;</code>
-       */
-      public edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequence.Builder getSequenceBuilder(
-          int index) {
-        return getSequenceFieldBuilder().getBuilder(index);
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ModuleMetadataSequence sequence = 1;</code>
-       */
-      public edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequenceOrBuilder getSequenceOrBuilder(
-          int index) {
-        if (sequenceBuilder_ == null) {
-          return sequence_.get(index);  } else {
-          return sequenceBuilder_.getMessageOrBuilder(index);
-        }
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ModuleMetadataSequence sequence = 1;</code>
-       */
-      public java.util.List<? extends edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequenceOrBuilder> 
-           getSequenceOrBuilderList() {
-        if (sequenceBuilder_ != null) {
-          return sequenceBuilder_.getMessageOrBuilderList();
-        } else {
-          return java.util.Collections.unmodifiableList(sequence_);
-        }
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ModuleMetadataSequence sequence = 1;</code>
-       */
-      public edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequence.Builder addSequenceBuilder() {
-        return getSequenceFieldBuilder().addBuilder(
-            edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequence.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ModuleMetadataSequence sequence = 1;</code>
-       */
-      public edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequence.Builder addSequenceBuilder(
-          int index) {
-        return getSequenceFieldBuilder().addBuilder(
-            index, edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequence.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ModuleMetadataSequence sequence = 1;</code>
-       */
-      public java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequence.Builder> 
-           getSequenceBuilderList() {
-        return getSequenceFieldBuilder().getBuilderList();
-      }
-      private com.google.protobuf.RepeatedFieldBuilder<
-          edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequence, edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequence.Builder, edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequenceOrBuilder> 
-          getSequenceFieldBuilder() {
-        if (sequenceBuilder_ == null) {
-          sequenceBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
-              edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequence, edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequence.Builder, edu.uci.eecs.crowdsafe.common.data.results.Graph.ModuleMetadataSequenceOrBuilder>(
-                  sequence_,
-                  ((bitField0_ & 0x00000001) == 0x00000001),
-                  getParentForChildren(),
-                  isClean());
-          sequence_ = null;
-        }
-        return sequenceBuilder_;
-      }
-
-      // @@protoc_insertion_point(builder_scope:crowd_safe_data_analysis.ModuleMetadataHistory)
-    }
-
-    static {
-      defaultInstance = new ModuleMetadataHistory(true);
-      defaultInstance.initFields();
-    }
-
-    // @@protoc_insertion_point(class_scope:crowd_safe_data_analysis.ModuleMetadataHistory)
   }
 
   public interface IntervalOrBuilder
@@ -11715,15 +10526,15 @@ public final class Graph {
      */
     int getSpan();
 
-    // optional int32 occurences = 2;
+    // optional int32 occurrences = 2;
     /**
-     * <code>optional int32 occurences = 2;</code>
+     * <code>optional int32 occurrences = 2;</code>
      */
-    boolean hasOccurences();
+    boolean hasOccurrences();
     /**
-     * <code>optional int32 occurences = 2;</code>
+     * <code>optional int32 occurrences = 2;</code>
      */
-    int getOccurences();
+    int getOccurrences();
 
     // optional int32 max_consecutive = 3;
     /**
@@ -11793,7 +10604,7 @@ public final class Graph {
             }
             case 16: {
               bitField0_ |= 0x00000002;
-              occurences_ = input.readInt32();
+              occurrences_ = input.readInt32();
               break;
             }
             case 24: {
@@ -11857,20 +10668,20 @@ public final class Graph {
       return span_;
     }
 
-    // optional int32 occurences = 2;
-    public static final int OCCURENCES_FIELD_NUMBER = 2;
-    private int occurences_;
+    // optional int32 occurrences = 2;
+    public static final int OCCURRENCES_FIELD_NUMBER = 2;
+    private int occurrences_;
     /**
-     * <code>optional int32 occurences = 2;</code>
+     * <code>optional int32 occurrences = 2;</code>
      */
-    public boolean hasOccurences() {
+    public boolean hasOccurrences() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>optional int32 occurences = 2;</code>
+     * <code>optional int32 occurrences = 2;</code>
      */
-    public int getOccurences() {
-      return occurences_;
+    public int getOccurrences() {
+      return occurrences_;
     }
 
     // optional int32 max_consecutive = 3;
@@ -11891,7 +10702,7 @@ public final class Graph {
 
     private void initFields() {
       span_ = 0;
-      occurences_ = 0;
+      occurrences_ = 0;
       maxConsecutive_ = 0;
     }
     private byte memoizedIsInitialized = -1;
@@ -11910,7 +10721,7 @@ public final class Graph {
         output.writeInt32(1, span_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeInt32(2, occurences_);
+        output.writeInt32(2, occurrences_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeInt32(3, maxConsecutive_);
@@ -11930,7 +10741,7 @@ public final class Graph {
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(2, occurences_);
+          .computeInt32Size(2, occurrences_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
@@ -12054,7 +10865,7 @@ public final class Graph {
         super.clear();
         span_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
-        occurences_ = 0;
+        occurrences_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
         maxConsecutive_ = 0;
         bitField0_ = (bitField0_ & ~0x00000004);
@@ -12093,7 +10904,7 @@ public final class Graph {
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.occurences_ = occurences_;
+        result.occurrences_ = occurrences_;
         if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
         }
@@ -12117,8 +10928,8 @@ public final class Graph {
         if (other.hasSpan()) {
           setSpan(other.getSpan());
         }
-        if (other.hasOccurences()) {
-          setOccurences(other.getOccurences());
+        if (other.hasOccurrences()) {
+          setOccurrences(other.getOccurrences());
         }
         if (other.hasMaxConsecutive()) {
           setMaxConsecutive(other.getMaxConsecutive());
@@ -12183,35 +10994,35 @@ public final class Graph {
         return this;
       }
 
-      // optional int32 occurences = 2;
-      private int occurences_ ;
+      // optional int32 occurrences = 2;
+      private int occurrences_ ;
       /**
-       * <code>optional int32 occurences = 2;</code>
+       * <code>optional int32 occurrences = 2;</code>
        */
-      public boolean hasOccurences() {
+      public boolean hasOccurrences() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>optional int32 occurences = 2;</code>
+       * <code>optional int32 occurrences = 2;</code>
        */
-      public int getOccurences() {
-        return occurences_;
+      public int getOccurrences() {
+        return occurrences_;
       }
       /**
-       * <code>optional int32 occurences = 2;</code>
+       * <code>optional int32 occurrences = 2;</code>
        */
-      public Builder setOccurences(int value) {
+      public Builder setOccurrences(int value) {
         bitField0_ |= 0x00000002;
-        occurences_ = value;
+        occurrences_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional int32 occurences = 2;</code>
+       * <code>optional int32 occurrences = 2;</code>
        */
-      public Builder clearOccurences() {
+      public Builder clearOccurrences() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        occurences_ = 0;
+        occurrences_ = 0;
         onChanged();
         return this;
       }
@@ -13030,50 +11841,80 @@ public final class Graph {
   public interface ProcessMetadataOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // repeated .crowd_safe_data_analysis.IntervalGroup interval_group = 1;
+    // optional int64 sequence_id_low = 1;
     /**
-     * <code>repeated .crowd_safe_data_analysis.IntervalGroup interval_group = 1;</code>
+     * <code>optional int64 sequence_id_low = 1;</code>
+     */
+    boolean hasSequenceIdLow();
+    /**
+     * <code>optional int64 sequence_id_low = 1;</code>
+     */
+    long getSequenceIdLow();
+
+    // optional int64 sequence_id_high = 2;
+    /**
+     * <code>optional int64 sequence_id_high = 2;</code>
+     */
+    boolean hasSequenceIdHigh();
+    /**
+     * <code>optional int64 sequence_id_high = 2;</code>
+     */
+    long getSequenceIdHigh();
+
+    // optional int64 execution_id_low = 3;
+    /**
+     * <code>optional int64 execution_id_low = 3;</code>
+     */
+    boolean hasExecutionIdLow();
+    /**
+     * <code>optional int64 execution_id_low = 3;</code>
+     */
+    long getExecutionIdLow();
+
+    // optional int64 execution_id_high = 4;
+    /**
+     * <code>optional int64 execution_id_high = 4;</code>
+     */
+    boolean hasExecutionIdHigh();
+    /**
+     * <code>optional int64 execution_id_high = 4;</code>
+     */
+    long getExecutionIdHigh();
+
+    // optional int32 execution_index = 5;
+    /**
+     * <code>optional int32 execution_index = 5;</code>
+     */
+    boolean hasExecutionIndex();
+    /**
+     * <code>optional int32 execution_index = 5;</code>
+     */
+    int getExecutionIndex();
+
+    // repeated .crowd_safe_data_analysis.IntervalGroup interval_group = 6;
+    /**
+     * <code>repeated .crowd_safe_data_analysis.IntervalGroup interval_group = 6;</code>
      */
     java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.IntervalGroup> 
         getIntervalGroupList();
     /**
-     * <code>repeated .crowd_safe_data_analysis.IntervalGroup interval_group = 1;</code>
+     * <code>repeated .crowd_safe_data_analysis.IntervalGroup interval_group = 6;</code>
      */
     edu.uci.eecs.crowdsafe.common.data.results.Graph.IntervalGroup getIntervalGroup(int index);
     /**
-     * <code>repeated .crowd_safe_data_analysis.IntervalGroup interval_group = 1;</code>
+     * <code>repeated .crowd_safe_data_analysis.IntervalGroup interval_group = 6;</code>
      */
     int getIntervalGroupCount();
     /**
-     * <code>repeated .crowd_safe_data_analysis.IntervalGroup interval_group = 1;</code>
+     * <code>repeated .crowd_safe_data_analysis.IntervalGroup interval_group = 6;</code>
      */
     java.util.List<? extends edu.uci.eecs.crowdsafe.common.data.results.Graph.IntervalGroupOrBuilder> 
         getIntervalGroupOrBuilderList();
     /**
-     * <code>repeated .crowd_safe_data_analysis.IntervalGroup interval_group = 1;</code>
+     * <code>repeated .crowd_safe_data_analysis.IntervalGroup interval_group = 6;</code>
      */
     edu.uci.eecs.crowdsafe.common.data.results.Graph.IntervalGroupOrBuilder getIntervalGroupOrBuilder(
         int index);
-
-    // optional int64 id_low = 2;
-    /**
-     * <code>optional int64 id_low = 2;</code>
-     */
-    boolean hasIdLow();
-    /**
-     * <code>optional int64 id_low = 2;</code>
-     */
-    long getIdLow();
-
-    // optional int64 id_high = 3;
-    /**
-     * <code>optional int64 id_high = 3;</code>
-     */
-    boolean hasIdHigh();
-    /**
-     * <code>optional int64 id_high = 3;</code>
-     */
-    long getIdHigh();
   }
   /**
    * Protobuf type {@code crowd_safe_data_analysis.ProcessMetadata}
@@ -13126,22 +11967,37 @@ public final class Graph {
               }
               break;
             }
-            case 10: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-                intervalGroup_ = new java.util.ArrayList<edu.uci.eecs.crowdsafe.common.data.results.Graph.IntervalGroup>();
-                mutable_bitField0_ |= 0x00000001;
-              }
-              intervalGroup_.add(input.readMessage(edu.uci.eecs.crowdsafe.common.data.results.Graph.IntervalGroup.PARSER, extensionRegistry));
+            case 8: {
+              bitField0_ |= 0x00000001;
+              sequenceIdLow_ = input.readInt64();
               break;
             }
             case 16: {
-              bitField0_ |= 0x00000001;
-              idLow_ = input.readInt64();
+              bitField0_ |= 0x00000002;
+              sequenceIdHigh_ = input.readInt64();
               break;
             }
             case 24: {
-              bitField0_ |= 0x00000002;
-              idHigh_ = input.readInt64();
+              bitField0_ |= 0x00000004;
+              executionIdLow_ = input.readInt64();
+              break;
+            }
+            case 32: {
+              bitField0_ |= 0x00000008;
+              executionIdHigh_ = input.readInt64();
+              break;
+            }
+            case 40: {
+              bitField0_ |= 0x00000010;
+              executionIndex_ = input.readInt32();
+              break;
+            }
+            case 50: {
+              if (!((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
+                intervalGroup_ = new java.util.ArrayList<edu.uci.eecs.crowdsafe.common.data.results.Graph.IntervalGroup>();
+                mutable_bitField0_ |= 0x00000020;
+              }
+              intervalGroup_.add(input.readMessage(edu.uci.eecs.crowdsafe.common.data.results.Graph.IntervalGroup.PARSER, extensionRegistry));
               break;
             }
           }
@@ -13152,7 +12008,7 @@ public final class Graph {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+        if (((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
           intervalGroup_ = java.util.Collections.unmodifiableList(intervalGroup_);
         }
         this.unknownFields = unknownFields.build();
@@ -13187,78 +12043,129 @@ public final class Graph {
     }
 
     private int bitField0_;
-    // repeated .crowd_safe_data_analysis.IntervalGroup interval_group = 1;
-    public static final int INTERVAL_GROUP_FIELD_NUMBER = 1;
+    // optional int64 sequence_id_low = 1;
+    public static final int SEQUENCE_ID_LOW_FIELD_NUMBER = 1;
+    private long sequenceIdLow_;
+    /**
+     * <code>optional int64 sequence_id_low = 1;</code>
+     */
+    public boolean hasSequenceIdLow() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>optional int64 sequence_id_low = 1;</code>
+     */
+    public long getSequenceIdLow() {
+      return sequenceIdLow_;
+    }
+
+    // optional int64 sequence_id_high = 2;
+    public static final int SEQUENCE_ID_HIGH_FIELD_NUMBER = 2;
+    private long sequenceIdHigh_;
+    /**
+     * <code>optional int64 sequence_id_high = 2;</code>
+     */
+    public boolean hasSequenceIdHigh() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional int64 sequence_id_high = 2;</code>
+     */
+    public long getSequenceIdHigh() {
+      return sequenceIdHigh_;
+    }
+
+    // optional int64 execution_id_low = 3;
+    public static final int EXECUTION_ID_LOW_FIELD_NUMBER = 3;
+    private long executionIdLow_;
+    /**
+     * <code>optional int64 execution_id_low = 3;</code>
+     */
+    public boolean hasExecutionIdLow() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional int64 execution_id_low = 3;</code>
+     */
+    public long getExecutionIdLow() {
+      return executionIdLow_;
+    }
+
+    // optional int64 execution_id_high = 4;
+    public static final int EXECUTION_ID_HIGH_FIELD_NUMBER = 4;
+    private long executionIdHigh_;
+    /**
+     * <code>optional int64 execution_id_high = 4;</code>
+     */
+    public boolean hasExecutionIdHigh() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional int64 execution_id_high = 4;</code>
+     */
+    public long getExecutionIdHigh() {
+      return executionIdHigh_;
+    }
+
+    // optional int32 execution_index = 5;
+    public static final int EXECUTION_INDEX_FIELD_NUMBER = 5;
+    private int executionIndex_;
+    /**
+     * <code>optional int32 execution_index = 5;</code>
+     */
+    public boolean hasExecutionIndex() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional int32 execution_index = 5;</code>
+     */
+    public int getExecutionIndex() {
+      return executionIndex_;
+    }
+
+    // repeated .crowd_safe_data_analysis.IntervalGroup interval_group = 6;
+    public static final int INTERVAL_GROUP_FIELD_NUMBER = 6;
     private java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.IntervalGroup> intervalGroup_;
     /**
-     * <code>repeated .crowd_safe_data_analysis.IntervalGroup interval_group = 1;</code>
+     * <code>repeated .crowd_safe_data_analysis.IntervalGroup interval_group = 6;</code>
      */
     public java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.IntervalGroup> getIntervalGroupList() {
       return intervalGroup_;
     }
     /**
-     * <code>repeated .crowd_safe_data_analysis.IntervalGroup interval_group = 1;</code>
+     * <code>repeated .crowd_safe_data_analysis.IntervalGroup interval_group = 6;</code>
      */
     public java.util.List<? extends edu.uci.eecs.crowdsafe.common.data.results.Graph.IntervalGroupOrBuilder> 
         getIntervalGroupOrBuilderList() {
       return intervalGroup_;
     }
     /**
-     * <code>repeated .crowd_safe_data_analysis.IntervalGroup interval_group = 1;</code>
+     * <code>repeated .crowd_safe_data_analysis.IntervalGroup interval_group = 6;</code>
      */
     public int getIntervalGroupCount() {
       return intervalGroup_.size();
     }
     /**
-     * <code>repeated .crowd_safe_data_analysis.IntervalGroup interval_group = 1;</code>
+     * <code>repeated .crowd_safe_data_analysis.IntervalGroup interval_group = 6;</code>
      */
     public edu.uci.eecs.crowdsafe.common.data.results.Graph.IntervalGroup getIntervalGroup(int index) {
       return intervalGroup_.get(index);
     }
     /**
-     * <code>repeated .crowd_safe_data_analysis.IntervalGroup interval_group = 1;</code>
+     * <code>repeated .crowd_safe_data_analysis.IntervalGroup interval_group = 6;</code>
      */
     public edu.uci.eecs.crowdsafe.common.data.results.Graph.IntervalGroupOrBuilder getIntervalGroupOrBuilder(
         int index) {
       return intervalGroup_.get(index);
     }
 
-    // optional int64 id_low = 2;
-    public static final int ID_LOW_FIELD_NUMBER = 2;
-    private long idLow_;
-    /**
-     * <code>optional int64 id_low = 2;</code>
-     */
-    public boolean hasIdLow() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
-    }
-    /**
-     * <code>optional int64 id_low = 2;</code>
-     */
-    public long getIdLow() {
-      return idLow_;
-    }
-
-    // optional int64 id_high = 3;
-    public static final int ID_HIGH_FIELD_NUMBER = 3;
-    private long idHigh_;
-    /**
-     * <code>optional int64 id_high = 3;</code>
-     */
-    public boolean hasIdHigh() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
-    }
-    /**
-     * <code>optional int64 id_high = 3;</code>
-     */
-    public long getIdHigh() {
-      return idHigh_;
-    }
-
     private void initFields() {
+      sequenceIdLow_ = 0L;
+      sequenceIdHigh_ = 0L;
+      executionIdLow_ = 0L;
+      executionIdHigh_ = 0L;
+      executionIndex_ = 0;
       intervalGroup_ = java.util.Collections.emptyList();
-      idLow_ = 0L;
-      idHigh_ = 0L;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -13272,14 +12179,23 @@ public final class Graph {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       getSerializedSize();
-      for (int i = 0; i < intervalGroup_.size(); i++) {
-        output.writeMessage(1, intervalGroup_.get(i));
-      }
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeInt64(2, idLow_);
+        output.writeInt64(1, sequenceIdLow_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeInt64(3, idHigh_);
+        output.writeInt64(2, sequenceIdHigh_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeInt64(3, executionIdLow_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeInt64(4, executionIdHigh_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeInt32(5, executionIndex_);
+      }
+      for (int i = 0; i < intervalGroup_.size(); i++) {
+        output.writeMessage(6, intervalGroup_.get(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -13290,17 +12206,29 @@ public final class Graph {
       if (size != -1) return size;
 
       size = 0;
-      for (int i = 0; i < intervalGroup_.size(); i++) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(1, intervalGroup_.get(i));
-      }
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(2, idLow_);
+          .computeInt64Size(1, sequenceIdLow_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(3, idHigh_);
+          .computeInt64Size(2, sequenceIdHigh_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(3, executionIdLow_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(4, executionIdHigh_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(5, executionIndex_);
+      }
+      for (int i = 0; i < intervalGroup_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(6, intervalGroup_.get(i));
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -13419,16 +12347,22 @@ public final class Graph {
 
       public Builder clear() {
         super.clear();
+        sequenceIdLow_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        sequenceIdHigh_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        executionIdLow_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        executionIdHigh_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        executionIndex_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000010);
         if (intervalGroupBuilder_ == null) {
           intervalGroup_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
+          bitField0_ = (bitField0_ & ~0x00000020);
         } else {
           intervalGroupBuilder_.clear();
         }
-        idLow_ = 0L;
-        bitField0_ = (bitField0_ & ~0x00000002);
-        idHigh_ = 0L;
-        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
 
@@ -13457,23 +12391,35 @@ public final class Graph {
         edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadata result = new edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadata(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.sequenceIdLow_ = sequenceIdLow_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.sequenceIdHigh_ = sequenceIdHigh_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.executionIdLow_ = executionIdLow_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.executionIdHigh_ = executionIdHigh_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.executionIndex_ = executionIndex_;
         if (intervalGroupBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          if (((bitField0_ & 0x00000020) == 0x00000020)) {
             intervalGroup_ = java.util.Collections.unmodifiableList(intervalGroup_);
-            bitField0_ = (bitField0_ & ~0x00000001);
+            bitField0_ = (bitField0_ & ~0x00000020);
           }
           result.intervalGroup_ = intervalGroup_;
         } else {
           result.intervalGroup_ = intervalGroupBuilder_.build();
         }
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
-          to_bitField0_ |= 0x00000001;
-        }
-        result.idLow_ = idLow_;
-        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
-          to_bitField0_ |= 0x00000002;
-        }
-        result.idHigh_ = idHigh_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -13490,11 +12436,26 @@ public final class Graph {
 
       public Builder mergeFrom(edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadata other) {
         if (other == edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadata.getDefaultInstance()) return this;
+        if (other.hasSequenceIdLow()) {
+          setSequenceIdLow(other.getSequenceIdLow());
+        }
+        if (other.hasSequenceIdHigh()) {
+          setSequenceIdHigh(other.getSequenceIdHigh());
+        }
+        if (other.hasExecutionIdLow()) {
+          setExecutionIdLow(other.getExecutionIdLow());
+        }
+        if (other.hasExecutionIdHigh()) {
+          setExecutionIdHigh(other.getExecutionIdHigh());
+        }
+        if (other.hasExecutionIndex()) {
+          setExecutionIndex(other.getExecutionIndex());
+        }
         if (intervalGroupBuilder_ == null) {
           if (!other.intervalGroup_.isEmpty()) {
             if (intervalGroup_.isEmpty()) {
               intervalGroup_ = other.intervalGroup_;
-              bitField0_ = (bitField0_ & ~0x00000001);
+              bitField0_ = (bitField0_ & ~0x00000020);
             } else {
               ensureIntervalGroupIsMutable();
               intervalGroup_.addAll(other.intervalGroup_);
@@ -13507,7 +12468,7 @@ public final class Graph {
               intervalGroupBuilder_.dispose();
               intervalGroupBuilder_ = null;
               intervalGroup_ = other.intervalGroup_;
-              bitField0_ = (bitField0_ & ~0x00000001);
+              bitField0_ = (bitField0_ & ~0x00000020);
               intervalGroupBuilder_ = 
                 com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
                    getIntervalGroupFieldBuilder() : null;
@@ -13515,12 +12476,6 @@ public final class Graph {
               intervalGroupBuilder_.addAllMessages(other.intervalGroup_);
             }
           }
-        }
-        if (other.hasIdLow()) {
-          setIdLow(other.getIdLow());
-        }
-        if (other.hasIdHigh()) {
-          setIdHigh(other.getIdHigh());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -13549,13 +12504,178 @@ public final class Graph {
       }
       private int bitField0_;
 
-      // repeated .crowd_safe_data_analysis.IntervalGroup interval_group = 1;
+      // optional int64 sequence_id_low = 1;
+      private long sequenceIdLow_ ;
+      /**
+       * <code>optional int64 sequence_id_low = 1;</code>
+       */
+      public boolean hasSequenceIdLow() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>optional int64 sequence_id_low = 1;</code>
+       */
+      public long getSequenceIdLow() {
+        return sequenceIdLow_;
+      }
+      /**
+       * <code>optional int64 sequence_id_low = 1;</code>
+       */
+      public Builder setSequenceIdLow(long value) {
+        bitField0_ |= 0x00000001;
+        sequenceIdLow_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int64 sequence_id_low = 1;</code>
+       */
+      public Builder clearSequenceIdLow() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        sequenceIdLow_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      // optional int64 sequence_id_high = 2;
+      private long sequenceIdHigh_ ;
+      /**
+       * <code>optional int64 sequence_id_high = 2;</code>
+       */
+      public boolean hasSequenceIdHigh() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional int64 sequence_id_high = 2;</code>
+       */
+      public long getSequenceIdHigh() {
+        return sequenceIdHigh_;
+      }
+      /**
+       * <code>optional int64 sequence_id_high = 2;</code>
+       */
+      public Builder setSequenceIdHigh(long value) {
+        bitField0_ |= 0x00000002;
+        sequenceIdHigh_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int64 sequence_id_high = 2;</code>
+       */
+      public Builder clearSequenceIdHigh() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        sequenceIdHigh_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      // optional int64 execution_id_low = 3;
+      private long executionIdLow_ ;
+      /**
+       * <code>optional int64 execution_id_low = 3;</code>
+       */
+      public boolean hasExecutionIdLow() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional int64 execution_id_low = 3;</code>
+       */
+      public long getExecutionIdLow() {
+        return executionIdLow_;
+      }
+      /**
+       * <code>optional int64 execution_id_low = 3;</code>
+       */
+      public Builder setExecutionIdLow(long value) {
+        bitField0_ |= 0x00000004;
+        executionIdLow_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int64 execution_id_low = 3;</code>
+       */
+      public Builder clearExecutionIdLow() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        executionIdLow_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      // optional int64 execution_id_high = 4;
+      private long executionIdHigh_ ;
+      /**
+       * <code>optional int64 execution_id_high = 4;</code>
+       */
+      public boolean hasExecutionIdHigh() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional int64 execution_id_high = 4;</code>
+       */
+      public long getExecutionIdHigh() {
+        return executionIdHigh_;
+      }
+      /**
+       * <code>optional int64 execution_id_high = 4;</code>
+       */
+      public Builder setExecutionIdHigh(long value) {
+        bitField0_ |= 0x00000008;
+        executionIdHigh_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int64 execution_id_high = 4;</code>
+       */
+      public Builder clearExecutionIdHigh() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        executionIdHigh_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 execution_index = 5;
+      private int executionIndex_ ;
+      /**
+       * <code>optional int32 execution_index = 5;</code>
+       */
+      public boolean hasExecutionIndex() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional int32 execution_index = 5;</code>
+       */
+      public int getExecutionIndex() {
+        return executionIndex_;
+      }
+      /**
+       * <code>optional int32 execution_index = 5;</code>
+       */
+      public Builder setExecutionIndex(int value) {
+        bitField0_ |= 0x00000010;
+        executionIndex_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 execution_index = 5;</code>
+       */
+      public Builder clearExecutionIndex() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        executionIndex_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // repeated .crowd_safe_data_analysis.IntervalGroup interval_group = 6;
       private java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.IntervalGroup> intervalGroup_ =
         java.util.Collections.emptyList();
       private void ensureIntervalGroupIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+        if (!((bitField0_ & 0x00000020) == 0x00000020)) {
           intervalGroup_ = new java.util.ArrayList<edu.uci.eecs.crowdsafe.common.data.results.Graph.IntervalGroup>(intervalGroup_);
-          bitField0_ |= 0x00000001;
+          bitField0_ |= 0x00000020;
          }
       }
 
@@ -13563,7 +12683,7 @@ public final class Graph {
           edu.uci.eecs.crowdsafe.common.data.results.Graph.IntervalGroup, edu.uci.eecs.crowdsafe.common.data.results.Graph.IntervalGroup.Builder, edu.uci.eecs.crowdsafe.common.data.results.Graph.IntervalGroupOrBuilder> intervalGroupBuilder_;
 
       /**
-       * <code>repeated .crowd_safe_data_analysis.IntervalGroup interval_group = 1;</code>
+       * <code>repeated .crowd_safe_data_analysis.IntervalGroup interval_group = 6;</code>
        */
       public java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.IntervalGroup> getIntervalGroupList() {
         if (intervalGroupBuilder_ == null) {
@@ -13573,7 +12693,7 @@ public final class Graph {
         }
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.IntervalGroup interval_group = 1;</code>
+       * <code>repeated .crowd_safe_data_analysis.IntervalGroup interval_group = 6;</code>
        */
       public int getIntervalGroupCount() {
         if (intervalGroupBuilder_ == null) {
@@ -13583,7 +12703,7 @@ public final class Graph {
         }
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.IntervalGroup interval_group = 1;</code>
+       * <code>repeated .crowd_safe_data_analysis.IntervalGroup interval_group = 6;</code>
        */
       public edu.uci.eecs.crowdsafe.common.data.results.Graph.IntervalGroup getIntervalGroup(int index) {
         if (intervalGroupBuilder_ == null) {
@@ -13593,7 +12713,7 @@ public final class Graph {
         }
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.IntervalGroup interval_group = 1;</code>
+       * <code>repeated .crowd_safe_data_analysis.IntervalGroup interval_group = 6;</code>
        */
       public Builder setIntervalGroup(
           int index, edu.uci.eecs.crowdsafe.common.data.results.Graph.IntervalGroup value) {
@@ -13610,7 +12730,7 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.IntervalGroup interval_group = 1;</code>
+       * <code>repeated .crowd_safe_data_analysis.IntervalGroup interval_group = 6;</code>
        */
       public Builder setIntervalGroup(
           int index, edu.uci.eecs.crowdsafe.common.data.results.Graph.IntervalGroup.Builder builderForValue) {
@@ -13624,7 +12744,7 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.IntervalGroup interval_group = 1;</code>
+       * <code>repeated .crowd_safe_data_analysis.IntervalGroup interval_group = 6;</code>
        */
       public Builder addIntervalGroup(edu.uci.eecs.crowdsafe.common.data.results.Graph.IntervalGroup value) {
         if (intervalGroupBuilder_ == null) {
@@ -13640,7 +12760,7 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.IntervalGroup interval_group = 1;</code>
+       * <code>repeated .crowd_safe_data_analysis.IntervalGroup interval_group = 6;</code>
        */
       public Builder addIntervalGroup(
           int index, edu.uci.eecs.crowdsafe.common.data.results.Graph.IntervalGroup value) {
@@ -13657,7 +12777,7 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.IntervalGroup interval_group = 1;</code>
+       * <code>repeated .crowd_safe_data_analysis.IntervalGroup interval_group = 6;</code>
        */
       public Builder addIntervalGroup(
           edu.uci.eecs.crowdsafe.common.data.results.Graph.IntervalGroup.Builder builderForValue) {
@@ -13671,7 +12791,7 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.IntervalGroup interval_group = 1;</code>
+       * <code>repeated .crowd_safe_data_analysis.IntervalGroup interval_group = 6;</code>
        */
       public Builder addIntervalGroup(
           int index, edu.uci.eecs.crowdsafe.common.data.results.Graph.IntervalGroup.Builder builderForValue) {
@@ -13685,7 +12805,7 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.IntervalGroup interval_group = 1;</code>
+       * <code>repeated .crowd_safe_data_analysis.IntervalGroup interval_group = 6;</code>
        */
       public Builder addAllIntervalGroup(
           java.lang.Iterable<? extends edu.uci.eecs.crowdsafe.common.data.results.Graph.IntervalGroup> values) {
@@ -13699,12 +12819,12 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.IntervalGroup interval_group = 1;</code>
+       * <code>repeated .crowd_safe_data_analysis.IntervalGroup interval_group = 6;</code>
        */
       public Builder clearIntervalGroup() {
         if (intervalGroupBuilder_ == null) {
           intervalGroup_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
+          bitField0_ = (bitField0_ & ~0x00000020);
           onChanged();
         } else {
           intervalGroupBuilder_.clear();
@@ -13712,7 +12832,7 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.IntervalGroup interval_group = 1;</code>
+       * <code>repeated .crowd_safe_data_analysis.IntervalGroup interval_group = 6;</code>
        */
       public Builder removeIntervalGroup(int index) {
         if (intervalGroupBuilder_ == null) {
@@ -13725,14 +12845,14 @@ public final class Graph {
         return this;
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.IntervalGroup interval_group = 1;</code>
+       * <code>repeated .crowd_safe_data_analysis.IntervalGroup interval_group = 6;</code>
        */
       public edu.uci.eecs.crowdsafe.common.data.results.Graph.IntervalGroup.Builder getIntervalGroupBuilder(
           int index) {
         return getIntervalGroupFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.IntervalGroup interval_group = 1;</code>
+       * <code>repeated .crowd_safe_data_analysis.IntervalGroup interval_group = 6;</code>
        */
       public edu.uci.eecs.crowdsafe.common.data.results.Graph.IntervalGroupOrBuilder getIntervalGroupOrBuilder(
           int index) {
@@ -13742,7 +12862,7 @@ public final class Graph {
         }
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.IntervalGroup interval_group = 1;</code>
+       * <code>repeated .crowd_safe_data_analysis.IntervalGroup interval_group = 6;</code>
        */
       public java.util.List<? extends edu.uci.eecs.crowdsafe.common.data.results.Graph.IntervalGroupOrBuilder> 
            getIntervalGroupOrBuilderList() {
@@ -13753,14 +12873,14 @@ public final class Graph {
         }
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.IntervalGroup interval_group = 1;</code>
+       * <code>repeated .crowd_safe_data_analysis.IntervalGroup interval_group = 6;</code>
        */
       public edu.uci.eecs.crowdsafe.common.data.results.Graph.IntervalGroup.Builder addIntervalGroupBuilder() {
         return getIntervalGroupFieldBuilder().addBuilder(
             edu.uci.eecs.crowdsafe.common.data.results.Graph.IntervalGroup.getDefaultInstance());
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.IntervalGroup interval_group = 1;</code>
+       * <code>repeated .crowd_safe_data_analysis.IntervalGroup interval_group = 6;</code>
        */
       public edu.uci.eecs.crowdsafe.common.data.results.Graph.IntervalGroup.Builder addIntervalGroupBuilder(
           int index) {
@@ -13768,7 +12888,7 @@ public final class Graph {
             index, edu.uci.eecs.crowdsafe.common.data.results.Graph.IntervalGroup.getDefaultInstance());
       }
       /**
-       * <code>repeated .crowd_safe_data_analysis.IntervalGroup interval_group = 1;</code>
+       * <code>repeated .crowd_safe_data_analysis.IntervalGroup interval_group = 6;</code>
        */
       public java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.IntervalGroup.Builder> 
            getIntervalGroupBuilderList() {
@@ -13781,78 +12901,12 @@ public final class Graph {
           intervalGroupBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
               edu.uci.eecs.crowdsafe.common.data.results.Graph.IntervalGroup, edu.uci.eecs.crowdsafe.common.data.results.Graph.IntervalGroup.Builder, edu.uci.eecs.crowdsafe.common.data.results.Graph.IntervalGroupOrBuilder>(
                   intervalGroup_,
-                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  ((bitField0_ & 0x00000020) == 0x00000020),
                   getParentForChildren(),
                   isClean());
           intervalGroup_ = null;
         }
         return intervalGroupBuilder_;
-      }
-
-      // optional int64 id_low = 2;
-      private long idLow_ ;
-      /**
-       * <code>optional int64 id_low = 2;</code>
-       */
-      public boolean hasIdLow() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
-      }
-      /**
-       * <code>optional int64 id_low = 2;</code>
-       */
-      public long getIdLow() {
-        return idLow_;
-      }
-      /**
-       * <code>optional int64 id_low = 2;</code>
-       */
-      public Builder setIdLow(long value) {
-        bitField0_ |= 0x00000002;
-        idLow_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional int64 id_low = 2;</code>
-       */
-      public Builder clearIdLow() {
-        bitField0_ = (bitField0_ & ~0x00000002);
-        idLow_ = 0L;
-        onChanged();
-        return this;
-      }
-
-      // optional int64 id_high = 3;
-      private long idHigh_ ;
-      /**
-       * <code>optional int64 id_high = 3;</code>
-       */
-      public boolean hasIdHigh() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
-      }
-      /**
-       * <code>optional int64 id_high = 3;</code>
-       */
-      public long getIdHigh() {
-        return idHigh_;
-      }
-      /**
-       * <code>optional int64 id_high = 3;</code>
-       */
-      public Builder setIdHigh(long value) {
-        bitField0_ |= 0x00000004;
-        idHigh_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional int64 id_high = 3;</code>
-       */
-      public Builder clearIdHigh() {
-        bitField0_ = (bitField0_ & ~0x00000004);
-        idHigh_ = 0L;
-        onChanged();
-        return this;
       }
 
       // @@protoc_insertion_point(builder_scope:crowd_safe_data_analysis.ProcessMetadata)
@@ -13864,1438 +12918,6 @@ public final class Graph {
     }
 
     // @@protoc_insertion_point(class_scope:crowd_safe_data_analysis.ProcessMetadata)
-  }
-
-  public interface ProcessMetadataSequenceOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
-
-    // optional bool is_root = 1;
-    /**
-     * <code>optional bool is_root = 1;</code>
-     */
-    boolean hasIsRoot();
-    /**
-     * <code>optional bool is_root = 1;</code>
-     */
-    boolean getIsRoot();
-
-    // repeated .crowd_safe_data_analysis.ProcessMetadata execution = 2;
-    /**
-     * <code>repeated .crowd_safe_data_analysis.ProcessMetadata execution = 2;</code>
-     */
-    java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadata> 
-        getExecutionList();
-    /**
-     * <code>repeated .crowd_safe_data_analysis.ProcessMetadata execution = 2;</code>
-     */
-    edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadata getExecution(int index);
-    /**
-     * <code>repeated .crowd_safe_data_analysis.ProcessMetadata execution = 2;</code>
-     */
-    int getExecutionCount();
-    /**
-     * <code>repeated .crowd_safe_data_analysis.ProcessMetadata execution = 2;</code>
-     */
-    java.util.List<? extends edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataOrBuilder> 
-        getExecutionOrBuilderList();
-    /**
-     * <code>repeated .crowd_safe_data_analysis.ProcessMetadata execution = 2;</code>
-     */
-    edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataOrBuilder getExecutionOrBuilder(
-        int index);
-  }
-  /**
-   * Protobuf type {@code crowd_safe_data_analysis.ProcessMetadataSequence}
-   */
-  public static final class ProcessMetadataSequence extends
-      com.google.protobuf.GeneratedMessage
-      implements ProcessMetadataSequenceOrBuilder {
-    // Use ProcessMetadataSequence.newBuilder() to construct.
-    private ProcessMetadataSequence(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
-      super(builder);
-      this.unknownFields = builder.getUnknownFields();
-    }
-    private ProcessMetadataSequence(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final ProcessMetadataSequence defaultInstance;
-    public static ProcessMetadataSequence getDefaultInstance() {
-      return defaultInstance;
-    }
-
-    public ProcessMetadataSequence getDefaultInstanceForType() {
-      return defaultInstance;
-    }
-
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
-      return this.unknownFields;
-    }
-    private ProcessMetadataSequence(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-            case 8: {
-              bitField0_ |= 0x00000001;
-              isRoot_ = input.readBool();
-              break;
-            }
-            case 18: {
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-                execution_ = new java.util.ArrayList<edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadata>();
-                mutable_bitField0_ |= 0x00000002;
-              }
-              execution_.add(input.readMessage(edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadata.PARSER, extensionRegistry));
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
-      } finally {
-        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-          execution_ = java.util.Collections.unmodifiableList(execution_);
-        }
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return edu.uci.eecs.crowdsafe.common.data.results.Graph.internal_static_crowd_safe_data_analysis_ProcessMetadataSequence_descriptor;
-    }
-
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return edu.uci.eecs.crowdsafe.common.data.results.Graph.internal_static_crowd_safe_data_analysis_ProcessMetadataSequence_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequence.class, edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequence.Builder.class);
-    }
-
-    public static com.google.protobuf.Parser<ProcessMetadataSequence> PARSER =
-        new com.google.protobuf.AbstractParser<ProcessMetadataSequence>() {
-      public ProcessMetadataSequence parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new ProcessMetadataSequence(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<ProcessMetadataSequence> getParserForType() {
-      return PARSER;
-    }
-
-    private int bitField0_;
-    // optional bool is_root = 1;
-    public static final int IS_ROOT_FIELD_NUMBER = 1;
-    private boolean isRoot_;
-    /**
-     * <code>optional bool is_root = 1;</code>
-     */
-    public boolean hasIsRoot() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
-    }
-    /**
-     * <code>optional bool is_root = 1;</code>
-     */
-    public boolean getIsRoot() {
-      return isRoot_;
-    }
-
-    // repeated .crowd_safe_data_analysis.ProcessMetadata execution = 2;
-    public static final int EXECUTION_FIELD_NUMBER = 2;
-    private java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadata> execution_;
-    /**
-     * <code>repeated .crowd_safe_data_analysis.ProcessMetadata execution = 2;</code>
-     */
-    public java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadata> getExecutionList() {
-      return execution_;
-    }
-    /**
-     * <code>repeated .crowd_safe_data_analysis.ProcessMetadata execution = 2;</code>
-     */
-    public java.util.List<? extends edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataOrBuilder> 
-        getExecutionOrBuilderList() {
-      return execution_;
-    }
-    /**
-     * <code>repeated .crowd_safe_data_analysis.ProcessMetadata execution = 2;</code>
-     */
-    public int getExecutionCount() {
-      return execution_.size();
-    }
-    /**
-     * <code>repeated .crowd_safe_data_analysis.ProcessMetadata execution = 2;</code>
-     */
-    public edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadata getExecution(int index) {
-      return execution_.get(index);
-    }
-    /**
-     * <code>repeated .crowd_safe_data_analysis.ProcessMetadata execution = 2;</code>
-     */
-    public edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataOrBuilder getExecutionOrBuilder(
-        int index) {
-      return execution_.get(index);
-    }
-
-    private void initFields() {
-      isRoot_ = false;
-      execution_ = java.util.Collections.emptyList();
-    }
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
-
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeBool(1, isRoot_);
-      }
-      for (int i = 0; i < execution_.size(); i++) {
-        output.writeMessage(2, execution_.get(i));
-      }
-      getUnknownFields().writeTo(output);
-    }
-
-    private int memoizedSerializedSize = -1;
-    public int getSerializedSize() {
-      int size = memoizedSerializedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(1, isRoot_);
-      }
-      for (int i = 0; i < execution_.size(); i++) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(2, execution_.get(i));
-      }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
-      return size;
-    }
-
-    private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
-    }
-
-    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequence parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequence parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequence parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequence parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequence parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequence parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequence parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
-    }
-    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequence parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
-    }
-    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequence parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequence parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-
-    public static Builder newBuilder() { return Builder.create(); }
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequence prototype) {
-      return newBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() { return newBuilder(this); }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code crowd_safe_data_analysis.ProcessMetadataSequence}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequenceOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return edu.uci.eecs.crowdsafe.common.data.results.Graph.internal_static_crowd_safe_data_analysis_ProcessMetadataSequence_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return edu.uci.eecs.crowdsafe.common.data.results.Graph.internal_static_crowd_safe_data_analysis_ProcessMetadataSequence_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequence.class, edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequence.Builder.class);
-      }
-
-      // Construct using edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequence.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-          getExecutionFieldBuilder();
-        }
-      }
-      private static Builder create() {
-        return new Builder();
-      }
-
-      public Builder clear() {
-        super.clear();
-        isRoot_ = false;
-        bitField0_ = (bitField0_ & ~0x00000001);
-        if (executionBuilder_ == null) {
-          execution_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
-        } else {
-          executionBuilder_.clear();
-        }
-        return this;
-      }
-
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return edu.uci.eecs.crowdsafe.common.data.results.Graph.internal_static_crowd_safe_data_analysis_ProcessMetadataSequence_descriptor;
-      }
-
-      public edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequence getDefaultInstanceForType() {
-        return edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequence.getDefaultInstance();
-      }
-
-      public edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequence build() {
-        edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequence result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequence buildPartial() {
-        edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequence result = new edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequence(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
-          to_bitField0_ |= 0x00000001;
-        }
-        result.isRoot_ = isRoot_;
-        if (executionBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) == 0x00000002)) {
-            execution_ = java.util.Collections.unmodifiableList(execution_);
-            bitField0_ = (bitField0_ & ~0x00000002);
-          }
-          result.execution_ = execution_;
-        } else {
-          result.execution_ = executionBuilder_.build();
-        }
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
-      }
-
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequence) {
-          return mergeFrom((edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequence)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequence other) {
-        if (other == edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequence.getDefaultInstance()) return this;
-        if (other.hasIsRoot()) {
-          setIsRoot(other.getIsRoot());
-        }
-        if (executionBuilder_ == null) {
-          if (!other.execution_.isEmpty()) {
-            if (execution_.isEmpty()) {
-              execution_ = other.execution_;
-              bitField0_ = (bitField0_ & ~0x00000002);
-            } else {
-              ensureExecutionIsMutable();
-              execution_.addAll(other.execution_);
-            }
-            onChanged();
-          }
-        } else {
-          if (!other.execution_.isEmpty()) {
-            if (executionBuilder_.isEmpty()) {
-              executionBuilder_.dispose();
-              executionBuilder_ = null;
-              execution_ = other.execution_;
-              bitField0_ = (bitField0_ & ~0x00000002);
-              executionBuilder_ = 
-                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
-                   getExecutionFieldBuilder() : null;
-            } else {
-              executionBuilder_.addAllMessages(other.execution_);
-            }
-          }
-        }
-        this.mergeUnknownFields(other.getUnknownFields());
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequence parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequence) e.getUnfinishedMessage();
-          throw e;
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      private int bitField0_;
-
-      // optional bool is_root = 1;
-      private boolean isRoot_ ;
-      /**
-       * <code>optional bool is_root = 1;</code>
-       */
-      public boolean hasIsRoot() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
-      }
-      /**
-       * <code>optional bool is_root = 1;</code>
-       */
-      public boolean getIsRoot() {
-        return isRoot_;
-      }
-      /**
-       * <code>optional bool is_root = 1;</code>
-       */
-      public Builder setIsRoot(boolean value) {
-        bitField0_ |= 0x00000001;
-        isRoot_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional bool is_root = 1;</code>
-       */
-      public Builder clearIsRoot() {
-        bitField0_ = (bitField0_ & ~0x00000001);
-        isRoot_ = false;
-        onChanged();
-        return this;
-      }
-
-      // repeated .crowd_safe_data_analysis.ProcessMetadata execution = 2;
-      private java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadata> execution_ =
-        java.util.Collections.emptyList();
-      private void ensureExecutionIsMutable() {
-        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
-          execution_ = new java.util.ArrayList<edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadata>(execution_);
-          bitField0_ |= 0x00000002;
-         }
-      }
-
-      private com.google.protobuf.RepeatedFieldBuilder<
-          edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadata, edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadata.Builder, edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataOrBuilder> executionBuilder_;
-
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ProcessMetadata execution = 2;</code>
-       */
-      public java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadata> getExecutionList() {
-        if (executionBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(execution_);
-        } else {
-          return executionBuilder_.getMessageList();
-        }
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ProcessMetadata execution = 2;</code>
-       */
-      public int getExecutionCount() {
-        if (executionBuilder_ == null) {
-          return execution_.size();
-        } else {
-          return executionBuilder_.getCount();
-        }
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ProcessMetadata execution = 2;</code>
-       */
-      public edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadata getExecution(int index) {
-        if (executionBuilder_ == null) {
-          return execution_.get(index);
-        } else {
-          return executionBuilder_.getMessage(index);
-        }
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ProcessMetadata execution = 2;</code>
-       */
-      public Builder setExecution(
-          int index, edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadata value) {
-        if (executionBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureExecutionIsMutable();
-          execution_.set(index, value);
-          onChanged();
-        } else {
-          executionBuilder_.setMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ProcessMetadata execution = 2;</code>
-       */
-      public Builder setExecution(
-          int index, edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadata.Builder builderForValue) {
-        if (executionBuilder_ == null) {
-          ensureExecutionIsMutable();
-          execution_.set(index, builderForValue.build());
-          onChanged();
-        } else {
-          executionBuilder_.setMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ProcessMetadata execution = 2;</code>
-       */
-      public Builder addExecution(edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadata value) {
-        if (executionBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureExecutionIsMutable();
-          execution_.add(value);
-          onChanged();
-        } else {
-          executionBuilder_.addMessage(value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ProcessMetadata execution = 2;</code>
-       */
-      public Builder addExecution(
-          int index, edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadata value) {
-        if (executionBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureExecutionIsMutable();
-          execution_.add(index, value);
-          onChanged();
-        } else {
-          executionBuilder_.addMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ProcessMetadata execution = 2;</code>
-       */
-      public Builder addExecution(
-          edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadata.Builder builderForValue) {
-        if (executionBuilder_ == null) {
-          ensureExecutionIsMutable();
-          execution_.add(builderForValue.build());
-          onChanged();
-        } else {
-          executionBuilder_.addMessage(builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ProcessMetadata execution = 2;</code>
-       */
-      public Builder addExecution(
-          int index, edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadata.Builder builderForValue) {
-        if (executionBuilder_ == null) {
-          ensureExecutionIsMutable();
-          execution_.add(index, builderForValue.build());
-          onChanged();
-        } else {
-          executionBuilder_.addMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ProcessMetadata execution = 2;</code>
-       */
-      public Builder addAllExecution(
-          java.lang.Iterable<? extends edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadata> values) {
-        if (executionBuilder_ == null) {
-          ensureExecutionIsMutable();
-          super.addAll(values, execution_);
-          onChanged();
-        } else {
-          executionBuilder_.addAllMessages(values);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ProcessMetadata execution = 2;</code>
-       */
-      public Builder clearExecution() {
-        if (executionBuilder_ == null) {
-          execution_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
-          onChanged();
-        } else {
-          executionBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ProcessMetadata execution = 2;</code>
-       */
-      public Builder removeExecution(int index) {
-        if (executionBuilder_ == null) {
-          ensureExecutionIsMutable();
-          execution_.remove(index);
-          onChanged();
-        } else {
-          executionBuilder_.remove(index);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ProcessMetadata execution = 2;</code>
-       */
-      public edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadata.Builder getExecutionBuilder(
-          int index) {
-        return getExecutionFieldBuilder().getBuilder(index);
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ProcessMetadata execution = 2;</code>
-       */
-      public edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataOrBuilder getExecutionOrBuilder(
-          int index) {
-        if (executionBuilder_ == null) {
-          return execution_.get(index);  } else {
-          return executionBuilder_.getMessageOrBuilder(index);
-        }
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ProcessMetadata execution = 2;</code>
-       */
-      public java.util.List<? extends edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataOrBuilder> 
-           getExecutionOrBuilderList() {
-        if (executionBuilder_ != null) {
-          return executionBuilder_.getMessageOrBuilderList();
-        } else {
-          return java.util.Collections.unmodifiableList(execution_);
-        }
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ProcessMetadata execution = 2;</code>
-       */
-      public edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadata.Builder addExecutionBuilder() {
-        return getExecutionFieldBuilder().addBuilder(
-            edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadata.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ProcessMetadata execution = 2;</code>
-       */
-      public edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadata.Builder addExecutionBuilder(
-          int index) {
-        return getExecutionFieldBuilder().addBuilder(
-            index, edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadata.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ProcessMetadata execution = 2;</code>
-       */
-      public java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadata.Builder> 
-           getExecutionBuilderList() {
-        return getExecutionFieldBuilder().getBuilderList();
-      }
-      private com.google.protobuf.RepeatedFieldBuilder<
-          edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadata, edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadata.Builder, edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataOrBuilder> 
-          getExecutionFieldBuilder() {
-        if (executionBuilder_ == null) {
-          executionBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
-              edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadata, edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadata.Builder, edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataOrBuilder>(
-                  execution_,
-                  ((bitField0_ & 0x00000002) == 0x00000002),
-                  getParentForChildren(),
-                  isClean());
-          execution_ = null;
-        }
-        return executionBuilder_;
-      }
-
-      // @@protoc_insertion_point(builder_scope:crowd_safe_data_analysis.ProcessMetadataSequence)
-    }
-
-    static {
-      defaultInstance = new ProcessMetadataSequence(true);
-      defaultInstance.initFields();
-    }
-
-    // @@protoc_insertion_point(class_scope:crowd_safe_data_analysis.ProcessMetadataSequence)
-  }
-
-  public interface ProcessMetadataHistoryOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
-
-    // repeated .crowd_safe_data_analysis.ProcessMetadataSequence sequence = 1;
-    /**
-     * <code>repeated .crowd_safe_data_analysis.ProcessMetadataSequence sequence = 1;</code>
-     */
-    java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequence> 
-        getSequenceList();
-    /**
-     * <code>repeated .crowd_safe_data_analysis.ProcessMetadataSequence sequence = 1;</code>
-     */
-    edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequence getSequence(int index);
-    /**
-     * <code>repeated .crowd_safe_data_analysis.ProcessMetadataSequence sequence = 1;</code>
-     */
-    int getSequenceCount();
-    /**
-     * <code>repeated .crowd_safe_data_analysis.ProcessMetadataSequence sequence = 1;</code>
-     */
-    java.util.List<? extends edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequenceOrBuilder> 
-        getSequenceOrBuilderList();
-    /**
-     * <code>repeated .crowd_safe_data_analysis.ProcessMetadataSequence sequence = 1;</code>
-     */
-    edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequenceOrBuilder getSequenceOrBuilder(
-        int index);
-  }
-  /**
-   * Protobuf type {@code crowd_safe_data_analysis.ProcessMetadataHistory}
-   */
-  public static final class ProcessMetadataHistory extends
-      com.google.protobuf.GeneratedMessage
-      implements ProcessMetadataHistoryOrBuilder {
-    // Use ProcessMetadataHistory.newBuilder() to construct.
-    private ProcessMetadataHistory(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
-      super(builder);
-      this.unknownFields = builder.getUnknownFields();
-    }
-    private ProcessMetadataHistory(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final ProcessMetadataHistory defaultInstance;
-    public static ProcessMetadataHistory getDefaultInstance() {
-      return defaultInstance;
-    }
-
-    public ProcessMetadataHistory getDefaultInstanceForType() {
-      return defaultInstance;
-    }
-
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
-      return this.unknownFields;
-    }
-    private ProcessMetadataHistory(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-            case 10: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-                sequence_ = new java.util.ArrayList<edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequence>();
-                mutable_bitField0_ |= 0x00000001;
-              }
-              sequence_.add(input.readMessage(edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequence.PARSER, extensionRegistry));
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
-      } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-          sequence_ = java.util.Collections.unmodifiableList(sequence_);
-        }
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return edu.uci.eecs.crowdsafe.common.data.results.Graph.internal_static_crowd_safe_data_analysis_ProcessMetadataHistory_descriptor;
-    }
-
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return edu.uci.eecs.crowdsafe.common.data.results.Graph.internal_static_crowd_safe_data_analysis_ProcessMetadataHistory_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataHistory.class, edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataHistory.Builder.class);
-    }
-
-    public static com.google.protobuf.Parser<ProcessMetadataHistory> PARSER =
-        new com.google.protobuf.AbstractParser<ProcessMetadataHistory>() {
-      public ProcessMetadataHistory parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new ProcessMetadataHistory(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<ProcessMetadataHistory> getParserForType() {
-      return PARSER;
-    }
-
-    // repeated .crowd_safe_data_analysis.ProcessMetadataSequence sequence = 1;
-    public static final int SEQUENCE_FIELD_NUMBER = 1;
-    private java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequence> sequence_;
-    /**
-     * <code>repeated .crowd_safe_data_analysis.ProcessMetadataSequence sequence = 1;</code>
-     */
-    public java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequence> getSequenceList() {
-      return sequence_;
-    }
-    /**
-     * <code>repeated .crowd_safe_data_analysis.ProcessMetadataSequence sequence = 1;</code>
-     */
-    public java.util.List<? extends edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequenceOrBuilder> 
-        getSequenceOrBuilderList() {
-      return sequence_;
-    }
-    /**
-     * <code>repeated .crowd_safe_data_analysis.ProcessMetadataSequence sequence = 1;</code>
-     */
-    public int getSequenceCount() {
-      return sequence_.size();
-    }
-    /**
-     * <code>repeated .crowd_safe_data_analysis.ProcessMetadataSequence sequence = 1;</code>
-     */
-    public edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequence getSequence(int index) {
-      return sequence_.get(index);
-    }
-    /**
-     * <code>repeated .crowd_safe_data_analysis.ProcessMetadataSequence sequence = 1;</code>
-     */
-    public edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequenceOrBuilder getSequenceOrBuilder(
-        int index) {
-      return sequence_.get(index);
-    }
-
-    private void initFields() {
-      sequence_ = java.util.Collections.emptyList();
-    }
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
-
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      getSerializedSize();
-      for (int i = 0; i < sequence_.size(); i++) {
-        output.writeMessage(1, sequence_.get(i));
-      }
-      getUnknownFields().writeTo(output);
-    }
-
-    private int memoizedSerializedSize = -1;
-    public int getSerializedSize() {
-      int size = memoizedSerializedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      for (int i = 0; i < sequence_.size(); i++) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(1, sequence_.get(i));
-      }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
-      return size;
-    }
-
-    private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
-    }
-
-    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataHistory parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataHistory parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataHistory parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataHistory parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataHistory parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataHistory parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataHistory parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
-    }
-    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataHistory parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
-    }
-    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataHistory parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataHistory parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-
-    public static Builder newBuilder() { return Builder.create(); }
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataHistory prototype) {
-      return newBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() { return newBuilder(this); }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code crowd_safe_data_analysis.ProcessMetadataHistory}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataHistoryOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return edu.uci.eecs.crowdsafe.common.data.results.Graph.internal_static_crowd_safe_data_analysis_ProcessMetadataHistory_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return edu.uci.eecs.crowdsafe.common.data.results.Graph.internal_static_crowd_safe_data_analysis_ProcessMetadataHistory_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataHistory.class, edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataHistory.Builder.class);
-      }
-
-      // Construct using edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataHistory.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-          getSequenceFieldBuilder();
-        }
-      }
-      private static Builder create() {
-        return new Builder();
-      }
-
-      public Builder clear() {
-        super.clear();
-        if (sequenceBuilder_ == null) {
-          sequence_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
-        } else {
-          sequenceBuilder_.clear();
-        }
-        return this;
-      }
-
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return edu.uci.eecs.crowdsafe.common.data.results.Graph.internal_static_crowd_safe_data_analysis_ProcessMetadataHistory_descriptor;
-      }
-
-      public edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataHistory getDefaultInstanceForType() {
-        return edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataHistory.getDefaultInstance();
-      }
-
-      public edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataHistory build() {
-        edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataHistory result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataHistory buildPartial() {
-        edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataHistory result = new edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataHistory(this);
-        int from_bitField0_ = bitField0_;
-        if (sequenceBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) == 0x00000001)) {
-            sequence_ = java.util.Collections.unmodifiableList(sequence_);
-            bitField0_ = (bitField0_ & ~0x00000001);
-          }
-          result.sequence_ = sequence_;
-        } else {
-          result.sequence_ = sequenceBuilder_.build();
-        }
-        onBuilt();
-        return result;
-      }
-
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataHistory) {
-          return mergeFrom((edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataHistory)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataHistory other) {
-        if (other == edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataHistory.getDefaultInstance()) return this;
-        if (sequenceBuilder_ == null) {
-          if (!other.sequence_.isEmpty()) {
-            if (sequence_.isEmpty()) {
-              sequence_ = other.sequence_;
-              bitField0_ = (bitField0_ & ~0x00000001);
-            } else {
-              ensureSequenceIsMutable();
-              sequence_.addAll(other.sequence_);
-            }
-            onChanged();
-          }
-        } else {
-          if (!other.sequence_.isEmpty()) {
-            if (sequenceBuilder_.isEmpty()) {
-              sequenceBuilder_.dispose();
-              sequenceBuilder_ = null;
-              sequence_ = other.sequence_;
-              bitField0_ = (bitField0_ & ~0x00000001);
-              sequenceBuilder_ = 
-                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
-                   getSequenceFieldBuilder() : null;
-            } else {
-              sequenceBuilder_.addAllMessages(other.sequence_);
-            }
-          }
-        }
-        this.mergeUnknownFields(other.getUnknownFields());
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataHistory parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataHistory) e.getUnfinishedMessage();
-          throw e;
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      private int bitField0_;
-
-      // repeated .crowd_safe_data_analysis.ProcessMetadataSequence sequence = 1;
-      private java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequence> sequence_ =
-        java.util.Collections.emptyList();
-      private void ensureSequenceIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
-          sequence_ = new java.util.ArrayList<edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequence>(sequence_);
-          bitField0_ |= 0x00000001;
-         }
-      }
-
-      private com.google.protobuf.RepeatedFieldBuilder<
-          edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequence, edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequence.Builder, edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequenceOrBuilder> sequenceBuilder_;
-
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ProcessMetadataSequence sequence = 1;</code>
-       */
-      public java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequence> getSequenceList() {
-        if (sequenceBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(sequence_);
-        } else {
-          return sequenceBuilder_.getMessageList();
-        }
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ProcessMetadataSequence sequence = 1;</code>
-       */
-      public int getSequenceCount() {
-        if (sequenceBuilder_ == null) {
-          return sequence_.size();
-        } else {
-          return sequenceBuilder_.getCount();
-        }
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ProcessMetadataSequence sequence = 1;</code>
-       */
-      public edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequence getSequence(int index) {
-        if (sequenceBuilder_ == null) {
-          return sequence_.get(index);
-        } else {
-          return sequenceBuilder_.getMessage(index);
-        }
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ProcessMetadataSequence sequence = 1;</code>
-       */
-      public Builder setSequence(
-          int index, edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequence value) {
-        if (sequenceBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureSequenceIsMutable();
-          sequence_.set(index, value);
-          onChanged();
-        } else {
-          sequenceBuilder_.setMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ProcessMetadataSequence sequence = 1;</code>
-       */
-      public Builder setSequence(
-          int index, edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequence.Builder builderForValue) {
-        if (sequenceBuilder_ == null) {
-          ensureSequenceIsMutable();
-          sequence_.set(index, builderForValue.build());
-          onChanged();
-        } else {
-          sequenceBuilder_.setMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ProcessMetadataSequence sequence = 1;</code>
-       */
-      public Builder addSequence(edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequence value) {
-        if (sequenceBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureSequenceIsMutable();
-          sequence_.add(value);
-          onChanged();
-        } else {
-          sequenceBuilder_.addMessage(value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ProcessMetadataSequence sequence = 1;</code>
-       */
-      public Builder addSequence(
-          int index, edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequence value) {
-        if (sequenceBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureSequenceIsMutable();
-          sequence_.add(index, value);
-          onChanged();
-        } else {
-          sequenceBuilder_.addMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ProcessMetadataSequence sequence = 1;</code>
-       */
-      public Builder addSequence(
-          edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequence.Builder builderForValue) {
-        if (sequenceBuilder_ == null) {
-          ensureSequenceIsMutable();
-          sequence_.add(builderForValue.build());
-          onChanged();
-        } else {
-          sequenceBuilder_.addMessage(builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ProcessMetadataSequence sequence = 1;</code>
-       */
-      public Builder addSequence(
-          int index, edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequence.Builder builderForValue) {
-        if (sequenceBuilder_ == null) {
-          ensureSequenceIsMutable();
-          sequence_.add(index, builderForValue.build());
-          onChanged();
-        } else {
-          sequenceBuilder_.addMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ProcessMetadataSequence sequence = 1;</code>
-       */
-      public Builder addAllSequence(
-          java.lang.Iterable<? extends edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequence> values) {
-        if (sequenceBuilder_ == null) {
-          ensureSequenceIsMutable();
-          super.addAll(values, sequence_);
-          onChanged();
-        } else {
-          sequenceBuilder_.addAllMessages(values);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ProcessMetadataSequence sequence = 1;</code>
-       */
-      public Builder clearSequence() {
-        if (sequenceBuilder_ == null) {
-          sequence_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
-          onChanged();
-        } else {
-          sequenceBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ProcessMetadataSequence sequence = 1;</code>
-       */
-      public Builder removeSequence(int index) {
-        if (sequenceBuilder_ == null) {
-          ensureSequenceIsMutable();
-          sequence_.remove(index);
-          onChanged();
-        } else {
-          sequenceBuilder_.remove(index);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ProcessMetadataSequence sequence = 1;</code>
-       */
-      public edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequence.Builder getSequenceBuilder(
-          int index) {
-        return getSequenceFieldBuilder().getBuilder(index);
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ProcessMetadataSequence sequence = 1;</code>
-       */
-      public edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequenceOrBuilder getSequenceOrBuilder(
-          int index) {
-        if (sequenceBuilder_ == null) {
-          return sequence_.get(index);  } else {
-          return sequenceBuilder_.getMessageOrBuilder(index);
-        }
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ProcessMetadataSequence sequence = 1;</code>
-       */
-      public java.util.List<? extends edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequenceOrBuilder> 
-           getSequenceOrBuilderList() {
-        if (sequenceBuilder_ != null) {
-          return sequenceBuilder_.getMessageOrBuilderList();
-        } else {
-          return java.util.Collections.unmodifiableList(sequence_);
-        }
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ProcessMetadataSequence sequence = 1;</code>
-       */
-      public edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequence.Builder addSequenceBuilder() {
-        return getSequenceFieldBuilder().addBuilder(
-            edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequence.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ProcessMetadataSequence sequence = 1;</code>
-       */
-      public edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequence.Builder addSequenceBuilder(
-          int index) {
-        return getSequenceFieldBuilder().addBuilder(
-            index, edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequence.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .crowd_safe_data_analysis.ProcessMetadataSequence sequence = 1;</code>
-       */
-      public java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequence.Builder> 
-           getSequenceBuilderList() {
-        return getSequenceFieldBuilder().getBuilderList();
-      }
-      private com.google.protobuf.RepeatedFieldBuilder<
-          edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequence, edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequence.Builder, edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequenceOrBuilder> 
-          getSequenceFieldBuilder() {
-        if (sequenceBuilder_ == null) {
-          sequenceBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
-              edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequence, edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequence.Builder, edu.uci.eecs.crowdsafe.common.data.results.Graph.ProcessMetadataSequenceOrBuilder>(
-                  sequence_,
-                  ((bitField0_ & 0x00000001) == 0x00000001),
-                  getParentForChildren(),
-                  isClean());
-          sequence_ = null;
-        }
-        return sequenceBuilder_;
-      }
-
-      // @@protoc_insertion_point(builder_scope:crowd_safe_data_analysis.ProcessMetadataHistory)
-    }
-
-    static {
-      defaultInstance = new ProcessMetadataHistory(true);
-      defaultInstance.initFields();
-    }
-
-    // @@protoc_insertion_point(class_scope:crowd_safe_data_analysis.ProcessMetadataHistory)
   }
 
   private static com.google.protobuf.Descriptors.Descriptor
@@ -15349,16 +12971,6 @@ public final class Graph {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_crowd_safe_data_analysis_ModuleMetadata_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_crowd_safe_data_analysis_ModuleMetadataSequence_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_crowd_safe_data_analysis_ModuleMetadataSequence_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_crowd_safe_data_analysis_ModuleMetadataHistory_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_crowd_safe_data_analysis_ModuleMetadataHistory_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_crowd_safe_data_analysis_Interval_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -15373,16 +12985,6 @@ public final class Graph {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_crowd_safe_data_analysis_ProcessMetadata_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_crowd_safe_data_analysis_ProcessMetadataSequence_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_crowd_safe_data_analysis_ProcessMetadataSequence_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_crowd_safe_data_analysis_ProcessMetadataHistory_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_crowd_safe_data_analysis_ProcessMetadataHistory_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -15393,74 +12995,68 @@ public final class Graph {
   static {
     java.lang.String[] descriptorData = {
       "\n\013graph.proto\022\030crowd_safe_data_analysis\"" +
-      "\233\001\n\007Process\022\n\n\002id\030\001 \001(\005\022\014\n\004name\030\002 \001(\t\0222\n" +
+      "\224\001\n\007Process\022\n\n\002id\030\001 \001(\005\022\014\n\004name\030\002 \001(\t\0222\n" +
       "\007cluster\030\003 \003(\0132!.crowd_safe_data_analysi" +
-      "s.Cluster\022B\n\010metadata\030\004 \001(\01320.crowd_safe" +
-      "_data_analysis.ProcessMetadataHistory\"\341\003" +
-      "\n\007Cluster\022\031\n\021distribution_name\030\001 \001(\t\022\022\n\n" +
-      "node_count\030\002 \001(\005\022\035\n\025executable_node_coun" +
-      "t\030\003 \001(\005\022\031\n\021entry_point_count\030\004 \001(\005\022\034\n\024ca" +
-      "llback_entry_count\030\t \001(\005\0228\n\006module\030\005 \003(\013" +
-      "2(.crowd_safe_data_analysis.ModuleInstan",
-      "ce\022>\n\013unreachable\030\006 \003(\0132).crowd_safe_dat" +
-      "a_analysis.UnreachableNode\022H\n\027intra_modu" +
-      "le_edge_count\030\007 \003(\0132\'.crowd_safe_data_an" +
-      "alysis.EdgeTypeCount\022H\n\027inter_module_edg" +
-      "e_count\030\010 \003(\0132\'.crowd_safe_data_analysis" +
-      ".EdgeTypeCount\022A\n\010metadata\030\n \001(\0132/.crowd" +
-      "_safe_data_analysis.ModuleMetadataHistor" +
-      "y\"\'\n\006Module\022\014\n\004name\030\001 \001(\t\022\017\n\007version\030\002 \001" +
-      "(\t\"\222\001\n\016ModuleInstance\0220\n\006module\030\001 \001(\0132 ." +
-      "crowd_safe_data_analysis.Module\022\022\n\nnode_",
-      "count\030\002 \001(\005\022:\n\010metadata\030\003 \001(\0132(.crowd_sa" +
-      "fe_data_analysis.ModuleMetadata\"u\n\004Node\022" +
-      "0\n\006module\030\001 \001(\0132 .crowd_safe_data_analys" +
-      "is.Module\022\024\n\014relative_tag\030\002 \001(\005\022\023\n\013tag_v" +
-      "ersion\030\003 \001(\005\022\020\n\010hashcode\030\004 \001(\003\"\234\001\n\004Edge\022" +
-      "1\n\tfrom_node\030\001 \001(\0132\036.crowd_safe_data_ana" +
-      "lysis.Node\022/\n\007to_node\030\002 \001(\0132\036.crowd_safe" +
-      "_data_analysis.Node\0220\n\004type\030\003 \001(\0162\".crow" +
-      "d_safe_data_analysis.EdgeType\"\225\001\n\017Unreac" +
-      "hableNode\022,\n\004node\030\001 \001(\0132\036.crowd_safe_dat",
-      "a_analysis.Node\022<\n\024missed_incoming_edge\030" +
-      "\002 \003(\0132\036.crowd_safe_data_analysis.Edge\022\026\n" +
-      "\016is_entry_point\030\003 \001(\010\"P\n\rEdgeTypeCount\0220" +
-      "\n\004type\030\001 \001(\0162\".crowd_safe_data_analysis." +
-      "EdgeType\022\r\n\005count\030\002 \001(\005\"y\n\016UIBObservatio" +
-      "n\0226\n\004type\030\001 \001(\0162(.crowd_safe_data_analys" +
-      "is.EvaluationType\022\026\n\016instance_count\030\002 \001(" +
-      "\005\022\027\n\017traversal_count\030\003 \001(\005\"\205\002\n\016ModuleMet" +
-      "adata\022@\n\016total_observed\030\001 \003(\0132(.crowd_sa" +
-      "fe_data_analysis.UIBObservation\022G\n\025intra",
-      "_module_observed\030\002 \003(\0132(.crowd_safe_data" +
-      "_analysis.UIBObservation\022G\n\025inter_module" +
-      "_observed\030\003 \003(\0132(.crowd_safe_data_analys" +
-      "is.UIBObservation\022\016\n\006id_low\030\004 \001(\003\022\017\n\007id_" +
-      "high\030\005 \001(\003\"f\n\026ModuleMetadataSequence\022\017\n\007" +
-      "is_root\030\001 \001(\010\022;\n\texecution\030\002 \003(\0132(.crowd" +
-      "_safe_data_analysis.ModuleMetadata\"[\n\025Mo" +
-      "duleMetadataHistory\022B\n\010sequence\030\001 \003(\01320." +
-      "crowd_safe_data_analysis.ModuleMetadataS" +
-      "equence\"E\n\010Interval\022\014\n\004span\030\001 \001(\005\022\022\n\nocc",
-      "urences\030\002 \001(\005\022\027\n\017max_consecutive\030\003 \001(\005\"}" +
-      "\n\rIntervalGroup\0226\n\004type\030\001 \001(\0162(.crowd_sa" +
-      "fe_data_analysis.EvaluationType\0224\n\010inter" +
-      "val\030\002 \003(\0132\".crowd_safe_data_analysis.Int" +
-      "erval\"s\n\017ProcessMetadata\022?\n\016interval_gro" +
-      "up\030\001 \003(\0132\'.crowd_safe_data_analysis.Inte" +
-      "rvalGroup\022\016\n\006id_low\030\002 \001(\003\022\017\n\007id_high\030\003 \001" +
-      "(\003\"h\n\027ProcessMetadataSequence\022\017\n\007is_root" +
-      "\030\001 \001(\010\022<\n\texecution\030\002 \003(\0132).crowd_safe_d" +
-      "ata_analysis.ProcessMetadata\"]\n\026ProcessM",
-      "etadataHistory\022C\n\010sequence\030\001 \003(\01321.crowd" +
-      "_safe_data_analysis.ProcessMetadataSeque" +
-      "nce*\200\001\n\010EdgeType\022\014\n\010INDIRECT\020\000\022\n\n\006DIRECT" +
-      "\020\001\022\025\n\021CALL_CONTINUATION\020\002\022\032\n\026EXCEPTION_C" +
-      "ONTINUATION\020\003\022\025\n\021UNEXPECTED_RETURN\020\004\022\020\n\014" +
-      "MODULE_ENTRY\020\005*E\n\016EvaluationType\022\r\n\tUIB_" +
-      "TOTAL\020\000\022\020\n\014UIB_ADMITTED\020\001\022\022\n\016UIB_SUSPICI" +
-      "OUS\020\002B3\n*edu.uci.eecs.crowdsafe.common.d" +
-      "ata.resultsB\005Graph"
+      "s.Cluster\022;\n\010metadata\030\004 \001(\0132).crowd_safe" +
+      "_data_analysis.ProcessMetadata\"\332\003\n\007Clust" +
+      "er\022\031\n\021distribution_name\030\001 \001(\t\022\022\n\nnode_co" +
+      "unt\030\002 \001(\005\022\035\n\025executable_node_count\030\003 \001(\005" +
+      "\022\031\n\021entry_point_count\030\004 \001(\005\022\034\n\024callback_" +
+      "entry_count\030\t \001(\005\0228\n\006module\030\005 \003(\0132(.crow" +
+      "d_safe_data_analysis.ModuleInstance\022>\n\013u",
+      "nreachable\030\006 \003(\0132).crowd_safe_data_analy" +
+      "sis.UnreachableNode\022H\n\027intra_module_edge" +
+      "_count\030\007 \003(\0132\'.crowd_safe_data_analysis." +
+      "EdgeTypeCount\022H\n\027inter_module_edge_count" +
+      "\030\010 \003(\0132\'.crowd_safe_data_analysis.EdgeTy" +
+      "peCount\022:\n\010metadata\030\n \001(\0132(.crowd_safe_d" +
+      "ata_analysis.ModuleMetadata\"\'\n\006Module\022\014\n" +
+      "\004name\030\001 \001(\t\022\017\n\007version\030\002 \001(\t\"\222\001\n\016ModuleI" +
+      "nstance\0220\n\006module\030\001 \001(\0132 .crowd_safe_dat" +
+      "a_analysis.Module\022\022\n\nnode_count\030\002 \001(\005\022:\n",
+      "\010metadata\030\003 \001(\0132(.crowd_safe_data_analys" +
+      "is.ModuleMetadata\"u\n\004Node\0220\n\006module\030\001 \001(" +
+      "\0132 .crowd_safe_data_analysis.Module\022\024\n\014r" +
+      "elative_tag\030\002 \001(\005\022\023\n\013tag_version\030\003 \001(\005\022\020" +
+      "\n\010hashcode\030\004 \001(\003\"\234\001\n\004Edge\0221\n\tfrom_node\030\001" +
+      " \001(\0132\036.crowd_safe_data_analysis.Node\022/\n\007" +
+      "to_node\030\002 \001(\0132\036.crowd_safe_data_analysis" +
+      ".Node\0220\n\004type\030\003 \001(\0162\".crowd_safe_data_an" +
+      "alysis.EdgeType\"\225\001\n\017UnreachableNode\022,\n\004n" +
+      "ode\030\001 \001(\0132\036.crowd_safe_data_analysis.Nod",
+      "e\022<\n\024missed_incoming_edge\030\002 \003(\0132\036.crowd_" +
+      "safe_data_analysis.Edge\022\026\n\016is_entry_poin" +
+      "t\030\003 \001(\010\"P\n\rEdgeTypeCount\0220\n\004type\030\001 \001(\0162\"" +
+      ".crowd_safe_data_analysis.EdgeType\022\r\n\005co" +
+      "unt\030\002 \001(\005\"y\n\016UIBObservation\0226\n\004type\030\001 \001(" +
+      "\0162(.crowd_safe_data_analysis.EvaluationT" +
+      "ype\022\026\n\016instance_count\030\002 \001(\005\022\027\n\017traversal" +
+      "_count\030\003 \001(\005\"\345\002\n\016ModuleMetadata\022\027\n\017seque" +
+      "nce_id_low\030\001 \001(\003\022\030\n\020sequence_id_high\030\002 \001" +
+      "(\003\022\030\n\020execution_id_low\030\003 \001(\003\022\031\n\021executio",
+      "n_id_high\030\004 \001(\003\022\027\n\017execution_index\030\005 \001(\005" +
+      "\022@\n\016total_observed\030\006 \003(\0132(.crowd_safe_da" +
+      "ta_analysis.UIBObservation\022G\n\025intra_modu" +
+      "le_observed\030\007 \003(\0132(.crowd_safe_data_anal" +
+      "ysis.UIBObservation\022G\n\025inter_module_obse" +
+      "rved\030\010 \003(\0132(.crowd_safe_data_analysis.UI" +
+      "BObservation\"F\n\010Interval\022\014\n\004span\030\001 \001(\005\022\023" +
+      "\n\013occurrences\030\002 \001(\005\022\027\n\017max_consecutive\030\003" +
+      " \001(\005\"}\n\rIntervalGroup\0226\n\004type\030\001 \001(\0162(.cr" +
+      "owd_safe_data_analysis.EvaluationType\0224\n",
+      "\010interval\030\002 \003(\0132\".crowd_safe_data_analys" +
+      "is.Interval\"\323\001\n\017ProcessMetadata\022\027\n\017seque" +
+      "nce_id_low\030\001 \001(\003\022\030\n\020sequence_id_high\030\002 \001" +
+      "(\003\022\030\n\020execution_id_low\030\003 \001(\003\022\031\n\021executio" +
+      "n_id_high\030\004 \001(\003\022\027\n\017execution_index\030\005 \001(\005" +
+      "\022?\n\016interval_group\030\006 \003(\0132\'.crowd_safe_da" +
+      "ta_analysis.IntervalGroup*\200\001\n\010EdgeType\022\014" +
+      "\n\010INDIRECT\020\000\022\n\n\006DIRECT\020\001\022\025\n\021CALL_CONTINU" +
+      "ATION\020\002\022\032\n\026EXCEPTION_CONTINUATION\020\003\022\025\n\021U" +
+      "NEXPECTED_RETURN\020\004\022\020\n\014MODULE_ENTRY\020\005*E\n\016",
+      "EvaluationType\022\r\n\tUIB_TOTAL\020\000\022\020\n\014UIB_ADM" +
+      "ITTED\020\001\022\022\n\016UIB_SUSPICIOUS\020\002B3\n*edu.uci.e" +
+      "ecs.crowdsafe.common.data.resultsB\005Graph"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -15526,49 +13122,25 @@ public final class Graph {
           internal_static_crowd_safe_data_analysis_ModuleMetadata_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_crowd_safe_data_analysis_ModuleMetadata_descriptor,
-              new java.lang.String[] { "TotalObserved", "IntraModuleObserved", "InterModuleObserved", "IdLow", "IdHigh", });
-          internal_static_crowd_safe_data_analysis_ModuleMetadataSequence_descriptor =
-            getDescriptor().getMessageTypes().get(10);
-          internal_static_crowd_safe_data_analysis_ModuleMetadataSequence_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_crowd_safe_data_analysis_ModuleMetadataSequence_descriptor,
-              new java.lang.String[] { "IsRoot", "Execution", });
-          internal_static_crowd_safe_data_analysis_ModuleMetadataHistory_descriptor =
-            getDescriptor().getMessageTypes().get(11);
-          internal_static_crowd_safe_data_analysis_ModuleMetadataHistory_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_crowd_safe_data_analysis_ModuleMetadataHistory_descriptor,
-              new java.lang.String[] { "Sequence", });
+              new java.lang.String[] { "SequenceIdLow", "SequenceIdHigh", "ExecutionIdLow", "ExecutionIdHigh", "ExecutionIndex", "TotalObserved", "IntraModuleObserved", "InterModuleObserved", });
           internal_static_crowd_safe_data_analysis_Interval_descriptor =
-            getDescriptor().getMessageTypes().get(12);
+            getDescriptor().getMessageTypes().get(10);
           internal_static_crowd_safe_data_analysis_Interval_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_crowd_safe_data_analysis_Interval_descriptor,
-              new java.lang.String[] { "Span", "Occurences", "MaxConsecutive", });
+              new java.lang.String[] { "Span", "Occurrences", "MaxConsecutive", });
           internal_static_crowd_safe_data_analysis_IntervalGroup_descriptor =
-            getDescriptor().getMessageTypes().get(13);
+            getDescriptor().getMessageTypes().get(11);
           internal_static_crowd_safe_data_analysis_IntervalGroup_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_crowd_safe_data_analysis_IntervalGroup_descriptor,
               new java.lang.String[] { "Type", "Interval", });
           internal_static_crowd_safe_data_analysis_ProcessMetadata_descriptor =
-            getDescriptor().getMessageTypes().get(14);
+            getDescriptor().getMessageTypes().get(12);
           internal_static_crowd_safe_data_analysis_ProcessMetadata_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_crowd_safe_data_analysis_ProcessMetadata_descriptor,
-              new java.lang.String[] { "IntervalGroup", "IdLow", "IdHigh", });
-          internal_static_crowd_safe_data_analysis_ProcessMetadataSequence_descriptor =
-            getDescriptor().getMessageTypes().get(15);
-          internal_static_crowd_safe_data_analysis_ProcessMetadataSequence_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_crowd_safe_data_analysis_ProcessMetadataSequence_descriptor,
-              new java.lang.String[] { "IsRoot", "Execution", });
-          internal_static_crowd_safe_data_analysis_ProcessMetadataHistory_descriptor =
-            getDescriptor().getMessageTypes().get(16);
-          internal_static_crowd_safe_data_analysis_ProcessMetadataHistory_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_crowd_safe_data_analysis_ProcessMetadataHistory_descriptor,
-              new java.lang.String[] { "Sequence", });
+              new java.lang.String[] { "SequenceIdLow", "SequenceIdHigh", "ExecutionIdLow", "ExecutionIdHigh", "ExecutionIndex", "IntervalGroup", });
           return null;
         }
       };

@@ -7,7 +7,7 @@ message Process {
   optional int32 id = 1;
   optional string name = 2;
   repeated Cluster cluster = 3;
-  optional ProcessMetadataHistory metadata = 4;
+  optional ProcessMetadata metadata = 4;
 }
 
 message Cluster {
@@ -20,7 +20,7 @@ message Cluster {
   repeated UnreachableNode unreachable = 6;
   repeated EdgeTypeCount intra_module_edge_count = 7;
   repeated EdgeTypeCount inter_module_edge_count = 8;
-  optional ModuleMetadataHistory metadata = 10;
+  optional ModuleMetadata metadata = 10;
 }
 
 message Module {
@@ -80,20 +80,14 @@ message UIBObservation {
 }
 
 message ModuleMetadata {
-	repeated UIBObservation total_observed = 1;
-	repeated UIBObservation intra_module_observed = 2;
-	repeated UIBObservation inter_module_observed = 3;
-	optional int64 id_low = 4;
-	optional int64 id_high = 5;
-}
-
-message ModuleMetadataSequence {
-	optional bool is_root = 1;
-	repeated ModuleMetadata execution = 2;
-}
-
-message ModuleMetadataHistory {
-	repeated ModuleMetadataSequence sequence = 1;
+  optional int64 sequence_id_low = 1;
+  optional int64 sequence_id_high = 2;
+	optional int64 execution_id_low = 3;
+	optional int64 execution_id_high = 4;
+  optional int32 execution_index = 5;
+	repeated UIBObservation total_observed = 6;
+	repeated UIBObservation intra_module_observed = 7;
+	repeated UIBObservation inter_module_observed = 8;
 }
 
 message Interval {
@@ -108,16 +102,10 @@ message IntervalGroup {
 }
 
 message ProcessMetadata {
-	repeated IntervalGroup interval_group = 1;
-	optional int64 id_low = 2;
-	optional int64 id_high = 3;
-}
-
-message ProcessMetadataSequence {
-	optional bool is_root = 1;
-	repeated ProcessMetadata execution = 2;
-}
-
-message ProcessMetadataHistory {
-	repeated ProcessMetadataSequence sequence = 1;
+	optional int64 sequence_id_low = 1;
+	optional int64 sequence_id_high = 2;
+	optional int64 execution_id_low = 3;
+	optional int64 execution_id_high = 4;
+  optional int32 execution_index = 5;
+	repeated IntervalGroup interval_group = 6;
 }

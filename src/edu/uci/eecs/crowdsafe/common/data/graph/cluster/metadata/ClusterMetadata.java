@@ -56,38 +56,30 @@ public class ClusterMetadata {
 		return rootSequence.executions.get(0);
 	}
 
-	public Graph.ProcessMetadataHistory summarizeIntervals() {
-		Graph.ProcessMetadataHistory.Builder metadataHistoryBuilder = Graph.ProcessMetadataHistory.newBuilder();
-		Graph.ProcessMetadataSequence.Builder metadataSequenceBuilder = Graph.ProcessMetadataSequence.newBuilder();
+	public Graph.ProcessMetadata summarizeIntervals() {
 		Graph.ProcessMetadata.Builder metadataBuilder = Graph.ProcessMetadata.newBuilder();
 		Graph.IntervalGroup.Builder intervalGroupBuilder = Graph.IntervalGroup.newBuilder();
 		Graph.Interval.Builder intervalBuilder = Graph.Interval.newBuilder();
 
-		int i = 0;
-		for (ClusterMetadataSequence sequence : sequences.values()) {
-			metadataSequenceBuilder.setIsRoot(sequence.isRoot());
-			for (ClusterMetadataExecution execution : sequence.executions) {
-				metadataBuilder.setIdHigh(execution.id.getMostSignificantBits());
-				metadataBuilder.setIdLow(execution.id.getLeastSignificantBits());
-				for (EvaluationType type : EvaluationType.values()) {
-					intervalGroupBuilder.setType(type.getResultType());
-					for (ClusterUIBInterval interval : execution.getIntervals(type)) {
-						intervalBuilder.setSpan(interval.span);
-						intervalBuilder.setOccurences(interval.count);
-						intervalBuilder.setMaxConsecutive(interval.maxConsecutive);
-						intervalGroupBuilder.addInterval(intervalBuilder.build());
-						intervalBuilder.clear();
-					}
-					metadataBuilder.addIntervalGroup(intervalGroupBuilder.build());
-					intervalGroupBuilder.clear();
-				}
-				metadataSequenceBuilder.addExecution(metadataBuilder.build());
-				metadataBuilder.clear();
+		ClusterMetadataExecution execution = rootSequence.executions.get(rootSequence.executions.size() - 1);
+		metadataBuilder.setSequenceIdHigh(rootSequence.id.getMostSignificantBits());
+		metadataBuilder.setSequenceIdLow(rootSequence.id.getLeastSignificantBits());
+		metadataBuilder.setExecutionIdHigh(execution.id.getMostSignificantBits());
+		metadataBuilder.setExecutionIdLow(execution.id.getLeastSignificantBits());
+		metadataBuilder.setExecutionIndex(rootSequence.executions.size());
+		for (EvaluationType type : EvaluationType.values()) {
+			intervalGroupBuilder.setType(type.getResultType());
+			for (ClusterUIBInterval interval : execution.getIntervals(type)) {
+				intervalBuilder.setSpan(interval.span);
+				intervalBuilder.setOccurrences(interval.count);
+				intervalBuilder.setMaxConsecutive(interval.maxConsecutive);
+				intervalGroupBuilder.addInterval(intervalBuilder.build());
+				intervalBuilder.clear();
 			}
-			metadataHistoryBuilder.addSequence(metadataSequenceBuilder.build());
-			metadataSequenceBuilder.clear();
+			metadataBuilder.addIntervalGroup(intervalGroupBuilder.build());
+			intervalGroupBuilder.clear();
 		}
 
-		return metadataHistoryBuilder.build();
+		return metadataBuilder.build();
 	}
 }

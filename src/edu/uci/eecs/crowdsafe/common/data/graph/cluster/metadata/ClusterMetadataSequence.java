@@ -31,6 +31,10 @@ public class ClusterMetadataSequence {
 		executions.add(execution);
 	}
 
+	public ClusterMetadataExecution getHeadExecution() {
+		return executions.get(executions.size() - 1);
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (!(o instanceof ClusterMetadataSequence))
