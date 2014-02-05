@@ -139,7 +139,7 @@ public class ProcessGraphLoadSession {
 			ExecutionNode entryNode = new ExecutionNode(node.getModule(), MetaNodeType.CLUSTER_ENTRY, 0L, 0, 1L,
 					node.getTimestamp());
 			graph.getModuleGraphCluster(node.getModule().unit).addClusterEntryNode(entryNode);
-			Edge<ExecutionNode> clusterEntryEdge = new Edge<ExecutionNode>(entryNode, node, EdgeType.CLUSTER_ENTRY, 0);
+			Edge<ExecutionNode> clusterEntryEdge = new Edge<ExecutionNode>(entryNode, node, EdgeType.DIRECT, 0);
 			entryNode.addOutgoingEdge(clusterEntryEdge);
 			node.addIncomingEdge(clusterEntryEdge);
 

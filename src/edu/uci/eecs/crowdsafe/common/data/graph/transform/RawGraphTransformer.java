@@ -511,7 +511,7 @@ public class RawGraphTransformer {
 			} else {
 				ClusterBoundaryNode entry = new ClusterBoundaryNode(hash, MetaNodeType.CLUSTER_ENTRY);
 				IndexedClusterNode entryId = nodesByCluster.get(toNodeId.cluster).addNode(entry);
-				RawEdge rawEntry = addEdge(toNodeId.cluster, entryId, toNodeId, EdgeType.CLUSTER_ENTRY, 0);
+				RawEdge rawEntry = addEdge(toNodeId.cluster, entryId, toNodeId, type, type.getClusterEntryOrdinal());
 
 				ClusterBoundaryNode exit = new ClusterBoundaryNode(hash, MetaNodeType.CLUSTER_EXIT);
 				IndexedClusterNode exitId = nodesByCluster.get(fromNodeId.cluster).addNode(exit);

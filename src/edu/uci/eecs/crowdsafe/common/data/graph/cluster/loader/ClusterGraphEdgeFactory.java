@@ -61,9 +61,6 @@ public class ClusterGraphEdgeFactory {
 		fromNode.addOutgoingEdge(edge);
 		toNode.addIncomingEdge(edge);
 
-		if (toNode.getType() == MetaNodeType.CLUSTER_EXIT)
-			toString();
-
 		return edge;
 	}
 

@@ -48,6 +48,16 @@ public class RawEdge implements ClusterDataWriter.Edge<IndexedClusterNode> {
 	public int getOrdinal() {
 		return ordinal;
 	}
+	
+	@Override
+	public boolean isClusterEntry() {
+		return fromNode.cluster != toNode.cluster; // EDGE: verify
+	}
+	
+	@Override
+	public boolean isClusterExit() {
+		return fromNode.cluster != toNode.cluster;
+	}
 
 	public int getEdgeIndex() {
 		return edgeIndex;

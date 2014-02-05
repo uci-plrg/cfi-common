@@ -23,17 +23,10 @@ public class ModuleEdgeCounter {
 	}
 
 	public void tally(Edge<? extends Node<?>> edge) {
-		if (edge.getEdgeType() == EdgeType.CLUSTER_ENTRY) {
+		if (edge.isClusterEntry() || edge.isClusterExit()) {
 			interCounts.tally(edge.getEdgeType());
 		} else {
-			Node<?> neighbor = edge.getToNode();
-			switch (neighbor.getType()) {
-				case CLUSTER_EXIT:
-					interCounts.tally(edge.getEdgeType());
-					break;
-				default:
-					intraCounts.tally(edge.getEdgeType());
-			}
+			intraCounts.tally(edge.getEdgeType());
 		}
 	}
 

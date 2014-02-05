@@ -17,8 +17,7 @@ public enum EdgeType {
 			return (ordinal > 3);
 		}
 	},
-	UNEXPECTED_RETURN("UR"),
-	CLUSTER_ENTRY("E");
+	UNEXPECTED_RETURN("UR");
 
 	public final String code;
 
@@ -29,9 +28,23 @@ public enum EdgeType {
 	public boolean isHighOrdinal(int ordinal) {
 		return (ordinal > 1);
 	}
-	
+
 	public boolean isContinuation() {
 		return (this == CALL_CONTINUATION) || (this == EXCEPTION_CONTINUATION);
+	}
+
+	public int getClusterEntryOrdinal() {
+		switch (this) {
+			case INDIRECT:
+				return 0;
+			case DIRECT:
+				return 1;
+			case UNEXPECTED_RETURN:
+				return 2;
+			default:
+				throw new IllegalArgumentException(String.format("Edges of type %s cannot be a cluster entry edge!",
+						this));
+		}
 	}
 
 	public Graph.EdgeType mapToResultType() {
@@ -46,8 +59,6 @@ public enum EdgeType {
 				return Graph.EdgeType.EXCEPTION_CONTINUATION;
 			case UNEXPECTED_RETURN:
 				return Graph.EdgeType.UNEXPECTED_RETURN;
-			case CLUSTER_ENTRY:
-				return Graph.EdgeType.MODULE_ENTRY;
 		}
 		throw new IllegalStateException("Unknown EdgeType " + this);
 	}

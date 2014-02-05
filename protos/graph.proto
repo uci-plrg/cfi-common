@@ -53,7 +53,6 @@ enum EdgeType {
   CALL_CONTINUATION = 2;
   EXCEPTION_CONTINUATION = 3;
   UNEXPECTED_RETURN = 4;
-  MODULE_ENTRY = 5;
 }
 
 message UnreachableNode {

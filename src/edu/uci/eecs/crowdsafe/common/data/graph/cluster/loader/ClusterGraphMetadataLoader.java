@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.UUID;
 
 import edu.uci.eecs.crowdsafe.common.data.graph.Edge;
+import edu.uci.eecs.crowdsafe.common.data.graph.EdgeType;
+import edu.uci.eecs.crowdsafe.common.data.graph.OrdinalEdgeList;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterNode;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.metadata.ClusterMetadata;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.metadata.ClusterMetadataExecution;
@@ -29,7 +31,7 @@ public class ClusterGraphMetadataLoader {
 	boolean ready() throws IOException {
 		return input.ready(ENTRY_BYTE_COUNT);
 	}
-	
+
 	boolean isMetadataMain() throws IOException {
 		long header = input.readLong();
 		return (header == 1L); // MAIN
@@ -69,11 +71,28 @@ public class ClusterGraphMetadataLoader {
 			int instanceCount = (int) ((uibData >> 0x14) & 0xfffL);
 			int traversalCount = ((int) ((uibData >> 0x20) & 0x7fffffff));
 			boolean isAdmitted = ((uibData & 0x8000000000000000L) == 0x8000000000000000L);
-			ClusterUIB uib = new ClusterUIB(edgeList.get(edgeIndex), isAdmitted, traversalCount, instanceCount);
+
+			// hack--correcting the cluster entry edge type modeling error
+			Edge<ClusterNode<?>> uibEdge = edgeList.get(edgeIndex);
+			if (!isAdmitted) {
+				OrdinalEdgeList<ClusterNode<?>> edges = uibEdge.getToNode().getIncomingEdges();
+				try {
+					for (Edge<ClusterNode<?>> edge : edges) {
+						if ((edge != uibEdge) && (edge.getEdgeType() == EdgeType.INDIRECT)) {
+							isAdmitted = true;
+							break;
+						}
+					}
+				} finally {
+					edges.release();
+				}
+			}
+
+			ClusterUIB uib = new ClusterUIB(uibEdge, isAdmitted, traversalCount, instanceCount);
 			execution.uibs.add(uib);
 		}
 
-		//execution.initializeIntervals(); // marks the execution as main
+		// execution.initializeIntervals(); // marks the execution as main
 		for (int i = 0; i < intervalCount; i++) {
 			long intervalData = input.readLong();
 			int typeId = ((int) (intervalData & 0xffL));

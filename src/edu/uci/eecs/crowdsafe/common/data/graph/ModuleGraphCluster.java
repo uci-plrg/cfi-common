@@ -234,13 +234,10 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 						bfsQueue.add(neighbor);
 						visitedNodes.add(neighbor);
 					}
-					switch (neighbor.getType()) {
-						case CLUSTER_EXIT:
-							edgeCounter.tallyInterEdge(edge.getEdgeType());
-							break;
-						default:
-							edgeCounter.tallyIntraEdge(edge.getEdgeType());
-					}
+					if (edge.isClusterExit())
+						edgeCounter.tallyInterEdge(edge.getEdgeType());
+					else
+						edgeCounter.tallyIntraEdge(edge.getEdgeType());
 				}
 			} finally {
 				edgeList.release();
@@ -249,7 +246,7 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 			edgeList = node.getIncomingEdges();
 			try {
 				for (Edge<EdgeEndpointType> edge : edgeList) {
-					if (edge.getEdgeType() == EdgeType.CLUSTER_ENTRY) {
+					if (edge.isClusterEntry()) {
 						edgeCounter.tallyInterEdge(edge.getEdgeType());
 					}
 				}
@@ -391,7 +388,7 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 			edgeList = node.getIncomingEdges();
 			try {
 				for (Edge<EdgeEndpointType> edge : edgeList) {
-					if (edge.getEdgeType() == EdgeType.CLUSTER_ENTRY)
+					if (edge.isClusterEntry())
 						out.println(String.format("Node%d->Node%d [ label=\"%s%d\" ];",
 								nodeIndexMap.get(edge.getFromNode()), nodeIndexMap.get(edge.getToNode()),
 								edge.getEdgeType().code, edge.getOrdinal()));
@@ -557,7 +554,7 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 				}
 			}
 		}
-		
+
 		for (EvaluationType type : EvaluationType.values()) {
 			uibBuilder.setType(type.getResultType());
 			uibBuilder.setInstanceCount(totalInstanceCounts.get(type).getVal());

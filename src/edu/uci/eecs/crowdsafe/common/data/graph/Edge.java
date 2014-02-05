@@ -46,6 +46,16 @@ public class Edge<EndpointType extends Node<?>> implements ClusterDataWriter.Edg
 	public int getOrdinal() {
 		return ordinal;
 	}
+	
+	@Override
+	public boolean isClusterEntry() {
+		return (fromNode.getType() == MetaNodeType.CLUSTER_ENTRY);
+	}
+	
+	@Override
+	public boolean isClusterExit() {
+		return (toNode.getType() == MetaNodeType.CLUSTER_EXIT);
+	}
 
 	public boolean isContinuation() {
 		return edgeType.isContinuation();

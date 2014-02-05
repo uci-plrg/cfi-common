@@ -46,6 +46,10 @@ public class ClusterDataWriter<NodeType extends NodeIdentifier> {
 		EdgeType getEdgeType();
 
 		int getOrdinal();
+		
+		boolean isClusterEntry();
+		
+		boolean isClusterExit();
 	}
 
 	public static class Directory<NodeType extends NodeIdentifier> {
