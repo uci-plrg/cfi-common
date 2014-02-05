@@ -61,7 +61,7 @@ function decode_project_dirs() {
 
 if [ -z $CROWD_SAFE_JAR_DIR ]
 then
-  echo " --- LOCAL --- Running with jars from the local build"
+  echo " --- LOCAL --- Running with classes from the local build"
 else
   cs_jar_dir=$CROWD_SAFE_JAR_DIR
   echo " --- JAR --- Running with jars from "$CROWD_SAFE_JAR_DIR
