@@ -7,10 +7,12 @@ import java.util.Map;
 
 import edu.uci.eecs.crowdsafe.common.data.dist.AutonomousSoftwareDistribution;
 import edu.uci.eecs.crowdsafe.common.data.graph.Edge;
+import edu.uci.eecs.crowdsafe.common.data.graph.EdgeType;
 import edu.uci.eecs.crowdsafe.common.data.graph.GraphLoadEventListener;
 import edu.uci.eecs.crowdsafe.common.data.graph.MetaNodeType;
 import edu.uci.eecs.crowdsafe.common.data.graph.ModuleGraphCluster;
 import edu.uci.eecs.crowdsafe.common.data.graph.Node;
+import edu.uci.eecs.crowdsafe.common.data.graph.OrdinalEdgeList;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.loader.ClusterGraphLoadSession;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.ProcessExecutionGraph;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.loader.ProcessGraphLoadSession;
@@ -35,7 +37,9 @@ public class AdHocGraphAnalyzer {
 
 		@Override
 		public void edgeCreation(Edge<?> edge) {
-			if (edge.getToNode().isSingleton()) {
+			// Log.log("(Loaded edge %s)", edge);
+
+			if (edge.getToNode().getType() == MetaNodeType.SINGLETON) {
 				// Log.log("Singleton %s has incoming edge %s", edge.getToNode(), edge);
 
 				Integer sysnum = syscallNumbersByExportHash.get(edge.getToNode().getHash());
@@ -44,9 +48,61 @@ public class AdHocGraphAnalyzer {
 					// } else {
 					// Log.log("Cluster exit %s calls no sysnums", edge);
 				}
-			} else if ((edge.getToNode().getType() == MetaNodeType.CLUSTER_EXIT)
+			} else if (edge.getEdgeType() == EdgeType.UNEXPECTED_RETURN) {
+				Log.log("Unexpected return %s", edge);
+
+				OrdinalEdgeList<?> edges = edge.getToNode().getIncomingEdges();
+				if (!edges.isEmpty()) {
+					Log.log("\tIncoming edges for 'to' node %s (%d)", edge.getToNode(), edges.size());
+					try {
+						listEdges(edges);
+					} finally {
+						edges.release();
+					}
+				}
+
+				edges = edge.getToNode().getOutgoingEdges();
+				if (!edges.isEmpty()) {
+					Log.log("\tOutgoing edges for 'to' node %s (%d)", edge.getToNode(), edges.size());
+					try {
+						listEdges(edges);
+					} finally {
+						edges.release();
+					}
+				}
+
+				edges = edge.getFromNode().getIncomingEdges();
+				if (!edges.isEmpty()) {
+					Log.log("\tIncoming edges for 'from' node %s (%d)", edge.getFromNode(), edges.size());
+					try {
+						listEdges(edges);
+					} finally {
+						edges.release();
+					}
+				}
+
+				edges = edge.getFromNode().getOutgoingEdges();
+				if (!edges.isEmpty()) {
+					Log.log("\tOutgoing edges for 'from' node %s (%d)", edge.getFromNode(), edges.size());
+					try {
+						listEdges(edges);
+					} finally {
+						edges.release();
+					}
+				}
+			}
+			/**
+			 * <pre>
+			else if ((edge.getToNode().getType() == MetaNodeType.CLUSTER_EXIT)
 					&& (edge.getToNode().getHash() == 0xcfe19f4f90723b02L))
 				Log.log("Cluster exit to syscall: %s", edge);
+			 */
+		}
+
+		private void listEdges(OrdinalEdgeList<?> edges) {
+			for (Edge<?> edge : edges) {
+				Log.log("\t\t%s", edge);
+			}
 		}
 
 		@Override
@@ -59,7 +115,7 @@ public class AdHocGraphAnalyzer {
 
 		@Override
 		public void nodeCreation(Node<?> node) {
-			Log.log("Loaded node %s", node);
+			// Log.log("Loaded node %s", node);
 		}
 
 		@Override

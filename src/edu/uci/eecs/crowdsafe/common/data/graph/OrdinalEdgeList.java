@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 import edu.uci.eecs.crowdsafe.common.data.graph.EdgeSet.OutgoingOrdinal;
+import edu.uci.eecs.crowdsafe.common.log.Log;
 import edu.uci.eecs.crowdsafe.common.util.InstancePool;
 
 public class OrdinalEdgeList<EdgeEndpointType extends Node<EdgeEndpointType>> extends
@@ -150,7 +151,7 @@ public class OrdinalEdgeList<EdgeEndpointType extends Node<EdgeEndpointType>> ex
 
 	@Override
 	public boolean isEmpty() {
-		return (start > end);
+		return (start >= end);
 	}
 
 	@Override
@@ -254,5 +255,15 @@ public class OrdinalEdgeList<EdgeEndpointType extends Node<EdgeEndpointType>> ex
 	public void release() {
 		data = null;
 		super.release();
+	}
+
+	public void logEdges(String pattern) {
+		try {
+			for (Edge<EdgeEndpointType> edge : this) {
+				Log.log(pattern, edge);
+			}
+		} finally {
+			release();
+		}
 	}
 }

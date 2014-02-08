@@ -3,7 +3,7 @@
 . $csc/scripts/cs-common
 
 function usage() {
-  echo "ahl (ad hoc | less)"
+  echo "ahl <graph-dir> (executes 'AdHocGraphAnalyze | less')"
 }
 
 check_help $1 usage
