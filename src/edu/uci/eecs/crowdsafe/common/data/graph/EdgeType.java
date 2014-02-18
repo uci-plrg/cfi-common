@@ -17,7 +17,9 @@ public enum EdgeType {
 			return (ordinal > 3);
 		}
 	},
-	UNEXPECTED_RETURN("UR");
+	UNEXPECTED_RETURN("UR"),
+	GENCODE_PERM("GP"),
+	GENCODE_WRITE("GW");
 
 	public final String code;
 
@@ -41,6 +43,10 @@ public enum EdgeType {
 				return 1;
 			case UNEXPECTED_RETURN:
 				return 2;
+			case GENCODE_PERM:
+				return 3;
+			case GENCODE_WRITE:
+				return 4;
 			default:
 				throw new IllegalArgumentException(String.format("Edges of type %s cannot be a cluster entry edge!",
 						this));
@@ -59,6 +65,10 @@ public enum EdgeType {
 				return Graph.EdgeType.EXCEPTION_CONTINUATION;
 			case UNEXPECTED_RETURN:
 				return Graph.EdgeType.UNEXPECTED_RETURN;
+			case GENCODE_PERM:
+				return Graph.EdgeType.GENCODE_PERM;
+			case GENCODE_WRITE:
+				return Graph.EdgeType.GENCODE_WRITE;
 		}
 		throw new IllegalStateException("Unknown EdgeType " + this);
 	}

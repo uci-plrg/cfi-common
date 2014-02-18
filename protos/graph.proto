@@ -53,6 +53,8 @@ enum EdgeType {
   CALL_CONTINUATION = 2;
   EXCEPTION_CONTINUATION = 3;
   UNEXPECTED_RETURN = 4;
+  GENCODE_PERM = 5;
+  GENCODE_WRITE = 6;
 }
 
 message UnreachableNode {

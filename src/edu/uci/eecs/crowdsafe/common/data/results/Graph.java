@@ -33,6 +33,14 @@ public final class Graph {
      * <code>UNEXPECTED_RETURN = 4;</code>
      */
     UNEXPECTED_RETURN(4, 4),
+    /**
+     * <code>GENCODE_PERM = 5;</code>
+     */
+    GENCODE_PERM(5, 5),
+    /**
+     * <code>GENCODE_WRITE = 6;</code>
+     */
+    GENCODE_WRITE(6, 6),
     ;
 
     /**
@@ -55,6 +63,14 @@ public final class Graph {
      * <code>UNEXPECTED_RETURN = 4;</code>
      */
     public static final int UNEXPECTED_RETURN_VALUE = 4;
+    /**
+     * <code>GENCODE_PERM = 5;</code>
+     */
+    public static final int GENCODE_PERM_VALUE = 5;
+    /**
+     * <code>GENCODE_WRITE = 6;</code>
+     */
+    public static final int GENCODE_WRITE_VALUE = 6;
 
 
     public final int getNumber() { return value; }
@@ -66,6 +82,8 @@ public final class Graph {
         case 2: return CALL_CONTINUATION;
         case 3: return EXCEPTION_CONTINUATION;
         case 4: return UNEXPECTED_RETURN;
+        case 5: return GENCODE_PERM;
+        case 6: return GENCODE_WRITE;
         default: return null;
       }
     }
@@ -13041,13 +13059,14 @@ public final class Graph {
       "(\003\022\030\n\020execution_id_low\030\003 \001(\003\022\031\n\021executio" +
       "n_id_high\030\004 \001(\003\022\027\n\017execution_index\030\005 \001(\005" +
       "\022?\n\016interval_group\030\006 \003(\0132\'.crowd_safe_da" +
-      "ta_analysis.IntervalGroup*n\n\010EdgeType\022\014\n" +
-      "\010INDIRECT\020\000\022\n\n\006DIRECT\020\001\022\025\n\021CALL_CONTINUA" +
-      "TION\020\002\022\032\n\026EXCEPTION_CONTINUATION\020\003\022\025\n\021UN" +
-      "EXPECTED_RETURN\020\004*E\n\016EvaluationType\022\r\n\tU",
-      "IB_TOTAL\020\000\022\020\n\014UIB_ADMITTED\020\001\022\022\n\016UIB_SUSP" +
-      "ICIOUS\020\002B3\n*edu.uci.eecs.crowdsafe.commo" +
-      "n.data.resultsB\005Graph"
+      "ta_analysis.IntervalGroup*\223\001\n\010EdgeType\022\014" +
+      "\n\010INDIRECT\020\000\022\n\n\006DIRECT\020\001\022\025\n\021CALL_CONTINU" +
+      "ATION\020\002\022\032\n\026EXCEPTION_CONTINUATION\020\003\022\025\n\021U" +
+      "NEXPECTED_RETURN\020\004\022\020\n\014GENCODE_PERM\020\005\022\021\n\r",
+      "GENCODE_WRITE\020\006*E\n\016EvaluationType\022\r\n\tUIB" +
+      "_TOTAL\020\000\022\020\n\014UIB_ADMITTED\020\001\022\022\n\016UIB_SUSPIC" +
+      "IOUS\020\002B3\n*edu.uci.eecs.crowdsafe.common." +
+      "data.resultsB\005Graph"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
