@@ -2,7 +2,7 @@ package edu.uci.eecs.crowdsafe.common.data.graph.cluster;
 
 import edu.uci.eecs.crowdsafe.common.data.graph.MetaNodeType;
 import edu.uci.eecs.crowdsafe.common.data.graph.Node;
-import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterBoundaryNode.Key;
+import edu.uci.eecs.crowdsafe.common.log.Log;
 
 public class ClusterBasicBlock extends ClusterNode<ClusterBasicBlock.Key> {
 
@@ -115,6 +115,7 @@ public class ClusterBasicBlock extends ClusterNode<ClusterBasicBlock.Key> {
 			return super.isModuleRelativeEquivalent(other);
 
 		ClusterBasicBlock n = (ClusterBasicBlock) other;
+
 		return (key.relativeTag == n.key.relativeTag) && key.module.isEquivalent(n.key.module)
 				&& (getType() == n.getType()) && (getHash() == n.getHash());
 	}

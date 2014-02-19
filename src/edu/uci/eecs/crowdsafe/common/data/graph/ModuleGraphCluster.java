@@ -518,6 +518,10 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 			metadataBuilder.setSequenceIdLow(metadata.getRootSequence().id.getLeastSignificantBits());
 			metadataBuilder.setExecutionIdHigh(execution.id.getMostSignificantBits());
 			metadataBuilder.setExecutionIdLow(execution.id.getLeastSignificantBits());
+
+			if (metadata.isMain())
+				Log.log("Setting main execution index to %d for summary of <%s>",
+						metadata.getRootSequence().executions.size(), name);
 			metadataBuilder.setExecutionIndex(metadata.getRootSequence().executions.size());
 
 			for (ClusterUIB uib : execution.uibs) {
