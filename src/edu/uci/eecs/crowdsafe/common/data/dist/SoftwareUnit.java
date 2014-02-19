@@ -22,6 +22,7 @@ public class SoftwareUnit {
 	public final boolean isAnonymous;
 	public final long anonymousEntryHash;
 	public final long anonymousExitHash;
+	public final long anonymousGencodeHash;
 	public final long interceptionHash;
 
 	SoftwareUnit(String name) {
@@ -45,9 +46,11 @@ public class SoftwareUnit {
 			anonymousExitHash = 0L;
 			interceptionHash = 0L;
 			anonymousEntryHash = 0L;
+			anonymousGencodeHash = 0L;
 		} else {
 			anonymousEntryHash = CrowdSafeTraceUtil.stringHash(String.format("%s/<anonymous>!callback", filename));
 			anonymousExitHash = CrowdSafeTraceUtil.stringHash(String.format("<anonymous>/%s!callback", filename));
+			anonymousGencodeHash = CrowdSafeTraceUtil.stringHash(String.format("%s/<anonymous>!gencode", filename));
 			interceptionHash = CrowdSafeTraceUtil.stringHash(String.format("%s!interception", filename));
 		}
 	}

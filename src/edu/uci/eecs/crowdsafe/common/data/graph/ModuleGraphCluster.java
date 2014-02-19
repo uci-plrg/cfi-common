@@ -521,6 +521,9 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 			metadataBuilder.setExecutionIndex(metadata.getRootSequence().executions.size());
 
 			for (ClusterUIB uib : execution.uibs) {
+				if (uib.edge.isClusterEntry())
+					continue;
+
 				totalInstanceCounts.get(EvaluationType.TOTAL).add(uib.instanceCount);
 				totalTraversalCounts.get(EvaluationType.TOTAL).add(uib.traversalCount);
 				if (uib.edge.isCrossModule()) {

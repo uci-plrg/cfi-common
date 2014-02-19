@@ -408,6 +408,10 @@ public class RawGraphTransformer {
 
 			EdgeType type = CrowdSafeTraceUtil.getTagEdgeType(edgeEntry.first);
 			int ordinal = CrowdSafeTraceUtil.getEdgeOrdinal(edgeEntry.first);
+			if (type == EdgeType.GENCODE_PERM) // hack
+				ordinal = 3;
+			else if (type == EdgeType.GENCODE_WRITE)
+				ordinal = 4;
 
 			long absoluteToTag = CrowdSafeTraceUtil.getTag(edgeEntry.second);
 			int toTagVersion = CrowdSafeTraceUtil.getTagVersion(edgeEntry.second);
@@ -473,6 +477,10 @@ public class RawGraphTransformer {
 			int fromTagVersion = CrowdSafeTraceUtil.getTagVersion(edgeEntry.first);
 			EdgeType type = CrowdSafeTraceUtil.getTagEdgeType(edgeEntry.first);
 			int ordinal = CrowdSafeTraceUtil.getEdgeOrdinal(edgeEntry.first);
+			if (type == EdgeType.GENCODE_PERM) // hack
+				ordinal = 3;
+			else if (type == EdgeType.GENCODE_WRITE)
+				ordinal = 4;
 			IndexedClusterNode fromNodeId = identifyNode(absoluteFromTag, fromTagVersion, entryIndex, streamType);
 
 			long absoluteToTag = CrowdSafeTraceUtil.getTag(edgeEntry.second);
@@ -483,19 +491,19 @@ public class RawGraphTransformer {
 
 			if (fromNodeId == null) {
 				if (toNodeId == null) {
-					Log.log("Error: both nodes missing in cross-module edge 0x%x-v%d -> 0x%x-v%d", absoluteFromTag,
-							fromTagVersion, absoluteToTag, toTagVersion);
+					Log.log("Error: both nodes missing in cross-module %s edge 0x%x-v%d -> 0x%x-v%d", type.code,
+							absoluteFromTag, fromTagVersion, absoluteToTag, toTagVersion);
 				} else {
-					Log.log("Error: missing 'from' node 0x%x-v%d in cross-module edge to %s(0x%x-v%d) ",
-							absoluteFromTag, fromTagVersion, toNodeId.cluster.getUnitFilename(), absoluteToTag,
+					Log.log("Error: missing 'from' node 0x%x-v%d in cross-module %s edge to %s(0x%x-v%d) ",
+							absoluteFromTag, fromTagVersion, type.code, toNodeId.cluster.getUnitFilename(), absoluteToTag,
 							toTagVersion);
 				}
 				continue;
 			}
 
 			if (toNodeId == null) {
-				Log.log("Error: missing 'to' node 0x%x-v%d in cross-module edge from %s 0x%x-v%d", absoluteToTag,
-						toTagVersion, fromNodeId.cluster.getUnitFilename(), absoluteFromTag, fromTagVersion);
+				Log.log("Error: missing 'to' node 0x%x-v%d in cross-module %s edge from %s 0x%x-v%d", absoluteToTag,
+						toTagVersion, type.code, fromNodeId.cluster.getUnitFilename(), absoluteFromTag, fromTagVersion);
 				continue;
 			}
 
@@ -516,7 +524,7 @@ public class RawGraphTransformer {
 				ClusterBoundaryNode exit = new ClusterBoundaryNode(hash, MetaNodeType.CLUSTER_EXIT);
 				IndexedClusterNode exitId = nodesByCluster.get(fromNodeId.cluster).addNode(exit);
 				RawEdge rawExit = addEdge(fromNodeId.cluster, fromNodeId, exitId, type, ordinal);
-				
+
 				if (toNodeId.cluster == ConfiguredSoftwareDistributions.SYSTEM_CLUSTER)
 					Log.log("Creating an edge into the system cluster: %s", rawExit);
 

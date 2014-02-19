@@ -1,11 +1,16 @@
 package edu.uci.eecs.crowdsafe.common.data.graph.cluster.metadata;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
+import edu.uci.eecs.crowdsafe.common.data.graph.Edge;
+import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterNode;
+import edu.uci.eecs.crowdsafe.common.log.Log;
 
 public class ClusterMetadataExecution {
 
@@ -46,6 +51,15 @@ public class ClusterMetadataExecution {
 		initializeIntervals();
 
 		intervals.get(interval.type).add(interval);
+	}
+
+	public void retainMergedUIBs(Collection<Edge<ClusterNode<?>>> mergedEdges) {
+		for (int i = uibs.size() - 1; i >= 0; i--) {
+			if (!mergedEdges.contains(uibs.get(i).edge)) {
+				Log.log("Removing UIB %s because it was not merged", uibs.get(i).edge);
+				uibs.remove(i);
+			}
+		}
 	}
 
 	private void initializeIntervals() {

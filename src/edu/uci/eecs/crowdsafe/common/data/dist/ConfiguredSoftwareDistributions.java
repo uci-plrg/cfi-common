@@ -52,6 +52,7 @@ public class ConfiguredSoftwareDistributions {
 	public final Map<Long, SoftwareUnit> unitsByAnonymousEntryHash = new HashMap<Long, SoftwareUnit>();
 	public final Map<Long, SoftwareUnit> unitsByAnonymousExitHash = new HashMap<Long, SoftwareUnit>();
 	public final Map<Long, SoftwareUnit> unitsByInterceptionHash = new HashMap<Long, SoftwareUnit>();
+	public final Map<Long, SoftwareUnit> unitsByAnonymousGencodeHash = new HashMap<Long, SoftwareUnit>();
 	public final Map<Long, Integer> sysnumsBySyscallHash = new HashMap<Long, Integer>();
 	public final Map<SoftwareUnit, AutonomousSoftwareDistribution> distributionsByUnit = new HashMap<SoftwareUnit, AutonomousSoftwareDistribution>();
 
@@ -120,6 +121,7 @@ public class ConfiguredSoftwareDistributions {
 					unitsByName.put(unit.name, unit);
 					unitsByAnonymousEntryHash.put(unit.anonymousEntryHash, unit);
 					unitsByAnonymousExitHash.put(unit.anonymousExitHash, unit);
+					unitsByAnonymousGencodeHash.put(unit.anonymousGencodeHash, unit);
 					unitsByInterceptionHash.put(unit.interceptionHash, unit);
 					distributionsByUnit.put(unit, distribution);
 				}
@@ -177,6 +179,14 @@ public class ConfiguredSoftwareDistributions {
 			return distributionsByUnit.get(unit);
 	}
 
+	public AutonomousSoftwareDistribution getClusterByAnonymousGencodeHash(long hash) {
+		SoftwareUnit unit = unitsByAnonymousGencodeHash.get(hash);
+		if (unit == null)
+			return null;
+		else
+			return distributionsByUnit.get(unit);
+	}
+	
 	public AutonomousSoftwareDistribution getClusterByAnonymousExitHash(long hash) {
 		SoftwareUnit unit = unitsByAnonymousExitHash.get(hash);
 		if (unit == null) {
@@ -201,6 +211,7 @@ public class ConfiguredSoftwareDistributions {
 		unitsByName.put(unit.name, unit);
 		unitsByAnonymousEntryHash.put(unit.anonymousEntryHash, unit);
 		unitsByAnonymousExitHash.put(unit.anonymousExitHash, unit);
+		unitsByAnonymousGencodeHash.put(unit.anonymousGencodeHash, unit);
 		unitsByInterceptionHash.put(unit.interceptionHash, unit);
 		distributionsByUnit.put(unit, cluster);
 		cluster.addUnit(unit);

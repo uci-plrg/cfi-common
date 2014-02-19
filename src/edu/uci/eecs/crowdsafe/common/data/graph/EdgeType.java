@@ -18,8 +18,18 @@ public enum EdgeType {
 		}
 	},
 	UNEXPECTED_RETURN("UR"),
-	GENCODE_PERM("GP"),
-	GENCODE_WRITE("GW");
+	GENCODE_PERM("GP"){
+		@Override
+		public boolean isHighOrdinal(int ordinal) {
+			return (ordinal > 3);
+		}
+	},
+	GENCODE_WRITE("GW"){
+		@Override
+		public boolean isHighOrdinal(int ordinal) {
+			return (ordinal > 4);
+		}
+	};
 
 	public final String code;
 

@@ -1,11 +1,13 @@
 package edu.uci.eecs.crowdsafe.common.data.graph.cluster.metadata;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import edu.uci.eecs.crowdsafe.common.data.graph.Edge;
+import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterNode;
 import edu.uci.eecs.crowdsafe.common.data.results.Graph;
-import edu.uci.eecs.crowdsafe.common.log.Log;
 
 public class ClusterMetadata {
 
@@ -54,6 +56,13 @@ public class ClusterMetadata {
 
 	public ClusterMetadataExecution getSingletonExecution() {
 		return rootSequence.executions.get(0);
+	}
+
+	public void retainMergedUIBs(Collection<Edge<ClusterNode<?>>> mergedEdges) {
+		if (!isSingletonExecution())
+			throw new IllegalArgumentException("Can only retain merged UIBs on a singleton execution.");
+
+		rootSequence.executions.get(0).retainMergedUIBs(mergedEdges);
 	}
 
 	public Graph.ProcessMetadata summarizeIntervals() {
