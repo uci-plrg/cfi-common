@@ -44,9 +44,9 @@ public class SoftwareUnit {
 
 		if (isAnonymous) {
 			anonymousExitHash = 0L;
-			interceptionHash = 0L;
 			anonymousEntryHash = 0L;
-			anonymousGencodeHash = 0L;
+			anonymousGencodeHash = CrowdSafeTraceUtil.stringHash(String.format("<anonymous>/<anonymous>!gencode", filename));
+			interceptionHash = 0L;
 		} else {
 			anonymousEntryHash = CrowdSafeTraceUtil.stringHash(String.format("%s/<anonymous>!callback", filename));
 			anonymousExitHash = CrowdSafeTraceUtil.stringHash(String.format("<anonymous>/%s!callback", filename));

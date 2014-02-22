@@ -74,7 +74,7 @@ public class ClusterGraphMetadataLoader {
 
 			// hack--correcting the cluster entry edge type modeling error
 			Edge<ClusterNode<?>> uibEdge = edgeList.get(edgeIndex);
-			if (!isAdmitted) { // UIB-FIX: if this is the left graph, need to check edges on the right
+			if ((uibEdge != null) && !isAdmitted) { // UIB-FIX: if this is the left graph, need to check edges on the right
 				OrdinalEdgeList<ClusterNode<?>> edges = uibEdge.getToNode().getIncomingEdges();
 				try {
 					for (Edge<ClusterNode<?>> edge : edges) {

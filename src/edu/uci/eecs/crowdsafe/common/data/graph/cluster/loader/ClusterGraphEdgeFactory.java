@@ -49,6 +49,9 @@ public class ClusterGraphEdgeFactory {
 		EdgeType type = EdgeType.values()[(int) ((first >> 0x38L) & 0xfL)];
 		int ordinal = (int) ((first >> 0x3cL) & 0xfL);
 
+		if ((type == EdgeType.GENCODE_PERM) || (type == EdgeType.GENCODE_WRITE))
+			toString();
+
 		ClusterNode<?> fromNode = nodeList.get(fromNodeIndex);
 		ClusterNode<?> toNode = nodeList.get(toNodeIndex);
 

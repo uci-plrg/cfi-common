@@ -30,6 +30,7 @@ import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterNode;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.loader.ClusterGraphLoadSession;
 import edu.uci.eecs.crowdsafe.common.io.cluster.ClusterTraceDataSource;
 import edu.uci.eecs.crowdsafe.common.io.cluster.ClusterTraceDirectory;
+import edu.uci.eecs.crowdsafe.common.log.Log;
 
 public class MonitorDatasetGenerator {
 
@@ -267,9 +268,9 @@ public class MonitorDatasetGenerator {
 				} finally {
 					edges.release();
 				}
-				
+
 				while (intraModule.size() >= INTRA_MODULE_EDGE_MASK)
-					intraModule.remove(intraModule.size()-1); // hack!
+					intraModule.remove(intraModule.size() - 1); // hack!
 
 				if (intraModule.size() >= INTRA_MODULE_EDGE_MASK)
 					throw new IllegalStateException(String.format(
@@ -380,7 +381,12 @@ public class MonitorDatasetGenerator {
 					for (Edge<ClusterNode<?>> edge : edges) {
 						if (edge.getFromNode().getType() == MetaNodeType.CLUSTER_ENTRY) {
 							exports.add(edge);
-						}
+							// if ((edge.getEdgeType() == EdgeType.GENCODE_PERM)
+							// || (edge.getEdgeType() == EdgeType.GENCODE_WRITE))
+							// Log.log("Exporting gencode edge %s", edge);
+						} // else if ((edge.getEdgeType() == EdgeType.GENCODE_PERM)
+						  // || (edge.getEdgeType() == EdgeType.GENCODE_WRITE))
+						  // Log.log("Not exporting gencode edge %s", edge);
 					}
 				} finally {
 					edges.release();
@@ -457,7 +463,7 @@ public class MonitorDatasetGenerator {
 	private void generateConcatenationScript() throws IOException {
 		File script = new File(outputFile.getParentFile(), "concatenate");
 		script.setExecutable(true);
-		
+
 		PrintWriter writer = new PrintWriter(script);
 
 		writer.println("#!/bin/bash");

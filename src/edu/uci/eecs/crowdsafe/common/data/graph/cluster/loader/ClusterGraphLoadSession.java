@@ -136,13 +136,16 @@ public class ClusterGraphLoadSession {
 				while (edgeFactory.ready()) {
 					try {
 						Edge<ClusterNode<?>> edge = edgeFactory.createEdge();
-						edgeList.add(edge);
 
 						if (listener != null)
 							listener.edgeCreation(edge);
+						
+						edgeList.add(edge);
 					} catch (Throwable t) {
 						Log.log("%s while creating an edge. Skipping it for now! Message: %s", t.getClass()
 								.getSimpleName(), t.getMessage());
+						
+						edgeList.add(null);
 					}
 				}
 			} finally {
