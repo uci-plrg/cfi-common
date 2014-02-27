@@ -102,6 +102,11 @@ message IntervalGroup {
 	repeated Interval interval = 2;
 }
 
+message SuspiciousSyscall {
+  optional int32 sysnum = 1;
+  optional int32 count = 2;
+}
+
 message ProcessMetadata {
 	optional int64 sequence_id_low = 1;
 	optional int64 sequence_id_high = 2;
@@ -109,4 +114,5 @@ message ProcessMetadata {
 	optional int64 execution_id_high = 4;
   optional int32 execution_index = 5;
 	repeated IntervalGroup interval_group = 6;
+  repeated SuspiciousSyscall syscalls = 7;
 }
