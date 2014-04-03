@@ -27,7 +27,7 @@ graph_dir=$1
 
 if [ ! -z "$quick" ]
 then
-  output_file=/stash/experiments/$(basename $(pwd))".monitor.dat"
+  output_file=/stash/experiments/monitor/$(basename $(pwd))".monitor.dat"
   graph_dir="dataset."$quick
   echo "Quick transform "$graph_dir" into "$output_file
 fi
