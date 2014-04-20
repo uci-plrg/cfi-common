@@ -96,7 +96,7 @@ public class GraphSummaryPrinter {
 		}
 
 		if (mainGraph != null) {
-			processBuilder.setMetadata(mainGraph.metadata.summarizeIntervals());
+			processBuilder.setMetadata(mainGraph.metadata.summarizeProcess());
 		}
 
 		return processBuilder.build();

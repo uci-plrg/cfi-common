@@ -7,9 +7,11 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 import java.util.UUID;
 
@@ -42,8 +44,11 @@ import edu.uci.eecs.crowdsafe.common.util.OptionArgumentMap;
 public class RawGraphTransformer {
 
 	private enum MetadataType {
-		UIB(0),
-		INTERVAL(1);
+		TIMEPOINT(0),
+		UIB(1),
+		INTERVAL(2),
+		SSC(3),
+		SGE(4);
 
 		final int id;
 
@@ -54,9 +59,15 @@ public class RawGraphTransformer {
 		static MetadataType forId(int id) {
 			switch (id) {
 				case 0:
-					return UIB;
+					return TIMEPOINT;
 				case 1:
+					return UIB;
+				case 2:
 					return INTERVAL;
+				case 3:
+					return SSC;
+				case 4:
+					return SGE;
 			}
 			return null;
 		}
@@ -65,16 +76,17 @@ public class RawGraphTransformer {
 	private static class UnexpectedIndirectBranches {
 		static final Map<Integer, RawUnexpectedIndirectBranch> uibsByEdgeIndex = new TreeMap<Integer, RawUnexpectedIndirectBranch>();
 
-		final List<RawUnexpectedIndirectBranch> uibList = new ArrayList<RawUnexpectedIndirectBranch>();
+		final Map<Integer, RawUnexpectedIndirectBranch> uibsByRawEdgeIndex = new HashMap<Integer, RawUnexpectedIndirectBranch>();
 
 		void add(RawUnexpectedIndirectBranch uib) {
-			uibList.add(uib);
+			uibsByRawEdgeIndex.remove(uib.rawEdgeIndex); // take only the last UIB per raw edge index
+			uibsByRawEdgeIndex.put(uib.rawEdgeIndex, uib);
 		}
 
 		Collection<RawUnexpectedIndirectBranch> sortAndMerge() {
 			uibsByEdgeIndex.clear();
 
-			for (RawUnexpectedIndirectBranch uib : uibList) {
+			for (RawUnexpectedIndirectBranch uib : uibsByRawEdgeIndex.values()) {
 				RawUnexpectedIndirectBranch match = uibsByEdgeIndex.get(uib.getClusterEdgeIndex());
 				if (match == null) {
 					uibsByEdgeIndex.put(uib.getClusterEdgeIndex(), uib);
@@ -107,6 +119,7 @@ public class RawGraphTransformer {
 	private final Map<AutonomousSoftwareDistribution, RawClusterData> nodesByCluster = new HashMap<AutonomousSoftwareDistribution, RawClusterData>();
 	private final Map<AutonomousSoftwareDistribution, Map<RawEdge, RawEdge>> edgesByCluster = new HashMap<AutonomousSoftwareDistribution, Map<RawEdge, RawEdge>>();
 	private final Map<AutonomousSoftwareDistribution, UnexpectedIndirectBranches> uibsByCluster = new HashMap<AutonomousSoftwareDistribution, UnexpectedIndirectBranches>();
+	private final Map<AutonomousSoftwareDistribution, Set<RawSuspiciousGencodeEntry>> sgesByCluster = new HashMap<AutonomousSoftwareDistribution, Set<RawSuspiciousGencodeEntry>>();
 
 	private final Map<RawTag, IndexedClusterNode> nodesByRawTag = new HashMap<RawTag, IndexedClusterNode>();
 	private final Map<RawTag, Integer> fakeAnonymousModuleTags = new HashMap<RawTag, Integer>();
@@ -116,9 +129,11 @@ public class RawGraphTransformer {
 
 	private int mainModuleStartAddress;
 	private AutonomousSoftwareDistribution mainCluster;
-	private final List<RawUnexpectedIndirectBranchInterval> uibIntervals = new ArrayList<RawUnexpectedIndirectBranchInterval>();
+	private final Map<RawUnexpectedIndirectBranchInterval.Key, RawUnexpectedIndirectBranchInterval> uibIntervals = new HashMap<RawUnexpectedIndirectBranchInterval.Key, RawUnexpectedIndirectBranchInterval>();
 	private final LinkedList<RawUnexpectedIndirectBranch> intraModuleUIBQueue = new LinkedList<RawUnexpectedIndirectBranch>();
 	private final LinkedList<RawUnexpectedIndirectBranch> crossModuleUIBQueue = new LinkedList<RawUnexpectedIndirectBranch>();
+	private final List<RawSuspiciousSystemCall> sscs = new ArrayList<RawSuspiciousSystemCall>();
+	private final LinkedList<RawSuspiciousGencodeEntry> gencodeEntryQueue = new LinkedList<RawSuspiciousGencodeEntry>();
 
 	public RawGraphTransformer(ArgumentStack args) {
 		this.args = args;
@@ -241,6 +256,8 @@ public class RawGraphTransformer {
 			RawGraphEntry.OneWordEntry nodeEntry = factory.createEntry();
 
 			MetadataType type = MetadataType.forId((int) (nodeEntry.first & 0xff));
+			if (type == MetadataType.TIMEPOINT)
+				continue;
 
 			switch (type) {
 				case UIB:
@@ -253,13 +270,23 @@ public class RawGraphTransformer {
 				case INTERVAL:
 					RawUnexpectedIndirectBranchInterval interval = RawUnexpectedIndirectBranchInterval
 							.parse(nodeEntry.first);
-					uibIntervals.add(interval);
+					uibIntervals.remove(interval.key); // extract the last interval per {type+span}
+					uibIntervals.put(interval.key, interval);
+					break;
+				case SSC:
+					RawSuspiciousSystemCall syscall = RawSuspiciousSystemCall.parse(nodeEntry.first);
+					sscs.add(syscall);
+					break;
+				case SGE:
+					RawSuspiciousGencodeEntry gencodeEntry = RawSuspiciousGencodeEntry.parse(nodeEntry.first);
+					gencodeEntryQueue.add(gencodeEntry);
 					break;
 			}
 		}
 
 		Collections.sort(intraModuleUIBQueue, RawUnexpectedIndirectBranch.ExecutionEdgeIndexSorter.INSTANCE);
 		Collections.sort(crossModuleUIBQueue, RawUnexpectedIndirectBranch.ExecutionEdgeIndexSorter.INSTANCE);
+		Collections.sort(gencodeEntryQueue, RawSuspiciousGencodeEntry.ExecutionEdgeIndexSorter.INSTANCE);
 	}
 
 	private void transformNodes(ExecutionTraceStreamType streamType) throws IOException {
@@ -450,7 +477,7 @@ public class RawGraphTransformer {
 					edge = addEdge(fromNodeId.cluster, fromNodeId, toNodeId, type, ordinal);
 
 				if ((edge != null) && (!intraModuleUIBQueue.isEmpty())
-						&& (intraModuleUIBQueue.peekFirst().executionEdgeIndex == entryIndex)) {
+						&& (intraModuleUIBQueue.peekFirst().rawEdgeIndex == entryIndex)) {
 					RawUnexpectedIndirectBranch uib = intraModuleUIBQueue.removeFirst();
 					uib.clusterEdge = edge;
 					establishUIBs(fromNodeId.cluster).add(uib);
@@ -495,8 +522,8 @@ public class RawGraphTransformer {
 							absoluteFromTag, fromTagVersion, absoluteToTag, toTagVersion);
 				} else {
 					Log.log("Error: missing 'from' node 0x%x-v%d in cross-module %s edge to %s(0x%x-v%d) ",
-							absoluteFromTag, fromTagVersion, type.code, toNodeId.cluster.getUnitFilename(), absoluteToTag,
-							toTagVersion);
+							absoluteFromTag, fromTagVersion, type.code, toNodeId.cluster.getUnitFilename(),
+							absoluteToTag, toTagVersion);
 				}
 				continue;
 			}
@@ -528,8 +555,7 @@ public class RawGraphTransformer {
 				if (toNodeId.cluster == ConfiguredSoftwareDistributions.SYSTEM_CLUSTER)
 					Log.log("Creating an edge into the system cluster: %s", rawExit);
 
-				if ((!crossModuleUIBQueue.isEmpty())
-						&& (crossModuleUIBQueue.peekFirst().executionEdgeIndex == entryIndex)) {
+				if ((!crossModuleUIBQueue.isEmpty()) && (crossModuleUIBQueue.peekFirst().rawEdgeIndex == entryIndex)) {
 					RawUnexpectedIndirectBranch uib = crossModuleUIBQueue.removeFirst();
 					uib.clusterEdge = rawEntry;
 					establishUIBs(toNodeId.cluster).add(uib);
@@ -537,6 +563,12 @@ public class RawGraphTransformer {
 					uib = new RawUnexpectedIndirectBranch(uib);
 					uib.clusterEdge = rawExit;
 					establishUIBs(fromNodeId.cluster).add(uib);
+				}
+
+				if ((!gencodeEntryQueue.isEmpty()) && (gencodeEntryQueue.peekFirst().edgeIndex == entryIndex)) {
+					RawSuspiciousGencodeEntry gencodeEntry = gencodeEntryQueue.removeFirst();
+					gencodeEntry.clusterEdge = rawExit;
+					establishSGEs(fromNodeId.cluster).add(gencodeEntry);
 				}
 			}
 		}
@@ -580,6 +612,15 @@ public class RawGraphTransformer {
 			uibsByCluster.put(cluster, uibs);
 		}
 		return uibs;
+	}
+
+	private Set<RawSuspiciousGencodeEntry> establishSGEs(AutonomousSoftwareDistribution cluster) {
+		Set<RawSuspiciousGencodeEntry> sges = sgesByCluster.get(cluster);
+		if (sges == null) {
+			sges = new HashSet<RawSuspiciousGencodeEntry>();
+			sgesByCluster.put(cluster, sges);
+		}
+		return sges;
 	}
 
 	private IndexedClusterNode identifyNode(long absoluteTag, int tagVersion, long entryIndex,
@@ -663,12 +704,15 @@ public class RawGraphTransformer {
 
 	private void writeMetadata() throws IOException {
 		UnexpectedIndirectBranches uibsMain = null;
+		Set<RawSuspiciousGencodeEntry> sgesMain = null;
 		UUID executionId = UUID.randomUUID();
 		for (Map.Entry<AutonomousSoftwareDistribution, UnexpectedIndirectBranches> clusterUIBs : uibsByCluster
 				.entrySet()) {
 			UnexpectedIndirectBranches uibs = clusterUIBs.getValue();
+			Set<RawSuspiciousGencodeEntry> sges = sgesByCluster.get(clusterUIBs.getKey());
 			if (clusterUIBs.getKey() == mainCluster) {
 				uibsMain = uibs;
+				sgesMain = sges;
 				continue;
 			}
 
@@ -676,10 +720,14 @@ public class RawGraphTransformer {
 			writer.writeMetadataHeader(false);
 			writer.writeSequenceMetadataHeader(1, true);
 			Collection<RawUnexpectedIndirectBranch> uibsSorted = uibs.sortAndMerge();
-			writer.writeExecutionMetadataHeader(executionId, uibsSorted.size(), 0);
+			writer.writeExecutionMetadataHeader(executionId, uibsSorted.size(), 0, 0, (sges == null) ? 0 : sges.size());
 			for (RawUnexpectedIndirectBranch uib : uibsSorted)
 				writer.writeUIB(uib.getClusterEdgeIndex(), uib.isAdmitted(), uib.getTraversalCount(),
 						uib.getInstanceCount());
+			if (sges != null) {
+				for (RawSuspiciousGencodeEntry sge : sges)
+					writer.writeSGE(sge.clusterEdge.getEdgeIndex(), sge.uibCount, sge.suibCount);
+			}
 		}
 		if (mainCluster != null) {
 			ClusterDataWriter<IndexedClusterNode> writer = graphWriters.getWriter(mainCluster);
@@ -692,14 +740,22 @@ public class RawGraphTransformer {
 				uibsSorted = uibsMain.sortAndMerge();
 			}
 			writer.writeExecutionMetadataHeader(executionId, uibsSorted == null ? 0 : uibsSorted.size(),
-					uibIntervals.size());
+					uibIntervals.size(), sscs.size(), (sgesMain == null) ? 0 : sgesMain.size());
 			if (uibsSorted != null) {
 				for (RawUnexpectedIndirectBranch uib : uibsSorted)
 					writer.writeUIB(uib.getClusterEdgeIndex(), uib.isAdmitted(), uib.getTraversalCount(),
 							uib.getInstanceCount());
 			}
-			for (RawUnexpectedIndirectBranchInterval interval : uibIntervals) {
-				writer.writeUIBInterval(interval.type.id, interval.span, interval.count, interval.maxConsecutive);
+			for (RawUnexpectedIndirectBranchInterval interval : uibIntervals.values()) {
+				writer.writeUIBInterval(interval.key.type.id, interval.key.span, interval.count,
+						interval.maxConsecutive);
+			}
+			for (RawSuspiciousSystemCall ssc : sscs) {
+				writer.writeSSC(ssc.sysnum, ssc.uibCount, ssc.suibCount);
+			}
+			if (sgesMain != null) {
+				for (RawSuspiciousGencodeEntry sge : sgesMain)
+					writer.writeSGE(sge.clusterEdge.getEdgeIndex(), sge.uibCount, sge.suibCount);
 			}
 		} else {
 			Log.log("Warning: main cluster not found!");

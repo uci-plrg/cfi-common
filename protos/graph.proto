@@ -80,6 +80,11 @@ message UIBObservation {
 	optional int32 traversal_count = 3;
 }
 
+message SuspiciousGencodeEntry {
+  optional int32 uib_count = 1;
+  optional int32 suib_count = 2;
+}
+
 message ModuleMetadata {
   optional int64 sequence_id_low = 1;
   optional int64 sequence_id_high = 2;
@@ -89,6 +94,7 @@ message ModuleMetadata {
 	repeated UIBObservation total_observed = 6;
 	repeated UIBObservation intra_module_observed = 7;
 	repeated UIBObservation inter_module_observed = 8;
+  repeated SuspiciousGencodeEntry gencode_entries = 9;
 }
 
 message Interval {
@@ -104,7 +110,8 @@ message IntervalGroup {
 
 message SuspiciousSyscall {
   optional int32 sysnum = 1;
-  optional int32 count = 2;
+  optional int32 uib_count = 2;
+  optional int32 suib_count = 3;
 }
 
 message ProcessMetadata {

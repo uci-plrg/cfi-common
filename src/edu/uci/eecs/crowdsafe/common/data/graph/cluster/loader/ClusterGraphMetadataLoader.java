@@ -8,9 +8,10 @@ import edu.uci.eecs.crowdsafe.common.data.graph.Edge;
 import edu.uci.eecs.crowdsafe.common.data.graph.EdgeType;
 import edu.uci.eecs.crowdsafe.common.data.graph.OrdinalEdgeList;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterNode;
-import edu.uci.eecs.crowdsafe.common.data.graph.cluster.metadata.ClusterMetadata;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.metadata.ClusterMetadataExecution;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.metadata.ClusterMetadataSequence;
+import edu.uci.eecs.crowdsafe.common.data.graph.cluster.metadata.ClusterSGE;
+import edu.uci.eecs.crowdsafe.common.data.graph.cluster.metadata.ClusterSSC;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.metadata.ClusterUIB;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.metadata.ClusterUIBInterval;
 import edu.uci.eecs.crowdsafe.common.io.LittleEndianInputStream;
@@ -60,6 +61,10 @@ public class ClusterGraphMetadataLoader {
 		int uibCount = (int) (entryCounts & 0x7fffffffL);
 		int intervalCount = (int) ((entryCounts >> 0x20) & 0x7fffffffL);
 
+		entryCounts = input.readLong();
+		int sscCount = (int) (entryCounts & 0x7fffffffL);
+		int sgeCount = (int) ((entryCounts >> 0x20) & 0x7fffffffL);
+
 		long executionIdHigh = input.readLong();
 		long executionIdLow = input.readLong();
 		UUID executionId = new UUID(executionIdHigh, executionIdLow);
@@ -74,7 +79,7 @@ public class ClusterGraphMetadataLoader {
 
 			// hack--correcting the cluster entry edge type modeling error
 			Edge<ClusterNode<?>> uibEdge = edgeList.get(edgeIndex);
-			if ((uibEdge != null) && !isAdmitted) { // UIB-FIX: if this is the left graph, need to check edges on the right
+			if ((uibEdge != null) && !isAdmitted) { // UIB-FIX: if left graph, need to check edges on the right
 				OrdinalEdgeList<ClusterNode<?>> edges = uibEdge.getToNode().getIncomingEdges();
 				try {
 					for (Edge<ClusterNode<?>> edge : edges) {
@@ -92,7 +97,6 @@ public class ClusterGraphMetadataLoader {
 			execution.uibs.add(uib);
 		}
 
-		// execution.initializeIntervals(); // marks the execution as main
 		for (int i = 0; i < intervalCount; i++) {
 			long intervalData = input.readLong();
 			int typeId = ((int) (intervalData & 0xffL));
@@ -101,6 +105,24 @@ public class ClusterGraphMetadataLoader {
 			int count = ((int) ((intervalData >> 0x20) & 0x7fffffffL));
 			ClusterUIBInterval interval = new ClusterUIBInterval(typeId, span, count, maxConsecutive);
 			execution.addInterval(interval);
+		}
+
+		for (int i = 0; i < sscCount; i++) {
+			long sscData = input.readLong();
+			int sysnum = (int) (sscData & 0xffffL);
+			int sscUibCount = (int) ((sscData >> 0x10) & 0xffffL);
+			int sscSuibCount = (int) ((sscData >> 0x20) & 0xffffL);
+			ClusterSSC ssc = new ClusterSSC(sysnum, sscUibCount, sscSuibCount);
+			execution.sscs.add(ssc);
+		}
+
+		for (int i = 0; i < sgeCount; i++) {
+			long sgeData = input.readLong();
+			int edgeIndex = (int) (sgeData & 0xfffffL);
+			int sgeUibCount = (int) ((sgeData >> 0x14) & 0xffffL);
+			int sgeSuibCount = (int) ((sgeData >> 0x24) & 0xffffL);
+			ClusterSGE sge = new ClusterSGE(edgeList.get(edgeIndex), sgeUibCount, sgeSuibCount);
+			execution.sges.add(sge);
 		}
 
 		return execution;

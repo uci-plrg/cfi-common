@@ -8716,6 +8716,483 @@ public final class Graph {
     // @@protoc_insertion_point(class_scope:crowd_safe_data_analysis.UIBObservation)
   }
 
+  public interface SuspiciousGencodeEntryOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // optional int32 uib_count = 1;
+    /**
+     * <code>optional int32 uib_count = 1;</code>
+     */
+    boolean hasUibCount();
+    /**
+     * <code>optional int32 uib_count = 1;</code>
+     */
+    int getUibCount();
+
+    // optional int32 suib_count = 2;
+    /**
+     * <code>optional int32 suib_count = 2;</code>
+     */
+    boolean hasSuibCount();
+    /**
+     * <code>optional int32 suib_count = 2;</code>
+     */
+    int getSuibCount();
+  }
+  /**
+   * Protobuf type {@code crowd_safe_data_analysis.SuspiciousGencodeEntry}
+   */
+  public static final class SuspiciousGencodeEntry extends
+      com.google.protobuf.GeneratedMessage
+      implements SuspiciousGencodeEntryOrBuilder {
+    // Use SuspiciousGencodeEntry.newBuilder() to construct.
+    private SuspiciousGencodeEntry(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private SuspiciousGencodeEntry(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final SuspiciousGencodeEntry defaultInstance;
+    public static SuspiciousGencodeEntry getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public SuspiciousGencodeEntry getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private SuspiciousGencodeEntry(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              uibCount_ = input.readInt32();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              suibCount_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return edu.uci.eecs.crowdsafe.common.data.results.Graph.internal_static_crowd_safe_data_analysis_SuspiciousGencodeEntry_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return edu.uci.eecs.crowdsafe.common.data.results.Graph.internal_static_crowd_safe_data_analysis_SuspiciousGencodeEntry_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntry.class, edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntry.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<SuspiciousGencodeEntry> PARSER =
+        new com.google.protobuf.AbstractParser<SuspiciousGencodeEntry>() {
+      public SuspiciousGencodeEntry parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new SuspiciousGencodeEntry(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<SuspiciousGencodeEntry> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // optional int32 uib_count = 1;
+    public static final int UIB_COUNT_FIELD_NUMBER = 1;
+    private int uibCount_;
+    /**
+     * <code>optional int32 uib_count = 1;</code>
+     */
+    public boolean hasUibCount() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>optional int32 uib_count = 1;</code>
+     */
+    public int getUibCount() {
+      return uibCount_;
+    }
+
+    // optional int32 suib_count = 2;
+    public static final int SUIB_COUNT_FIELD_NUMBER = 2;
+    private int suibCount_;
+    /**
+     * <code>optional int32 suib_count = 2;</code>
+     */
+    public boolean hasSuibCount() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional int32 suib_count = 2;</code>
+     */
+    public int getSuibCount() {
+      return suibCount_;
+    }
+
+    private void initFields() {
+      uibCount_ = 0;
+      suibCount_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, uibCount_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, suibCount_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, uibCount_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, suibCount_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntry parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntry parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntry parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntry parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntry parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntry parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntry parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntry parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntry parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntry parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntry prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code crowd_safe_data_analysis.SuspiciousGencodeEntry}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntryOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return edu.uci.eecs.crowdsafe.common.data.results.Graph.internal_static_crowd_safe_data_analysis_SuspiciousGencodeEntry_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return edu.uci.eecs.crowdsafe.common.data.results.Graph.internal_static_crowd_safe_data_analysis_SuspiciousGencodeEntry_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntry.class, edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntry.Builder.class);
+      }
+
+      // Construct using edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntry.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        uibCount_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        suibCount_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return edu.uci.eecs.crowdsafe.common.data.results.Graph.internal_static_crowd_safe_data_analysis_SuspiciousGencodeEntry_descriptor;
+      }
+
+      public edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntry getDefaultInstanceForType() {
+        return edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntry.getDefaultInstance();
+      }
+
+      public edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntry build() {
+        edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntry result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntry buildPartial() {
+        edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntry result = new edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntry(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.uibCount_ = uibCount_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.suibCount_ = suibCount_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntry) {
+          return mergeFrom((edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntry)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntry other) {
+        if (other == edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntry.getDefaultInstance()) return this;
+        if (other.hasUibCount()) {
+          setUibCount(other.getUibCount());
+        }
+        if (other.hasSuibCount()) {
+          setSuibCount(other.getSuibCount());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntry parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntry) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // optional int32 uib_count = 1;
+      private int uibCount_ ;
+      /**
+       * <code>optional int32 uib_count = 1;</code>
+       */
+      public boolean hasUibCount() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>optional int32 uib_count = 1;</code>
+       */
+      public int getUibCount() {
+        return uibCount_;
+      }
+      /**
+       * <code>optional int32 uib_count = 1;</code>
+       */
+      public Builder setUibCount(int value) {
+        bitField0_ |= 0x00000001;
+        uibCount_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 uib_count = 1;</code>
+       */
+      public Builder clearUibCount() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        uibCount_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 suib_count = 2;
+      private int suibCount_ ;
+      /**
+       * <code>optional int32 suib_count = 2;</code>
+       */
+      public boolean hasSuibCount() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional int32 suib_count = 2;</code>
+       */
+      public int getSuibCount() {
+        return suibCount_;
+      }
+      /**
+       * <code>optional int32 suib_count = 2;</code>
+       */
+      public Builder setSuibCount(int value) {
+        bitField0_ |= 0x00000002;
+        suibCount_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 suib_count = 2;</code>
+       */
+      public Builder clearSuibCount() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        suibCount_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:crowd_safe_data_analysis.SuspiciousGencodeEntry)
+    }
+
+    static {
+      defaultInstance = new SuspiciousGencodeEntry(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:crowd_safe_data_analysis.SuspiciousGencodeEntry)
+  }
+
   public interface ModuleMetadataOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
@@ -8843,6 +9320,31 @@ public final class Graph {
      */
     edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservationOrBuilder getInterModuleObservedOrBuilder(
         int index);
+
+    // repeated .crowd_safe_data_analysis.SuspiciousGencodeEntry gencode_entries = 9;
+    /**
+     * <code>repeated .crowd_safe_data_analysis.SuspiciousGencodeEntry gencode_entries = 9;</code>
+     */
+    java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntry> 
+        getGencodeEntriesList();
+    /**
+     * <code>repeated .crowd_safe_data_analysis.SuspiciousGencodeEntry gencode_entries = 9;</code>
+     */
+    edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntry getGencodeEntries(int index);
+    /**
+     * <code>repeated .crowd_safe_data_analysis.SuspiciousGencodeEntry gencode_entries = 9;</code>
+     */
+    int getGencodeEntriesCount();
+    /**
+     * <code>repeated .crowd_safe_data_analysis.SuspiciousGencodeEntry gencode_entries = 9;</code>
+     */
+    java.util.List<? extends edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntryOrBuilder> 
+        getGencodeEntriesOrBuilderList();
+    /**
+     * <code>repeated .crowd_safe_data_analysis.SuspiciousGencodeEntry gencode_entries = 9;</code>
+     */
+    edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntryOrBuilder getGencodeEntriesOrBuilder(
+        int index);
   }
   /**
    * Protobuf type {@code crowd_safe_data_analysis.ModuleMetadata}
@@ -8944,6 +9446,14 @@ public final class Graph {
               interModuleObserved_.add(input.readMessage(edu.uci.eecs.crowdsafe.common.data.results.Graph.UIBObservation.PARSER, extensionRegistry));
               break;
             }
+            case 74: {
+              if (!((mutable_bitField0_ & 0x00000100) == 0x00000100)) {
+                gencodeEntries_ = new java.util.ArrayList<edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntry>();
+                mutable_bitField0_ |= 0x00000100;
+              }
+              gencodeEntries_.add(input.readMessage(edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntry.PARSER, extensionRegistry));
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -8960,6 +9470,9 @@ public final class Graph {
         }
         if (((mutable_bitField0_ & 0x00000080) == 0x00000080)) {
           interModuleObserved_ = java.util.Collections.unmodifiableList(interModuleObserved_);
+        }
+        if (((mutable_bitField0_ & 0x00000100) == 0x00000100)) {
+          gencodeEntries_ = java.util.Collections.unmodifiableList(gencodeEntries_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -9181,6 +9694,42 @@ public final class Graph {
       return interModuleObserved_.get(index);
     }
 
+    // repeated .crowd_safe_data_analysis.SuspiciousGencodeEntry gencode_entries = 9;
+    public static final int GENCODE_ENTRIES_FIELD_NUMBER = 9;
+    private java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntry> gencodeEntries_;
+    /**
+     * <code>repeated .crowd_safe_data_analysis.SuspiciousGencodeEntry gencode_entries = 9;</code>
+     */
+    public java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntry> getGencodeEntriesList() {
+      return gencodeEntries_;
+    }
+    /**
+     * <code>repeated .crowd_safe_data_analysis.SuspiciousGencodeEntry gencode_entries = 9;</code>
+     */
+    public java.util.List<? extends edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntryOrBuilder> 
+        getGencodeEntriesOrBuilderList() {
+      return gencodeEntries_;
+    }
+    /**
+     * <code>repeated .crowd_safe_data_analysis.SuspiciousGencodeEntry gencode_entries = 9;</code>
+     */
+    public int getGencodeEntriesCount() {
+      return gencodeEntries_.size();
+    }
+    /**
+     * <code>repeated .crowd_safe_data_analysis.SuspiciousGencodeEntry gencode_entries = 9;</code>
+     */
+    public edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntry getGencodeEntries(int index) {
+      return gencodeEntries_.get(index);
+    }
+    /**
+     * <code>repeated .crowd_safe_data_analysis.SuspiciousGencodeEntry gencode_entries = 9;</code>
+     */
+    public edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntryOrBuilder getGencodeEntriesOrBuilder(
+        int index) {
+      return gencodeEntries_.get(index);
+    }
+
     private void initFields() {
       sequenceIdLow_ = 0L;
       sequenceIdHigh_ = 0L;
@@ -9190,6 +9739,7 @@ public final class Graph {
       totalObserved_ = java.util.Collections.emptyList();
       intraModuleObserved_ = java.util.Collections.emptyList();
       interModuleObserved_ = java.util.Collections.emptyList();
+      gencodeEntries_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -9226,6 +9776,9 @@ public final class Graph {
       }
       for (int i = 0; i < interModuleObserved_.size(); i++) {
         output.writeMessage(8, interModuleObserved_.get(i));
+      }
+      for (int i = 0; i < gencodeEntries_.size(); i++) {
+        output.writeMessage(9, gencodeEntries_.get(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -9267,6 +9820,10 @@ public final class Graph {
       for (int i = 0; i < interModuleObserved_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(8, interModuleObserved_.get(i));
+      }
+      for (int i = 0; i < gencodeEntries_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(9, gencodeEntries_.get(i));
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -9379,6 +9936,7 @@ public final class Graph {
           getTotalObservedFieldBuilder();
           getIntraModuleObservedFieldBuilder();
           getInterModuleObservedFieldBuilder();
+          getGencodeEntriesFieldBuilder();
         }
       }
       private static Builder create() {
@@ -9414,6 +9972,12 @@ public final class Graph {
           bitField0_ = (bitField0_ & ~0x00000080);
         } else {
           interModuleObservedBuilder_.clear();
+        }
+        if (gencodeEntriesBuilder_ == null) {
+          gencodeEntries_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000100);
+        } else {
+          gencodeEntriesBuilder_.clear();
         }
         return this;
       }
@@ -9489,6 +10053,15 @@ public final class Graph {
           result.interModuleObserved_ = interModuleObserved_;
         } else {
           result.interModuleObserved_ = interModuleObservedBuilder_.build();
+        }
+        if (gencodeEntriesBuilder_ == null) {
+          if (((bitField0_ & 0x00000100) == 0x00000100)) {
+            gencodeEntries_ = java.util.Collections.unmodifiableList(gencodeEntries_);
+            bitField0_ = (bitField0_ & ~0x00000100);
+          }
+          result.gencodeEntries_ = gencodeEntries_;
+        } else {
+          result.gencodeEntries_ = gencodeEntriesBuilder_.build();
         }
         result.bitField0_ = to_bitField0_;
         onBuilt();
@@ -9596,6 +10169,32 @@ public final class Graph {
                    getInterModuleObservedFieldBuilder() : null;
             } else {
               interModuleObservedBuilder_.addAllMessages(other.interModuleObserved_);
+            }
+          }
+        }
+        if (gencodeEntriesBuilder_ == null) {
+          if (!other.gencodeEntries_.isEmpty()) {
+            if (gencodeEntries_.isEmpty()) {
+              gencodeEntries_ = other.gencodeEntries_;
+              bitField0_ = (bitField0_ & ~0x00000100);
+            } else {
+              ensureGencodeEntriesIsMutable();
+              gencodeEntries_.addAll(other.gencodeEntries_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.gencodeEntries_.isEmpty()) {
+            if (gencodeEntriesBuilder_.isEmpty()) {
+              gencodeEntriesBuilder_.dispose();
+              gencodeEntriesBuilder_ = null;
+              gencodeEntries_ = other.gencodeEntries_;
+              bitField0_ = (bitField0_ & ~0x00000100);
+              gencodeEntriesBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getGencodeEntriesFieldBuilder() : null;
+            } else {
+              gencodeEntriesBuilder_.addAllMessages(other.gencodeEntries_);
             }
           }
         }
@@ -10509,6 +11108,246 @@ public final class Graph {
           interModuleObserved_ = null;
         }
         return interModuleObservedBuilder_;
+      }
+
+      // repeated .crowd_safe_data_analysis.SuspiciousGencodeEntry gencode_entries = 9;
+      private java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntry> gencodeEntries_ =
+        java.util.Collections.emptyList();
+      private void ensureGencodeEntriesIsMutable() {
+        if (!((bitField0_ & 0x00000100) == 0x00000100)) {
+          gencodeEntries_ = new java.util.ArrayList<edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntry>(gencodeEntries_);
+          bitField0_ |= 0x00000100;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntry, edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntry.Builder, edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntryOrBuilder> gencodeEntriesBuilder_;
+
+      /**
+       * <code>repeated .crowd_safe_data_analysis.SuspiciousGencodeEntry gencode_entries = 9;</code>
+       */
+      public java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntry> getGencodeEntriesList() {
+        if (gencodeEntriesBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(gencodeEntries_);
+        } else {
+          return gencodeEntriesBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.SuspiciousGencodeEntry gencode_entries = 9;</code>
+       */
+      public int getGencodeEntriesCount() {
+        if (gencodeEntriesBuilder_ == null) {
+          return gencodeEntries_.size();
+        } else {
+          return gencodeEntriesBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.SuspiciousGencodeEntry gencode_entries = 9;</code>
+       */
+      public edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntry getGencodeEntries(int index) {
+        if (gencodeEntriesBuilder_ == null) {
+          return gencodeEntries_.get(index);
+        } else {
+          return gencodeEntriesBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.SuspiciousGencodeEntry gencode_entries = 9;</code>
+       */
+      public Builder setGencodeEntries(
+          int index, edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntry value) {
+        if (gencodeEntriesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureGencodeEntriesIsMutable();
+          gencodeEntries_.set(index, value);
+          onChanged();
+        } else {
+          gencodeEntriesBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.SuspiciousGencodeEntry gencode_entries = 9;</code>
+       */
+      public Builder setGencodeEntries(
+          int index, edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntry.Builder builderForValue) {
+        if (gencodeEntriesBuilder_ == null) {
+          ensureGencodeEntriesIsMutable();
+          gencodeEntries_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          gencodeEntriesBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.SuspiciousGencodeEntry gencode_entries = 9;</code>
+       */
+      public Builder addGencodeEntries(edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntry value) {
+        if (gencodeEntriesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureGencodeEntriesIsMutable();
+          gencodeEntries_.add(value);
+          onChanged();
+        } else {
+          gencodeEntriesBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.SuspiciousGencodeEntry gencode_entries = 9;</code>
+       */
+      public Builder addGencodeEntries(
+          int index, edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntry value) {
+        if (gencodeEntriesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureGencodeEntriesIsMutable();
+          gencodeEntries_.add(index, value);
+          onChanged();
+        } else {
+          gencodeEntriesBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.SuspiciousGencodeEntry gencode_entries = 9;</code>
+       */
+      public Builder addGencodeEntries(
+          edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntry.Builder builderForValue) {
+        if (gencodeEntriesBuilder_ == null) {
+          ensureGencodeEntriesIsMutable();
+          gencodeEntries_.add(builderForValue.build());
+          onChanged();
+        } else {
+          gencodeEntriesBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.SuspiciousGencodeEntry gencode_entries = 9;</code>
+       */
+      public Builder addGencodeEntries(
+          int index, edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntry.Builder builderForValue) {
+        if (gencodeEntriesBuilder_ == null) {
+          ensureGencodeEntriesIsMutable();
+          gencodeEntries_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          gencodeEntriesBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.SuspiciousGencodeEntry gencode_entries = 9;</code>
+       */
+      public Builder addAllGencodeEntries(
+          java.lang.Iterable<? extends edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntry> values) {
+        if (gencodeEntriesBuilder_ == null) {
+          ensureGencodeEntriesIsMutable();
+          super.addAll(values, gencodeEntries_);
+          onChanged();
+        } else {
+          gencodeEntriesBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.SuspiciousGencodeEntry gencode_entries = 9;</code>
+       */
+      public Builder clearGencodeEntries() {
+        if (gencodeEntriesBuilder_ == null) {
+          gencodeEntries_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000100);
+          onChanged();
+        } else {
+          gencodeEntriesBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.SuspiciousGencodeEntry gencode_entries = 9;</code>
+       */
+      public Builder removeGencodeEntries(int index) {
+        if (gencodeEntriesBuilder_ == null) {
+          ensureGencodeEntriesIsMutable();
+          gencodeEntries_.remove(index);
+          onChanged();
+        } else {
+          gencodeEntriesBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.SuspiciousGencodeEntry gencode_entries = 9;</code>
+       */
+      public edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntry.Builder getGencodeEntriesBuilder(
+          int index) {
+        return getGencodeEntriesFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.SuspiciousGencodeEntry gencode_entries = 9;</code>
+       */
+      public edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntryOrBuilder getGencodeEntriesOrBuilder(
+          int index) {
+        if (gencodeEntriesBuilder_ == null) {
+          return gencodeEntries_.get(index);  } else {
+          return gencodeEntriesBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.SuspiciousGencodeEntry gencode_entries = 9;</code>
+       */
+      public java.util.List<? extends edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntryOrBuilder> 
+           getGencodeEntriesOrBuilderList() {
+        if (gencodeEntriesBuilder_ != null) {
+          return gencodeEntriesBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(gencodeEntries_);
+        }
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.SuspiciousGencodeEntry gencode_entries = 9;</code>
+       */
+      public edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntry.Builder addGencodeEntriesBuilder() {
+        return getGencodeEntriesFieldBuilder().addBuilder(
+            edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntry.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.SuspiciousGencodeEntry gencode_entries = 9;</code>
+       */
+      public edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntry.Builder addGencodeEntriesBuilder(
+          int index) {
+        return getGencodeEntriesFieldBuilder().addBuilder(
+            index, edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntry.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.SuspiciousGencodeEntry gencode_entries = 9;</code>
+       */
+      public java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntry.Builder> 
+           getGencodeEntriesBuilderList() {
+        return getGencodeEntriesFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntry, edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntry.Builder, edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntryOrBuilder> 
+          getGencodeEntriesFieldBuilder() {
+        if (gencodeEntriesBuilder_ == null) {
+          gencodeEntriesBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntry, edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntry.Builder, edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousGencodeEntryOrBuilder>(
+                  gencodeEntries_,
+                  ((bitField0_ & 0x00000100) == 0x00000100),
+                  getParentForChildren(),
+                  isClean());
+          gencodeEntries_ = null;
+        }
+        return gencodeEntriesBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:crowd_safe_data_analysis.ModuleMetadata)
@@ -11847,6 +12686,564 @@ public final class Graph {
     // @@protoc_insertion_point(class_scope:crowd_safe_data_analysis.IntervalGroup)
   }
 
+  public interface SuspiciousSyscallOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // optional int32 sysnum = 1;
+    /**
+     * <code>optional int32 sysnum = 1;</code>
+     */
+    boolean hasSysnum();
+    /**
+     * <code>optional int32 sysnum = 1;</code>
+     */
+    int getSysnum();
+
+    // optional int32 uib_count = 2;
+    /**
+     * <code>optional int32 uib_count = 2;</code>
+     */
+    boolean hasUibCount();
+    /**
+     * <code>optional int32 uib_count = 2;</code>
+     */
+    int getUibCount();
+
+    // optional int32 suib_count = 3;
+    /**
+     * <code>optional int32 suib_count = 3;</code>
+     */
+    boolean hasSuibCount();
+    /**
+     * <code>optional int32 suib_count = 3;</code>
+     */
+    int getSuibCount();
+  }
+  /**
+   * Protobuf type {@code crowd_safe_data_analysis.SuspiciousSyscall}
+   */
+  public static final class SuspiciousSyscall extends
+      com.google.protobuf.GeneratedMessage
+      implements SuspiciousSyscallOrBuilder {
+    // Use SuspiciousSyscall.newBuilder() to construct.
+    private SuspiciousSyscall(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private SuspiciousSyscall(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final SuspiciousSyscall defaultInstance;
+    public static SuspiciousSyscall getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public SuspiciousSyscall getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private SuspiciousSyscall(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              sysnum_ = input.readInt32();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              uibCount_ = input.readInt32();
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000004;
+              suibCount_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return edu.uci.eecs.crowdsafe.common.data.results.Graph.internal_static_crowd_safe_data_analysis_SuspiciousSyscall_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return edu.uci.eecs.crowdsafe.common.data.results.Graph.internal_static_crowd_safe_data_analysis_SuspiciousSyscall_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscall.class, edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscall.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<SuspiciousSyscall> PARSER =
+        new com.google.protobuf.AbstractParser<SuspiciousSyscall>() {
+      public SuspiciousSyscall parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new SuspiciousSyscall(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<SuspiciousSyscall> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // optional int32 sysnum = 1;
+    public static final int SYSNUM_FIELD_NUMBER = 1;
+    private int sysnum_;
+    /**
+     * <code>optional int32 sysnum = 1;</code>
+     */
+    public boolean hasSysnum() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>optional int32 sysnum = 1;</code>
+     */
+    public int getSysnum() {
+      return sysnum_;
+    }
+
+    // optional int32 uib_count = 2;
+    public static final int UIB_COUNT_FIELD_NUMBER = 2;
+    private int uibCount_;
+    /**
+     * <code>optional int32 uib_count = 2;</code>
+     */
+    public boolean hasUibCount() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional int32 uib_count = 2;</code>
+     */
+    public int getUibCount() {
+      return uibCount_;
+    }
+
+    // optional int32 suib_count = 3;
+    public static final int SUIB_COUNT_FIELD_NUMBER = 3;
+    private int suibCount_;
+    /**
+     * <code>optional int32 suib_count = 3;</code>
+     */
+    public boolean hasSuibCount() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional int32 suib_count = 3;</code>
+     */
+    public int getSuibCount() {
+      return suibCount_;
+    }
+
+    private void initFields() {
+      sysnum_ = 0;
+      uibCount_ = 0;
+      suibCount_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, sysnum_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, uibCount_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeInt32(3, suibCount_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, sysnum_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, uibCount_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, suibCount_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscall parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscall parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscall parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscall parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscall parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscall parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscall parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscall parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscall parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscall parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscall prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code crowd_safe_data_analysis.SuspiciousSyscall}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscallOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return edu.uci.eecs.crowdsafe.common.data.results.Graph.internal_static_crowd_safe_data_analysis_SuspiciousSyscall_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return edu.uci.eecs.crowdsafe.common.data.results.Graph.internal_static_crowd_safe_data_analysis_SuspiciousSyscall_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscall.class, edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscall.Builder.class);
+      }
+
+      // Construct using edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscall.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        sysnum_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        uibCount_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        suibCount_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return edu.uci.eecs.crowdsafe.common.data.results.Graph.internal_static_crowd_safe_data_analysis_SuspiciousSyscall_descriptor;
+      }
+
+      public edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscall getDefaultInstanceForType() {
+        return edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscall.getDefaultInstance();
+      }
+
+      public edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscall build() {
+        edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscall result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscall buildPartial() {
+        edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscall result = new edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscall(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.sysnum_ = sysnum_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.uibCount_ = uibCount_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.suibCount_ = suibCount_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscall) {
+          return mergeFrom((edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscall)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscall other) {
+        if (other == edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscall.getDefaultInstance()) return this;
+        if (other.hasSysnum()) {
+          setSysnum(other.getSysnum());
+        }
+        if (other.hasUibCount()) {
+          setUibCount(other.getUibCount());
+        }
+        if (other.hasSuibCount()) {
+          setSuibCount(other.getSuibCount());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscall parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscall) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // optional int32 sysnum = 1;
+      private int sysnum_ ;
+      /**
+       * <code>optional int32 sysnum = 1;</code>
+       */
+      public boolean hasSysnum() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>optional int32 sysnum = 1;</code>
+       */
+      public int getSysnum() {
+        return sysnum_;
+      }
+      /**
+       * <code>optional int32 sysnum = 1;</code>
+       */
+      public Builder setSysnum(int value) {
+        bitField0_ |= 0x00000001;
+        sysnum_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 sysnum = 1;</code>
+       */
+      public Builder clearSysnum() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        sysnum_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 uib_count = 2;
+      private int uibCount_ ;
+      /**
+       * <code>optional int32 uib_count = 2;</code>
+       */
+      public boolean hasUibCount() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional int32 uib_count = 2;</code>
+       */
+      public int getUibCount() {
+        return uibCount_;
+      }
+      /**
+       * <code>optional int32 uib_count = 2;</code>
+       */
+      public Builder setUibCount(int value) {
+        bitField0_ |= 0x00000002;
+        uibCount_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 uib_count = 2;</code>
+       */
+      public Builder clearUibCount() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        uibCount_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 suib_count = 3;
+      private int suibCount_ ;
+      /**
+       * <code>optional int32 suib_count = 3;</code>
+       */
+      public boolean hasSuibCount() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional int32 suib_count = 3;</code>
+       */
+      public int getSuibCount() {
+        return suibCount_;
+      }
+      /**
+       * <code>optional int32 suib_count = 3;</code>
+       */
+      public Builder setSuibCount(int value) {
+        bitField0_ |= 0x00000004;
+        suibCount_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 suib_count = 3;</code>
+       */
+      public Builder clearSuibCount() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        suibCount_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:crowd_safe_data_analysis.SuspiciousSyscall)
+    }
+
+    static {
+      defaultInstance = new SuspiciousSyscall(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:crowd_safe_data_analysis.SuspiciousSyscall)
+  }
+
   public interface ProcessMetadataOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
@@ -11923,6 +13320,31 @@ public final class Graph {
      * <code>repeated .crowd_safe_data_analysis.IntervalGroup interval_group = 6;</code>
      */
     edu.uci.eecs.crowdsafe.common.data.results.Graph.IntervalGroupOrBuilder getIntervalGroupOrBuilder(
+        int index);
+
+    // repeated .crowd_safe_data_analysis.SuspiciousSyscall syscalls = 7;
+    /**
+     * <code>repeated .crowd_safe_data_analysis.SuspiciousSyscall syscalls = 7;</code>
+     */
+    java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscall> 
+        getSyscallsList();
+    /**
+     * <code>repeated .crowd_safe_data_analysis.SuspiciousSyscall syscalls = 7;</code>
+     */
+    edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscall getSyscalls(int index);
+    /**
+     * <code>repeated .crowd_safe_data_analysis.SuspiciousSyscall syscalls = 7;</code>
+     */
+    int getSyscallsCount();
+    /**
+     * <code>repeated .crowd_safe_data_analysis.SuspiciousSyscall syscalls = 7;</code>
+     */
+    java.util.List<? extends edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscallOrBuilder> 
+        getSyscallsOrBuilderList();
+    /**
+     * <code>repeated .crowd_safe_data_analysis.SuspiciousSyscall syscalls = 7;</code>
+     */
+    edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscallOrBuilder getSyscallsOrBuilder(
         int index);
   }
   /**
@@ -12009,6 +13431,14 @@ public final class Graph {
               intervalGroup_.add(input.readMessage(edu.uci.eecs.crowdsafe.common.data.results.Graph.IntervalGroup.PARSER, extensionRegistry));
               break;
             }
+            case 58: {
+              if (!((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
+                syscalls_ = new java.util.ArrayList<edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscall>();
+                mutable_bitField0_ |= 0x00000040;
+              }
+              syscalls_.add(input.readMessage(edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscall.PARSER, extensionRegistry));
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -12019,6 +13449,9 @@ public final class Graph {
       } finally {
         if (((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
           intervalGroup_ = java.util.Collections.unmodifiableList(intervalGroup_);
+        }
+        if (((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
+          syscalls_ = java.util.Collections.unmodifiableList(syscalls_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -12168,6 +13601,42 @@ public final class Graph {
       return intervalGroup_.get(index);
     }
 
+    // repeated .crowd_safe_data_analysis.SuspiciousSyscall syscalls = 7;
+    public static final int SYSCALLS_FIELD_NUMBER = 7;
+    private java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscall> syscalls_;
+    /**
+     * <code>repeated .crowd_safe_data_analysis.SuspiciousSyscall syscalls = 7;</code>
+     */
+    public java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscall> getSyscallsList() {
+      return syscalls_;
+    }
+    /**
+     * <code>repeated .crowd_safe_data_analysis.SuspiciousSyscall syscalls = 7;</code>
+     */
+    public java.util.List<? extends edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscallOrBuilder> 
+        getSyscallsOrBuilderList() {
+      return syscalls_;
+    }
+    /**
+     * <code>repeated .crowd_safe_data_analysis.SuspiciousSyscall syscalls = 7;</code>
+     */
+    public int getSyscallsCount() {
+      return syscalls_.size();
+    }
+    /**
+     * <code>repeated .crowd_safe_data_analysis.SuspiciousSyscall syscalls = 7;</code>
+     */
+    public edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscall getSyscalls(int index) {
+      return syscalls_.get(index);
+    }
+    /**
+     * <code>repeated .crowd_safe_data_analysis.SuspiciousSyscall syscalls = 7;</code>
+     */
+    public edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscallOrBuilder getSyscallsOrBuilder(
+        int index) {
+      return syscalls_.get(index);
+    }
+
     private void initFields() {
       sequenceIdLow_ = 0L;
       sequenceIdHigh_ = 0L;
@@ -12175,6 +13644,7 @@ public final class Graph {
       executionIdHigh_ = 0L;
       executionIndex_ = 0;
       intervalGroup_ = java.util.Collections.emptyList();
+      syscalls_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -12205,6 +13675,9 @@ public final class Graph {
       }
       for (int i = 0; i < intervalGroup_.size(); i++) {
         output.writeMessage(6, intervalGroup_.get(i));
+      }
+      for (int i = 0; i < syscalls_.size(); i++) {
+        output.writeMessage(7, syscalls_.get(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -12238,6 +13711,10 @@ public final class Graph {
       for (int i = 0; i < intervalGroup_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(6, intervalGroup_.get(i));
+      }
+      for (int i = 0; i < syscalls_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(7, syscalls_.get(i));
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -12348,6 +13825,7 @@ public final class Graph {
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
           getIntervalGroupFieldBuilder();
+          getSyscallsFieldBuilder();
         }
       }
       private static Builder create() {
@@ -12371,6 +13849,12 @@ public final class Graph {
           bitField0_ = (bitField0_ & ~0x00000020);
         } else {
           intervalGroupBuilder_.clear();
+        }
+        if (syscallsBuilder_ == null) {
+          syscalls_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000040);
+        } else {
+          syscallsBuilder_.clear();
         }
         return this;
       }
@@ -12429,6 +13913,15 @@ public final class Graph {
         } else {
           result.intervalGroup_ = intervalGroupBuilder_.build();
         }
+        if (syscallsBuilder_ == null) {
+          if (((bitField0_ & 0x00000040) == 0x00000040)) {
+            syscalls_ = java.util.Collections.unmodifiableList(syscalls_);
+            bitField0_ = (bitField0_ & ~0x00000040);
+          }
+          result.syscalls_ = syscalls_;
+        } else {
+          result.syscalls_ = syscallsBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -12483,6 +13976,32 @@ public final class Graph {
                    getIntervalGroupFieldBuilder() : null;
             } else {
               intervalGroupBuilder_.addAllMessages(other.intervalGroup_);
+            }
+          }
+        }
+        if (syscallsBuilder_ == null) {
+          if (!other.syscalls_.isEmpty()) {
+            if (syscalls_.isEmpty()) {
+              syscalls_ = other.syscalls_;
+              bitField0_ = (bitField0_ & ~0x00000040);
+            } else {
+              ensureSyscallsIsMutable();
+              syscalls_.addAll(other.syscalls_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.syscalls_.isEmpty()) {
+            if (syscallsBuilder_.isEmpty()) {
+              syscallsBuilder_.dispose();
+              syscallsBuilder_ = null;
+              syscalls_ = other.syscalls_;
+              bitField0_ = (bitField0_ & ~0x00000040);
+              syscallsBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getSyscallsFieldBuilder() : null;
+            } else {
+              syscallsBuilder_.addAllMessages(other.syscalls_);
             }
           }
         }
@@ -12918,6 +14437,246 @@ public final class Graph {
         return intervalGroupBuilder_;
       }
 
+      // repeated .crowd_safe_data_analysis.SuspiciousSyscall syscalls = 7;
+      private java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscall> syscalls_ =
+        java.util.Collections.emptyList();
+      private void ensureSyscallsIsMutable() {
+        if (!((bitField0_ & 0x00000040) == 0x00000040)) {
+          syscalls_ = new java.util.ArrayList<edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscall>(syscalls_);
+          bitField0_ |= 0x00000040;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscall, edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscall.Builder, edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscallOrBuilder> syscallsBuilder_;
+
+      /**
+       * <code>repeated .crowd_safe_data_analysis.SuspiciousSyscall syscalls = 7;</code>
+       */
+      public java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscall> getSyscallsList() {
+        if (syscallsBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(syscalls_);
+        } else {
+          return syscallsBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.SuspiciousSyscall syscalls = 7;</code>
+       */
+      public int getSyscallsCount() {
+        if (syscallsBuilder_ == null) {
+          return syscalls_.size();
+        } else {
+          return syscallsBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.SuspiciousSyscall syscalls = 7;</code>
+       */
+      public edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscall getSyscalls(int index) {
+        if (syscallsBuilder_ == null) {
+          return syscalls_.get(index);
+        } else {
+          return syscallsBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.SuspiciousSyscall syscalls = 7;</code>
+       */
+      public Builder setSyscalls(
+          int index, edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscall value) {
+        if (syscallsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureSyscallsIsMutable();
+          syscalls_.set(index, value);
+          onChanged();
+        } else {
+          syscallsBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.SuspiciousSyscall syscalls = 7;</code>
+       */
+      public Builder setSyscalls(
+          int index, edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscall.Builder builderForValue) {
+        if (syscallsBuilder_ == null) {
+          ensureSyscallsIsMutable();
+          syscalls_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          syscallsBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.SuspiciousSyscall syscalls = 7;</code>
+       */
+      public Builder addSyscalls(edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscall value) {
+        if (syscallsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureSyscallsIsMutable();
+          syscalls_.add(value);
+          onChanged();
+        } else {
+          syscallsBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.SuspiciousSyscall syscalls = 7;</code>
+       */
+      public Builder addSyscalls(
+          int index, edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscall value) {
+        if (syscallsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureSyscallsIsMutable();
+          syscalls_.add(index, value);
+          onChanged();
+        } else {
+          syscallsBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.SuspiciousSyscall syscalls = 7;</code>
+       */
+      public Builder addSyscalls(
+          edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscall.Builder builderForValue) {
+        if (syscallsBuilder_ == null) {
+          ensureSyscallsIsMutable();
+          syscalls_.add(builderForValue.build());
+          onChanged();
+        } else {
+          syscallsBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.SuspiciousSyscall syscalls = 7;</code>
+       */
+      public Builder addSyscalls(
+          int index, edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscall.Builder builderForValue) {
+        if (syscallsBuilder_ == null) {
+          ensureSyscallsIsMutable();
+          syscalls_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          syscallsBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.SuspiciousSyscall syscalls = 7;</code>
+       */
+      public Builder addAllSyscalls(
+          java.lang.Iterable<? extends edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscall> values) {
+        if (syscallsBuilder_ == null) {
+          ensureSyscallsIsMutable();
+          super.addAll(values, syscalls_);
+          onChanged();
+        } else {
+          syscallsBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.SuspiciousSyscall syscalls = 7;</code>
+       */
+      public Builder clearSyscalls() {
+        if (syscallsBuilder_ == null) {
+          syscalls_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000040);
+          onChanged();
+        } else {
+          syscallsBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.SuspiciousSyscall syscalls = 7;</code>
+       */
+      public Builder removeSyscalls(int index) {
+        if (syscallsBuilder_ == null) {
+          ensureSyscallsIsMutable();
+          syscalls_.remove(index);
+          onChanged();
+        } else {
+          syscallsBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.SuspiciousSyscall syscalls = 7;</code>
+       */
+      public edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscall.Builder getSyscallsBuilder(
+          int index) {
+        return getSyscallsFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.SuspiciousSyscall syscalls = 7;</code>
+       */
+      public edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscallOrBuilder getSyscallsOrBuilder(
+          int index) {
+        if (syscallsBuilder_ == null) {
+          return syscalls_.get(index);  } else {
+          return syscallsBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.SuspiciousSyscall syscalls = 7;</code>
+       */
+      public java.util.List<? extends edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscallOrBuilder> 
+           getSyscallsOrBuilderList() {
+        if (syscallsBuilder_ != null) {
+          return syscallsBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(syscalls_);
+        }
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.SuspiciousSyscall syscalls = 7;</code>
+       */
+      public edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscall.Builder addSyscallsBuilder() {
+        return getSyscallsFieldBuilder().addBuilder(
+            edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscall.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.SuspiciousSyscall syscalls = 7;</code>
+       */
+      public edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscall.Builder addSyscallsBuilder(
+          int index) {
+        return getSyscallsFieldBuilder().addBuilder(
+            index, edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscall.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .crowd_safe_data_analysis.SuspiciousSyscall syscalls = 7;</code>
+       */
+      public java.util.List<edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscall.Builder> 
+           getSyscallsBuilderList() {
+        return getSyscallsFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscall, edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscall.Builder, edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscallOrBuilder> 
+          getSyscallsFieldBuilder() {
+        if (syscallsBuilder_ == null) {
+          syscallsBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscall, edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscall.Builder, edu.uci.eecs.crowdsafe.common.data.results.Graph.SuspiciousSyscallOrBuilder>(
+                  syscalls_,
+                  ((bitField0_ & 0x00000040) == 0x00000040),
+                  getParentForChildren(),
+                  isClean());
+          syscalls_ = null;
+        }
+        return syscallsBuilder_;
+      }
+
       // @@protoc_insertion_point(builder_scope:crowd_safe_data_analysis.ProcessMetadata)
     }
 
@@ -12975,6 +14734,11 @@ public final class Graph {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_crowd_safe_data_analysis_UIBObservation_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_crowd_safe_data_analysis_SuspiciousGencodeEntry_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_crowd_safe_data_analysis_SuspiciousGencodeEntry_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_crowd_safe_data_analysis_ModuleMetadata_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -12989,6 +14753,11 @@ public final class Graph {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_crowd_safe_data_analysis_IntervalGroup_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_crowd_safe_data_analysis_SuspiciousSyscall_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_crowd_safe_data_analysis_SuspiciousSyscall_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_crowd_safe_data_analysis_ProcessMetadata_descriptor;
   private static
@@ -13040,33 +14809,40 @@ public final class Graph {
       "unt\030\002 \001(\005\"y\n\016UIBObservation\0226\n\004type\030\001 \001(" +
       "\0162(.crowd_safe_data_analysis.EvaluationT" +
       "ype\022\026\n\016instance_count\030\002 \001(\005\022\027\n\017traversal" +
-      "_count\030\003 \001(\005\"\345\002\n\016ModuleMetadata\022\027\n\017seque" +
-      "nce_id_low\030\001 \001(\003\022\030\n\020sequence_id_high\030\002 \001" +
-      "(\003\022\030\n\020execution_id_low\030\003 \001(\003\022\031\n\021executio",
-      "n_id_high\030\004 \001(\003\022\027\n\017execution_index\030\005 \001(\005" +
-      "\022@\n\016total_observed\030\006 \003(\0132(.crowd_safe_da" +
-      "ta_analysis.UIBObservation\022G\n\025intra_modu" +
-      "le_observed\030\007 \003(\0132(.crowd_safe_data_anal" +
-      "ysis.UIBObservation\022G\n\025inter_module_obse" +
-      "rved\030\010 \003(\0132(.crowd_safe_data_analysis.UI" +
-      "BObservation\"F\n\010Interval\022\014\n\004span\030\001 \001(\005\022\023" +
-      "\n\013occurrences\030\002 \001(\005\022\027\n\017max_consecutive\030\003" +
-      " \001(\005\"}\n\rIntervalGroup\0226\n\004type\030\001 \001(\0162(.cr" +
-      "owd_safe_data_analysis.EvaluationType\0224\n",
-      "\010interval\030\002 \003(\0132\".crowd_safe_data_analys" +
-      "is.Interval\"\323\001\n\017ProcessMetadata\022\027\n\017seque" +
-      "nce_id_low\030\001 \001(\003\022\030\n\020sequence_id_high\030\002 \001" +
-      "(\003\022\030\n\020execution_id_low\030\003 \001(\003\022\031\n\021executio" +
-      "n_id_high\030\004 \001(\003\022\027\n\017execution_index\030\005 \001(\005" +
-      "\022?\n\016interval_group\030\006 \003(\0132\'.crowd_safe_da" +
-      "ta_analysis.IntervalGroup*\223\001\n\010EdgeType\022\014" +
-      "\n\010INDIRECT\020\000\022\n\n\006DIRECT\020\001\022\025\n\021CALL_CONTINU" +
-      "ATION\020\002\022\032\n\026EXCEPTION_CONTINUATION\020\003\022\025\n\021U" +
-      "NEXPECTED_RETURN\020\004\022\020\n\014GENCODE_PERM\020\005\022\021\n\r",
-      "GENCODE_WRITE\020\006*E\n\016EvaluationType\022\r\n\tUIB" +
-      "_TOTAL\020\000\022\020\n\014UIB_ADMITTED\020\001\022\022\n\016UIB_SUSPIC" +
-      "IOUS\020\002B3\n*edu.uci.eecs.crowdsafe.common." +
-      "data.resultsB\005Graph"
+      "_count\030\003 \001(\005\"?\n\026SuspiciousGencodeEntry\022\021" +
+      "\n\tuib_count\030\001 \001(\005\022\022\n\nsuib_count\030\002 \001(\005\"\260\003" +
+      "\n\016ModuleMetadata\022\027\n\017sequence_id_low\030\001 \001(",
+      "\003\022\030\n\020sequence_id_high\030\002 \001(\003\022\030\n\020execution" +
+      "_id_low\030\003 \001(\003\022\031\n\021execution_id_high\030\004 \001(\003" +
+      "\022\027\n\017execution_index\030\005 \001(\005\022@\n\016total_obser" +
+      "ved\030\006 \003(\0132(.crowd_safe_data_analysis.UIB" +
+      "Observation\022G\n\025intra_module_observed\030\007 \003" +
+      "(\0132(.crowd_safe_data_analysis.UIBObserva" +
+      "tion\022G\n\025inter_module_observed\030\010 \003(\0132(.cr" +
+      "owd_safe_data_analysis.UIBObservation\022I\n" +
+      "\017gencode_entries\030\t \003(\01320.crowd_safe_data" +
+      "_analysis.SuspiciousGencodeEntry\"F\n\010Inte",
+      "rval\022\014\n\004span\030\001 \001(\005\022\023\n\013occurrences\030\002 \001(\005\022" +
+      "\027\n\017max_consecutive\030\003 \001(\005\"}\n\rIntervalGrou" +
+      "p\0226\n\004type\030\001 \001(\0162(.crowd_safe_data_analys" +
+      "is.EvaluationType\0224\n\010interval\030\002 \003(\0132\".cr" +
+      "owd_safe_data_analysis.Interval\"J\n\021Suspi" +
+      "ciousSyscall\022\016\n\006sysnum\030\001 \001(\005\022\021\n\tuib_coun" +
+      "t\030\002 \001(\005\022\022\n\nsuib_count\030\003 \001(\005\"\222\002\n\017ProcessM" +
+      "etadata\022\027\n\017sequence_id_low\030\001 \001(\003\022\030\n\020sequ" +
+      "ence_id_high\030\002 \001(\003\022\030\n\020execution_id_low\030\003" +
+      " \001(\003\022\031\n\021execution_id_high\030\004 \001(\003\022\027\n\017execu",
+      "tion_index\030\005 \001(\005\022?\n\016interval_group\030\006 \003(\013" +
+      "2\'.crowd_safe_data_analysis.IntervalGrou" +
+      "p\022=\n\010syscalls\030\007 \003(\0132+.crowd_safe_data_an" +
+      "alysis.SuspiciousSyscall*\223\001\n\010EdgeType\022\014\n" +
+      "\010INDIRECT\020\000\022\n\n\006DIRECT\020\001\022\025\n\021CALL_CONTINUA" +
+      "TION\020\002\022\032\n\026EXCEPTION_CONTINUATION\020\003\022\025\n\021UN" +
+      "EXPECTED_RETURN\020\004\022\020\n\014GENCODE_PERM\020\005\022\021\n\rG" +
+      "ENCODE_WRITE\020\006*E\n\016EvaluationType\022\r\n\tUIB_" +
+      "TOTAL\020\000\022\020\n\014UIB_ADMITTED\020\001\022\022\n\016UIB_SUSPICI" +
+      "OUS\020\002B3\n*edu.uci.eecs.crowdsafe.common.d",
+      "ata.resultsB\005Graph"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -13127,30 +14903,42 @@ public final class Graph {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_crowd_safe_data_analysis_UIBObservation_descriptor,
               new java.lang.String[] { "Type", "InstanceCount", "TraversalCount", });
-          internal_static_crowd_safe_data_analysis_ModuleMetadata_descriptor =
+          internal_static_crowd_safe_data_analysis_SuspiciousGencodeEntry_descriptor =
             getDescriptor().getMessageTypes().get(9);
+          internal_static_crowd_safe_data_analysis_SuspiciousGencodeEntry_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_crowd_safe_data_analysis_SuspiciousGencodeEntry_descriptor,
+              new java.lang.String[] { "UibCount", "SuibCount", });
+          internal_static_crowd_safe_data_analysis_ModuleMetadata_descriptor =
+            getDescriptor().getMessageTypes().get(10);
           internal_static_crowd_safe_data_analysis_ModuleMetadata_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_crowd_safe_data_analysis_ModuleMetadata_descriptor,
-              new java.lang.String[] { "SequenceIdLow", "SequenceIdHigh", "ExecutionIdLow", "ExecutionIdHigh", "ExecutionIndex", "TotalObserved", "IntraModuleObserved", "InterModuleObserved", });
+              new java.lang.String[] { "SequenceIdLow", "SequenceIdHigh", "ExecutionIdLow", "ExecutionIdHigh", "ExecutionIndex", "TotalObserved", "IntraModuleObserved", "InterModuleObserved", "GencodeEntries", });
           internal_static_crowd_safe_data_analysis_Interval_descriptor =
-            getDescriptor().getMessageTypes().get(10);
+            getDescriptor().getMessageTypes().get(11);
           internal_static_crowd_safe_data_analysis_Interval_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_crowd_safe_data_analysis_Interval_descriptor,
               new java.lang.String[] { "Span", "Occurrences", "MaxConsecutive", });
           internal_static_crowd_safe_data_analysis_IntervalGroup_descriptor =
-            getDescriptor().getMessageTypes().get(11);
+            getDescriptor().getMessageTypes().get(12);
           internal_static_crowd_safe_data_analysis_IntervalGroup_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_crowd_safe_data_analysis_IntervalGroup_descriptor,
               new java.lang.String[] { "Type", "Interval", });
+          internal_static_crowd_safe_data_analysis_SuspiciousSyscall_descriptor =
+            getDescriptor().getMessageTypes().get(13);
+          internal_static_crowd_safe_data_analysis_SuspiciousSyscall_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_crowd_safe_data_analysis_SuspiciousSyscall_descriptor,
+              new java.lang.String[] { "Sysnum", "UibCount", "SuibCount", });
           internal_static_crowd_safe_data_analysis_ProcessMetadata_descriptor =
-            getDescriptor().getMessageTypes().get(12);
+            getDescriptor().getMessageTypes().get(14);
           internal_static_crowd_safe_data_analysis_ProcessMetadata_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_crowd_safe_data_analysis_ProcessMetadata_descriptor,
-              new java.lang.String[] { "SequenceIdLow", "SequenceIdHigh", "ExecutionIdLow", "ExecutionIdHigh", "ExecutionIndex", "IntervalGroup", });
+              new java.lang.String[] { "SequenceIdLow", "SequenceIdHigh", "ExecutionIdLow", "ExecutionIdHigh", "ExecutionIndex", "IntervalGroup", "Syscalls", });
           return null;
         }
       };

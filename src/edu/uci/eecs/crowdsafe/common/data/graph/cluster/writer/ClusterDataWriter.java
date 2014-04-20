@@ -17,6 +17,8 @@ import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterNode;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.metadata.ClusterMetadata;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.metadata.ClusterMetadataExecution;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.metadata.ClusterMetadataSequence;
+import edu.uci.eecs.crowdsafe.common.data.graph.cluster.metadata.ClusterSGE;
+import edu.uci.eecs.crowdsafe.common.data.graph.cluster.metadata.ClusterSSC;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.metadata.ClusterUIB;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.metadata.ClusterUIBInterval;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.metadata.EvaluationType;
@@ -46,9 +48,9 @@ public class ClusterDataWriter<NodeType extends NodeIdentifier> {
 		EdgeType getEdgeType();
 
 		int getOrdinal();
-		
+
 		boolean isClusterEntry();
-		
+
 		boolean isClusterExit();
 	}
 
@@ -116,7 +118,7 @@ public class ClusterDataWriter<NodeType extends NodeIdentifier> {
 		word |= ((long) edge.getOrdinal()) << 0x3c;
 		edgeStream.writeLong(word);
 	}
-	
+
 	public void writeMetadataHeader(boolean isMain) throws IOException {
 		metaStream.writeLong(isMain ? 1L : 0L); // MAIN
 	}
@@ -128,9 +130,14 @@ public class ClusterDataWriter<NodeType extends NodeIdentifier> {
 		metaStream.writeLong(header);
 	}
 
-	public void writeExecutionMetadataHeader(UUID executionId, int uibCount, int intervalCount) throws IOException {
+	public void writeExecutionMetadataHeader(UUID executionId, int uibCount, int intervalCount, int sscCount,
+			int sgeCount) throws IOException {
 		long entryCounts = uibCount;
 		entryCounts |= (((long) intervalCount) << 0x20);
+		metaStream.writeLong(entryCounts);
+
+		entryCounts = sscCount;
+		entryCounts |= (((long) sgeCount) << 0x20);
 		metaStream.writeLong(entryCounts);
 
 		metaStream.writeLong(executionId.getMostSignificantBits());
@@ -144,7 +151,8 @@ public class ClusterDataWriter<NodeType extends NodeIdentifier> {
 		for (ClusterMetadataSequence sequence : metadata.sequences.values()) {
 			writeSequenceMetadataHeader(sequence.executions.size(), sequence.isRoot());
 			for (ClusterMetadataExecution execution : sequence.executions) {
-				writeExecutionMetadataHeader(execution.id, execution.uibs.size(), execution.getIntervalCount());
+				writeExecutionMetadataHeader(execution.id, execution.uibs.size(), execution.getIntervalCount(),
+						execution.getSuspiciousSyscallCount(), execution.getSuspiciousGencodeEntryCount());
 				for (ClusterUIB uib : execution.uibs) {
 					writeUIB(edgeIndexMap.get(uib.edge), uib.isAdmitted, uib.traversalCount, uib.instanceCount);
 				}
@@ -152,6 +160,12 @@ public class ClusterDataWriter<NodeType extends NodeIdentifier> {
 					for (ClusterUIBInterval interval : execution.getIntervals(type)) {
 						writeUIBInterval(interval.type.id, interval.span, interval.count, interval.maxConsecutive);
 					}
+				}
+				for (ClusterSSC ssc : execution.sscs) {
+					writeSSC(ssc.sysnum, ssc.uibCount, ssc.suibCount);
+				}
+				for (ClusterSGE sge : execution.sges) {
+					writeSGE(edgeIndexMap.get(sge.edge), sge.uibCount, sge.suibCount);
 				}
 			}
 		}
@@ -163,6 +177,20 @@ public class ClusterDataWriter<NodeType extends NodeIdentifier> {
 		word |= (((long) traversalCount) << 0x20);
 		if (isAdmitted)
 			word |= 0x8000000000000000L;
+		metaStream.writeLong(word);
+	}
+
+	public void writeSSC(int sysnum, int uibCount, int suibCount) throws IOException {
+		long word = sysnum;
+		word |= (((long) uibCount) << 0x10);
+		word |= (((long) suibCount) << 0x20);
+		metaStream.writeLong(word);
+	}
+
+	public void writeSGE(int edgeIndex, int uibCount, int suibCount) throws IOException {
+		long word = edgeIndex;
+		word |= (((long) (uibCount & 0xffff)) << 0x14);
+		word |= (((long) (suibCount & 0xffff)) << 0x24);
 		metaStream.writeLong(word);
 	}
 

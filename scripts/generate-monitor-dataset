@@ -3,7 +3,7 @@
 . $csc/scripts/cs-common
 
 function usage() {
-  echo "generate-monitor-dataset -o <output-dir> <cluster-graph-dir>"
+  echo "generate-monitor-dataset -o [ <output-dir> | <output-file> ] <cluster-graph-dir>"
 }
 
 check_help $1 usage

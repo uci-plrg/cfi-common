@@ -65,10 +65,11 @@ public class ClusterMetadata {
 		rootSequence.executions.get(0).retainMergedUIBs(mergedEdges);
 	}
 
-	public Graph.ProcessMetadata summarizeIntervals() {
+	public Graph.ProcessMetadata summarizeProcess() {
 		Graph.ProcessMetadata.Builder metadataBuilder = Graph.ProcessMetadata.newBuilder();
 		Graph.IntervalGroup.Builder intervalGroupBuilder = Graph.IntervalGroup.newBuilder();
 		Graph.Interval.Builder intervalBuilder = Graph.Interval.newBuilder();
+		Graph.SuspiciousSyscall.Builder syscallBuilder = Graph.SuspiciousSyscall.newBuilder();
 
 		ClusterMetadataExecution execution = rootSequence.executions.get(rootSequence.executions.size() - 1);
 		metadataBuilder.setSequenceIdHigh(rootSequence.id.getMostSignificantBits());
@@ -87,6 +88,14 @@ public class ClusterMetadata {
 			}
 			metadataBuilder.addIntervalGroup(intervalGroupBuilder.build());
 			intervalGroupBuilder.clear();
+		}
+		
+		for (ClusterSSC ssc : execution.sscs) {
+			syscallBuilder.setSysnum(ssc.sysnum);
+			syscallBuilder.setUibCount(ssc.uibCount);
+			syscallBuilder.setSuibCount(ssc.suibCount);
+			metadataBuilder.addSyscalls(syscallBuilder.build());
+			syscallBuilder.clear();
 		}
 
 		return metadataBuilder.build();

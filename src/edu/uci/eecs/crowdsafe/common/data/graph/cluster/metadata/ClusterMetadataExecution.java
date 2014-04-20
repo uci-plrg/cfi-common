@@ -20,6 +20,8 @@ public class ClusterMetadataExecution {
 	private Map<EvaluationType, List<ClusterUIBInterval>> intervals = null;
 
 	public final List<ClusterUIB> uibs = new ArrayList<ClusterUIB>();
+	public final List<ClusterSSC> sscs = new ArrayList<ClusterSSC>();
+	public final List<ClusterSGE> sges = new ArrayList<ClusterSGE>();
 
 	public ClusterMetadataExecution() {
 		this(UUID.randomUUID());
@@ -38,6 +40,14 @@ public class ClusterMetadataExecution {
 			count += group.size();
 		}
 		return count;
+	}
+
+	public int getSuspiciousSyscallCount() {
+		return sscs.size();
+	}
+
+	public int getSuspiciousGencodeEntryCount() {
+		return sges.size();
 	}
 
 	public List<ClusterUIBInterval> getIntervals(EvaluationType type) {

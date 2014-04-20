@@ -18,6 +18,7 @@ import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareUnit;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.metadata.ClusterMetadata;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.metadata.ClusterMetadataExecution;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.metadata.ClusterMetadataSequence;
+import edu.uci.eecs.crowdsafe.common.data.graph.cluster.metadata.ClusterSGE;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.metadata.ClusterUIB;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.metadata.EvaluationType;
 import edu.uci.eecs.crowdsafe.common.data.results.Graph;
@@ -428,6 +429,7 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 
 		Graph.ModuleMetadata.Builder metadataBuilder = Graph.ModuleMetadata.newBuilder();
 		Graph.UIBObservation.Builder uibBuilder = Graph.UIBObservation.newBuilder();
+		Graph.SuspiciousGencodeEntry.Builder sgeBuilder = Graph.SuspiciousGencodeEntry.newBuilder();
 
 		clusterBuilder.setDistributionName(cluster.name);
 		clusterBuilder.setNodeCount(getNodeCount());
@@ -559,6 +561,13 @@ public class ModuleGraphCluster<EdgeEndpointType extends Node<EdgeEndpointType>>
 						intraModuleTraversalCounts.get(EvaluationType.SUSPICIOUS).add(uib.traversalCount);
 					}
 				}
+			}
+			
+			for (ClusterSGE sge : execution.sges) {
+				sgeBuilder.setUibCount(sge.uibCount);
+				sgeBuilder.setSuibCount(sge.suibCount);
+				metadataBuilder.addGencodeEntries(sgeBuilder.build());
+				sgeBuilder.clear();
 			}
 		}
 

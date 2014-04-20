@@ -6,9 +6,9 @@ public class RawUnexpectedIndirectBranchInterval {
 		TOTAL(0),
 		ADMITTED(1),
 		SUSPICIOUS(2);
-		
+
 		public final int id;
-		
+
 		private Type(int id) {
 			this.id = id;
 		}
@@ -26,6 +26,16 @@ public class RawUnexpectedIndirectBranchInterval {
 		}
 	}
 
+	public static class Key {
+		public final Type type;
+		public final int span;
+
+		Key(Type type, int span) {
+			this.type = type;
+			this.span = span;
+		}
+	}
+
 	public static RawUnexpectedIndirectBranchInterval parse(long rawData) {
 		int typeId = ((int) ((rawData >> 8) & 0x3L));
 		int span = ((int) ((rawData >> 0xa) & 0x3fL));
@@ -34,14 +44,12 @@ public class RawUnexpectedIndirectBranchInterval {
 		return new RawUnexpectedIndirectBranchInterval(Type.forId(typeId), span, count, maxConsecutive);
 	}
 
-	public final Type type;
-	public final int span;
+	public final Key key;
 	public final int count;
 	public final int maxConsecutive;
 
 	public RawUnexpectedIndirectBranchInterval(Type type, int span, int count, int maxConsecutive) {
-		this.type = type;
-		this.span = span;
+		this.key = new Key(type, span);
 		this.count = count;
 		this.maxConsecutive = maxConsecutive;
 	}

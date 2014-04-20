@@ -12,7 +12,7 @@ public class RawUnexpectedIndirectBranch {
 
 		@Override
 		public int compare(RawUnexpectedIndirectBranch first, RawUnexpectedIndirectBranch second) {
-			return first.executionEdgeIndex - second.executionEdgeIndex;
+			return first.rawEdgeIndex - second.rawEdgeIndex;
 		}
 	}
 
@@ -33,7 +33,7 @@ public class RawUnexpectedIndirectBranch {
 		return new RawUnexpectedIndirectBranch(edgeIndex, isCrossModule, isAdmitted, traversalCount);
 	}
 
-	final int executionEdgeIndex;
+	final int rawEdgeIndex;
 	public final boolean isCrossModule;
 	private boolean isAdmitted;
 	private int traversalCount;
@@ -42,14 +42,14 @@ public class RawUnexpectedIndirectBranch {
 	RawEdge clusterEdge;
 
 	public RawUnexpectedIndirectBranch(int edgeIndex, boolean isCrossModule, boolean isAdmitted, int traversalCount) {
-		this.executionEdgeIndex = edgeIndex;
+		this.rawEdgeIndex = edgeIndex;
 		this.isCrossModule = isCrossModule;
 		this.isAdmitted = isAdmitted;
 		this.traversalCount = traversalCount;
 	}
 
 	public RawUnexpectedIndirectBranch(RawUnexpectedIndirectBranch copyMe) {
-		this.executionEdgeIndex = copyMe.executionEdgeIndex;
+		this.rawEdgeIndex = copyMe.rawEdgeIndex;
 		this.isCrossModule = copyMe.isCrossModule;
 		this.isAdmitted = copyMe.isAdmitted;
 		this.traversalCount = copyMe.traversalCount;
