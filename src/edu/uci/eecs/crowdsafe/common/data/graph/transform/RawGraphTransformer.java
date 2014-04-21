@@ -118,6 +118,8 @@ public class RawGraphTransformer {
 	private ClusterDataWriter.Directory<IndexedClusterNode> graphWriters = null;
 	private final Map<AutonomousSoftwareDistribution, RawClusterData> nodesByCluster = new HashMap<AutonomousSoftwareDistribution, RawClusterData>();
 	private final Map<AutonomousSoftwareDistribution, Map<RawEdge, RawEdge>> edgesByCluster = new HashMap<AutonomousSoftwareDistribution, Map<RawEdge, RawEdge>>();
+
+	private final Set<AutonomousSoftwareDistribution> metadataClusters = new HashSet<AutonomousSoftwareDistribution>();
 	private final Map<AutonomousSoftwareDistribution, UnexpectedIndirectBranches> uibsByCluster = new HashMap<AutonomousSoftwareDistribution, UnexpectedIndirectBranches>();
 	private final Map<AutonomousSoftwareDistribution, Set<RawSuspiciousGencodeEntry>> sgesByCluster = new HashMap<AutonomousSoftwareDistribution, Set<RawSuspiciousGencodeEntry>>();
 
@@ -610,6 +612,7 @@ public class RawGraphTransformer {
 		if (uibs == null) {
 			uibs = new UnexpectedIndirectBranches();
 			uibsByCluster.put(cluster, uibs);
+			metadataClusters.add(cluster);
 		}
 		return uibs;
 	}
@@ -619,6 +622,7 @@ public class RawGraphTransformer {
 		if (sges == null) {
 			sges = new HashSet<RawSuspiciousGencodeEntry>();
 			sgesByCluster.put(cluster, sges);
+			metadataClusters.add(cluster);
 		}
 		return sges;
 	}
@@ -706,24 +710,28 @@ public class RawGraphTransformer {
 		UnexpectedIndirectBranches uibsMain = null;
 		Set<RawSuspiciousGencodeEntry> sgesMain = null;
 		UUID executionId = UUID.randomUUID();
-		for (Map.Entry<AutonomousSoftwareDistribution, UnexpectedIndirectBranches> clusterUIBs : uibsByCluster
-				.entrySet()) {
-			UnexpectedIndirectBranches uibs = clusterUIBs.getValue();
-			Set<RawSuspiciousGencodeEntry> sges = sgesByCluster.get(clusterUIBs.getKey());
-			if (clusterUIBs.getKey() == mainCluster) {
+		for (AutonomousSoftwareDistribution cluster : metadataClusters) {
+			UnexpectedIndirectBranches uibs = uibsByCluster.get(cluster);
+			Set<RawSuspiciousGencodeEntry> sges = sgesByCluster.get(cluster);
+			if (cluster == mainCluster) {
 				uibsMain = uibs;
 				sgesMain = sges;
 				continue;
 			}
 
-			ClusterDataWriter<IndexedClusterNode> writer = graphWriters.getWriter(clusterUIBs.getKey());
+			ClusterDataWriter<IndexedClusterNode> writer = graphWriters.getWriter(cluster);
 			writer.writeMetadataHeader(false);
 			writer.writeSequenceMetadataHeader(1, true);
-			Collection<RawUnexpectedIndirectBranch> uibsSorted = uibs.sortAndMerge();
-			writer.writeExecutionMetadataHeader(executionId, uibsSorted.size(), 0, 0, (sges == null) ? 0 : sges.size());
-			for (RawUnexpectedIndirectBranch uib : uibsSorted)
-				writer.writeUIB(uib.getClusterEdgeIndex(), uib.isAdmitted(), uib.getTraversalCount(),
-						uib.getInstanceCount());
+			Collection<RawUnexpectedIndirectBranch> uibsSorted = null;
+			if (uibs != null)
+				uibsSorted = uibs.sortAndMerge();
+			writer.writeExecutionMetadataHeader(executionId, (uibsSorted == null) ? 0 : uibsSorted.size(), 0, 0,
+					(sges == null) ? 0 : sges.size());
+			if (uibsSorted != null) {
+				for (RawUnexpectedIndirectBranch uib : uibsSorted)
+					writer.writeUIB(uib.getClusterEdgeIndex(), uib.isAdmitted(), uib.getTraversalCount(),
+							uib.getInstanceCount());
+			}
 			if (sges != null) {
 				for (RawSuspiciousGencodeEntry sge : sges)
 					writer.writeSGE(sge.clusterEdge.getEdgeIndex(), sge.uibCount, sge.suibCount);

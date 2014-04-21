@@ -116,6 +116,7 @@ public class ClusterGraphMetadataLoader {
 			execution.sscs.add(ssc);
 		}
 
+		Log.log("Loading %d suspicious gencode entries.", sgeCount);
 		for (int i = 0; i < sgeCount; i++) {
 			long sgeData = input.readLong();
 			int edgeIndex = (int) (sgeData & 0xfffffL);
