@@ -63,21 +63,23 @@ public class ProcessModuleLoader {
 		final long blockLoadTime;
 		final long edgeLoadTime;
 		final long crossModuleEdgeLoadTime;
+		final long networkLoadTime;
 		final long endAddress;
 
 		public PendingModule(Matcher matcher) {
-			key = new PendingModuleKey(matcher.group(4).toLowerCase(), Long.parseLong(matcher.group(5), 16));
+			key = new PendingModuleKey(matcher.group(5).toLowerCase(), Long.parseLong(matcher.group(6), 16));
 			blockLoadTime = Long.parseLong(matcher.group(1));
 			edgeLoadTime = Long.parseLong(matcher.group(2));
 			crossModuleEdgeLoadTime = Long.parseLong(matcher.group(3));
-			endAddress = Long.parseLong(matcher.group(6), 16);
+			networkLoadTime = Long.parseLong(matcher.group(4));
+			endAddress = Long.parseLong(matcher.group(7), 16);
 		}
 	}
 
 	private static final Pattern LOAD_PARSER = Pattern
-			.compile("\\(([0-9]+),([0-9]+),([0-9]+)\\) Loaded module ([a-zA-Z_0-9~|<>\\-\\.\\+]+): 0x([0-9A-Fa-f]+) - 0x([0-9A-Fa-f]+)");
+			.compile("\\(([0-9]+),([0-9]+),([0-9]+)\\,([0-9]+)\\) Loaded module ([a-zA-Z_0-9~|<>\\-\\.\\+]+): 0x([0-9A-Fa-f]+) - 0x([0-9A-Fa-f]+)");
 	private static final Pattern UNLOAD_PARSER = Pattern
-			.compile("\\(([0-9]+),([0-9]+),([0-9]+)\\) Unloaded module ([a-zA-Z_0-9~|<>\\-\\.\\+]+): 0x([0-9A-Fa-f]+) - 0x([0-9A-Fa-f]+)");
+			.compile("\\(([0-9]+),([0-9]+),([0-9]+)\\,([0-9]+)\\) Unloaded module ([a-zA-Z_0-9~|<>\\-\\.\\+]+): 0x([0-9A-Fa-f]+) - 0x([0-9A-Fa-f]+)");
 
 	private final Map<PendingModuleKey, PendingModule> pendingModules = new HashMap<PendingModuleKey, PendingModule>();
 
@@ -106,15 +108,16 @@ public class ProcessModuleLoader {
 							"Module loader failed to match line '%s' against the unload pattern--exiting now!", line);
 				}
 
-				PendingModule pending = pendingModules.remove(new PendingModuleKey(matcher.group(4).toLowerCase(), Long
-						.parseLong(matcher.group(5), 16)));
+				PendingModule pending = pendingModules.remove(new PendingModuleKey(matcher.group(5).toLowerCase(), Long
+						.parseLong(matcher.group(6), 16)));
 				if (pending == null)
 					throw new InvalidGraphException(String.format("Cannot unload module %s, there is no such module.",
-							matcher.group(4).toLowerCase()));
+							matcher.group(5).toLowerCase()));
 
 				long blockUnloadTime = Long.parseLong(matcher.group(1));
 				long edgeUnloadTime = Long.parseLong(matcher.group(2));
 				long crossModuleEdgeUnloadTime = Long.parseLong(matcher.group(3));
+				long networkUnloadTime = Long.parseLong(matcher.group(4));
 
 				modules.add(new ModuleInstance(pending.key.unit, pending.key.startAddress, pending.endAddress,
 						pending.blockLoadTime, blockUnloadTime, pending.edgeLoadTime, edgeUnloadTime,
