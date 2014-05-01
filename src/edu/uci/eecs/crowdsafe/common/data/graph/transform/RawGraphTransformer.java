@@ -324,7 +324,8 @@ public class RawGraphTransformer {
 			ModuleInstance moduleInstance;
 			if (nodeType == MetaNodeType.SINGLETON) {
 				if ((absoluteTag == ClusterNode.PROCESS_ENTRY_SINGLETON)
-						|| (absoluteTag == ClusterNode.SYSTEM_SINGLETON)) {
+						|| (absoluteTag == ClusterNode.SYSTEM_SINGLETON)
+						|| (absoluteTag == ClusterNode.CHILD_PROCESS_SINGLETON)) {
 					moduleInstance = ModuleInstance.SYSTEM;
 				} else if ((absoluteTag >= ClusterNode.BLACK_BOX_SINGLETON_START)
 						&& (absoluteTag < ClusterNode.BLACK_BOX_SINGLETON_END)) {
@@ -352,7 +353,8 @@ public class RawGraphTransformer {
 			boolean isNewBlackBoxSingleton = false;
 			if (cluster.isAnonymous()) {
 				if ((absoluteTag == ClusterNode.PROCESS_ENTRY_SINGLETON)
-						|| (absoluteTag == ClusterNode.SYSTEM_SINGLETON)) {
+						|| (absoluteTag == ClusterNode.SYSTEM_SINGLETON)
+						|| (absoluteTag == ClusterNode.CHILD_PROCESS_SINGLETON)) {
 					clusterModule = establishClusterData(ConfiguredSoftwareDistributions.SYSTEM_CLUSTER).moduleList
 							.establishModule(SoftwareModule.SYSTEM_MODULE.unit);
 					cluster = ConfiguredSoftwareDistributions.SYSTEM_CLUSTER;
@@ -643,7 +645,8 @@ public class RawGraphTransformer {
 
 		ModuleInstance moduleInstance;
 		AutonomousSoftwareDistribution cluster;
-		if ((absoluteTag == ClusterNode.PROCESS_ENTRY_SINGLETON) || (absoluteTag == ClusterNode.SYSTEM_SINGLETON)) {
+		if ((absoluteTag == ClusterNode.PROCESS_ENTRY_SINGLETON) || (absoluteTag == ClusterNode.SYSTEM_SINGLETON)
+				|| (absoluteTag == ClusterNode.CHILD_PROCESS_SINGLETON)) {
 			moduleInstance = ModuleInstance.SYSTEM;
 			cluster = ConfiguredSoftwareDistributions.SYSTEM_CLUSTER;
 		} else if ((absoluteTag >= ClusterNode.BLACK_BOX_SINGLETON_START)

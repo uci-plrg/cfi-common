@@ -9,6 +9,7 @@ public abstract class ClusterNode<KeyType extends Node.Key> extends Node<Cluster
 
 	public static final int SYSTEM_SINGLETON = 1;
 	public static final int PROCESS_ENTRY_SINGLETON = 3;
+	public static final int CHILD_PROCESS_SINGLETON = 4;
 	public static final int BLACK_BOX_SINGLETON_START = 0x100;
 	public static final int BLACK_BOX_SINGLETON_END = BLACK_BOX_SINGLETON_START + 10;
 	public static final int SYSCALL_COUNT = 0x4000;

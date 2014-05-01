@@ -14,6 +14,7 @@ public class MonitorDataTransformer {
 	private static final OptionArgumentMap.StringOption logOption = OptionArgumentMap.createStringOption('l');
 	private static final OptionArgumentMap.StringOption outputOption = OptionArgumentMap.createStringOption('o',
 			OptionMode.REQUIRED);
+	private static final OptionArgumentMap.StringOption alarmConfigOption = OptionArgumentMap.createStringOption('a');
 
 	private final ArgumentStack args;
 	private final CommonMergeOptions options;
@@ -22,7 +23,7 @@ public class MonitorDataTransformer {
 		this.args = args;
 		this.options = new CommonMergeOptions(args, CommonMergeOptions.crowdSafeCommonDir,
 				CommonMergeOptions.restrictedClusterOption, CommonMergeOptions.unitClusterOption,
-				CommonMergeOptions.excludeClusterOption, verboseOption, logOption, outputOption);
+				CommonMergeOptions.excludeClusterOption, verboseOption, logOption, outputOption, alarmConfigOption);
 	}
 
 	private void run() {
@@ -53,7 +54,12 @@ public class MonitorDataTransformer {
 				printUsageAndExit();
 			}
 
-			MonitorDatasetGenerator generator = new MonitorDatasetGenerator(directory, outputFile);
+			File alarmConfigFile = null;
+			if (alarmConfigOption.hasValue()) {
+				alarmConfigFile = new File(alarmConfigOption.getValue());
+			}
+
+			MonitorDatasetGenerator generator = new MonitorDatasetGenerator(directory, outputFile, alarmConfigFile);
 			generator.generateDataset();
 		} catch (Throwable t) {
 			t.printStackTrace(System.err);

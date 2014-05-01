@@ -30,7 +30,6 @@ import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterNode;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.loader.ClusterGraphLoadSession;
 import edu.uci.eecs.crowdsafe.common.io.cluster.ClusterTraceDataSource;
 import edu.uci.eecs.crowdsafe.common.io.cluster.ClusterTraceDirectory;
-import edu.uci.eecs.crowdsafe.common.log.Log;
 
 public class MonitorDatasetGenerator {
 
@@ -93,7 +92,8 @@ public class MonitorDatasetGenerator {
 		IMAGE_NAMES("image-names"),
 		IMAGE_GRAPHS("image-graphs"),
 		ANONYMOUS_INDEX("anonymous-index"),
-		ANONYMOUS_GRAPH("anonymous-graph");
+		ANONYMOUS_GRAPH("anonymous-graph"),
+		ALARM_CONFIGURATION("alarm-configuration");
 
 		final String id;
 
@@ -120,6 +120,8 @@ public class MonitorDatasetGenerator {
 	private final List<AutonomousSoftwareDistribution> sortedImageClusters;
 	private final Map<Long, NodeList<ClusterNode<?>>> anonymousNodesBySortedHash;
 
+	private final AlarmConfiguration alarmConfiguration;
+
 	private final Map<MonitorFileSegment, File> outputFiles = new EnumMap<MonitorFileSegment, File>(
 			MonitorFileSegment.class);
 	private final File outputFile;
@@ -128,7 +130,7 @@ public class MonitorDatasetGenerator {
 	private int imageNamesSize;
 	private int imageDataSize;
 
-	public MonitorDatasetGenerator(File clusterDataDirectory, File outputFile) throws IOException {
+	public MonitorDatasetGenerator(File clusterDataDirectory, File outputFile, File alarmConfigFile) throws IOException {
 		this.clusterDataDirectory = clusterDataDirectory;
 
 		dataSource = new ClusterTraceDirectory(clusterDataDirectory).loadExistingFiles();
@@ -160,6 +162,11 @@ public class MonitorDatasetGenerator {
 			}
 		}
 
+		if (alarmConfigFile == null)
+			alarmConfiguration = null;
+		else
+			alarmConfiguration = new AlarmConfiguration(alarmConfigFile);
+
 		String baseFilename = outputFile.getName();
 		if (outputFile.getParentFile() == null)
 			outputFile = new File(new File("."), outputFile.getName());
@@ -190,6 +197,9 @@ public class MonitorDatasetGenerator {
 			generateAnonymousModule();
 			generateAnonymousIndex();
 		}
+
+		if (alarmConfiguration != null)
+			generateAlarmConfiguration();
 
 		generateConcatenationScript();
 	}
@@ -460,6 +470,29 @@ public class MonitorDatasetGenerator {
 		writer.conclude();
 	}
 
+	private void generateAlarmConfiguration() throws IOException {
+		LittleEndianCursorWriter writer = new LittleEndianCursorWriter(
+				outputFiles.get(MonitorFileSegment.ALARM_CONFIGURATION));
+
+		for (AlarmConfiguration.UnitPredicate predicate : AlarmConfiguration.UnitPredicate.values()) {
+			writer.writeInt(alarmConfiguration.predicateInstanceCounts.get(predicate));
+		}
+		for (AlarmConfiguration.UnitPredicate predicate : AlarmConfiguration.UnitPredicate.values()) {
+			writer.writeInt(alarmConfiguration.predicateInvocationCounts.get(predicate));
+		}
+		for (AlarmConfiguration.UIBInterval interval : AlarmConfiguration.UIBInterval.values()) {
+			writer.writeInt(alarmConfiguration.uibIntervalCounts.get(interval));
+		}
+		for (AlarmConfiguration.UIBInterval interval : AlarmConfiguration.UIBInterval.values()) {
+			writer.writeInt(alarmConfiguration.suibIntervalCounts.get(interval));
+		}
+		for (int i = 0; i < alarmConfiguration.suspiciousSyscallCounts.length; i++) {
+			writer.writeInt(alarmConfiguration.suspiciousSyscallCounts[i]);
+		}
+
+		writer.conclude();
+	}
+
 	private void generateConcatenationScript() throws IOException {
 		File script = new File(outputFile.getParentFile(), "concatenate");
 		script.setExecutable(true);
@@ -488,6 +521,12 @@ public class MonitorDatasetGenerator {
 			writer.println(String.format("cat %s >> %s", outputFiles.get(MonitorFileSegment.ANONYMOUS_GRAPH).getName(),
 					outputFile.getName()));
 			writer.println(String.format("rm %s", outputFiles.get(MonitorFileSegment.ANONYMOUS_GRAPH).getName()));
+		}
+
+		if (outputFiles.get(MonitorFileSegment.ALARM_CONFIGURATION).exists()) {
+			writer.println(String.format("cat %s >> %s", outputFiles.get(MonitorFileSegment.ALARM_CONFIGURATION)
+					.getName(), outputFile.getName()));
+			writer.println(String.format("rm %s", outputFiles.get(MonitorFileSegment.ALARM_CONFIGURATION).getName()));
 		}
 
 		writer.flush();
