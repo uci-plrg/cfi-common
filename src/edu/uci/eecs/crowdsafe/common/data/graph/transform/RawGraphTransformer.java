@@ -231,6 +231,9 @@ public class RawGraphTransformer {
 		transformEdges(ExecutionTraceStreamType.GRAPH_EDGE);
 		transformCrossModuleEdges(ExecutionTraceStreamType.CROSS_MODULE_EDGE);
 
+		Log.log("After transforming all elements, queues contains: %d intra-module, %d cross-module, %d gencode entry",
+				intraModuleUIBQueue.size(), crossModuleUIBQueue.size(), gencodeEntryQueue.size());
+
 		writeNodes();
 		writeEdges();
 		writeMetadata();
@@ -264,6 +267,9 @@ public class RawGraphTransformer {
 			switch (type) {
 				case UIB:
 					RawUnexpectedIndirectBranch uib = RawUnexpectedIndirectBranch.parse(nodeEntry.first);
+
+					Log.log("Loaded UIB #%d: %d traversals", uib.rawEdgeIndex, uib.getTraversalCount());
+
 					if (uib.isCrossModule)
 						crossModuleUIBQueue.add(uib);
 					else
@@ -480,9 +486,11 @@ public class RawGraphTransformer {
 				else
 					edge = addEdge(fromNodeId.cluster, fromNodeId, toNodeId, type, ordinal);
 
-				if ((edge != null) && (!intraModuleUIBQueue.isEmpty())
-						&& (intraModuleUIBQueue.peekFirst().rawEdgeIndex == entryIndex)) {
-					RawUnexpectedIndirectBranch uib = intraModuleUIBQueue.removeFirst();
+				RawUnexpectedIndirectBranch uib = null;
+				while (!intraModuleUIBQueue.isEmpty() && (intraModuleUIBQueue.peekFirst().rawEdgeIndex == entryIndex))
+					uib = intraModuleUIBQueue.removeFirst();
+					
+				if (uib != null) {
 					uib.clusterEdge = edge;
 					establishUIBs(fromNodeId.cluster).add(uib);
 				}
@@ -559,8 +567,11 @@ public class RawGraphTransformer {
 				if (toNodeId.cluster == ConfiguredSoftwareDistributions.SYSTEM_CLUSTER)
 					Log.log("Creating an edge into the system cluster: %s", rawExit);
 
-				if ((!crossModuleUIBQueue.isEmpty()) && (crossModuleUIBQueue.peekFirst().rawEdgeIndex == entryIndex)) {
-					RawUnexpectedIndirectBranch uib = crossModuleUIBQueue.removeFirst();
+				RawUnexpectedIndirectBranch uib = null;
+				while ((!crossModuleUIBQueue.isEmpty()) && (crossModuleUIBQueue.peekFirst().rawEdgeIndex == entryIndex))
+					uib = crossModuleUIBQueue.removeFirst();
+
+				if (uib != null) {
 					uib.clusterEdge = rawEntry;
 					establishUIBs(toNodeId.cluster).add(uib);
 
