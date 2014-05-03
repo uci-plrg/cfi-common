@@ -66,7 +66,7 @@ public class ClusterMetadataExecution {
 	public void retainMergedUIBs(Collection<Edge<ClusterNode<?>>> mergedEdges) {
 		for (int i = uibs.size() - 1; i >= 0; i--) {
 			if (!mergedEdges.contains(uibs.get(i).edge)) {
-				Log.log("Removing UIB %s because it was not merged", uibs.get(i).edge);
+				Log.log("Removing UIB (%d) %s because it was not merged", uibs.get(i).traversalCount, uibs.get(i).edge);
 				uibs.remove(i);
 			}
 		}

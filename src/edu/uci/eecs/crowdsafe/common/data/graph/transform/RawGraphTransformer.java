@@ -295,6 +295,9 @@ public class RawGraphTransformer {
 		Collections.sort(intraModuleUIBQueue, RawUnexpectedIndirectBranch.ExecutionEdgeIndexSorter.INSTANCE);
 		Collections.sort(crossModuleUIBQueue, RawUnexpectedIndirectBranch.ExecutionEdgeIndexSorter.INSTANCE);
 		Collections.sort(gencodeEntryQueue, RawSuspiciousGencodeEntry.ExecutionEdgeIndexSorter.INSTANCE);
+
+		Log.log("Queue sizes: %d IM, %d CM, %d GE", intraModuleUIBQueue.size(), crossModuleUIBQueue.size(),
+				gencodeEntryQueue.size());
 	}
 
 	private void transformNodes(ExecutionTraceStreamType streamType) throws IOException {
@@ -316,6 +319,13 @@ public class RawGraphTransformer {
 		nodeId = nodeData.addNode(node);
 		rawTag = new RawTag(ClusterNode.SYSTEM_SINGLETON, 0);
 		fakeAnonymousModuleTags.put(rawTag, ClusterNode.SYSTEM_SINGLETON);
+		nodesByRawTag.put(rawTag, nodeId);
+
+		node = new ClusterBasicBlock(SoftwareModule.SYSTEM_MODULE, ClusterNode.CHILD_PROCESS_SINGLETON, 0,
+				ClusterNode.CHILD_PROCESS_SINGLETON, MetaNodeType.SINGLETON);
+		nodeId = nodeData.addNode(node);
+		rawTag = new RawTag(ClusterNode.CHILD_PROCESS_SINGLETON, 0);
+		fakeAnonymousModuleTags.put(rawTag, ClusterNode.CHILD_PROCESS_SINGLETON);
 		nodesByRawTag.put(rawTag, nodeId);
 
 		long entryIndex = -1L;
@@ -489,7 +499,7 @@ public class RawGraphTransformer {
 				RawUnexpectedIndirectBranch uib = null;
 				while (!intraModuleUIBQueue.isEmpty() && (intraModuleUIBQueue.peekFirst().rawEdgeIndex == entryIndex))
 					uib = intraModuleUIBQueue.removeFirst();
-					
+
 				if (uib != null) {
 					uib.clusterEdge = edge;
 					establishUIBs(fromNodeId.cluster).add(uib);
