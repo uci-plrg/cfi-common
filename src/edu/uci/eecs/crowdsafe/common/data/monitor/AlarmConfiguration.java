@@ -61,15 +61,20 @@ public class AlarmConfiguration {
 			suibIntervalCounts.put(interval, getCount("suib*10^" + interval.order));
 		}
 
+    int defaultSyscallCount = getCount("ssc*");
 		for (int i = 0; i < suspiciousSyscallCounts.length; i++) {
-			suspiciousSyscallCounts[i] = getCount("ssc#" + i);
+			suspiciousSyscallCounts[i] = getCount("ssc#" + i, defaultSyscallCount);
 		}
 	}
 
 	private int getCount(String propertyName) {
+    return getCount(propertyName, 0);
+  }
+
+	private int getCount(String propertyName, int defaultCount) {
 		String number = configurationInput.getProperty(propertyName);
 		if (number == null)
-			return 0;
+			return defaultCount;
 		else
 			return Integer.parseInt(number);
 	}
