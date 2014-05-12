@@ -178,8 +178,8 @@ public class ClusterDataWriter<NodeType extends NodeIdentifier> {
 		if (isAdmitted)
 			word |= 0x8000000000000000L;
 		metaStream.writeLong(word);
-		
-		Log.log("Wrote UIB for edge #%d: %d traversals\n", edgeIndex, traversalCount);
+
+		// Log.log("Wrote UIB for edge #%d: %d traversals\n", edgeIndex, traversalCount);
 	}
 
 	public void writeSSC(int sysnum, int uibCount, int suibCount) throws IOException {

@@ -268,7 +268,7 @@ public class RawGraphTransformer {
 				case UIB:
 					RawUnexpectedIndirectBranch uib = RawUnexpectedIndirectBranch.parse(nodeEntry.first);
 
-					Log.log("Loaded UIB #%d: %d traversals", uib.rawEdgeIndex, uib.getTraversalCount());
+					// Log.log("Loaded UIB #%d: %d traversals", uib.rawEdgeIndex, uib.getTraversalCount());
 
 					if (uib.isCrossModule)
 						crossModuleUIBQueue.add(uib);
