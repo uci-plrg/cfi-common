@@ -463,6 +463,9 @@ public class RawGraphTransformer {
 			long absoluteToTag = CrowdSafeTraceUtil.getTag(edgeEntry.second);
 			int toTagVersion = CrowdSafeTraceUtil.getTagVersion(edgeEntry.second);
 			IndexedClusterNode toNodeId = identifyNode(absoluteToTag, toTagVersion, entryIndex, streamType);
+			
+			// if (type == EdgeType.UNEXPECTED_RETURN)
+			// Log.log("Loaded unexpected return from 0x%x to 0x%x", absoluteFromTag, absoluteToTag);
 
 			if (fromNodeId == null) {
 				if (toNodeId == null) {

@@ -4,6 +4,7 @@ import java.util.Comparator;
 
 import edu.uci.eecs.crowdsafe.common.data.graph.EdgeType;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.writer.ClusterDataWriter;
+import edu.uci.eecs.crowdsafe.common.log.Log;
 
 public class RawEdge implements ClusterDataWriter.Edge<IndexedClusterNode> {
 
@@ -27,6 +28,9 @@ public class RawEdge implements ClusterDataWriter.Edge<IndexedClusterNode> {
 		this.toNode = toNode;
 		this.type = type;
 		this.ordinal = ordinal;
+		
+		if (type == EdgeType.UNEXPECTED_RETURN)
+			Log.log("Loaded an unexpected return %s", this);
 	}
 
 	@Override
