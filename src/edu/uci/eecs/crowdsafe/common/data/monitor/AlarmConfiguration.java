@@ -51,19 +51,20 @@ public class AlarmConfiguration {
 	AlarmConfiguration(File configurationFile) throws FileNotFoundException, IOException {
 		configurationInput.load(new FileInputStream(configurationFile));
 
+    int defaultCount = getCount("*");
 		for (UnitPredicate unitPredicate : UnitPredicate.values()) {
-			predicateInstanceCounts.put(unitPredicate, getCount(unitPredicate.id + "-inst"));
-			predicateInvocationCounts.put(unitPredicate, getCount(unitPredicate.id + "-inv"));
+			predicateInstanceCounts.put(unitPredicate, getCount(unitPredicate.id + "-inst", defaultCount));
+			predicateInvocationCounts.put(unitPredicate, getCount(unitPredicate.id + "-inv", defaultCount));
 		}
 
 		for (UIBInterval interval : UIBInterval.values()) {
-			uibIntervalCounts.put(interval, getCount("uib*10^" + interval.order));
-			suibIntervalCounts.put(interval, getCount("suib*10^" + interval.order));
+			uibIntervalCounts.put(interval, getCount("uib*10^" + interval.order, defaultCount));
+			suibIntervalCounts.put(interval, getCount("suib*10^" + interval.order, defaultCount));
 		}
 
-    int defaultSyscallCount = getCount("ssc*");
+    int defaultSyscallCount = getCount("ssc*", defaultCount);
 		for (int i = 0; i < suspiciousSyscallCounts.length; i++) {
-			suspiciousSyscallCounts[i] = getCount("ssc#" + i, defaultSyscallCount);
+			suspiciousSyscallCounts[i] = getCount(String.format("ssc#0x%x", i), defaultSyscallCount);
 		}
 	}
 

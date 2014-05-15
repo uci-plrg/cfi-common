@@ -165,7 +165,13 @@ public class ClusterDataWriter<NodeType extends NodeIdentifier> {
 					writeSSC(ssc.sysnum, ssc.uibCount, ssc.suibCount);
 				}
 				for (ClusterSGE sge : execution.sges) {
-					writeSGE(edgeIndexMap.get(sge.edge), sge.uibCount, sge.suibCount);
+					Integer edgeIndex = edgeIndexMap.get(sge.edge);
+					if (edgeIndex == null) {
+						Log.log("Warning: cannot find the edge for a suspicious gencode entry (uib count %d, suib count %d)",
+								sge.uibCount, sge.suibCount);
+						edgeIndex = 0;
+					}
+					writeSGE(edgeIndex, sge.uibCount, sge.suibCount);
 				}
 			}
 		}

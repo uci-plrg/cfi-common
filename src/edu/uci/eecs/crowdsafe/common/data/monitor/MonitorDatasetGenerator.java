@@ -30,6 +30,7 @@ import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterNode;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.loader.ClusterGraphLoadSession;
 import edu.uci.eecs.crowdsafe.common.io.cluster.ClusterTraceDataSource;
 import edu.uci.eecs.crowdsafe.common.io.cluster.ClusterTraceDirectory;
+import edu.uci.eecs.crowdsafe.common.log.Log;
 
 public class MonitorDatasetGenerator {
 
@@ -193,10 +194,9 @@ public class MonitorDatasetGenerator {
 		generateModules();
 		generateImageIndex();
 
-		if (anonymousNodesBySortedHash != null) {
+		if (anonymousNodesBySortedHash != null)
 			generateAnonymousModule();
-			generateAnonymousIndex();
-		}
+		generateAnonymousIndex();
 
 		if (alarmConfiguration != null)
 			generateAlarmConfiguration();
@@ -391,12 +391,13 @@ public class MonitorDatasetGenerator {
 					for (Edge<ClusterNode<?>> edge : edges) {
 						if (edge.getFromNode().getType() == MetaNodeType.CLUSTER_ENTRY) {
 							exports.add(edge);
-							// if ((edge.getEdgeType() == EdgeType.GENCODE_PERM)
-							// || (edge.getEdgeType() == EdgeType.GENCODE_WRITE))
-							// Log.log("Exporting gencode edge %s", edge);
-						} // else if ((edge.getEdgeType() == EdgeType.GENCODE_PERM)
-						  // || (edge.getEdgeType() == EdgeType.GENCODE_WRITE))
-						  // Log.log("Not exporting gencode edge %s", edge);
+							if ((edge.getEdgeType() == EdgeType.GENCODE_PERM)
+									|| (edge.getEdgeType() == EdgeType.GENCODE_WRITE))
+								Log.log("Exporting gencode edge %s", edge);
+						} else if ((edge.getEdgeType() == EdgeType.GENCODE_PERM)
+								|| (edge.getEdgeType() == EdgeType.GENCODE_WRITE)) {
+							Log.log("Not exporting gencode edge %s", edge);
+						}
 					}
 				} finally {
 					edges.release();
@@ -462,9 +463,16 @@ public class MonitorDatasetGenerator {
 		LittleEndianCursorWriter writer = new LittleEndianCursorWriter(
 				outputFiles.get(MonitorFileSegment.ANONYMOUS_INDEX));
 
-		for (Long hash : anonymousNodesBySortedHash.keySet()) {
-			writer.writeLong(hash);
-			writer.writeInt(hashChainPointers.get(hash));
+		if ((anonymousNodesBySortedHash == null) || anonymousNodesBySortedHash.isEmpty()) {
+			writer.writeLong(0L);
+			writer.writeInt(0xf0f0f0f);
+			Log.log("Write empty anonymous graph index");
+		} else {
+			for (Long hash : anonymousNodesBySortedHash.keySet()) {
+				writer.writeLong(hash);
+				writer.writeInt(hashChainPointers.get(hash));
+			}
+			Log.log("Write anonymous graph index");
 		}
 
 		writer.conclude();
@@ -513,14 +521,16 @@ public class MonitorDatasetGenerator {
 				outputFile.getName()));
 		writer.println(String.format("rm %s", outputFiles.get(MonitorFileSegment.IMAGE_GRAPHS).getName()));
 
-		if (outputFiles.get(MonitorFileSegment.ANONYMOUS_GRAPH).exists()) {
+		if (outputFiles.get(MonitorFileSegment.ANONYMOUS_INDEX).exists()) {
 			writer.println(String.format("cat %s >> %s", outputFiles.get(MonitorFileSegment.ANONYMOUS_INDEX).getName(),
 					outputFile.getName()));
 			writer.println(String.format("rm %s", outputFiles.get(MonitorFileSegment.ANONYMOUS_INDEX).getName()));
 
-			writer.println(String.format("cat %s >> %s", outputFiles.get(MonitorFileSegment.ANONYMOUS_GRAPH).getName(),
-					outputFile.getName()));
-			writer.println(String.format("rm %s", outputFiles.get(MonitorFileSegment.ANONYMOUS_GRAPH).getName()));
+			if (outputFiles.get(MonitorFileSegment.ANONYMOUS_GRAPH).exists()) {
+				writer.println(String.format("cat %s >> %s", outputFiles.get(MonitorFileSegment.ANONYMOUS_GRAPH)
+						.getName(), outputFile.getName()));
+				writer.println(String.format("rm %s", outputFiles.get(MonitorFileSegment.ANONYMOUS_GRAPH).getName()));
+			}
 		}
 
 		if (outputFiles.get(MonitorFileSegment.ALARM_CONFIGURATION).exists()) {

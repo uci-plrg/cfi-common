@@ -9,7 +9,7 @@ function usage() {
 
 check_help $1 usage
 
-while getopts ":lo:q:a:" option
+while getopts ":l:o:q:a:" option
 do
   case $option in
     l ) logfile=$OPTARG;;
