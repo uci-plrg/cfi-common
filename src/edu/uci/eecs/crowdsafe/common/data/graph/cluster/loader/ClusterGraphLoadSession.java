@@ -94,11 +94,16 @@ public class ClusterGraphLoadSession {
 			try {
 				loadGraphNodes(modules);
 				loadEdges(modules);
-				loadMetadata();
 			} catch (IOException e) {
 				throw e;
 			} catch (Exception e) {
 				throw new InvalidGraphException(e);
+			}
+
+			try {
+				loadMetadata();
+			} catch (Throwable t) {
+				Log.log("Warning: failed to load the metadata from graph %s", cluster.name);
 			}
 
 			Log.log("Cluster %s loaded in %f seconds.", cluster.name, (System.currentTimeMillis() - start) / 1000.);
@@ -139,12 +144,12 @@ public class ClusterGraphLoadSession {
 
 						if (listener != null)
 							listener.edgeCreation(edge);
-						
+
 						edgeList.add(edge);
 					} catch (Throwable t) {
 						Log.log("%s while creating an edge. Skipping it for now! Message: %s", t.getClass()
 								.getSimpleName(), t.getMessage());
-						
+
 						edgeList.add(null);
 					}
 				}

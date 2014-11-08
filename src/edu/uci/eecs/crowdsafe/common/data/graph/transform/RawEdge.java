@@ -30,11 +30,7 @@ public class RawEdge implements ClusterDataWriter.Edge<IndexedClusterNode> {
 		this.ordinal = ordinal;
 		
 		if (type == EdgeType.UNEXPECTED_RETURN)
-<<<<<<< Updated upstream
-			Log.log("Loaded an unexpected return %s", this);
-=======
 			Log.log("Loaded UR %s", this);
->>>>>>> Stashed changes
 	}
 
 	@Override

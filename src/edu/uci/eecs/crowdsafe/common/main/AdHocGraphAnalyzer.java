@@ -3,9 +3,13 @@ package edu.uci.eecs.crowdsafe.common.main;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import edu.uci.eecs.crowdsafe.common.data.dist.AutonomousSoftwareDistribution;
+import edu.uci.eecs.crowdsafe.common.data.dist.ConfiguredSoftwareDistributions;
+import edu.uci.eecs.crowdsafe.common.data.dist.SoftwareUnit;
 import edu.uci.eecs.crowdsafe.common.data.graph.Edge;
 import edu.uci.eecs.crowdsafe.common.data.graph.EdgeType;
 import edu.uci.eecs.crowdsafe.common.data.graph.GraphLoadEventListener;
@@ -13,6 +17,8 @@ import edu.uci.eecs.crowdsafe.common.data.graph.MetaNodeType;
 import edu.uci.eecs.crowdsafe.common.data.graph.ModuleGraphCluster;
 import edu.uci.eecs.crowdsafe.common.data.graph.Node;
 import edu.uci.eecs.crowdsafe.common.data.graph.OrdinalEdgeList;
+import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterBoundaryNode;
+import edu.uci.eecs.crowdsafe.common.data.graph.cluster.ClusterNode;
 import edu.uci.eecs.crowdsafe.common.data.graph.cluster.loader.ClusterGraphLoadSession;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.ProcessExecutionGraph;
 import edu.uci.eecs.crowdsafe.common.data.graph.execution.loader.ProcessGraphLoadSession;
@@ -28,6 +34,8 @@ public class AdHocGraphAnalyzer {
 
 	class LoadListener implements GraphLoadEventListener {
 		final Map<Long, Integer> syscallNumbersByExportHash = new HashMap<Long, Integer>();
+		final Set<AutonomousSoftwareDistribution> blackBoxLinkedModules = new HashSet<AutonomousSoftwareDistribution>();
+		final Set<AutonomousSoftwareDistribution> whiteBoxLinkedModules = new HashSet<AutonomousSoftwareDistribution>();
 
 		public LoadListener() {
 			for (int i = 0; i < 4000; i++) {
@@ -37,14 +45,31 @@ public class AdHocGraphAnalyzer {
 
 		@Override
 		public void edgeCreation(Edge<?> edge) {
-			// Log.log("(Loaded edge %s)", edge);
+			if ((edge.getFromNode() instanceof ClusterBoundaryNode) && edge.getToNode().getModule().unit.isAnonymous) {
+				AutonomousSoftwareDistribution cluster = ConfiguredSoftwareDistributions.getInstance()
+						.getClusterByAnonymousEntryHash(edge.getFromNode().getHash());
+				if (((ClusterNode) edge.getToNode()).isBlackBoxSingleton())
+					blackBoxLinkedModules.add(cluster);
+				else
+					whiteBoxLinkedModules.add(cluster);
+			} else if ((edge.getToNode() instanceof ClusterBoundaryNode)
+					&& edge.getFromNode().getModule().unit.isAnonymous) {
+				AutonomousSoftwareDistribution cluster = ConfiguredSoftwareDistributions.getInstance()
+						.getClusterByAnonymousExitHash(edge.getToNode().getHash());
+				if (((ClusterNode) edge.getFromNode()).isBlackBoxSingleton())
+					blackBoxLinkedModules.add(cluster);
+				else
+					whiteBoxLinkedModules.add(cluster);
+			}
 
+			/**
+			 * <pre>
 			if (edge.getToNode().getType() == MetaNodeType.SINGLETON) {
 				// Log.log("Singleton %s has incoming edge %s", edge.getToNode(), edge);
 
-				Integer sysnum = syscallNumbersByExportHash.get(edge.getToNode().getHash());
-				if (sysnum != null) {
-					Log.log("Cluster exit %s calls sysnum %d", edge, sysnum);
+//				Integer sysnum = syscallNumbersByExportHash.get(edge.getToNode().getHash());
+//				if (sysnum != null) {
+//					Log.log("Cluster exit %s calls sysnum %d", edge, sysnum);
 					// } else {
 					// Log.log("Cluster exit %s calls no sysnums", edge);
 				}
@@ -91,6 +116,7 @@ public class AdHocGraphAnalyzer {
 					}
 				}
 			}
+			 */
 			/**
 			 * <pre>
 			else if ((edge.getToNode().getType() == MetaNodeType.CLUSTER_EXIT)
@@ -178,6 +204,9 @@ public class AdHocGraphAnalyzer {
 					mainGraph = graph;
 			}
 		}
+
+		Log.log("Total white box linked modules: " + listener.whiteBoxLinkedModules.size());
+		Log.log("Total black box linked modules: " + listener.blackBoxLinkedModules.size());
 	}
 
 	private void analyzeExecutionGraph(File directory) throws IOException {
