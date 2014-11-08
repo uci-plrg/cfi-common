@@ -65,8 +65,16 @@ public class ClusterGraphMetadataLoader {
 		int sscCount = (int) (entryCounts & 0x7fffffffL);
 		int sgeCount = (int) ((entryCounts >> 0x20) & 0x7fffffffL);
 
-		long executionIdHigh = input.readLong();
-		long executionIdLow = input.readLong();
+		long executionIdHigh, executionIdLow;
+
+		if (sscCount < 0 || sscCount > 1000) {
+			sscCount = sgeCount = 0;
+			executionIdHigh = entryCounts;
+		} else {
+			executionIdHigh = input.readLong();
+		}
+		executionIdLow = input.readLong();
+
 		UUID executionId = new UUID(executionIdHigh, executionIdLow);
 		ClusterMetadataExecution execution = new ClusterMetadataExecution(executionId);
 
