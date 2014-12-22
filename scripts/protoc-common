@@ -1,0 +1,4 @@
+#!/bin/bash
+
+cd $csc/..
+protoc --proto_path=crowd-safe-common/protos --java_out=crowd-safe-common/src crowd-safe-common/protos/statistics.proto
