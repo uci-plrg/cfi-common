@@ -5,8 +5,6 @@ import java.io.FileOutputStream;
 
 import com.google.protobuf.CodedOutputStream;
 
-import edu.uci.eecs.crowdsafe.common.data.results.Statistics.IntegerStatistic;
-
 public class ProtocolBufferTest {
 
 	public static void main(String[] args) {

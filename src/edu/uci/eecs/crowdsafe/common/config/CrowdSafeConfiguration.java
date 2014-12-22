@@ -1,18 +1,17 @@
 package edu.uci.eecs.crowdsafe.common.config;
 
-import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 public class CrowdSafeConfiguration {
 
-	public enum Environment {
-		CROWD_SAFE_MERGE_DIR("CROWD_SAFE_MERGE_DIR"),
-		CROWD_SAFE_COMMON_DIR("CROWD_SAFE_COMMON_DIR");
+	public static class Environment {
+
+		public static final Environment CROWD_SAFE_COMMON_DIR = new Environment("CROWD_SAFE_COMMON_DIR");
 
 		public final String name;
 
-		private Environment(String name) {
+		public Environment(String name) {
 			this.name = name;
 		}
 	}
@@ -31,16 +30,16 @@ public class CrowdSafeConfiguration {
 		return INSTANCE;
 	}
 
-	public static void initialize(Set<Environment> requiredEnvironment, OptionOverride... options) {
+	public static void initialize(Environment requiredEnvironment[], OptionOverride... options) {
 		INSTANCE = new CrowdSafeConfiguration();
 		INSTANCE.initializeImpl(requiredEnvironment, options);
 	}
 
-	private static CrowdSafeConfiguration INSTANCE;
+	protected static CrowdSafeConfiguration INSTANCE;
 
-	public final Map<Environment, String> environmentValues = new EnumMap<Environment, String>(Environment.class);
+	public final Map<Environment, String> environmentValues = new HashMap<Environment, String>();
 
-	private void initializeImpl(Set<Environment> requiredEnvironment, OptionOverride options[]) {
+	protected void initializeImpl(Environment requiredEnvironment[], OptionOverride options[]) {
 		for (OptionOverride option : options) {
 			environmentValues.put(option.variable, option.value);
 		}
