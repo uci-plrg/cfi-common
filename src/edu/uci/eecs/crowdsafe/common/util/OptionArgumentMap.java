@@ -87,6 +87,33 @@ public class OptionArgumentMap {
 		}
 	}
 
+	public static class IntegerOption extends Option<Integer> {
+		Integer value = Integer.MAX_VALUE;
+
+		public IntegerOption(Character id) {
+			super(id, OptionMode.OPTIONAL);
+		}
+
+		public IntegerOption(Character id, OptionMode mode) {
+			super(id, mode);
+		}
+
+		public IntegerOption(Character id, int defaultValue) {
+			super(id, OptionMode.OPTIONAL);
+			value = defaultValue;
+		}
+
+		@Override
+		public boolean hasValue() {
+			return value != Integer.MAX_VALUE;
+		}
+
+		@Override
+		public Integer getValue() {
+			return value;
+		}
+	}
+
 	public static StringOption createStringOption(char c) {
 		return new StringOption(c);
 	}
@@ -109,6 +136,18 @@ public class OptionArgumentMap {
 
 	public static BooleanOption createBooleanOption(char c, boolean defaultValue) {
 		return new BooleanOption(c, defaultValue);
+	}
+
+	public static IntegerOption createIntegerOption(char c) {
+		return new IntegerOption(c);
+	}
+
+	public static IntegerOption createIntegerOption(char c, OptionMode mode) {
+		return new IntegerOption(c, mode);
+	}
+
+	public static IntegerOption createIntegerOption(char c, int defaultValue) {
+		return new IntegerOption(c, defaultValue);
 	}
 
 	public static void populateOptions(ArgumentStack args, Option<?>... options) {
@@ -139,7 +178,7 @@ public class OptionArgumentMap {
 		map.put(option.id, option);
 
 		optionKey.append(option.id);
-		if (option instanceof StringOption) {
+		if (option instanceof StringOption || option instanceof IntegerOption) {
 			optionKey.append(":");
 		}
 	}
@@ -153,8 +192,10 @@ public class OptionArgumentMap {
 				throw new IllegalArgumentException("Unknown argument '" + (char) c + "'");
 			if (option instanceof StringOption)
 				((StringOption) option).value = options.getOptarg();
-			else
+			else if (option instanceof BooleanOption)
 				((BooleanOption) option).value = true;
+			else
+				((IntegerOption) option).value = Integer.parseInt(options.getOptarg());
 		}
 
 		for (Option<?> option : map.values()) {

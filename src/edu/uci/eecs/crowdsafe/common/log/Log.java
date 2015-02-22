@@ -11,6 +11,13 @@ import java.util.Set;
 
 public class Log {
 
+	public enum Level {
+		ERROR,
+		WARNING,
+		MESSAGE,
+		DETAIL
+	}
+
 	public static class OutputException extends RuntimeException {
 		public OutputException(Throwable t) {
 			super(t);
@@ -31,6 +38,11 @@ public class Log {
 	private static final List<PrintWriter> sharedOutputs = new ArrayList<PrintWriter>();
 	private static Set<Thread> sharedLogThreads = new HashSet<Thread>();
 	private static ThreadLog threadLog = null;
+	private static Level activeLevel = Level.ERROR;
+
+	public static void setLevel(Level level) {
+		Log.activeLevel = level;
+	}
 
 	public static void addOutput(OutputStream output) {
 		sharedLogThreads.add(Thread.currentThread());
@@ -92,6 +104,31 @@ public class Log {
 		} catch (Throwable t) {
 			throw new OutputException(t);
 		}
+	}
+
+	public static void error(String format, Object... args) {
+		log(Level.ERROR, format, args);
+	}
+
+	public static void warn(String format, Object... args) {
+		log(Level.WARNING, format, args);
+	}
+
+	public static void message(String format, Object... args) {
+		log(Level.MESSAGE, format, args);
+	}
+
+	public static void detail(String format, Object... args) {
+		log(Level.DETAIL, format, args);
+	}
+
+	public static void spot(String format, Object... args) {
+		log(format, args);
+	}
+
+	public static void log(Level level, String format, Object... args) {
+		if (level.ordinal() <= activeLevel.ordinal())
+			log(format, args);
 	}
 
 	public static void log(Throwable throwable) {
