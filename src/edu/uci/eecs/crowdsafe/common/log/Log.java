@@ -39,6 +39,11 @@ public class Log {
 	private static Set<Thread> sharedLogThreads = new HashSet<Thread>();
 	private static ThreadLog threadLog = null;
 	private static Level activeLevel = Level.ERROR;
+	private static boolean silent = false;
+	
+	public static void setSilent(boolean b) {
+		silent = b;
+	}
 
 	public static void setLevel(Level level) {
 		Log.activeLevel = level;
@@ -90,6 +95,9 @@ public class Log {
 	}
 
 	public static void log(String format, Object... args) {
+		if (silent)
+			return;
+		
 		if (getOutputs().isEmpty()) {
 			warnNoOutputs();
 			return;
@@ -132,6 +140,9 @@ public class Log {
 	}
 
 	public static void log(Throwable throwable) {
+		if (silent)
+			return;
+		
 		if (getOutputs().isEmpty()) {
 			warnNoOutputs();
 			return;
@@ -148,6 +159,9 @@ public class Log {
 	}
 
 	public static void sharedLog(String format, Object... args) {
+		if (silent)
+			return;
+		
 		if (sharedOutputs.isEmpty()) {
 			warnNoOutputs();
 			return;
@@ -165,6 +179,9 @@ public class Log {
 	}
 
 	public static void sharedLog(Throwable throwable) {
+		if (silent)
+			return;
+		
 		if (sharedOutputs.isEmpty()) {
 			warnNoOutputs();
 			return;
