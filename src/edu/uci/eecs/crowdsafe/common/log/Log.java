@@ -2,6 +2,7 @@ package edu.uci.eecs.crowdsafe.common.log;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -16,6 +17,11 @@ public class Log {
 		WARNING,
 		MESSAGE,
 		DETAIL
+	}
+
+	public enum FileMode {
+		OVERWRITE,
+		APPEND
 	}
 
 	public static class OutputException extends RuntimeException {
@@ -40,13 +46,17 @@ public class Log {
 	private static ThreadLog threadLog = null;
 	private static Level activeLevel = Level.ERROR;
 	private static boolean silent = false;
-	
+
 	public static void setSilent(boolean b) {
 		silent = b;
 	}
 
 	public static void setLevel(Level level) {
 		Log.activeLevel = level;
+	}
+
+	public static boolean isActive(Level level) {
+		return (level.ordinal() <= Log.activeLevel.ordinal());
 	}
 
 	public static void addOutput(OutputStream output) {
@@ -56,10 +66,14 @@ public class Log {
 	}
 
 	public static void addOutput(File file) {
+		addOutput(file, FileMode.OVERWRITE);
+	}
+
+	public static void addOutput(File file, FileMode mode) {
 		sharedLogThreads.add(Thread.currentThread());
 
 		try {
-			sharedOutputs.add(new PrintWriter(file));
+			sharedOutputs.add(new PrintWriter(new FileWriter(file, mode == FileMode.APPEND)));
 		} catch (Throwable t) {
 			throw new OutputException(t);
 		}
@@ -97,7 +111,7 @@ public class Log {
 	public static void log(String format, Object... args) {
 		if (silent)
 			return;
-		
+
 		if (getOutputs().isEmpty()) {
 			warnNoOutputs();
 			return;
@@ -142,7 +156,7 @@ public class Log {
 	public static void log(Throwable throwable) {
 		if (silent)
 			return;
-		
+
 		if (getOutputs().isEmpty()) {
 			warnNoOutputs();
 			return;
@@ -161,7 +175,7 @@ public class Log {
 	public static void sharedLog(String format, Object... args) {
 		if (silent)
 			return;
-		
+
 		if (sharedOutputs.isEmpty()) {
 			warnNoOutputs();
 			return;
@@ -181,7 +195,7 @@ public class Log {
 	public static void sharedLog(Throwable throwable) {
 		if (silent)
 			return;
-		
+
 		if (sharedOutputs.isEmpty()) {
 			warnNoOutputs();
 			return;

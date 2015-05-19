@@ -189,7 +189,8 @@ public class OptionArgumentMap {
 		while ((c = options.getopt()) != -1) {
 			Option<?> option = map.get((char) c);
 			if (option == null)
-				throw new IllegalArgumentException("Unknown argument '" + (char) c + "'");
+				throw new IllegalArgumentException("Unknown argument '" + (char) c
+						+ "'. Perhaps it was not registered in the argument map?");
 			if (option instanceof StringOption)
 				((StringOption) option).value = options.getOptarg();
 			else if (option instanceof BooleanOption)
