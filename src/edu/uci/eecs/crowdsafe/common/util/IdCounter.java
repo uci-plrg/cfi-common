@@ -1,5 +1,6 @@
 package edu.uci.eecs.crowdsafe.common.util;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,6 +10,7 @@ public class IdCounter<IdType> {
 		int count = 1;
 	}
 
+	private int size = 0;
 	private final Map<IdType, Counter> counters = new HashMap<IdType, Counter>();
 
 	public void increment(IdType id) {
@@ -18,7 +20,13 @@ public class IdCounter<IdType> {
 		} else {
 			counter.count++;
 		}
+		size++;
 	}
+	
+	public Collection<IdType> idSet() {
+		return counters.keySet();
+	}
+	
 	public int get(IdType id) {
 		Counter counter = counters.get(id);
 		if (counter == null) {
@@ -26,5 +34,13 @@ public class IdCounter<IdType> {
 		} else {
 			return counter.count;
 		}
+	}
+	
+	public int getIdCount() {
+		return counters.keySet().size();
+	}
+	
+	public int getTotalCount() {
+		return size;
 	}
 }

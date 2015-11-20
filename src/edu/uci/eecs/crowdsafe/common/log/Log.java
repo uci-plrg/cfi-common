@@ -44,7 +44,7 @@ public class Log {
 	private static final List<PrintWriter> sharedOutputs = new ArrayList<PrintWriter>();
 	private static Set<Thread> sharedLogThreads = new HashSet<Thread>();
 	private static ThreadLog threadLog = null;
-	private static Level activeLevel = Level.ERROR;
+	private static Level activeLevel = Level.WARNING;
 	private static boolean silent = false;
 
 	public static void setSilent(boolean b) {
