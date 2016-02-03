@@ -3,63 +3,70 @@
               Any modifications will be overwritten.
               To include a user specific buildfile here, simply create one in the same
               directory with the processing instruction <?eclipse.ant.import?>
-              as the first entry and export the buildfile again. -->
-<project basedir="." default="build" name="crowd-safe-common">
-	<property environment="env" />
-	<property name="crowd-safe-data-analysis.location" value="../crowd-safe-data-analysis" />
-	<property name="crowd-safe-trace-merge.location" value="../crowd-safe-trace-merge" />
+              as the first entry and export the buildfile again. --><project basedir="." default="build" name="crowd-safe-common">
+    <property environment="env"/>
+    <property name="crowd-safe-graph.location" value="../crowd-safe-graph"/>
+    <property name="crowd-safe-trace-merge.location" value="../crowd-safe-trace-merge"/>
 	<property name="dist" value="${basedir}/dist" />
 	<property name="bin" value="bin" />
-	<property name="debuglevel" value="source,lines,vars" />
-	<property name="target" value="1.7" />
-	<property name="source" value="1.7" />
-
-	<path id="crowd-safe-common.classpath">
-		<pathelement location="${bin}" />
-		<pathelement location="lib/guava-14.0.1.jar" />
-		<pathelement location="lib/java-getopt-1.0.14.jar" />
-		<pathelement location="lib/protobuf-java-2.5.0.jar" />
-	</path>
-
-	<target name="init">
-		<mkdir dir="${bin}" />
-		<copy includeemptydirs="false" todir="${bin}">
-			<fileset dir="src">
-				<exclude name="**/*.java" />
-			</fileset>
-		</copy>
-	</target>
-
-	<target name="clean">
-		<delete dir="${bin}" />
-	</target>
-
-	<target depends="clean" name="cleanall" />
-
-	<target depends="build-subprojects,build-project" name="build" />
-
-	<target name="build-subprojects" />
-
-	<target depends="init" name="build-project">
-		<echo message="${ant.project.name}: ${ant.file}" />
-		<javac debug="true" debuglevel="${debuglevel}" destdir="${bin}" includeantruntime="false" source="${source}" target="${target}">
-			<src path="src" />
-			<classpath refid="crowd-safe-common.classpath" />
-		</javac>
-	</target>
-
-	<target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects">
-		<ant antfile="build.xml" dir="${crowd-safe-data-analysis.location}" inheritAll="false" target="clean" />
-		<ant antfile="build.xml" dir="${crowd-safe-data-analysis.location}" inheritAll="false" target="build" />
-		<ant antfile="build.xml" dir="${crowd-safe-trace-merge.location}" inheritAll="false" target="clean" />
-		<ant antfile="build.xml" dir="${crowd-safe-trace-merge.location}" inheritAll="false" target="build" />
-	</target>
-
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="1.6"/>
+    <property name="source" value="1.6"/>
+    <path id="crowd-safe-common.classpath">
+        <pathelement location="bin"/>
+        <pathelement location="lib/guava-14.0.1.jar"/>
+        <pathelement location="lib/java-getopt-1.0.14.jar"/>
+        <pathelement location="lib/protobuf-java-2.5.0.jar"/>
+    </path>
+    <target name="init">
+        <mkdir dir="bin"/>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="src">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="clean">
+        <delete dir="bin"/>
+    </target>
+    <target depends="clean" name="cleanall"/>
+    <target depends="build-subprojects,build-project" name="build"/>
+    <target name="build-subprojects"/>
+    <target depends="init" name="build-project">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
+            <src path="src"/>
+            <classpath refid="crowd-safe-common.classpath"/>
+        </javac>
+    </target>
+    <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects">
+        <ant antfile="build.xml" dir="${crowd-safe-graph.location}" inheritAll="false" target="clean"/>
+        <ant antfile="build.xml" dir="${crowd-safe-graph.location}" inheritAll="false" target="build"/>
+        <ant antfile="build.xml" dir="${crowd-safe-trace-merge.location}" inheritAll="false" target="clean"/>
+        <ant antfile="build.xml" dir="${crowd-safe-trace-merge.location}" inheritAll="false" target="build"/>
+    </target>
+    <target name="MonitorDataTransformer">
+        <java classname="edu.uci.eecs.crowdsafe.common.main.MonitorDataTransformer" dir="../../experiments/train/notepad" failonerror="true" fork="yes">
+            <arg line="-o /stash/experiments/notepad.monitor.dat dataset.1"/>
+            <classpath refid="crowd-safe-common.classpath"/>
+        </java>
+    </target>
+    <target name="RawGraphTransformer">
+        <java classname="edu.uci.eecs.crowdsafe.common.data.graph.transform.RawGraphTransformer" dir="../../experiments/train/notepad" failonerror="true" fork="yes">
+            <arg line="-v -i notepad.3/notepad.02-40.2584-2584 -o cluster/notepad.3/temp"/>
+            <classpath refid="crowd-safe-common.classpath"/>
+        </java>
+    </target>
+    <target name="RelocationAnalyzer">
+        <java classname="edu.uci.eecs.crowdsafe.common.main.RelocationAnalyzer" dir="../../experiments/train/ppt" failonerror="true" fork="yes">
+            <arg line="-r relocations create/current-merge/dataset.test"/>
+            <classpath refid="crowd-safe-common.classpath"/>
+        </java>
+    </target>
 	<target depends="build-project" name="build-jar">
 		<mkdir dir="${dist}" />
 		<jar destfile="${dist}/${ant.project.name}.jar">
 			<fileset dir="${basedir}/${bin}" />
 		</jar>
 	</target>
-
 </project>

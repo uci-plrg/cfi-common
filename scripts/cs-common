@@ -73,7 +73,7 @@ alias echo="echo -e"
 
 if [ -z "$CROWD_SAFE_VM_ARGS" ]
 then
-  vm_args="-Xms512M -Xmx1536M"
+  vm_args="-Xms512M -Xmx3072M"
 else
   vm_args=$CROWD_SAFE_VM_ARGS
 fi
