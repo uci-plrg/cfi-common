@@ -51,7 +51,7 @@ function decode_project_dirs() {
   IFS=','
   for p in $project_codes
   do
-    project_dir="cs"$p
+    [[ "$p" =~ "^cs" ]] && project_dir="cs"$p || project_dir=$p
     project_dir=${!project_dir}
     project_dir=${project_dir%/}
     project_dirs=$project_dirs" "$project_dir
