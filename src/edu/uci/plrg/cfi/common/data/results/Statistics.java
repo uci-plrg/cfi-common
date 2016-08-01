@@ -36,108 +36,108 @@ public final class Statistics {
     com.google.protobuf.ByteString
         getNameBytes();
 
-    // repeated .cfi_common.IntegerStatistic int_stat = 3;
+    // repeated .cfi_data_analysis.IntegerStatistic int_stat = 3;
     /**
-     * <code>repeated .cfi_common.IntegerStatistic int_stat = 3;</code>
+     * <code>repeated .cfi_data_analysis.IntegerStatistic int_stat = 3;</code>
      */
     java.util.List<edu.uci.plrg.cfi.common.data.results.Statistics.IntegerStatistic> 
         getIntStatList();
     /**
-     * <code>repeated .cfi_common.IntegerStatistic int_stat = 3;</code>
+     * <code>repeated .cfi_data_analysis.IntegerStatistic int_stat = 3;</code>
      */
     edu.uci.plrg.cfi.common.data.results.Statistics.IntegerStatistic getIntStat(int index);
     /**
-     * <code>repeated .cfi_common.IntegerStatistic int_stat = 3;</code>
+     * <code>repeated .cfi_data_analysis.IntegerStatistic int_stat = 3;</code>
      */
     int getIntStatCount();
     /**
-     * <code>repeated .cfi_common.IntegerStatistic int_stat = 3;</code>
+     * <code>repeated .cfi_data_analysis.IntegerStatistic int_stat = 3;</code>
      */
     java.util.List<? extends edu.uci.plrg.cfi.common.data.results.Statistics.IntegerStatisticOrBuilder> 
         getIntStatOrBuilderList();
     /**
-     * <code>repeated .cfi_common.IntegerStatistic int_stat = 3;</code>
+     * <code>repeated .cfi_data_analysis.IntegerStatistic int_stat = 3;</code>
      */
     edu.uci.plrg.cfi.common.data.results.Statistics.IntegerStatisticOrBuilder getIntStatOrBuilder(
         int index);
 
-    // repeated .cfi_common.FloatStatistic float_stat = 4;
+    // repeated .cfi_data_analysis.FloatStatistic float_stat = 4;
     /**
-     * <code>repeated .cfi_common.FloatStatistic float_stat = 4;</code>
+     * <code>repeated .cfi_data_analysis.FloatStatistic float_stat = 4;</code>
      */
     java.util.List<edu.uci.plrg.cfi.common.data.results.Statistics.FloatStatistic> 
         getFloatStatList();
     /**
-     * <code>repeated .cfi_common.FloatStatistic float_stat = 4;</code>
+     * <code>repeated .cfi_data_analysis.FloatStatistic float_stat = 4;</code>
      */
     edu.uci.plrg.cfi.common.data.results.Statistics.FloatStatistic getFloatStat(int index);
     /**
-     * <code>repeated .cfi_common.FloatStatistic float_stat = 4;</code>
+     * <code>repeated .cfi_data_analysis.FloatStatistic float_stat = 4;</code>
      */
     int getFloatStatCount();
     /**
-     * <code>repeated .cfi_common.FloatStatistic float_stat = 4;</code>
+     * <code>repeated .cfi_data_analysis.FloatStatistic float_stat = 4;</code>
      */
     java.util.List<? extends edu.uci.plrg.cfi.common.data.results.Statistics.FloatStatisticOrBuilder> 
         getFloatStatOrBuilderList();
     /**
-     * <code>repeated .cfi_common.FloatStatistic float_stat = 4;</code>
+     * <code>repeated .cfi_data_analysis.FloatStatistic float_stat = 4;</code>
      */
     edu.uci.plrg.cfi.common.data.results.Statistics.FloatStatisticOrBuilder getFloatStatOrBuilder(
         int index);
 
-    // repeated .cfi_common.Ratio ratio = 5;
+    // repeated .cfi_data_analysis.Ratio ratio = 5;
     /**
-     * <code>repeated .cfi_common.Ratio ratio = 5;</code>
+     * <code>repeated .cfi_data_analysis.Ratio ratio = 5;</code>
      */
     java.util.List<edu.uci.plrg.cfi.common.data.results.Statistics.Ratio> 
         getRatioList();
     /**
-     * <code>repeated .cfi_common.Ratio ratio = 5;</code>
+     * <code>repeated .cfi_data_analysis.Ratio ratio = 5;</code>
      */
     edu.uci.plrg.cfi.common.data.results.Statistics.Ratio getRatio(int index);
     /**
-     * <code>repeated .cfi_common.Ratio ratio = 5;</code>
+     * <code>repeated .cfi_data_analysis.Ratio ratio = 5;</code>
      */
     int getRatioCount();
     /**
-     * <code>repeated .cfi_common.Ratio ratio = 5;</code>
+     * <code>repeated .cfi_data_analysis.Ratio ratio = 5;</code>
      */
     java.util.List<? extends edu.uci.plrg.cfi.common.data.results.Statistics.RatioOrBuilder> 
         getRatioOrBuilderList();
     /**
-     * <code>repeated .cfi_common.Ratio ratio = 5;</code>
+     * <code>repeated .cfi_data_analysis.Ratio ratio = 5;</code>
      */
     edu.uci.plrg.cfi.common.data.results.Statistics.RatioOrBuilder getRatioOrBuilder(
         int index);
 
-    // repeated .cfi_common.StatisticsTree child = 6;
+    // repeated .cfi_data_analysis.StatisticsTree child = 6;
     /**
-     * <code>repeated .cfi_common.StatisticsTree child = 6;</code>
+     * <code>repeated .cfi_data_analysis.StatisticsTree child = 6;</code>
      */
     java.util.List<edu.uci.plrg.cfi.common.data.results.Statistics.StatisticsTree> 
         getChildList();
     /**
-     * <code>repeated .cfi_common.StatisticsTree child = 6;</code>
+     * <code>repeated .cfi_data_analysis.StatisticsTree child = 6;</code>
      */
     edu.uci.plrg.cfi.common.data.results.Statistics.StatisticsTree getChild(int index);
     /**
-     * <code>repeated .cfi_common.StatisticsTree child = 6;</code>
+     * <code>repeated .cfi_data_analysis.StatisticsTree child = 6;</code>
      */
     int getChildCount();
     /**
-     * <code>repeated .cfi_common.StatisticsTree child = 6;</code>
+     * <code>repeated .cfi_data_analysis.StatisticsTree child = 6;</code>
      */
     java.util.List<? extends edu.uci.plrg.cfi.common.data.results.Statistics.StatisticsTreeOrBuilder> 
         getChildOrBuilderList();
     /**
-     * <code>repeated .cfi_common.StatisticsTree child = 6;</code>
+     * <code>repeated .cfi_data_analysis.StatisticsTree child = 6;</code>
      */
     edu.uci.plrg.cfi.common.data.results.Statistics.StatisticsTreeOrBuilder getChildOrBuilder(
         int index);
   }
   /**
-   * Protobuf type {@code cfi_common.StatisticsTree}
+   * Protobuf type {@code cfi_data_analysis.StatisticsTree}
    */
   public static final class StatisticsTree extends
       com.google.protobuf.GeneratedMessage
@@ -255,12 +255,12 @@ public final class Statistics {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return edu.uci.plrg.cfi.common.data.results.Statistics.internal_static_cfi_common_StatisticsTree_descriptor;
+      return edu.uci.plrg.cfi.common.data.results.Statistics.internal_static_cfi_data_analysis_StatisticsTree_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return edu.uci.plrg.cfi.common.data.results.Statistics.internal_static_cfi_common_StatisticsTree_fieldAccessorTable
+      return edu.uci.plrg.cfi.common.data.results.Statistics.internal_static_cfi_data_analysis_StatisticsTree_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               edu.uci.plrg.cfi.common.data.results.Statistics.StatisticsTree.class, edu.uci.plrg.cfi.common.data.results.Statistics.StatisticsTree.Builder.class);
     }
@@ -340,144 +340,144 @@ public final class Statistics {
       }
     }
 
-    // repeated .cfi_common.IntegerStatistic int_stat = 3;
+    // repeated .cfi_data_analysis.IntegerStatistic int_stat = 3;
     public static final int INT_STAT_FIELD_NUMBER = 3;
     private java.util.List<edu.uci.plrg.cfi.common.data.results.Statistics.IntegerStatistic> intStat_;
     /**
-     * <code>repeated .cfi_common.IntegerStatistic int_stat = 3;</code>
+     * <code>repeated .cfi_data_analysis.IntegerStatistic int_stat = 3;</code>
      */
     public java.util.List<edu.uci.plrg.cfi.common.data.results.Statistics.IntegerStatistic> getIntStatList() {
       return intStat_;
     }
     /**
-     * <code>repeated .cfi_common.IntegerStatistic int_stat = 3;</code>
+     * <code>repeated .cfi_data_analysis.IntegerStatistic int_stat = 3;</code>
      */
     public java.util.List<? extends edu.uci.plrg.cfi.common.data.results.Statistics.IntegerStatisticOrBuilder> 
         getIntStatOrBuilderList() {
       return intStat_;
     }
     /**
-     * <code>repeated .cfi_common.IntegerStatistic int_stat = 3;</code>
+     * <code>repeated .cfi_data_analysis.IntegerStatistic int_stat = 3;</code>
      */
     public int getIntStatCount() {
       return intStat_.size();
     }
     /**
-     * <code>repeated .cfi_common.IntegerStatistic int_stat = 3;</code>
+     * <code>repeated .cfi_data_analysis.IntegerStatistic int_stat = 3;</code>
      */
     public edu.uci.plrg.cfi.common.data.results.Statistics.IntegerStatistic getIntStat(int index) {
       return intStat_.get(index);
     }
     /**
-     * <code>repeated .cfi_common.IntegerStatistic int_stat = 3;</code>
+     * <code>repeated .cfi_data_analysis.IntegerStatistic int_stat = 3;</code>
      */
     public edu.uci.plrg.cfi.common.data.results.Statistics.IntegerStatisticOrBuilder getIntStatOrBuilder(
         int index) {
       return intStat_.get(index);
     }
 
-    // repeated .cfi_common.FloatStatistic float_stat = 4;
+    // repeated .cfi_data_analysis.FloatStatistic float_stat = 4;
     public static final int FLOAT_STAT_FIELD_NUMBER = 4;
     private java.util.List<edu.uci.plrg.cfi.common.data.results.Statistics.FloatStatistic> floatStat_;
     /**
-     * <code>repeated .cfi_common.FloatStatistic float_stat = 4;</code>
+     * <code>repeated .cfi_data_analysis.FloatStatistic float_stat = 4;</code>
      */
     public java.util.List<edu.uci.plrg.cfi.common.data.results.Statistics.FloatStatistic> getFloatStatList() {
       return floatStat_;
     }
     /**
-     * <code>repeated .cfi_common.FloatStatistic float_stat = 4;</code>
+     * <code>repeated .cfi_data_analysis.FloatStatistic float_stat = 4;</code>
      */
     public java.util.List<? extends edu.uci.plrg.cfi.common.data.results.Statistics.FloatStatisticOrBuilder> 
         getFloatStatOrBuilderList() {
       return floatStat_;
     }
     /**
-     * <code>repeated .cfi_common.FloatStatistic float_stat = 4;</code>
+     * <code>repeated .cfi_data_analysis.FloatStatistic float_stat = 4;</code>
      */
     public int getFloatStatCount() {
       return floatStat_.size();
     }
     /**
-     * <code>repeated .cfi_common.FloatStatistic float_stat = 4;</code>
+     * <code>repeated .cfi_data_analysis.FloatStatistic float_stat = 4;</code>
      */
     public edu.uci.plrg.cfi.common.data.results.Statistics.FloatStatistic getFloatStat(int index) {
       return floatStat_.get(index);
     }
     /**
-     * <code>repeated .cfi_common.FloatStatistic float_stat = 4;</code>
+     * <code>repeated .cfi_data_analysis.FloatStatistic float_stat = 4;</code>
      */
     public edu.uci.plrg.cfi.common.data.results.Statistics.FloatStatisticOrBuilder getFloatStatOrBuilder(
         int index) {
       return floatStat_.get(index);
     }
 
-    // repeated .cfi_common.Ratio ratio = 5;
+    // repeated .cfi_data_analysis.Ratio ratio = 5;
     public static final int RATIO_FIELD_NUMBER = 5;
     private java.util.List<edu.uci.plrg.cfi.common.data.results.Statistics.Ratio> ratio_;
     /**
-     * <code>repeated .cfi_common.Ratio ratio = 5;</code>
+     * <code>repeated .cfi_data_analysis.Ratio ratio = 5;</code>
      */
     public java.util.List<edu.uci.plrg.cfi.common.data.results.Statistics.Ratio> getRatioList() {
       return ratio_;
     }
     /**
-     * <code>repeated .cfi_common.Ratio ratio = 5;</code>
+     * <code>repeated .cfi_data_analysis.Ratio ratio = 5;</code>
      */
     public java.util.List<? extends edu.uci.plrg.cfi.common.data.results.Statistics.RatioOrBuilder> 
         getRatioOrBuilderList() {
       return ratio_;
     }
     /**
-     * <code>repeated .cfi_common.Ratio ratio = 5;</code>
+     * <code>repeated .cfi_data_analysis.Ratio ratio = 5;</code>
      */
     public int getRatioCount() {
       return ratio_.size();
     }
     /**
-     * <code>repeated .cfi_common.Ratio ratio = 5;</code>
+     * <code>repeated .cfi_data_analysis.Ratio ratio = 5;</code>
      */
     public edu.uci.plrg.cfi.common.data.results.Statistics.Ratio getRatio(int index) {
       return ratio_.get(index);
     }
     /**
-     * <code>repeated .cfi_common.Ratio ratio = 5;</code>
+     * <code>repeated .cfi_data_analysis.Ratio ratio = 5;</code>
      */
     public edu.uci.plrg.cfi.common.data.results.Statistics.RatioOrBuilder getRatioOrBuilder(
         int index) {
       return ratio_.get(index);
     }
 
-    // repeated .cfi_common.StatisticsTree child = 6;
+    // repeated .cfi_data_analysis.StatisticsTree child = 6;
     public static final int CHILD_FIELD_NUMBER = 6;
     private java.util.List<edu.uci.plrg.cfi.common.data.results.Statistics.StatisticsTree> child_;
     /**
-     * <code>repeated .cfi_common.StatisticsTree child = 6;</code>
+     * <code>repeated .cfi_data_analysis.StatisticsTree child = 6;</code>
      */
     public java.util.List<edu.uci.plrg.cfi.common.data.results.Statistics.StatisticsTree> getChildList() {
       return child_;
     }
     /**
-     * <code>repeated .cfi_common.StatisticsTree child = 6;</code>
+     * <code>repeated .cfi_data_analysis.StatisticsTree child = 6;</code>
      */
     public java.util.List<? extends edu.uci.plrg.cfi.common.data.results.Statistics.StatisticsTreeOrBuilder> 
         getChildOrBuilderList() {
       return child_;
     }
     /**
-     * <code>repeated .cfi_common.StatisticsTree child = 6;</code>
+     * <code>repeated .cfi_data_analysis.StatisticsTree child = 6;</code>
      */
     public int getChildCount() {
       return child_.size();
     }
     /**
-     * <code>repeated .cfi_common.StatisticsTree child = 6;</code>
+     * <code>repeated .cfi_data_analysis.StatisticsTree child = 6;</code>
      */
     public edu.uci.plrg.cfi.common.data.results.Statistics.StatisticsTree getChild(int index) {
       return child_.get(index);
     }
     /**
-     * <code>repeated .cfi_common.StatisticsTree child = 6;</code>
+     * <code>repeated .cfi_data_analysis.StatisticsTree child = 6;</code>
      */
     public edu.uci.plrg.cfi.common.data.results.Statistics.StatisticsTreeOrBuilder getChildOrBuilder(
         int index) {
@@ -634,19 +634,19 @@ public final class Statistics {
       return builder;
     }
     /**
-     * Protobuf type {@code cfi_common.StatisticsTree}
+     * Protobuf type {@code cfi_data_analysis.StatisticsTree}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
        implements edu.uci.plrg.cfi.common.data.results.Statistics.StatisticsTreeOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return edu.uci.plrg.cfi.common.data.results.Statistics.internal_static_cfi_common_StatisticsTree_descriptor;
+        return edu.uci.plrg.cfi.common.data.results.Statistics.internal_static_cfi_data_analysis_StatisticsTree_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return edu.uci.plrg.cfi.common.data.results.Statistics.internal_static_cfi_common_StatisticsTree_fieldAccessorTable
+        return edu.uci.plrg.cfi.common.data.results.Statistics.internal_static_cfi_data_analysis_StatisticsTree_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
                 edu.uci.plrg.cfi.common.data.results.Statistics.StatisticsTree.class, edu.uci.plrg.cfi.common.data.results.Statistics.StatisticsTree.Builder.class);
       }
@@ -712,7 +712,7 @@ public final class Statistics {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return edu.uci.plrg.cfi.common.data.results.Statistics.internal_static_cfi_common_StatisticsTree_descriptor;
+        return edu.uci.plrg.cfi.common.data.results.Statistics.internal_static_cfi_data_analysis_StatisticsTree_descriptor;
       }
 
       public edu.uci.plrg.cfi.common.data.results.Statistics.StatisticsTree getDefaultInstanceForType() {
@@ -1037,7 +1037,7 @@ public final class Statistics {
         return this;
       }
 
-      // repeated .cfi_common.IntegerStatistic int_stat = 3;
+      // repeated .cfi_data_analysis.IntegerStatistic int_stat = 3;
       private java.util.List<edu.uci.plrg.cfi.common.data.results.Statistics.IntegerStatistic> intStat_ =
         java.util.Collections.emptyList();
       private void ensureIntStatIsMutable() {
@@ -1051,7 +1051,7 @@ public final class Statistics {
           edu.uci.plrg.cfi.common.data.results.Statistics.IntegerStatistic, edu.uci.plrg.cfi.common.data.results.Statistics.IntegerStatistic.Builder, edu.uci.plrg.cfi.common.data.results.Statistics.IntegerStatisticOrBuilder> intStatBuilder_;
 
       /**
-       * <code>repeated .cfi_common.IntegerStatistic int_stat = 3;</code>
+       * <code>repeated .cfi_data_analysis.IntegerStatistic int_stat = 3;</code>
        */
       public java.util.List<edu.uci.plrg.cfi.common.data.results.Statistics.IntegerStatistic> getIntStatList() {
         if (intStatBuilder_ == null) {
@@ -1061,7 +1061,7 @@ public final class Statistics {
         }
       }
       /**
-       * <code>repeated .cfi_common.IntegerStatistic int_stat = 3;</code>
+       * <code>repeated .cfi_data_analysis.IntegerStatistic int_stat = 3;</code>
        */
       public int getIntStatCount() {
         if (intStatBuilder_ == null) {
@@ -1071,7 +1071,7 @@ public final class Statistics {
         }
       }
       /**
-       * <code>repeated .cfi_common.IntegerStatistic int_stat = 3;</code>
+       * <code>repeated .cfi_data_analysis.IntegerStatistic int_stat = 3;</code>
        */
       public edu.uci.plrg.cfi.common.data.results.Statistics.IntegerStatistic getIntStat(int index) {
         if (intStatBuilder_ == null) {
@@ -1081,7 +1081,7 @@ public final class Statistics {
         }
       }
       /**
-       * <code>repeated .cfi_common.IntegerStatistic int_stat = 3;</code>
+       * <code>repeated .cfi_data_analysis.IntegerStatistic int_stat = 3;</code>
        */
       public Builder setIntStat(
           int index, edu.uci.plrg.cfi.common.data.results.Statistics.IntegerStatistic value) {
@@ -1098,7 +1098,7 @@ public final class Statistics {
         return this;
       }
       /**
-       * <code>repeated .cfi_common.IntegerStatistic int_stat = 3;</code>
+       * <code>repeated .cfi_data_analysis.IntegerStatistic int_stat = 3;</code>
        */
       public Builder setIntStat(
           int index, edu.uci.plrg.cfi.common.data.results.Statistics.IntegerStatistic.Builder builderForValue) {
@@ -1112,7 +1112,7 @@ public final class Statistics {
         return this;
       }
       /**
-       * <code>repeated .cfi_common.IntegerStatistic int_stat = 3;</code>
+       * <code>repeated .cfi_data_analysis.IntegerStatistic int_stat = 3;</code>
        */
       public Builder addIntStat(edu.uci.plrg.cfi.common.data.results.Statistics.IntegerStatistic value) {
         if (intStatBuilder_ == null) {
@@ -1128,7 +1128,7 @@ public final class Statistics {
         return this;
       }
       /**
-       * <code>repeated .cfi_common.IntegerStatistic int_stat = 3;</code>
+       * <code>repeated .cfi_data_analysis.IntegerStatistic int_stat = 3;</code>
        */
       public Builder addIntStat(
           int index, edu.uci.plrg.cfi.common.data.results.Statistics.IntegerStatistic value) {
@@ -1145,7 +1145,7 @@ public final class Statistics {
         return this;
       }
       /**
-       * <code>repeated .cfi_common.IntegerStatistic int_stat = 3;</code>
+       * <code>repeated .cfi_data_analysis.IntegerStatistic int_stat = 3;</code>
        */
       public Builder addIntStat(
           edu.uci.plrg.cfi.common.data.results.Statistics.IntegerStatistic.Builder builderForValue) {
@@ -1159,7 +1159,7 @@ public final class Statistics {
         return this;
       }
       /**
-       * <code>repeated .cfi_common.IntegerStatistic int_stat = 3;</code>
+       * <code>repeated .cfi_data_analysis.IntegerStatistic int_stat = 3;</code>
        */
       public Builder addIntStat(
           int index, edu.uci.plrg.cfi.common.data.results.Statistics.IntegerStatistic.Builder builderForValue) {
@@ -1173,7 +1173,7 @@ public final class Statistics {
         return this;
       }
       /**
-       * <code>repeated .cfi_common.IntegerStatistic int_stat = 3;</code>
+       * <code>repeated .cfi_data_analysis.IntegerStatistic int_stat = 3;</code>
        */
       public Builder addAllIntStat(
           java.lang.Iterable<? extends edu.uci.plrg.cfi.common.data.results.Statistics.IntegerStatistic> values) {
@@ -1187,7 +1187,7 @@ public final class Statistics {
         return this;
       }
       /**
-       * <code>repeated .cfi_common.IntegerStatistic int_stat = 3;</code>
+       * <code>repeated .cfi_data_analysis.IntegerStatistic int_stat = 3;</code>
        */
       public Builder clearIntStat() {
         if (intStatBuilder_ == null) {
@@ -1200,7 +1200,7 @@ public final class Statistics {
         return this;
       }
       /**
-       * <code>repeated .cfi_common.IntegerStatistic int_stat = 3;</code>
+       * <code>repeated .cfi_data_analysis.IntegerStatistic int_stat = 3;</code>
        */
       public Builder removeIntStat(int index) {
         if (intStatBuilder_ == null) {
@@ -1213,14 +1213,14 @@ public final class Statistics {
         return this;
       }
       /**
-       * <code>repeated .cfi_common.IntegerStatistic int_stat = 3;</code>
+       * <code>repeated .cfi_data_analysis.IntegerStatistic int_stat = 3;</code>
        */
       public edu.uci.plrg.cfi.common.data.results.Statistics.IntegerStatistic.Builder getIntStatBuilder(
           int index) {
         return getIntStatFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .cfi_common.IntegerStatistic int_stat = 3;</code>
+       * <code>repeated .cfi_data_analysis.IntegerStatistic int_stat = 3;</code>
        */
       public edu.uci.plrg.cfi.common.data.results.Statistics.IntegerStatisticOrBuilder getIntStatOrBuilder(
           int index) {
@@ -1230,7 +1230,7 @@ public final class Statistics {
         }
       }
       /**
-       * <code>repeated .cfi_common.IntegerStatistic int_stat = 3;</code>
+       * <code>repeated .cfi_data_analysis.IntegerStatistic int_stat = 3;</code>
        */
       public java.util.List<? extends edu.uci.plrg.cfi.common.data.results.Statistics.IntegerStatisticOrBuilder> 
            getIntStatOrBuilderList() {
@@ -1241,14 +1241,14 @@ public final class Statistics {
         }
       }
       /**
-       * <code>repeated .cfi_common.IntegerStatistic int_stat = 3;</code>
+       * <code>repeated .cfi_data_analysis.IntegerStatistic int_stat = 3;</code>
        */
       public edu.uci.plrg.cfi.common.data.results.Statistics.IntegerStatistic.Builder addIntStatBuilder() {
         return getIntStatFieldBuilder().addBuilder(
             edu.uci.plrg.cfi.common.data.results.Statistics.IntegerStatistic.getDefaultInstance());
       }
       /**
-       * <code>repeated .cfi_common.IntegerStatistic int_stat = 3;</code>
+       * <code>repeated .cfi_data_analysis.IntegerStatistic int_stat = 3;</code>
        */
       public edu.uci.plrg.cfi.common.data.results.Statistics.IntegerStatistic.Builder addIntStatBuilder(
           int index) {
@@ -1256,7 +1256,7 @@ public final class Statistics {
             index, edu.uci.plrg.cfi.common.data.results.Statistics.IntegerStatistic.getDefaultInstance());
       }
       /**
-       * <code>repeated .cfi_common.IntegerStatistic int_stat = 3;</code>
+       * <code>repeated .cfi_data_analysis.IntegerStatistic int_stat = 3;</code>
        */
       public java.util.List<edu.uci.plrg.cfi.common.data.results.Statistics.IntegerStatistic.Builder> 
            getIntStatBuilderList() {
@@ -1277,7 +1277,7 @@ public final class Statistics {
         return intStatBuilder_;
       }
 
-      // repeated .cfi_common.FloatStatistic float_stat = 4;
+      // repeated .cfi_data_analysis.FloatStatistic float_stat = 4;
       private java.util.List<edu.uci.plrg.cfi.common.data.results.Statistics.FloatStatistic> floatStat_ =
         java.util.Collections.emptyList();
       private void ensureFloatStatIsMutable() {
@@ -1291,7 +1291,7 @@ public final class Statistics {
           edu.uci.plrg.cfi.common.data.results.Statistics.FloatStatistic, edu.uci.plrg.cfi.common.data.results.Statistics.FloatStatistic.Builder, edu.uci.plrg.cfi.common.data.results.Statistics.FloatStatisticOrBuilder> floatStatBuilder_;
 
       /**
-       * <code>repeated .cfi_common.FloatStatistic float_stat = 4;</code>
+       * <code>repeated .cfi_data_analysis.FloatStatistic float_stat = 4;</code>
        */
       public java.util.List<edu.uci.plrg.cfi.common.data.results.Statistics.FloatStatistic> getFloatStatList() {
         if (floatStatBuilder_ == null) {
@@ -1301,7 +1301,7 @@ public final class Statistics {
         }
       }
       /**
-       * <code>repeated .cfi_common.FloatStatistic float_stat = 4;</code>
+       * <code>repeated .cfi_data_analysis.FloatStatistic float_stat = 4;</code>
        */
       public int getFloatStatCount() {
         if (floatStatBuilder_ == null) {
@@ -1311,7 +1311,7 @@ public final class Statistics {
         }
       }
       /**
-       * <code>repeated .cfi_common.FloatStatistic float_stat = 4;</code>
+       * <code>repeated .cfi_data_analysis.FloatStatistic float_stat = 4;</code>
        */
       public edu.uci.plrg.cfi.common.data.results.Statistics.FloatStatistic getFloatStat(int index) {
         if (floatStatBuilder_ == null) {
@@ -1321,7 +1321,7 @@ public final class Statistics {
         }
       }
       /**
-       * <code>repeated .cfi_common.FloatStatistic float_stat = 4;</code>
+       * <code>repeated .cfi_data_analysis.FloatStatistic float_stat = 4;</code>
        */
       public Builder setFloatStat(
           int index, edu.uci.plrg.cfi.common.data.results.Statistics.FloatStatistic value) {
@@ -1338,7 +1338,7 @@ public final class Statistics {
         return this;
       }
       /**
-       * <code>repeated .cfi_common.FloatStatistic float_stat = 4;</code>
+       * <code>repeated .cfi_data_analysis.FloatStatistic float_stat = 4;</code>
        */
       public Builder setFloatStat(
           int index, edu.uci.plrg.cfi.common.data.results.Statistics.FloatStatistic.Builder builderForValue) {
@@ -1352,7 +1352,7 @@ public final class Statistics {
         return this;
       }
       /**
-       * <code>repeated .cfi_common.FloatStatistic float_stat = 4;</code>
+       * <code>repeated .cfi_data_analysis.FloatStatistic float_stat = 4;</code>
        */
       public Builder addFloatStat(edu.uci.plrg.cfi.common.data.results.Statistics.FloatStatistic value) {
         if (floatStatBuilder_ == null) {
@@ -1368,7 +1368,7 @@ public final class Statistics {
         return this;
       }
       /**
-       * <code>repeated .cfi_common.FloatStatistic float_stat = 4;</code>
+       * <code>repeated .cfi_data_analysis.FloatStatistic float_stat = 4;</code>
        */
       public Builder addFloatStat(
           int index, edu.uci.plrg.cfi.common.data.results.Statistics.FloatStatistic value) {
@@ -1385,7 +1385,7 @@ public final class Statistics {
         return this;
       }
       /**
-       * <code>repeated .cfi_common.FloatStatistic float_stat = 4;</code>
+       * <code>repeated .cfi_data_analysis.FloatStatistic float_stat = 4;</code>
        */
       public Builder addFloatStat(
           edu.uci.plrg.cfi.common.data.results.Statistics.FloatStatistic.Builder builderForValue) {
@@ -1399,7 +1399,7 @@ public final class Statistics {
         return this;
       }
       /**
-       * <code>repeated .cfi_common.FloatStatistic float_stat = 4;</code>
+       * <code>repeated .cfi_data_analysis.FloatStatistic float_stat = 4;</code>
        */
       public Builder addFloatStat(
           int index, edu.uci.plrg.cfi.common.data.results.Statistics.FloatStatistic.Builder builderForValue) {
@@ -1413,7 +1413,7 @@ public final class Statistics {
         return this;
       }
       /**
-       * <code>repeated .cfi_common.FloatStatistic float_stat = 4;</code>
+       * <code>repeated .cfi_data_analysis.FloatStatistic float_stat = 4;</code>
        */
       public Builder addAllFloatStat(
           java.lang.Iterable<? extends edu.uci.plrg.cfi.common.data.results.Statistics.FloatStatistic> values) {
@@ -1427,7 +1427,7 @@ public final class Statistics {
         return this;
       }
       /**
-       * <code>repeated .cfi_common.FloatStatistic float_stat = 4;</code>
+       * <code>repeated .cfi_data_analysis.FloatStatistic float_stat = 4;</code>
        */
       public Builder clearFloatStat() {
         if (floatStatBuilder_ == null) {
@@ -1440,7 +1440,7 @@ public final class Statistics {
         return this;
       }
       /**
-       * <code>repeated .cfi_common.FloatStatistic float_stat = 4;</code>
+       * <code>repeated .cfi_data_analysis.FloatStatistic float_stat = 4;</code>
        */
       public Builder removeFloatStat(int index) {
         if (floatStatBuilder_ == null) {
@@ -1453,14 +1453,14 @@ public final class Statistics {
         return this;
       }
       /**
-       * <code>repeated .cfi_common.FloatStatistic float_stat = 4;</code>
+       * <code>repeated .cfi_data_analysis.FloatStatistic float_stat = 4;</code>
        */
       public edu.uci.plrg.cfi.common.data.results.Statistics.FloatStatistic.Builder getFloatStatBuilder(
           int index) {
         return getFloatStatFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .cfi_common.FloatStatistic float_stat = 4;</code>
+       * <code>repeated .cfi_data_analysis.FloatStatistic float_stat = 4;</code>
        */
       public edu.uci.plrg.cfi.common.data.results.Statistics.FloatStatisticOrBuilder getFloatStatOrBuilder(
           int index) {
@@ -1470,7 +1470,7 @@ public final class Statistics {
         }
       }
       /**
-       * <code>repeated .cfi_common.FloatStatistic float_stat = 4;</code>
+       * <code>repeated .cfi_data_analysis.FloatStatistic float_stat = 4;</code>
        */
       public java.util.List<? extends edu.uci.plrg.cfi.common.data.results.Statistics.FloatStatisticOrBuilder> 
            getFloatStatOrBuilderList() {
@@ -1481,14 +1481,14 @@ public final class Statistics {
         }
       }
       /**
-       * <code>repeated .cfi_common.FloatStatistic float_stat = 4;</code>
+       * <code>repeated .cfi_data_analysis.FloatStatistic float_stat = 4;</code>
        */
       public edu.uci.plrg.cfi.common.data.results.Statistics.FloatStatistic.Builder addFloatStatBuilder() {
         return getFloatStatFieldBuilder().addBuilder(
             edu.uci.plrg.cfi.common.data.results.Statistics.FloatStatistic.getDefaultInstance());
       }
       /**
-       * <code>repeated .cfi_common.FloatStatistic float_stat = 4;</code>
+       * <code>repeated .cfi_data_analysis.FloatStatistic float_stat = 4;</code>
        */
       public edu.uci.plrg.cfi.common.data.results.Statistics.FloatStatistic.Builder addFloatStatBuilder(
           int index) {
@@ -1496,7 +1496,7 @@ public final class Statistics {
             index, edu.uci.plrg.cfi.common.data.results.Statistics.FloatStatistic.getDefaultInstance());
       }
       /**
-       * <code>repeated .cfi_common.FloatStatistic float_stat = 4;</code>
+       * <code>repeated .cfi_data_analysis.FloatStatistic float_stat = 4;</code>
        */
       public java.util.List<edu.uci.plrg.cfi.common.data.results.Statistics.FloatStatistic.Builder> 
            getFloatStatBuilderList() {
@@ -1517,7 +1517,7 @@ public final class Statistics {
         return floatStatBuilder_;
       }
 
-      // repeated .cfi_common.Ratio ratio = 5;
+      // repeated .cfi_data_analysis.Ratio ratio = 5;
       private java.util.List<edu.uci.plrg.cfi.common.data.results.Statistics.Ratio> ratio_ =
         java.util.Collections.emptyList();
       private void ensureRatioIsMutable() {
@@ -1531,7 +1531,7 @@ public final class Statistics {
           edu.uci.plrg.cfi.common.data.results.Statistics.Ratio, edu.uci.plrg.cfi.common.data.results.Statistics.Ratio.Builder, edu.uci.plrg.cfi.common.data.results.Statistics.RatioOrBuilder> ratioBuilder_;
 
       /**
-       * <code>repeated .cfi_common.Ratio ratio = 5;</code>
+       * <code>repeated .cfi_data_analysis.Ratio ratio = 5;</code>
        */
       public java.util.List<edu.uci.plrg.cfi.common.data.results.Statistics.Ratio> getRatioList() {
         if (ratioBuilder_ == null) {
@@ -1541,7 +1541,7 @@ public final class Statistics {
         }
       }
       /**
-       * <code>repeated .cfi_common.Ratio ratio = 5;</code>
+       * <code>repeated .cfi_data_analysis.Ratio ratio = 5;</code>
        */
       public int getRatioCount() {
         if (ratioBuilder_ == null) {
@@ -1551,7 +1551,7 @@ public final class Statistics {
         }
       }
       /**
-       * <code>repeated .cfi_common.Ratio ratio = 5;</code>
+       * <code>repeated .cfi_data_analysis.Ratio ratio = 5;</code>
        */
       public edu.uci.plrg.cfi.common.data.results.Statistics.Ratio getRatio(int index) {
         if (ratioBuilder_ == null) {
@@ -1561,7 +1561,7 @@ public final class Statistics {
         }
       }
       /**
-       * <code>repeated .cfi_common.Ratio ratio = 5;</code>
+       * <code>repeated .cfi_data_analysis.Ratio ratio = 5;</code>
        */
       public Builder setRatio(
           int index, edu.uci.plrg.cfi.common.data.results.Statistics.Ratio value) {
@@ -1578,7 +1578,7 @@ public final class Statistics {
         return this;
       }
       /**
-       * <code>repeated .cfi_common.Ratio ratio = 5;</code>
+       * <code>repeated .cfi_data_analysis.Ratio ratio = 5;</code>
        */
       public Builder setRatio(
           int index, edu.uci.plrg.cfi.common.data.results.Statistics.Ratio.Builder builderForValue) {
@@ -1592,7 +1592,7 @@ public final class Statistics {
         return this;
       }
       /**
-       * <code>repeated .cfi_common.Ratio ratio = 5;</code>
+       * <code>repeated .cfi_data_analysis.Ratio ratio = 5;</code>
        */
       public Builder addRatio(edu.uci.plrg.cfi.common.data.results.Statistics.Ratio value) {
         if (ratioBuilder_ == null) {
@@ -1608,7 +1608,7 @@ public final class Statistics {
         return this;
       }
       /**
-       * <code>repeated .cfi_common.Ratio ratio = 5;</code>
+       * <code>repeated .cfi_data_analysis.Ratio ratio = 5;</code>
        */
       public Builder addRatio(
           int index, edu.uci.plrg.cfi.common.data.results.Statistics.Ratio value) {
@@ -1625,7 +1625,7 @@ public final class Statistics {
         return this;
       }
       /**
-       * <code>repeated .cfi_common.Ratio ratio = 5;</code>
+       * <code>repeated .cfi_data_analysis.Ratio ratio = 5;</code>
        */
       public Builder addRatio(
           edu.uci.plrg.cfi.common.data.results.Statistics.Ratio.Builder builderForValue) {
@@ -1639,7 +1639,7 @@ public final class Statistics {
         return this;
       }
       /**
-       * <code>repeated .cfi_common.Ratio ratio = 5;</code>
+       * <code>repeated .cfi_data_analysis.Ratio ratio = 5;</code>
        */
       public Builder addRatio(
           int index, edu.uci.plrg.cfi.common.data.results.Statistics.Ratio.Builder builderForValue) {
@@ -1653,7 +1653,7 @@ public final class Statistics {
         return this;
       }
       /**
-       * <code>repeated .cfi_common.Ratio ratio = 5;</code>
+       * <code>repeated .cfi_data_analysis.Ratio ratio = 5;</code>
        */
       public Builder addAllRatio(
           java.lang.Iterable<? extends edu.uci.plrg.cfi.common.data.results.Statistics.Ratio> values) {
@@ -1667,7 +1667,7 @@ public final class Statistics {
         return this;
       }
       /**
-       * <code>repeated .cfi_common.Ratio ratio = 5;</code>
+       * <code>repeated .cfi_data_analysis.Ratio ratio = 5;</code>
        */
       public Builder clearRatio() {
         if (ratioBuilder_ == null) {
@@ -1680,7 +1680,7 @@ public final class Statistics {
         return this;
       }
       /**
-       * <code>repeated .cfi_common.Ratio ratio = 5;</code>
+       * <code>repeated .cfi_data_analysis.Ratio ratio = 5;</code>
        */
       public Builder removeRatio(int index) {
         if (ratioBuilder_ == null) {
@@ -1693,14 +1693,14 @@ public final class Statistics {
         return this;
       }
       /**
-       * <code>repeated .cfi_common.Ratio ratio = 5;</code>
+       * <code>repeated .cfi_data_analysis.Ratio ratio = 5;</code>
        */
       public edu.uci.plrg.cfi.common.data.results.Statistics.Ratio.Builder getRatioBuilder(
           int index) {
         return getRatioFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .cfi_common.Ratio ratio = 5;</code>
+       * <code>repeated .cfi_data_analysis.Ratio ratio = 5;</code>
        */
       public edu.uci.plrg.cfi.common.data.results.Statistics.RatioOrBuilder getRatioOrBuilder(
           int index) {
@@ -1710,7 +1710,7 @@ public final class Statistics {
         }
       }
       /**
-       * <code>repeated .cfi_common.Ratio ratio = 5;</code>
+       * <code>repeated .cfi_data_analysis.Ratio ratio = 5;</code>
        */
       public java.util.List<? extends edu.uci.plrg.cfi.common.data.results.Statistics.RatioOrBuilder> 
            getRatioOrBuilderList() {
@@ -1721,14 +1721,14 @@ public final class Statistics {
         }
       }
       /**
-       * <code>repeated .cfi_common.Ratio ratio = 5;</code>
+       * <code>repeated .cfi_data_analysis.Ratio ratio = 5;</code>
        */
       public edu.uci.plrg.cfi.common.data.results.Statistics.Ratio.Builder addRatioBuilder() {
         return getRatioFieldBuilder().addBuilder(
             edu.uci.plrg.cfi.common.data.results.Statistics.Ratio.getDefaultInstance());
       }
       /**
-       * <code>repeated .cfi_common.Ratio ratio = 5;</code>
+       * <code>repeated .cfi_data_analysis.Ratio ratio = 5;</code>
        */
       public edu.uci.plrg.cfi.common.data.results.Statistics.Ratio.Builder addRatioBuilder(
           int index) {
@@ -1736,7 +1736,7 @@ public final class Statistics {
             index, edu.uci.plrg.cfi.common.data.results.Statistics.Ratio.getDefaultInstance());
       }
       /**
-       * <code>repeated .cfi_common.Ratio ratio = 5;</code>
+       * <code>repeated .cfi_data_analysis.Ratio ratio = 5;</code>
        */
       public java.util.List<edu.uci.plrg.cfi.common.data.results.Statistics.Ratio.Builder> 
            getRatioBuilderList() {
@@ -1757,7 +1757,7 @@ public final class Statistics {
         return ratioBuilder_;
       }
 
-      // repeated .cfi_common.StatisticsTree child = 6;
+      // repeated .cfi_data_analysis.StatisticsTree child = 6;
       private java.util.List<edu.uci.plrg.cfi.common.data.results.Statistics.StatisticsTree> child_ =
         java.util.Collections.emptyList();
       private void ensureChildIsMutable() {
@@ -1771,7 +1771,7 @@ public final class Statistics {
           edu.uci.plrg.cfi.common.data.results.Statistics.StatisticsTree, edu.uci.plrg.cfi.common.data.results.Statistics.StatisticsTree.Builder, edu.uci.plrg.cfi.common.data.results.Statistics.StatisticsTreeOrBuilder> childBuilder_;
 
       /**
-       * <code>repeated .cfi_common.StatisticsTree child = 6;</code>
+       * <code>repeated .cfi_data_analysis.StatisticsTree child = 6;</code>
        */
       public java.util.List<edu.uci.plrg.cfi.common.data.results.Statistics.StatisticsTree> getChildList() {
         if (childBuilder_ == null) {
@@ -1781,7 +1781,7 @@ public final class Statistics {
         }
       }
       /**
-       * <code>repeated .cfi_common.StatisticsTree child = 6;</code>
+       * <code>repeated .cfi_data_analysis.StatisticsTree child = 6;</code>
        */
       public int getChildCount() {
         if (childBuilder_ == null) {
@@ -1791,7 +1791,7 @@ public final class Statistics {
         }
       }
       /**
-       * <code>repeated .cfi_common.StatisticsTree child = 6;</code>
+       * <code>repeated .cfi_data_analysis.StatisticsTree child = 6;</code>
        */
       public edu.uci.plrg.cfi.common.data.results.Statistics.StatisticsTree getChild(int index) {
         if (childBuilder_ == null) {
@@ -1801,7 +1801,7 @@ public final class Statistics {
         }
       }
       /**
-       * <code>repeated .cfi_common.StatisticsTree child = 6;</code>
+       * <code>repeated .cfi_data_analysis.StatisticsTree child = 6;</code>
        */
       public Builder setChild(
           int index, edu.uci.plrg.cfi.common.data.results.Statistics.StatisticsTree value) {
@@ -1818,7 +1818,7 @@ public final class Statistics {
         return this;
       }
       /**
-       * <code>repeated .cfi_common.StatisticsTree child = 6;</code>
+       * <code>repeated .cfi_data_analysis.StatisticsTree child = 6;</code>
        */
       public Builder setChild(
           int index, edu.uci.plrg.cfi.common.data.results.Statistics.StatisticsTree.Builder builderForValue) {
@@ -1832,7 +1832,7 @@ public final class Statistics {
         return this;
       }
       /**
-       * <code>repeated .cfi_common.StatisticsTree child = 6;</code>
+       * <code>repeated .cfi_data_analysis.StatisticsTree child = 6;</code>
        */
       public Builder addChild(edu.uci.plrg.cfi.common.data.results.Statistics.StatisticsTree value) {
         if (childBuilder_ == null) {
@@ -1848,7 +1848,7 @@ public final class Statistics {
         return this;
       }
       /**
-       * <code>repeated .cfi_common.StatisticsTree child = 6;</code>
+       * <code>repeated .cfi_data_analysis.StatisticsTree child = 6;</code>
        */
       public Builder addChild(
           int index, edu.uci.plrg.cfi.common.data.results.Statistics.StatisticsTree value) {
@@ -1865,7 +1865,7 @@ public final class Statistics {
         return this;
       }
       /**
-       * <code>repeated .cfi_common.StatisticsTree child = 6;</code>
+       * <code>repeated .cfi_data_analysis.StatisticsTree child = 6;</code>
        */
       public Builder addChild(
           edu.uci.plrg.cfi.common.data.results.Statistics.StatisticsTree.Builder builderForValue) {
@@ -1879,7 +1879,7 @@ public final class Statistics {
         return this;
       }
       /**
-       * <code>repeated .cfi_common.StatisticsTree child = 6;</code>
+       * <code>repeated .cfi_data_analysis.StatisticsTree child = 6;</code>
        */
       public Builder addChild(
           int index, edu.uci.plrg.cfi.common.data.results.Statistics.StatisticsTree.Builder builderForValue) {
@@ -1893,7 +1893,7 @@ public final class Statistics {
         return this;
       }
       /**
-       * <code>repeated .cfi_common.StatisticsTree child = 6;</code>
+       * <code>repeated .cfi_data_analysis.StatisticsTree child = 6;</code>
        */
       public Builder addAllChild(
           java.lang.Iterable<? extends edu.uci.plrg.cfi.common.data.results.Statistics.StatisticsTree> values) {
@@ -1907,7 +1907,7 @@ public final class Statistics {
         return this;
       }
       /**
-       * <code>repeated .cfi_common.StatisticsTree child = 6;</code>
+       * <code>repeated .cfi_data_analysis.StatisticsTree child = 6;</code>
        */
       public Builder clearChild() {
         if (childBuilder_ == null) {
@@ -1920,7 +1920,7 @@ public final class Statistics {
         return this;
       }
       /**
-       * <code>repeated .cfi_common.StatisticsTree child = 6;</code>
+       * <code>repeated .cfi_data_analysis.StatisticsTree child = 6;</code>
        */
       public Builder removeChild(int index) {
         if (childBuilder_ == null) {
@@ -1933,14 +1933,14 @@ public final class Statistics {
         return this;
       }
       /**
-       * <code>repeated .cfi_common.StatisticsTree child = 6;</code>
+       * <code>repeated .cfi_data_analysis.StatisticsTree child = 6;</code>
        */
       public edu.uci.plrg.cfi.common.data.results.Statistics.StatisticsTree.Builder getChildBuilder(
           int index) {
         return getChildFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .cfi_common.StatisticsTree child = 6;</code>
+       * <code>repeated .cfi_data_analysis.StatisticsTree child = 6;</code>
        */
       public edu.uci.plrg.cfi.common.data.results.Statistics.StatisticsTreeOrBuilder getChildOrBuilder(
           int index) {
@@ -1950,7 +1950,7 @@ public final class Statistics {
         }
       }
       /**
-       * <code>repeated .cfi_common.StatisticsTree child = 6;</code>
+       * <code>repeated .cfi_data_analysis.StatisticsTree child = 6;</code>
        */
       public java.util.List<? extends edu.uci.plrg.cfi.common.data.results.Statistics.StatisticsTreeOrBuilder> 
            getChildOrBuilderList() {
@@ -1961,14 +1961,14 @@ public final class Statistics {
         }
       }
       /**
-       * <code>repeated .cfi_common.StatisticsTree child = 6;</code>
+       * <code>repeated .cfi_data_analysis.StatisticsTree child = 6;</code>
        */
       public edu.uci.plrg.cfi.common.data.results.Statistics.StatisticsTree.Builder addChildBuilder() {
         return getChildFieldBuilder().addBuilder(
             edu.uci.plrg.cfi.common.data.results.Statistics.StatisticsTree.getDefaultInstance());
       }
       /**
-       * <code>repeated .cfi_common.StatisticsTree child = 6;</code>
+       * <code>repeated .cfi_data_analysis.StatisticsTree child = 6;</code>
        */
       public edu.uci.plrg.cfi.common.data.results.Statistics.StatisticsTree.Builder addChildBuilder(
           int index) {
@@ -1976,7 +1976,7 @@ public final class Statistics {
             index, edu.uci.plrg.cfi.common.data.results.Statistics.StatisticsTree.getDefaultInstance());
       }
       /**
-       * <code>repeated .cfi_common.StatisticsTree child = 6;</code>
+       * <code>repeated .cfi_data_analysis.StatisticsTree child = 6;</code>
        */
       public java.util.List<edu.uci.plrg.cfi.common.data.results.Statistics.StatisticsTree.Builder> 
            getChildBuilderList() {
@@ -1997,7 +1997,7 @@ public final class Statistics {
         return childBuilder_;
       }
 
-      // @@protoc_insertion_point(builder_scope:cfi_common.StatisticsTree)
+      // @@protoc_insertion_point(builder_scope:cfi_data_analysis.StatisticsTree)
     }
 
     static {
@@ -2005,7 +2005,7 @@ public final class Statistics {
       defaultInstance.initFields();
     }
 
-    // @@protoc_insertion_point(class_scope:cfi_common.StatisticsTree)
+    // @@protoc_insertion_point(class_scope:cfi_data_analysis.StatisticsTree)
   }
 
   public interface IntegerStatisticOrBuilder
@@ -2052,7 +2052,7 @@ public final class Statistics {
     int getValue();
   }
   /**
-   * Protobuf type {@code cfi_common.IntegerStatistic}
+   * Protobuf type {@code cfi_data_analysis.IntegerStatistic}
    */
   public static final class IntegerStatistic extends
       com.google.protobuf.GeneratedMessage
@@ -2131,12 +2131,12 @@ public final class Statistics {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return edu.uci.plrg.cfi.common.data.results.Statistics.internal_static_cfi_common_IntegerStatistic_descriptor;
+      return edu.uci.plrg.cfi.common.data.results.Statistics.internal_static_cfi_data_analysis_IntegerStatistic_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return edu.uci.plrg.cfi.common.data.results.Statistics.internal_static_cfi_common_IntegerStatistic_fieldAccessorTable
+      return edu.uci.plrg.cfi.common.data.results.Statistics.internal_static_cfi_data_analysis_IntegerStatistic_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               edu.uci.plrg.cfi.common.data.results.Statistics.IntegerStatistic.class, edu.uci.plrg.cfi.common.data.results.Statistics.IntegerStatistic.Builder.class);
     }
@@ -2385,19 +2385,19 @@ public final class Statistics {
       return builder;
     }
     /**
-     * Protobuf type {@code cfi_common.IntegerStatistic}
+     * Protobuf type {@code cfi_data_analysis.IntegerStatistic}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
        implements edu.uci.plrg.cfi.common.data.results.Statistics.IntegerStatisticOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return edu.uci.plrg.cfi.common.data.results.Statistics.internal_static_cfi_common_IntegerStatistic_descriptor;
+        return edu.uci.plrg.cfi.common.data.results.Statistics.internal_static_cfi_data_analysis_IntegerStatistic_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return edu.uci.plrg.cfi.common.data.results.Statistics.internal_static_cfi_common_IntegerStatistic_fieldAccessorTable
+        return edu.uci.plrg.cfi.common.data.results.Statistics.internal_static_cfi_data_analysis_IntegerStatistic_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
                 edu.uci.plrg.cfi.common.data.results.Statistics.IntegerStatistic.class, edu.uci.plrg.cfi.common.data.results.Statistics.IntegerStatistic.Builder.class);
       }
@@ -2437,7 +2437,7 @@ public final class Statistics {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return edu.uci.plrg.cfi.common.data.results.Statistics.internal_static_cfi_common_IntegerStatistic_descriptor;
+        return edu.uci.plrg.cfi.common.data.results.Statistics.internal_static_cfi_data_analysis_IntegerStatistic_descriptor;
       }
 
       public edu.uci.plrg.cfi.common.data.results.Statistics.IntegerStatistic getDefaultInstanceForType() {
@@ -2705,7 +2705,7 @@ public final class Statistics {
         return this;
       }
 
-      // @@protoc_insertion_point(builder_scope:cfi_common.IntegerStatistic)
+      // @@protoc_insertion_point(builder_scope:cfi_data_analysis.IntegerStatistic)
     }
 
     static {
@@ -2713,7 +2713,7 @@ public final class Statistics {
       defaultInstance.initFields();
     }
 
-    // @@protoc_insertion_point(class_scope:cfi_common.IntegerStatistic)
+    // @@protoc_insertion_point(class_scope:cfi_data_analysis.IntegerStatistic)
   }
 
   public interface FloatStatisticOrBuilder
@@ -2760,7 +2760,7 @@ public final class Statistics {
     float getValue();
   }
   /**
-   * Protobuf type {@code cfi_common.FloatStatistic}
+   * Protobuf type {@code cfi_data_analysis.FloatStatistic}
    */
   public static final class FloatStatistic extends
       com.google.protobuf.GeneratedMessage
@@ -2839,12 +2839,12 @@ public final class Statistics {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return edu.uci.plrg.cfi.common.data.results.Statistics.internal_static_cfi_common_FloatStatistic_descriptor;
+      return edu.uci.plrg.cfi.common.data.results.Statistics.internal_static_cfi_data_analysis_FloatStatistic_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return edu.uci.plrg.cfi.common.data.results.Statistics.internal_static_cfi_common_FloatStatistic_fieldAccessorTable
+      return edu.uci.plrg.cfi.common.data.results.Statistics.internal_static_cfi_data_analysis_FloatStatistic_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               edu.uci.plrg.cfi.common.data.results.Statistics.FloatStatistic.class, edu.uci.plrg.cfi.common.data.results.Statistics.FloatStatistic.Builder.class);
     }
@@ -3093,19 +3093,19 @@ public final class Statistics {
       return builder;
     }
     /**
-     * Protobuf type {@code cfi_common.FloatStatistic}
+     * Protobuf type {@code cfi_data_analysis.FloatStatistic}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
        implements edu.uci.plrg.cfi.common.data.results.Statistics.FloatStatisticOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return edu.uci.plrg.cfi.common.data.results.Statistics.internal_static_cfi_common_FloatStatistic_descriptor;
+        return edu.uci.plrg.cfi.common.data.results.Statistics.internal_static_cfi_data_analysis_FloatStatistic_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return edu.uci.plrg.cfi.common.data.results.Statistics.internal_static_cfi_common_FloatStatistic_fieldAccessorTable
+        return edu.uci.plrg.cfi.common.data.results.Statistics.internal_static_cfi_data_analysis_FloatStatistic_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
                 edu.uci.plrg.cfi.common.data.results.Statistics.FloatStatistic.class, edu.uci.plrg.cfi.common.data.results.Statistics.FloatStatistic.Builder.class);
       }
@@ -3145,7 +3145,7 @@ public final class Statistics {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return edu.uci.plrg.cfi.common.data.results.Statistics.internal_static_cfi_common_FloatStatistic_descriptor;
+        return edu.uci.plrg.cfi.common.data.results.Statistics.internal_static_cfi_data_analysis_FloatStatistic_descriptor;
       }
 
       public edu.uci.plrg.cfi.common.data.results.Statistics.FloatStatistic getDefaultInstanceForType() {
@@ -3413,7 +3413,7 @@ public final class Statistics {
         return this;
       }
 
-      // @@protoc_insertion_point(builder_scope:cfi_common.FloatStatistic)
+      // @@protoc_insertion_point(builder_scope:cfi_data_analysis.FloatStatistic)
     }
 
     static {
@@ -3421,7 +3421,7 @@ public final class Statistics {
       defaultInstance.initFields();
     }
 
-    // @@protoc_insertion_point(class_scope:cfi_common.FloatStatistic)
+    // @@protoc_insertion_point(class_scope:cfi_data_analysis.FloatStatistic)
   }
 
   public interface RatioOrBuilder
@@ -3478,7 +3478,7 @@ public final class Statistics {
     int getDenominator();
   }
   /**
-   * Protobuf type {@code cfi_common.Ratio}
+   * Protobuf type {@code cfi_data_analysis.Ratio}
    */
   public static final class Ratio extends
       com.google.protobuf.GeneratedMessage
@@ -3562,12 +3562,12 @@ public final class Statistics {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return edu.uci.plrg.cfi.common.data.results.Statistics.internal_static_cfi_common_Ratio_descriptor;
+      return edu.uci.plrg.cfi.common.data.results.Statistics.internal_static_cfi_data_analysis_Ratio_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return edu.uci.plrg.cfi.common.data.results.Statistics.internal_static_cfi_common_Ratio_fieldAccessorTable
+      return edu.uci.plrg.cfi.common.data.results.Statistics.internal_static_cfi_data_analysis_Ratio_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               edu.uci.plrg.cfi.common.data.results.Statistics.Ratio.class, edu.uci.plrg.cfi.common.data.results.Statistics.Ratio.Builder.class);
     }
@@ -3840,19 +3840,19 @@ public final class Statistics {
       return builder;
     }
     /**
-     * Protobuf type {@code cfi_common.Ratio}
+     * Protobuf type {@code cfi_data_analysis.Ratio}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
        implements edu.uci.plrg.cfi.common.data.results.Statistics.RatioOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return edu.uci.plrg.cfi.common.data.results.Statistics.internal_static_cfi_common_Ratio_descriptor;
+        return edu.uci.plrg.cfi.common.data.results.Statistics.internal_static_cfi_data_analysis_Ratio_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return edu.uci.plrg.cfi.common.data.results.Statistics.internal_static_cfi_common_Ratio_fieldAccessorTable
+        return edu.uci.plrg.cfi.common.data.results.Statistics.internal_static_cfi_data_analysis_Ratio_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
                 edu.uci.plrg.cfi.common.data.results.Statistics.Ratio.class, edu.uci.plrg.cfi.common.data.results.Statistics.Ratio.Builder.class);
       }
@@ -3894,7 +3894,7 @@ public final class Statistics {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return edu.uci.plrg.cfi.common.data.results.Statistics.internal_static_cfi_common_Ratio_descriptor;
+        return edu.uci.plrg.cfi.common.data.results.Statistics.internal_static_cfi_data_analysis_Ratio_descriptor;
       }
 
       public edu.uci.plrg.cfi.common.data.results.Statistics.Ratio getDefaultInstanceForType() {
@@ -4202,7 +4202,7 @@ public final class Statistics {
         return this;
       }
 
-      // @@protoc_insertion_point(builder_scope:cfi_common.Ratio)
+      // @@protoc_insertion_point(builder_scope:cfi_data_analysis.Ratio)
     }
 
     static {
@@ -4210,29 +4210,29 @@ public final class Statistics {
       defaultInstance.initFields();
     }
 
-    // @@protoc_insertion_point(class_scope:cfi_common.Ratio)
+    // @@protoc_insertion_point(class_scope:cfi_data_analysis.Ratio)
   }
 
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_cfi_common_StatisticsTree_descriptor;
+    internal_static_cfi_data_analysis_StatisticsTree_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_cfi_common_StatisticsTree_fieldAccessorTable;
+      internal_static_cfi_data_analysis_StatisticsTree_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_cfi_common_IntegerStatistic_descriptor;
+    internal_static_cfi_data_analysis_IntegerStatistic_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_cfi_common_IntegerStatistic_fieldAccessorTable;
+      internal_static_cfi_data_analysis_IntegerStatistic_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_cfi_common_FloatStatistic_descriptor;
+    internal_static_cfi_data_analysis_FloatStatistic_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_cfi_common_FloatStatistic_fieldAccessorTable;
+      internal_static_cfi_data_analysis_FloatStatistic_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_cfi_common_Ratio_descriptor;
+    internal_static_cfi_data_analysis_Ratio_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_cfi_common_Ratio_fieldAccessorTable;
+      internal_static_cfi_data_analysis_Ratio_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -4242,48 +4242,49 @@ public final class Statistics {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\020statistics.proto\022\ncfi_common\"\327\001\n\016Stati" +
-      "sticsTree\022\n\n\002id\030\001 \001(\005\022\014\n\004name\030\002 \001(\t\022.\n\010i" +
-      "nt_stat\030\003 \003(\0132\034.cfi_common.IntegerStatis" +
-      "tic\022.\n\nfloat_stat\030\004 \003(\0132\032.cfi_common.Flo" +
-      "atStatistic\022 \n\005ratio\030\005 \003(\0132\021.cfi_common." +
-      "Ratio\022)\n\005child\030\006 \003(\0132\032.cfi_common.Statis" +
-      "ticsTree\";\n\020IntegerStatistic\022\n\n\002id\030\001 \001(\t" +
-      "\022\014\n\004name\030\002 \001(\t\022\r\n\005value\030\003 \001(\005\"9\n\016FloatSt" +
-      "atistic\022\n\n\002id\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\022\r\n\005val" +
-      "ue\030\003 \001(\002\"I\n\005Ratio\022\n\n\002id\030\001 \001(\t\022\014\n\004name\030\002 ",
-      "\001(\t\022\021\n\tnumerator\030\003 \001(\005\022\023\n\013denominator\030\004 " +
-      "\001(\005B2\n$edu.uci.plrg.cfi.common.data.resu" +
-      "ltsB\nStatistics"
+      "\n\020statistics.proto\022\021cfi_data_analysis\"\363\001" +
+      "\n\016StatisticsTree\022\n\n\002id\030\001 \001(\005\022\014\n\004name\030\002 \001" +
+      "(\t\0225\n\010int_stat\030\003 \003(\0132#.cfi_data_analysis" +
+      ".IntegerStatistic\0225\n\nfloat_stat\030\004 \003(\0132!." +
+      "cfi_data_analysis.FloatStatistic\022\'\n\005rati" +
+      "o\030\005 \003(\0132\030.cfi_data_analysis.Ratio\0220\n\005chi" +
+      "ld\030\006 \003(\0132!.cfi_data_analysis.StatisticsT" +
+      "ree\";\n\020IntegerStatistic\022\n\n\002id\030\001 \001(\t\022\014\n\004n" +
+      "ame\030\002 \001(\t\022\r\n\005value\030\003 \001(\005\"9\n\016FloatStatist" +
+      "ic\022\n\n\002id\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\022\r\n\005value\030\003 ",
+      "\001(\002\"I\n\005Ratio\022\n\n\002id\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\022\021" +
+      "\n\tnumerator\030\003 \001(\005\022\023\n\013denominator\030\004 \001(\005B2" +
+      "\n$edu.uci.plrg.cfi.common.data.resultsB\n" +
+      "Statistics"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
         public com.google.protobuf.ExtensionRegistry assignDescriptors(
             com.google.protobuf.Descriptors.FileDescriptor root) {
           descriptor = root;
-          internal_static_cfi_common_StatisticsTree_descriptor =
+          internal_static_cfi_data_analysis_StatisticsTree_descriptor =
             getDescriptor().getMessageTypes().get(0);
-          internal_static_cfi_common_StatisticsTree_fieldAccessorTable = new
+          internal_static_cfi_data_analysis_StatisticsTree_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_cfi_common_StatisticsTree_descriptor,
+              internal_static_cfi_data_analysis_StatisticsTree_descriptor,
               new java.lang.String[] { "Id", "Name", "IntStat", "FloatStat", "Ratio", "Child", });
-          internal_static_cfi_common_IntegerStatistic_descriptor =
+          internal_static_cfi_data_analysis_IntegerStatistic_descriptor =
             getDescriptor().getMessageTypes().get(1);
-          internal_static_cfi_common_IntegerStatistic_fieldAccessorTable = new
+          internal_static_cfi_data_analysis_IntegerStatistic_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_cfi_common_IntegerStatistic_descriptor,
+              internal_static_cfi_data_analysis_IntegerStatistic_descriptor,
               new java.lang.String[] { "Id", "Name", "Value", });
-          internal_static_cfi_common_FloatStatistic_descriptor =
+          internal_static_cfi_data_analysis_FloatStatistic_descriptor =
             getDescriptor().getMessageTypes().get(2);
-          internal_static_cfi_common_FloatStatistic_fieldAccessorTable = new
+          internal_static_cfi_data_analysis_FloatStatistic_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_cfi_common_FloatStatistic_descriptor,
+              internal_static_cfi_data_analysis_FloatStatistic_descriptor,
               new java.lang.String[] { "Id", "Name", "Value", });
-          internal_static_cfi_common_Ratio_descriptor =
+          internal_static_cfi_data_analysis_Ratio_descriptor =
             getDescriptor().getMessageTypes().get(3);
-          internal_static_cfi_common_Ratio_fieldAccessorTable = new
+          internal_static_cfi_data_analysis_Ratio_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_cfi_common_Ratio_descriptor,
+              internal_static_cfi_data_analysis_Ratio_descriptor,
               new java.lang.String[] { "Id", "Name", "Numerator", "Denominator", });
           return null;
         }

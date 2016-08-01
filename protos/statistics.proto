@@ -1,4 +1,4 @@
-package cfi_common;
+package cfi_data_analysis;
 
 // to generate Java source:
 //    > cd <project-dir>
