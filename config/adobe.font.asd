@@ -1,2 +1,0 @@
-atmfd.dll
-atmlib.dll

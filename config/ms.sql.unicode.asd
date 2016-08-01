@@ -1,2 +1,0 @@
-sqlwid.dll
-sqlwoa.dll
