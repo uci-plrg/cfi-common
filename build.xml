@@ -46,19 +46,19 @@
         <ant antfile="build.xml" dir="${crowd-safe-trace-merge.location}" inheritAll="false" target="build"/>
     </target>
     <target name="MonitorDataTransformer">
-        <java classname="edu.uci.eecs.crowdsafe.common.main.MonitorDataTransformer" dir="../../experiments/train/notepad" failonerror="true" fork="yes">
+        <java classname="edu.uci.plrg.cfi.common.main.MonitorDataTransformer" dir="../../experiments/train/notepad" failonerror="true" fork="yes">
             <arg line="-o /stash/experiments/notepad.monitor.dat dataset.1"/>
             <classpath refid="crowd-safe-common.classpath"/>
         </java>
     </target>
     <target name="RawGraphTransformer">
-        <java classname="edu.uci.eecs.crowdsafe.common.data.graph.transform.RawGraphTransformer" dir="../../experiments/train/notepad" failonerror="true" fork="yes">
+        <java classname="edu.uci.plrg.cfi.common.data.graph.transform.RawGraphTransformer" dir="../../experiments/train/notepad" failonerror="true" fork="yes">
             <arg line="-v -i notepad.3/notepad.02-40.2584-2584 -o cluster/notepad.3/temp"/>
             <classpath refid="crowd-safe-common.classpath"/>
         </java>
     </target>
     <target name="RelocationAnalyzer">
-        <java classname="edu.uci.eecs.crowdsafe.common.main.RelocationAnalyzer" dir="../../experiments/train/ppt" failonerror="true" fork="yes">
+        <java classname="edu.uci.plrg.cfi.common.main.RelocationAnalyzer" dir="../../experiments/train/ppt" failonerror="true" fork="yes">
             <arg line="-r relocations create/current-merge/dataset.test"/>
             <classpath refid="crowd-safe-common.classpath"/>
         </java>

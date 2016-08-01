@@ -10,7 +10,7 @@ check_help $1 print_usage
 
 append_classpath "CROWD_SAFE_COMMON_DIR"
 
-main_class="edu.uci.eecs.crowdsafe.common.data.graph.execution.packer.ProcessExecutionGraphPacker"
+main_class="edu.uci.plrg.cfi.common.data.graph.execution.packer.ProcessExecutionGraphPacker"
 
 java -cp $cp $main_class $@
 

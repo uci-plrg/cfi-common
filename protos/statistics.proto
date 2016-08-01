@@ -1,6 +1,10 @@
-package crowd_safe_data_analysis;
+package cfi_common;
 
-option java_package = "edu.uci.eecs.crowdsafe.common.data.results";
+// to generate Java source:
+//    > cd <project-dir>
+//    > protoc --proto_path=protos --java_out=src protos/statistics.proto
+
+option java_package = "edu.uci.plrg.cfi.common.data.results";
 option java_outer_classname = "Statistics";
 
 message StatisticsTree {
